@@ -1,4 +1,9 @@
 ﻿<Solution>
+  <Project Path="Unity.Pipeline.csproj" />
+  <Project Path="Unity.Pipeline.Editor.csproj" />
   <Project Path="Assembly-CSharp.csproj" />
+  <Project Path="Unity.Pipeline.Tests.Editor.csproj" />
+  <Project Path="Unity.Pipeline.Tests.Runtime.csproj" />
   <Project Path="Assembly-CSharp-Editor.csproj" />
+  <Project Path="Unity.Pipeline.CodeGen.csproj" />
 </Solution>
