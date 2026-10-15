@@ -358,16 +358,16 @@ namespace Gameplay.UI
         private void UpdateRoomVisuals()
         {
             foreach (var kvp in _minimapRoomVisuals)
-                UpdateRoomVisual(kvp.Value, kvp.Key);
+                UpdateRoomVisual(kvp.Value, kvp.Key, _minimapZoom);
 
             foreach (var kvp in _worldMapRoomVisuals)
-                UpdateRoomVisual(kvp.Value, kvp.Key);
+                UpdateRoomVisual(kvp.Value, kvp.Key, _worldMapZoom);
         }
 
-        private void UpdateRoomVisual(VisualElement visual, RoomMapData room)
+        private void UpdateRoomVisual(VisualElement visual, RoomMapData room, float zoom)
         {
             var rect = room.WorldRect;
-            float scale = _config.PixelsPerUnit;
+            float scale = _config.PixelsPerUnit * zoom;
 
             visual.style.position = Position.Absolute;
             visual.style.left = rect.xMin * scale;
@@ -426,41 +426,35 @@ namespace Gameplay.UI
 
         private void UpdateCorridorVisuals()
         {
-            for (int i = 0; i < _minimapCorridorVisuals.Count && i < _worldMapCorridorVisuals.Count; i++)
+            for (int i = 0; i < _minimapCorridorVisuals.Count && i < _service.Connections.Count; i++)
             {
-                var visual = _minimapCorridorVisuals[i];
-                // Need the connection data to update; stored in the service.
-                if (i < _service.Connections.Count)
-                {
-                    var connection = _service.Connections[i];
-                    var from = FindRoom(connection.FromRoomId);
-                    var to = FindRoom(connection.ToRoomId);
-                    if (from != null && to != null)
-                        UpdateCorridorVisual(visual, from, to);
-                }
-            }
-
-            for (int i = 0; i < _worldMapCorridorVisuals.Count && i < _service.Connections.Count; i++)
-            {
-                var visual = _worldMapCorridorVisuals[i];
                 var connection = _service.Connections[i];
                 var from = FindRoom(connection.FromRoomId);
                 var to = FindRoom(connection.ToRoomId);
                 if (from != null && to != null)
-                    UpdateCorridorVisual(visual, from, to);
+                    UpdateCorridorVisual(_minimapCorridorVisuals[i], from, to, _minimapZoom);
+            }
+
+            for (int i = 0; i < _worldMapCorridorVisuals.Count && i < _service.Connections.Count; i++)
+            {
+                var connection = _service.Connections[i];
+                var from = FindRoom(connection.FromRoomId);
+                var to = FindRoom(connection.ToRoomId);
+                if (from != null && to != null)
+                    UpdateCorridorVisual(_worldMapCorridorVisuals[i], from, to, _worldMapZoom);
             }
         }
 
-        private void UpdateCorridorVisual(VisualElement visual, RoomMapData from, RoomMapData to)
+        private void UpdateCorridorVisual(VisualElement visual, RoomMapData from, RoomMapData to, float zoom)
         {
-            float scale = _config.PixelsPerUnit;
+            float scale = _config.PixelsPerUnit * zoom;
             Vector2 start = new Vector2(from.WorldRect.center.x * scale, from.WorldRect.center.y * scale);
             Vector2 end = new Vector2(to.WorldRect.center.x * scale, to.WorldRect.center.y * scale);
 
             Vector2 delta = end - start;
             float length = delta.magnitude;
             float angle = Mathf.Atan2(delta.y, delta.x) * Mathf.Rad2Deg;
-            float thickness = Mathf.Max(2f, scale);
+            float thickness = Mathf.Max(2f, _config.PixelsPerUnit * zoom);
 
             visual.style.position = Position.Absolute;
             visual.style.width = new Length(length);
