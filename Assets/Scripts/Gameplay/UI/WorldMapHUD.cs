@@ -10,7 +10,7 @@ namespace Gameplay.UI
 
     /// <summary>
     /// UI Toolkit HUD for the world map and minimap.
-    /// Renders explored rooms, the player, and tracked entities.
+    /// Draws rooms, corridors, and tracked entities as VisualElements.
     /// Supports zoom, opacity, and layer customization.
     /// </summary>
     [RequireComponent(typeof(UIDocument))]
@@ -25,11 +25,18 @@ namespace Gameplay.UI
 
         // Containers
         private VisualElement _minimapContainer;
-        private VisualElement _minimapImage;
+        private VisualElement _minimapContent;
         private VisualElement _minimapIconsContainer;
         private VisualElement _worldMapContainer;
-        private VisualElement _worldMapImage;
+        private VisualElement _worldMapContent;
         private VisualElement _worldMapIconsContainer;
+
+        // Room / corridor visuals (one set per map mode)
+        private readonly Dictionary<RoomMapData, VisualElement> _minimapRoomVisuals = new();
+        private readonly Dictionary<RoomMapData, VisualElement> _worldMapRoomVisuals = new();
+        private readonly List<VisualElement> _minimapCorridorVisuals = new();
+        private readonly List<VisualElement> _worldMapCorridorVisuals = new();
+        private bool _roomsBuilt;
 
         // State
         private bool _showWorldMap;
@@ -41,14 +48,35 @@ namespace Gameplay.UI
         private bool _showEnemies = true;
         private bool _showNpcs = true;
         private int _frameCounter;
+        private VisualElement _playerIcon;
         private readonly Dictionary<MapEntity, VisualElement> _entityIcons = new();
         private readonly Queue<VisualElement> _iconPool = new();
 
         private void Awake()
         {
             _uiDocument = GetComponent<UIDocument>();
+            ResolveConfig();
             SetupUIDocument();
             BuildUI();
+        }
+
+        private void ResolveConfig()
+        {
+            if (_config != null)
+                return;
+
+            if (ServiceLocator.TryGet<WorldMapService>(out var service))
+                _config = service.Config;
+
+            if (_config == null)
+                _config = Resources.Load<WorldMapConfig>("Config/WorldMapConfig");
+
+#if UNITY_EDITOR
+            if (_config == null)
+            {
+                _config = UnityEditor.AssetDatabase.LoadAssetAtPath<WorldMapConfig>("Assets/Resources/Config/WorldMapConfig.asset");
+            }
+#endif
         }
 
         private void Start()
@@ -59,6 +87,8 @@ namespace Gameplay.UI
                 ServiceLocator.Register(service);
                 _service = service;
             }
+
+            _config = _config ?? _service.Config;
 
             if (_config != null)
                 _service.SetConfig(_config);
@@ -78,13 +108,16 @@ namespace Gameplay.UI
 
         private void Update()
         {
-            if (_config == null || _service == null)
+            if (_service == null || _config == null)
                 return;
+
+            if (_service.IsMapReady && !_roomsBuilt)
+                BuildRoomVisuals();
 
             if (!_showMinimap && !_showWorldMap)
                 return;
 
-            UpdateMapImages();
+            UpdateMapTransforms();
             UpdateIconVisibility();
 
             _frameCounter++;
@@ -147,57 +180,30 @@ namespace Gameplay.UI
             if (root == null)
                 return;
 
-            root.pickingMode = PickingMode.Ignore;
-
             // Minimap
-            _minimapContainer = new VisualElement
-            {
-                name = "MinimapContainer",
-                pickingMode = PickingMode.Ignore
-            };
+            _minimapContainer = new VisualElement { name = "MinimapContainer" };
             _minimapContainer.AddToClassList("worldmap-minimap");
 
-            _minimapImage = new VisualElement
-            {
-                name = "MinimapImage",
-                pickingMode = PickingMode.Ignore
-            };
-            _minimapImage.AddToClassList("worldmap-image");
+            _minimapContent = new VisualElement { name = "MinimapContent" };
+            _minimapContent.AddToClassList("worldmap-content");
 
-            _minimapIconsContainer = new VisualElement
-            {
-                name = "MinimapIconsContainer",
-                pickingMode = PickingMode.Ignore
-            };
+            _minimapIconsContainer = new VisualElement { name = "MinimapIconsContainer" };
             _minimapIconsContainer.AddToClassList("worldmap-icons");
 
-            _minimapContainer.Add(_minimapImage);
+            _minimapContainer.Add(_minimapContent);
             _minimapContainer.Add(_minimapIconsContainer);
 
             // World map
-            _worldMapContainer = new VisualElement
-            {
-                name = "WorldMapContainer",
-                pickingMode = PickingMode.Position,
-                style = { display = DisplayStyle.None }
-            };
+            _worldMapContainer = new VisualElement { name = "WorldMapContainer" };
             _worldMapContainer.AddToClassList("worldmap-fullscreen");
 
-            _worldMapImage = new VisualElement
-            {
-                name = "WorldMapImage",
-                pickingMode = PickingMode.Ignore
-            };
-            _worldMapImage.AddToClassList("worldmap-image");
+            _worldMapContent = new VisualElement { name = "WorldMapContent" };
+            _worldMapContent.AddToClassList("worldmap-content");
 
-            _worldMapIconsContainer = new VisualElement
-            {
-                name = "WorldMapIconsContainer",
-                pickingMode = PickingMode.Ignore
-            };
+            _worldMapIconsContainer = new VisualElement { name = "WorldMapIconsContainer" };
             _worldMapIconsContainer.AddToClassList("worldmap-icons");
 
-            _worldMapContainer.Add(_worldMapImage);
+            _worldMapContainer.Add(_worldMapContent);
             _worldMapContainer.Add(_worldMapIconsContainer);
             _worldMapContainer.Add(BuildWorldMapControls());
 
@@ -265,21 +271,18 @@ namespace Gameplay.UI
 
         private void ApplyStyles()
         {
-            if (_config == null)
-                return;
-
-            int size = _config.MinimapSize;
+            int size = _config != null ? _config.MinimapSize : 200;
             _minimapContainer.style.position = Position.Absolute;
-            _minimapContainer.style.width = size;
-            _minimapContainer.style.height = size;
+            _minimapContainer.style.width = new Length(size);
+            _minimapContainer.style.height = new Length(size);
 
-            var anchor = _config.MinimapAnchor;
-            var offset = _config.MinimapOffset;
+            var anchor = _config != null ? _config.MinimapAnchor : new Vector2(1f, 1f);
+            var offset = _config != null ? _config.MinimapOffset : new Vector2(-20f, -20f);
 
-            _minimapContainer.style.left = anchor.x <= 0.5f ? offset.x : StyleKeyword.Auto;
-            _minimapContainer.style.right = anchor.x > 0.5f ? Mathf.Abs(offset.x) : StyleKeyword.Auto;
-            _minimapContainer.style.top = anchor.y > 0.5f ? Mathf.Abs(offset.y) : StyleKeyword.Auto;
-            _minimapContainer.style.bottom = anchor.y <= 0.5f ? offset.y : StyleKeyword.Auto;
+            _minimapContainer.style.left = anchor.x <= 0.5f ? new Length(offset.x) : StyleKeyword.Auto;
+            _minimapContainer.style.right = anchor.x > 0.5f ? new Length(Mathf.Abs(offset.x)) : StyleKeyword.Auto;
+            _minimapContainer.style.top = anchor.y > 0.5f ? new Length(Mathf.Abs(offset.y)) : StyleKeyword.Auto;
+            _minimapContainer.style.bottom = anchor.y <= 0.5f ? new Length(offset.y) : StyleKeyword.Auto;
 
             _minimapContainer.style.backgroundColor = new Color(0, 0, 0, 0.6f);
             _minimapContainer.style.borderTopLeftRadius = 8;
@@ -288,91 +291,229 @@ namespace Gameplay.UI
             _minimapContainer.style.borderBottomRightRadius = 8;
             _minimapContainer.style.overflow = Overflow.Hidden;
 
-            _minimapImage.style.position = Position.Absolute;
-            _minimapImage.style.left = 0;
-            _minimapImage.style.top = 0;
-            _minimapImage.style.width = Length.Percent(100);
-            _minimapImage.style.height = Length.Percent(100);
+            _minimapContent.style.position = Position.Absolute;
+            _minimapContent.style.left = 0;
+            _minimapContent.style.top = 0;
 
             _minimapIconsContainer.style.position = Position.Absolute;
             _minimapIconsContainer.style.left = 0;
             _minimapIconsContainer.style.top = 0;
-            _minimapIconsContainer.style.width = Length.Percent(100);
-            _minimapIconsContainer.style.height = Length.Percent(100);
+            _minimapIconsContainer.style.width = new Length(100, LengthUnit.Percent);
+            _minimapIconsContainer.style.height = new Length(100, LengthUnit.Percent);
 
             _worldMapContainer.style.position = Position.Absolute;
             _worldMapContainer.style.left = 0;
             _worldMapContainer.style.top = 0;
-            _worldMapContainer.style.width = Length.Percent(100);
-            _worldMapContainer.style.height = Length.Percent(100);
+            _worldMapContainer.style.width = new Length(100, LengthUnit.Percent);
+            _worldMapContainer.style.height = new Length(100, LengthUnit.Percent);
             _worldMapContainer.style.backgroundColor = new Color(0, 0, 0, 0.85f);
 
-            _worldMapImage.style.position = Position.Absolute;
-            _worldMapImage.style.left = 0;
-            _worldMapImage.style.top = 0;
-            _worldMapImage.style.width = Length.Percent(100);
-            _worldMapImage.style.height = Length.Percent(100);
+            _worldMapContent.style.position = Position.Absolute;
+            _worldMapContent.style.left = 0;
+            _worldMapContent.style.top = 0;
 
             _worldMapIconsContainer.style.position = Position.Absolute;
             _worldMapIconsContainer.style.left = 0;
             _worldMapIconsContainer.style.top = 0;
-            _worldMapIconsContainer.style.width = Length.Percent(100);
-            _worldMapIconsContainer.style.height = Length.Percent(100);
+            _worldMapIconsContainer.style.width = new Length(100, LengthUnit.Percent);
+            _worldMapIconsContainer.style.height = new Length(100, LengthUnit.Percent);
         }
 
-        private void UpdateMapImages()
+        private void BuildRoomVisuals()
         {
-            if (_service?.WorldTexture == null)
+            _minimapContent.Clear();
+            _worldMapContent.Clear();
+            _minimapRoomVisuals.Clear();
+            _worldMapRoomVisuals.Clear();
+            _minimapCorridorVisuals.Clear();
+            _worldMapCorridorVisuals.Clear();
+
+            foreach (var room in _service.Rooms)
+            {
+                var minimapVisual = CreateRoomVisual($"Room_MM_{room.RoomId}");
+                var worldMapVisual = CreateRoomVisual($"Room_WM_{room.RoomId}");
+
+                _minimapRoomVisuals[room] = minimapVisual;
+                _worldMapRoomVisuals[room] = worldMapVisual;
+
+                _minimapContent.Add(minimapVisual);
+                _worldMapContent.Add(worldMapVisual);
+            }
+
+            BuildCorridorVisuals();
+            _roomsBuilt = true;
+        }
+
+        private VisualElement CreateRoomVisual(string name)
+        {
+            var visual = new VisualElement
+            {
+                name = name,
+                pickingMode = PickingMode.Ignore
+            };
+            visual.AddToClassList("worldmap-room");
+            return visual;
+        }
+
+        private void UpdateRoomVisuals()
+        {
+            foreach (var kvp in _minimapRoomVisuals)
+                UpdateRoomVisual(kvp.Value, kvp.Key);
+
+            foreach (var kvp in _worldMapRoomVisuals)
+                UpdateRoomVisual(kvp.Value, kvp.Key);
+        }
+
+        private void UpdateRoomVisual(VisualElement visual, RoomMapData room)
+        {
+            var rect = room.WorldRect;
+            float scale = _config.PixelsPerUnit;
+
+            visual.style.position = Position.Absolute;
+            visual.style.left = rect.xMin * scale;
+            visual.style.top = rect.yMin * scale;
+            visual.style.width = rect.width * scale;
+            visual.style.height = rect.height * scale;
+            visual.style.backgroundColor = room.IsRevealed ? _config.FloorColor : _config.UnexploredColor;
+            visual.style.opacity = room.IsRevealed ? _opacity : _opacity * 0.5f;
+            visual.style.display = room.IsRevealed || _showWorldMap ? DisplayStyle.Flex : DisplayStyle.None;
+        }
+
+        private void BuildCorridorVisuals()
+        {
+            if (_service.Connections == null)
                 return;
 
-            var tex = _service.WorldTexture;
+            foreach (var connection in _service.Connections)
+            {
+                var from = FindRoom(connection.FromRoomId);
+                var to = FindRoom(connection.ToRoomId);
 
-            _minimapImage.style.backgroundImage = tex;
-            _minimapImage.style.unityBackgroundImageTintColor = new Color(1, 1, 1, _opacity);
+                if (from == null || to == null)
+                    continue;
 
-            _worldMapImage.style.backgroundImage = tex;
-            _worldMapImage.style.unityBackgroundImageTintColor = new Color(1, 1, 1, _opacity);
+                var minimapVisual = CreateCorridorVisual($"Corridor_MM_{from.RoomId}_{to.RoomId}");
+                var worldMapVisual = CreateCorridorVisual($"Corridor_WM_{from.RoomId}_{to.RoomId}");
 
-            PositionMapImage(_minimapImage, _minimapContainer, _minimapZoom);
-            PositionMapImage(_worldMapImage, _worldMapContainer, _worldMapZoom);
+                _minimapCorridorVisuals.Add(minimapVisual);
+                _worldMapCorridorVisuals.Add(worldMapVisual);
+
+                _minimapContent.Add(minimapVisual);
+                _worldMapContent.Add(worldMapVisual);
+            }
         }
 
-        private void PositionMapImage(VisualElement image, VisualElement container, float zoom)
+        private RoomMapData FindRoom(string roomId)
+        {
+            foreach (var room in _service.Rooms)
+            {
+                if (room.RoomId == roomId)
+                    return room;
+            }
+            return null;
+        }
+
+        private VisualElement CreateCorridorVisual(string name)
+        {
+            var visual = new VisualElement
+            {
+                name = name,
+                pickingMode = PickingMode.Ignore
+            };
+            visual.AddToClassList("worldmap-corridor");
+            return visual;
+        }
+
+        private void UpdateCorridorVisuals()
+        {
+            for (int i = 0; i < _minimapCorridorVisuals.Count && i < _worldMapCorridorVisuals.Count; i++)
+            {
+                var visual = _minimapCorridorVisuals[i];
+                // Need the connection data to update; stored in the service.
+                if (i < _service.Connections.Count)
+                {
+                    var connection = _service.Connections[i];
+                    var from = FindRoom(connection.FromRoomId);
+                    var to = FindRoom(connection.ToRoomId);
+                    if (from != null && to != null)
+                        UpdateCorridorVisual(visual, from, to);
+                }
+            }
+
+            for (int i = 0; i < _worldMapCorridorVisuals.Count && i < _service.Connections.Count; i++)
+            {
+                var visual = _worldMapCorridorVisuals[i];
+                var connection = _service.Connections[i];
+                var from = FindRoom(connection.FromRoomId);
+                var to = FindRoom(connection.ToRoomId);
+                if (from != null && to != null)
+                    UpdateCorridorVisual(visual, from, to);
+            }
+        }
+
+        private void UpdateCorridorVisual(VisualElement visual, RoomMapData from, RoomMapData to)
+        {
+            float scale = _config.PixelsPerUnit;
+            Vector2 start = new Vector2(from.WorldRect.center.x * scale, from.WorldRect.center.y * scale);
+            Vector2 end = new Vector2(to.WorldRect.center.x * scale, to.WorldRect.center.y * scale);
+
+            Vector2 delta = end - start;
+            float length = delta.magnitude;
+            float angle = Mathf.Atan2(delta.y, delta.x) * Mathf.Rad2Deg;
+            float thickness = Mathf.Max(2f, scale);
+
+            visual.style.position = Position.Absolute;
+            visual.style.width = new Length(length);
+            visual.style.height = new Length(thickness);
+            visual.style.left = start.x;
+            visual.style.top = start.y - thickness * 0.5f;
+            visual.style.backgroundColor = _config.CorridorColor;
+            visual.style.opacity = _opacity;
+            visual.style.rotate = new Rotate(angle);
+            visual.style.display = (from.IsRevealed && to.IsRevealed) ? DisplayStyle.Flex : DisplayStyle.None;
+        }
+
+        private void UpdateMapTransforms()
         {
             if (_service == null || !_service.IsMapReady)
                 return;
 
-            var player = GetPlayerTexturePosition();
-            if (!player.HasValue)
+            var player = GameObject.FindWithTag("Player");
+            if (player == null)
                 return;
 
-            float pixelsPerUnit = _config.PixelsPerUnit * zoom;
+            var playerMapPos = _service.WorldToMap(player.transform.position) * _config.PixelsPerUnit;
+
+            UpdateContentTransform(_minimapContent, _minimapContainer, _minimapZoom, playerMapPos);
+            UpdateContentTransform(_worldMapContent, _worldMapContainer, _worldMapZoom, playerMapPos);
+
+            // Keep room/corridor visuals in sync with reveal state and opacity
+            UpdateRoomVisuals();
+            UpdateCorridorVisuals();
+
+            _minimapContent.style.opacity = _opacity;
+            _worldMapContent.style.opacity = _opacity;
+        }
+
+        private void UpdateContentTransform(VisualElement content, VisualElement container, float zoom, Vector2 playerMapPos)
+        {
             float containerWidth = container.resolvedStyle.width;
             float containerHeight = container.resolvedStyle.height;
 
             if (containerWidth <= 0 || containerHeight <= 0)
                 return;
 
-            float mapWidth = _service.WorldBounds.width * pixelsPerUnit;
-            float mapHeight = _service.WorldBounds.height * pixelsPerUnit;
+            float offsetX = containerWidth * 0.5f - playerMapPos.x * zoom;
+            float offsetY = containerHeight * 0.5f - playerMapPos.y * zoom;
 
-            // Center container on player
-            float offsetX = containerWidth * 0.5f - player.Value.x * zoom;
-            float offsetY = containerHeight * 0.5f - player.Value.y * zoom;
-
-            image.style.width = mapWidth;
-            image.style.height = mapHeight;
-            image.style.left = offsetX;
-            image.style.top = offsetY;
+            content.style.left = offsetX;
+            content.style.top = offsetY;
         }
 
-        private Vector2? GetPlayerTexturePosition()
+        private void UpdateIconVisibility()
         {
-            var player = GameObject.FindWithTag("Player");
-            if (player == null)
-                return null;
-
-            return _service.WorldToTexture(player.transform.position);
+            _minimapIconsContainer.style.display = _showMinimap && !_showWorldMap ? DisplayStyle.Flex : DisplayStyle.None;
+            _worldMapIconsContainer.style.display = _showWorldMap ? DisplayStyle.Flex : DisplayStyle.None;
         }
 
         private void UpdateEntityIcons()
@@ -380,27 +521,36 @@ namespace Gameplay.UI
             if (_service == null || !_service.IsMapReady)
                 return;
 
-            var playerPos = GetPlayerTexturePosition();
-            if (!playerPos.HasValue)
+            var player = GameObject.FindWithTag("Player");
+            if (player == null)
                 return;
 
+            var playerMapPos = _service.WorldToMap(player.transform.position) * _config.PixelsPerUnit;
+
             var activeContainer = _showWorldMap ? _worldMapIconsContainer : _minimapIconsContainer;
+            activeContainer.Clear();
+
             float zoom = _showWorldMap ? _worldMapZoom : _minimapZoom;
             var container = _showWorldMap ? _worldMapContainer : _minimapContainer;
-            float containerCenterX = container.resolvedStyle.width * 0.5f;
-            float containerCenterY = container.resolvedStyle.height * 0.5f;
+            float containerWidth = container.resolvedStyle.width;
+            float containerHeight = container.resolvedStyle.height;
 
-            var seen = new HashSet<MapEntity>();
+            if (containerWidth <= 0 || containerHeight <= 0)
+                return;
 
-            // Player icon
+            float centerX = containerWidth * 0.5f;
+            float centerY = containerHeight * 0.5f;
+
             if (_showPlayer)
             {
-                var playerIcon = GetOrCreateIcon(null, "Player");
-                ConfigureIcon(playerIcon, _config.PlayerIcon, Color.white, 10f);
-                playerIcon.style.left = containerCenterX - 5f;
-                playerIcon.style.top = containerCenterY - 5f;
-                activeContainer.Add(playerIcon);
+                if (_playerIcon == null)
+                    _playerIcon = CreateIcon("PlayerIcon");
+
+                ConfigureIcon(_playerIcon, _config.PlayerIcon, Color.white, 10f);
+                activeContainer.Add(_playerIcon);
             }
+
+            var seen = new HashSet<MapEntity>();
 
             foreach (var entity in _service.TrackedEntities)
             {
@@ -423,13 +573,18 @@ namespace Gameplay.UI
                 if (_showWorldMap && !entity.ShowOnWorldMap)
                     continue;
 
-                var entityTexPos = _service.WorldToTexture(entity.WorldPosition);
-                Vector2 delta = (entityTexPos - playerPos.Value) * zoom;
+                var entityMapPos = _service.WorldToMap(entity.WorldPosition) * _config.PixelsPerUnit;
+                Vector2 delta = (entityMapPos - playerMapPos) * zoom;
 
-                float iconX = containerCenterX + delta.x;
-                float iconY = containerCenterY + delta.y;
+                float iconX = centerX + delta.x;
+                float iconY = centerY + delta.y;
 
-                var icon = GetOrCreateIcon(entity);
+                if (!_entityIcons.TryGetValue(entity, out var icon))
+                {
+                    icon = CreateIcon($"Icon_{entity.GetInstanceID()}");
+                    _entityIcons[entity] = icon;
+                }
+
                 ConfigureIcon(icon, entity.CustomIcon ?? _config.GetIconForType(entity.Type), entity.CustomColor, entity.IconSize);
                 icon.style.left = iconX - entity.IconSize * 0.5f;
                 icon.style.top = iconY - entity.IconSize * 0.5f;
@@ -438,11 +593,10 @@ namespace Gameplay.UI
                 seen.Add(entity);
             }
 
-            // Return unused icons to pool
             var toRemove = new List<MapEntity>();
             foreach (var kvp in _entityIcons)
             {
-                if (!seen.Contains(kvp.Key))
+                if (kvp.Key == null || !seen.Contains(kvp.Key))
                 {
                     ReturnIcon(kvp.Value);
                     toRemove.Add(kvp.Key);
@@ -453,28 +607,8 @@ namespace Gameplay.UI
                 _entityIcons.Remove(key);
         }
 
-        private void UpdateIconVisibility()
+        private VisualElement CreateIcon(string name)
         {
-            _minimapIconsContainer.style.display = _showMinimap && !_showWorldMap ? DisplayStyle.Flex : DisplayStyle.None;
-            _worldMapIconsContainer.style.display = _showWorldMap ? DisplayStyle.Flex : DisplayStyle.None;
-
-            if (_minimapIconsContainer.childCount > 0 && _minimapIconsContainer.parent != _minimapContainer && _showMinimap && !_showWorldMap)
-            {
-                _minimapIconsContainer.RemoveFromHierarchy();
-                _minimapContainer.Add(_minimapIconsContainer);
-            }
-            else if (_worldMapIconsContainer.childCount > 0 && _worldMapIconsContainer.parent != _worldMapContainer && _showWorldMap)
-            {
-                _worldMapIconsContainer.RemoveFromHierarchy();
-                _worldMapContainer.Add(_worldMapIconsContainer);
-            }
-        }
-
-        private VisualElement GetOrCreateIcon(MapEntity entity, string fallbackName = null)
-        {
-            if (entity != null && _entityIcons.TryGetValue(entity, out var existing))
-                return existing;
-
             VisualElement icon;
             if (_iconPool.Count > 0)
             {
@@ -486,25 +620,21 @@ namespace Gameplay.UI
                 icon.AddToClassList("worldmap-icon");
             }
 
-            icon.name = entity != null ? $"Icon_{entity.GetInstanceID()}" : fallbackName ?? "Icon";
-
-            if (entity != null)
-                _entityIcons[entity] = icon;
-
+            icon.name = name;
             return icon;
         }
 
         private void ConfigureIcon(VisualElement icon, Sprite sprite, Color color, float size)
         {
             icon.style.position = Position.Absolute;
-            icon.style.width = size;
-            icon.style.height = size;
+            icon.style.width = new Length(size);
+            icon.style.height = new Length(size);
             icon.style.backgroundImage = sprite != null ? new StyleBackground(sprite) : null;
             icon.style.backgroundColor = sprite == null ? color : Color.clear;
-            icon.style.borderTopLeftRadius = size * 0.5f;
-            icon.style.borderTopRightRadius = size * 0.5f;
-            icon.style.borderBottomLeftRadius = size * 0.5f;
-            icon.style.borderBottomRightRadius = size * 0.5f;
+            icon.style.borderTopLeftRadius = new Length(size * 0.5f);
+            icon.style.borderTopRightRadius = new Length(size * 0.5f);
+            icon.style.borderBottomLeftRadius = new Length(size * 0.5f);
+            icon.style.borderBottomRightRadius = new Length(size * 0.5f);
         }
 
         private void ReturnIcon(VisualElement icon)
@@ -513,6 +643,7 @@ namespace Gameplay.UI
                 return;
 
             icon.RemoveFromHierarchy();
+            icon.style.backgroundImage = null;
             _iconPool.Enqueue(icon);
         }
     }
