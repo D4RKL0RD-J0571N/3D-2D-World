@@ -22,6 +22,8 @@ namespace Systems.Input
         private InputAction _interactSecondaryAction;
         private InputAction _hotbarAction;
         private InputAction _saveAction;
+        private InputAction _toggleWorldMapAction;
+        private InputAction _toggleMinimapAction;
         private GameStateMachine _gameStateManager;
 
         private float _deadzone = 0.1f;
@@ -79,6 +81,9 @@ namespace Systems.Input
             _saveAction = new InputAction("Save", binding: "<Keyboard>/f5");
             _hotbarAction = new InputAction("Hotbar");
 
+            _toggleWorldMapAction = new InputAction("ToggleWorldMap", binding: "<Keyboard>/m");
+            _toggleMinimapAction = new InputAction("ToggleMinimap", binding: "<Keyboard>/tab");
+
             _hotbarAction.AddBinding("<Keyboard>/1");
             _hotbarAction.AddBinding("<Keyboard>/2");
             _hotbarAction.AddBinding("<Keyboard>/3");
@@ -104,6 +109,8 @@ namespace Systems.Input
             _interactSecondaryAction.performed += OnInteractSecondary;
             _saveAction.performed += OnSave;
             _hotbarAction.performed += OnHotbar;
+            _toggleWorldMapAction.performed += OnToggleWorldMap;
+            _toggleMinimapAction.performed += OnToggleMinimap;
 
             _moveAction.Enable();
             _lookAction.Enable();
@@ -117,11 +124,23 @@ namespace Systems.Input
             _interactSecondaryAction.Enable();
             _saveAction.Enable();
             _hotbarAction.Enable();
+            _toggleWorldMapAction.Enable();
+            _toggleMinimapAction.Enable();
         }
 
         private void OnSave(InputAction.CallbackContext context)
         {
             if (context.performed) GameEventManager.Publish(new Domain.Persistence.GameSaveRequestedEvent());
+        }
+
+        private void OnToggleWorldMap(InputAction.CallbackContext context)
+        {
+            if (context.performed) GameEventManager.Publish(new ToggleWorldMapInputEvent());
+        }
+
+        private void OnToggleMinimap(InputAction.CallbackContext context)
+        {
+            if (context.performed) GameEventManager.Publish(new ToggleMinimapInputEvent());
         }
 
         private void OnHotbar(InputAction.CallbackContext context)
@@ -315,6 +334,20 @@ namespace Systems.Input
                 _hotbarAction.performed -= OnHotbar;
                 _hotbarAction.Disable();
                 _hotbarAction.Dispose();
+            }
+
+            if (_toggleWorldMapAction != null)
+            {
+                _toggleWorldMapAction.performed -= OnToggleWorldMap;
+                _toggleWorldMapAction.Disable();
+                _toggleWorldMapAction.Dispose();
+            }
+
+            if (_toggleMinimapAction != null)
+            {
+                _toggleMinimapAction.performed -= OnToggleMinimap;
+                _toggleMinimapAction.Disable();
+                _toggleMinimapAction.Dispose();
             }
         }
     }

@@ -48,10 +48,6 @@ namespace Data.Config
         public float WorldMapMinZoom = 0.25f;
         public float WorldMapMaxZoom = 4f;
 
-        [Header("Input")]
-        public KeyCode ToggleWorldMapKey = KeyCode.M;
-        public KeyCode ToggleMinimapKey = KeyCode.Tab;
-
         [Header("Performance")]
         [Tooltip("Update entity icon positions every N frames. 1 = every frame.")]
         public int EntityUpdateInterval = 2;

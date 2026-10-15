@@ -3,6 +3,7 @@ namespace Gameplay.UI
     using System.Collections.Generic;
     using Core;
     using Data.Config;
+    using Gameplay.Player;
     using Systems.WorldMap;
     using UnityEngine;
     using UnityEngine.UIElements;
@@ -63,12 +64,22 @@ namespace Gameplay.UI
                 _service.SetConfig(_config);
         }
 
+        private void OnEnable()
+        {
+            GameEventManager.AddListener<ToggleWorldMapInputEvent>(OnToggleWorldMap);
+            GameEventManager.AddListener<ToggleMinimapInputEvent>(OnToggleMinimap);
+        }
+
+        private void OnDisable()
+        {
+            GameEventManager.RemoveListener<ToggleWorldMapInputEvent>(OnToggleWorldMap);
+            GameEventManager.RemoveListener<ToggleMinimapInputEvent>(OnToggleMinimap);
+        }
+
         private void Update()
         {
             if (_config == null || _service == null)
                 return;
-
-            HandleInput();
 
             if (!_showMinimap && !_showWorldMap)
                 return;
@@ -83,13 +94,14 @@ namespace Gameplay.UI
             }
         }
 
-        private void HandleInput()
+        private void OnToggleWorldMap(ToggleWorldMapInputEvent evt)
         {
-            if (UnityEngine.Input.GetKeyDown(_config.ToggleWorldMapKey))
-                ToggleWorldMap();
+            ToggleWorldMap();
+        }
 
-            if (UnityEngine.Input.GetKeyDown(_config.ToggleMinimapKey))
-                ToggleMinimap();
+        private void OnToggleMinimap(ToggleMinimapInputEvent evt)
+        {
+            ToggleMinimap();
         }
 
         private void ToggleWorldMap()

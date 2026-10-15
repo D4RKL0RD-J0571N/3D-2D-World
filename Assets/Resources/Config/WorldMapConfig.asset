@@ -29,7 +29,5 @@ MonoBehaviour:
   WorldMapDefaultZoom: 1
   WorldMapMinZoom: 0.25
   WorldMapMaxZoom: 4
-  ToggleWorldMapKey: 109
-  ToggleMinimapKey: 9
   EntityUpdateInterval: 2
   RevealNeighborDistance: 1
