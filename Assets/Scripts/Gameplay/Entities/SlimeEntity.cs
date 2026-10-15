@@ -39,9 +39,6 @@ namespace Gameplay.Entities
         [Header("Visual Squash & Stretch")]
         [SerializeField] private Transform _visualRoot;
 
-        [Header("Room Tracking")]
-        [SerializeField] private string _roomId;
-
         private CharacterController _controller;
         private Transform _playerTransform;
         private SlimeAIState _currentState = SlimeAIState.Idle;
@@ -51,16 +48,6 @@ namespace Gameplay.Entities
         private Vector3 _moveDirection;
         private bool _isSleeping;
         private SpriteRenderer _spriteRenderer;
-
-        #endregion
-
-        #region Public Properties
-
-        public string RoomId
-        {
-            get => _roomId;
-            set => _roomId = value;
-        }
 
         #endregion
 
@@ -155,6 +142,12 @@ namespace Gameplay.Entities
                             _currentState = SlimeAIState.Idle;
                             PickNextIdleTime();
                         }
+                        else if (distToPlayer <= _attackRange)
+                        {
+                            // Within attack range — pause before next hop.
+                            // Future Milestone B can replace this with an actual attack.
+                            _stateTimer = 0.5f;
+                        }
                         else
                         {
                             ExecuteChaseHop();
@@ -244,7 +237,7 @@ namespace Gameplay.Entities
 
         private void OnAreaTierChanged(AreaTierChangedEvent evt)
         {
-            if (evt == null || evt.RoomId != _roomId)
+            if (evt == null || evt.RoomId != RoomId)
                 return;
 
             _isSleeping = evt.NewTier == AreaSimulationTier.Purged;
@@ -253,11 +246,11 @@ namespace Gameplay.Entities
 
         private void ApplyCurrentTierState()
         {
-            if (string.IsNullOrEmpty(_roomId))
+            if (string.IsNullOrEmpty(RoomId))
                 return;
 
             if (ServiceLocator.TryGet<Systems.Scheduler.AreaSchedulerService>(out var scheduler))
-                _isSleeping = scheduler.GetRoomTier(_roomId) == AreaSimulationTier.Purged;
+                _isSleeping = scheduler.GetRoomTier(RoomId) == AreaSimulationTier.Purged;
             else
                 _isSleeping = false;
 

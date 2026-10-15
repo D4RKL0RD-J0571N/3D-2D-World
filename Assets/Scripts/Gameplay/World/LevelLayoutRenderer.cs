@@ -592,28 +592,34 @@ namespace Gameplay.World
                 if (spawned >= _maxEnemiesPerRoom)
                     break;
 
-                SpawnSlime(room, socket.WorldPosition);
+                SpawnEntity<BaseActor>(_slimePrefab, _slimeBlueprint, socket.WorldPosition, room.Id);
                 spawned++;
             }
         }
 
-        private void SpawnSlime(LevelRoomNode room, Vector3 worldPosition)
+        private T SpawnEntity<T>(
+            GameObject prefab,
+            ActorData blueprint,
+            Vector3 worldPosition,
+            string roomId) where T : BaseActor
         {
-            var instance = Instantiate(_slimePrefab, _generatedRoot, false);
-            var slime = instance.GetComponent<SlimeEntity>();
+            var instance = Instantiate(prefab, _generatedRoot, false);
+            var entity = instance.GetComponent<T>();
 
-            if (slime == null)
+            if (entity == null)
             {
-                Debug.LogError("[LevelLayoutRenderer] Slime prefab does not have a SlimeEntity component.");
+                Debug.LogError($"[LevelLayoutRenderer] Prefab does not have a {typeof(T).Name} component.");
                 Destroy(instance);
-                return;
+                return null;
             }
 
             instance.transform.position = worldPosition;
-            slime.RoomId = room.Id;
+            entity.RoomId = roomId;
 
-            if (_slimeBlueprint != null)
-                slime.Initialize(_slimeBlueprint);
+            if (blueprint != null)
+                entity.Initialize(blueprint);
+
+            return entity;
         }
 
         private void BuildConnectionGrid(
