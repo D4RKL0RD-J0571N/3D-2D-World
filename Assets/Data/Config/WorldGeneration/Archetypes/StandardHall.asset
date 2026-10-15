@@ -1,0 +1,29 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!114 &11400000
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 2e5f72b96ef25df42a61f47a162b0171, type: 3}
+  m_Name: StandardHall
+  m_EditorClassIdentifier: Assembly-CSharp::Domain.LevelGeneration.RoomArchetype
+  ArchetypeId: StandardHall
+  DisplayName: Standard Pillared Hall
+  ElevationMode: 0
+  ElevationStepHeight: 2
+  CustomFloorBlock: {fileID: 0}
+  CustomWallBlock: {fileID: 0}
+  CustomCeilingBlock: {fileID: 0}
+  StepBlock: {fileID: 0}
+  ThemePalette: {fileID: 11400000, guid: 7ff3b41325b059b45a31b0167774225f, type: 2}
+  HasPillars: 1
+  PillarThickness: 1
+  PillarInset: 3
+  MaxEnemySpawns: 3
+  MaxChestSpawns: 1
+  AllowNpcSpawn: 0

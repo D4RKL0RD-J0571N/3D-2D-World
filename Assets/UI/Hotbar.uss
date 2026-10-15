@@ -1,0 +1,59 @@
+.hotbar-root {
+    width: 100%;
+    height: 100%;
+    align-items: center;
+    justify-content: flex-end;
+    padding-bottom: 24px;
+}
+
+.hotbar-label {
+    color: rgb(240, 240, 240);
+    font-size: 15px;
+    margin-bottom: 8px;
+    -unity-text-align: middle-center;
+    -unity-font-style: bold;
+    text-shadow: 1px 1px 0 rgba(0, 0, 0, 0.85);
+}
+
+.hotbar-container {
+    flex-direction: row;
+    padding: 6px;
+    background-color: rgba(18, 18, 22, 0.85);
+    border-radius: 8px;
+    border-width: 2px;
+    border-color: rgba(50, 50, 60, 0.9);
+}
+
+.hotbar-slot {
+    width: 52px;
+    height: 52px;
+    margin: 3px;
+    background-color: rgba(30, 30, 36, 0.95);
+    border-radius: 6px;
+    border-width: 2px;
+    border-color: rgba(60, 60, 75, 0.8);
+    position: relative;
+    justify-content: center;
+    align-items: center;
+}
+
+.hotbar-slot--selected {
+    border-color: rgb(250, 205, 50);
+    background-color: rgba(55, 50, 35, 0.95);
+    border-width: 3px;
+}
+
+.hotbar-slot__icon {
+    width: 38px;
+    height: 38px;
+    -unity-background-scale-mode: scale-to-fit;
+}
+
+.hotbar-slot__number {
+    position: absolute;
+    left: 4px;
+    top: 2px;
+    font-size: 11px;
+    color: rgba(200, 200, 200, 0.85);
+    -unity-font-style: bold;
+}

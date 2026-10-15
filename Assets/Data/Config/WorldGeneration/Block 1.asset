@@ -1,0 +1,22 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!114 &11400000
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 99a7b7edcfd042b45bfccba6673127c1, type: 3}
+  m_Name: Block 1
+  m_EditorClassIdentifier: Assembly-CSharp::Domain.Grid.BlockDefinition
+  Id: BLCK_0001
+  DisplayName: 
+  RuntimeId: 1
+  RenderType: 0
+  BlockMaterial: {fileID: 2100000, guid: d881df34f15401b4c85032f6abd4144d, type: 2}
+  Prefab: {fileID: 5618760069282384459, guid: c8e75c7e4a473444bae4878cc7d5a670, type: 3}
+  IsSolid: 1
+  Roles: 01000000

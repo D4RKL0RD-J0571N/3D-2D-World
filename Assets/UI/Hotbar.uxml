@@ -1,0 +1,43 @@
+<ui:UXML xmlns:ui="UnityEngine.UIElements" xmlns:uie="UnityEditor.UIElements">
+    <ui:VisualElement name="HotbarRoot" class="hotbar-root">
+        <ui:Label name="ActiveBlockLabel" text="Selected Block" class="hotbar-label" />
+        <ui:VisualElement name="HotbarContainer" class="hotbar-container">
+            <ui:VisualElement name="Slot_0" class="hotbar-slot hotbar-slot--selected">
+                <ui:Label text="1" class="hotbar-slot__number" />
+                <ui:VisualElement name="Icon_0" class="hotbar-slot__icon" />
+            </ui:VisualElement>
+            <ui:VisualElement name="Slot_1" class="hotbar-slot">
+                <ui:Label text="2" class="hotbar-slot__number" />
+                <ui:VisualElement name="Icon_1" class="hotbar-slot__icon" />
+            </ui:VisualElement>
+            <ui:VisualElement name="Slot_2" class="hotbar-slot">
+                <ui:Label text="3" class="hotbar-slot__number" />
+                <ui:VisualElement name="Icon_2" class="hotbar-slot__icon" />
+            </ui:VisualElement>
+            <ui:VisualElement name="Slot_3" class="hotbar-slot">
+                <ui:Label text="4" class="hotbar-slot__number" />
+                <ui:VisualElement name="Icon_3" class="hotbar-slot__icon" />
+            </ui:VisualElement>
+            <ui:VisualElement name="Slot_4" class="hotbar-slot">
+                <ui:Label text="5" class="hotbar-slot__number" />
+                <ui:VisualElement name="Icon_4" class="hotbar-slot__icon" />
+            </ui:VisualElement>
+            <ui:VisualElement name="Slot_5" class="hotbar-slot">
+                <ui:Label text="6" class="hotbar-slot__number" />
+                <ui:VisualElement name="Icon_5" class="hotbar-slot__icon" />
+            </ui:VisualElement>
+            <ui:VisualElement name="Slot_6" class="hotbar-slot">
+                <ui:Label text="7" class="hotbar-slot__number" />
+                <ui:VisualElement name="Icon_6" class="hotbar-slot__icon" />
+            </ui:VisualElement>
+            <ui:VisualElement name="Slot_7" class="hotbar-slot">
+                <ui:Label text="8" class="hotbar-slot__number" />
+                <ui:VisualElement name="Icon_7" class="hotbar-slot__icon" />
+            </ui:VisualElement>
+            <ui:VisualElement name="Slot_8" class="hotbar-slot">
+                <ui:Label text="9" class="hotbar-slot__number" />
+                <ui:VisualElement name="Icon_8" class="hotbar-slot__icon" />
+            </ui:VisualElement>
+        </ui:VisualElement>
+    </ui:VisualElement>
+</ui:UXML>

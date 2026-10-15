@@ -1,0 +1,24 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!114 &11400000
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: bd2fa8a9e0f20b7488d24a39f8342e25, type: 3}
+  m_Name: CastleBastionPalette
+  m_EditorClassIdentifier: Assembly-CSharp::Domain.Grid.BlockPalette
+  PaletteId: CastleBastion
+  DisplayName: Castle Bastion
+  DefaultFloor: {fileID: 11400000, guid: 74d8199341ec2944bbd96a928be8812a, type: 2}
+  DefaultWall: {fileID: 11400000, guid: 31e3dc9387d00394badc4fbdee2fb96d, type: 2}
+  DefaultCeiling: {fileID: 11400000, guid: 4d2a77ceb72f3cd48bf5b57b6b45deeb, type: 2}
+  DefaultPillar: {fileID: 11400000, guid: ad0275b70f2ad2540b399c680bc99042, type: 2}
+  DefaultSteps: {fileID: 11400000, guid: 74d8199341ec2944bbd96a928be8812a, type: 2}
+  FloorVariants: []
+  WallVariants: []
+  LiquidBlock: {fileID: 11400000, guid: 01d0a02635af8644491a0237e978dc0c, type: 2}

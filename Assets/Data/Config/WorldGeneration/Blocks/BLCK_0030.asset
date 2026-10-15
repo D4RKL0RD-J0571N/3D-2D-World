@@ -1,0 +1,24 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!114 &11400000
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 99a7b7edcfd042b45bfccba6673127c1, type: 3}
+  m_Name: BLCK_0030
+  m_EditorClassIdentifier: Assembly-CSharp::Domain.Grid.BlockDefinition
+  Id: BLCK_0030
+  DisplayName: Dungeon Water
+  RuntimeId: 30
+  RenderType: 1
+  BlockMaterial: {fileID: 2100000, guid: b35411ee2b6e4844cb0e03c8f91ae4ed, type: 2}
+  Prefab: {fileID: 0}
+  IsSolid: 0
+  IsLiquid: 1
+  Surface: 4
+  Roles: 05000000
