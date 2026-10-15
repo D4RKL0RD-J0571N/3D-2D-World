@@ -6,6 +6,7 @@ namespace Gameplay.World
     using Core.Utils;
     using Data.Config;
     using Domain.Grid;
+    using Gameplay.Entities;
     using Domain.LevelGeneration;
     using Systems.LevelGeneration;
     using Systems.Meshing;
