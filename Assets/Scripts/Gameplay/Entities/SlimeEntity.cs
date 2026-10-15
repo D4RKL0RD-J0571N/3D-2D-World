@@ -2,6 +2,7 @@ namespace Gameplay.Entities
 {
     using UnityEngine;
     using Domain.Entities;
+    using Core;
     using Core.Utils;
 
     public enum SlimeAIState
@@ -45,6 +46,8 @@ namespace Gameplay.Entities
         private float _verticalVelocity;
         private float _stateTimer;
         private Vector3 _moveDirection;
+        private bool _isSleeping;
+        private SpriteRenderer _spriteRenderer;
 
         #endregion
 
@@ -53,6 +56,22 @@ namespace Gameplay.Entities
         private void Awake()
         {
             _controller = GetComponent<CharacterController>();
+
+            if (_visualRoot == null)
+                _visualRoot = transform.Find("Visual");
+
+            if (_visualRoot != null)
+                _spriteRenderer = _visualRoot.GetComponent<SpriteRenderer>();
+        }
+
+        private void OnEnable()
+        {
+            GameEventManager.AddListener<AreaTierChangedEvent>(OnAreaTierChanged);
+        }
+
+        private void OnDisable()
+        {
+            GameEventManager.RemoveListener<AreaTierChangedEvent>(OnAreaTierChanged);
         }
 
         private void Start()
@@ -64,11 +83,12 @@ namespace Gameplay.Entities
             }
 
             PickNextIdleTime();
+            ApplyCurrentTierState();
         }
 
         private void Update()
         {
-            if (_controller == null)
+            if (_controller == null || _isSleeping)
                 return;
 
             UpdateAI(Time.deltaTime);
@@ -121,6 +141,12 @@ namespace Gameplay.Entities
                         {
                             _currentState = SlimeAIState.Idle;
                             PickNextIdleTime();
+                        }
+                        else if (distToPlayer <= _attackRange)
+                        {
+                            // Within attack range — pause before next hop.
+                            // Future Milestone B can replace this with an actual attack.
+                            _stateTimer = 0.5f;
                         }
                         else
                         {
@@ -203,6 +229,41 @@ namespace Gameplay.Entities
             float scaleY = Mathf.Clamp(1.0f + (_verticalVelocity * 0.04f), 0.7f, 1.4f);
             float scaleXZ = 1.0f / Mathf.Sqrt(scaleY);
             _visualRoot.localScale = new Vector3(scaleXZ, scaleY, scaleXZ);
+        }
+
+        #endregion
+
+        #region Area Lifecycle
+
+        private void OnAreaTierChanged(AreaTierChangedEvent evt)
+        {
+            if (evt == null || evt.RoomId != RoomId)
+                return;
+
+            _isSleeping = evt.NewTier == AreaSimulationTier.Purged;
+            ApplySleepState();
+        }
+
+        private void ApplyCurrentTierState()
+        {
+            if (string.IsNullOrEmpty(RoomId))
+                return;
+
+            if (ServiceLocator.TryGet<Systems.Scheduler.AreaSchedulerService>(out var scheduler))
+                _isSleeping = scheduler.GetRoomTier(RoomId) == AreaSimulationTier.Purged;
+            else
+                _isSleeping = false;
+
+            ApplySleepState();
+        }
+
+        private void ApplySleepState()
+        {
+            if (_controller != null)
+                _controller.enabled = !_isSleeping;
+
+            if (_spriteRenderer != null)
+                _spriteRenderer.enabled = !_isSleeping;
         }
 
         #endregion

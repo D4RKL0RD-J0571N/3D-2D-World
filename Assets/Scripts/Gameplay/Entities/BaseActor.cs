@@ -8,6 +8,11 @@ namespace Gameplay.Entities
     {
         public ActorData ActorBlueprint => Blueprint as ActorData;
 
+        /// <summary>
+        /// Runtime room/area assignment used by area-scheduling systems.
+        /// </summary>
+        public string RoomId { get; set; }
+
         public override void Initialize(EntityData blueprint)
         {
             if (!(blueprint is ActorData))

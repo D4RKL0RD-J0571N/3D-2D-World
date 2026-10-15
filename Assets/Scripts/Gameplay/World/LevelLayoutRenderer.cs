@@ -4,7 +4,9 @@ namespace Gameplay.World
     using System.Collections.Generic;
     using Core;
     using Core.Utils;
+    using Data.Config;
     using Domain.Grid;
+    using Gameplay.Entities;
     using Domain.LevelGeneration;
     using Systems.LevelGeneration;
     using Systems.Meshing;
@@ -22,6 +24,11 @@ namespace Gameplay.World
 
         [Header("Build")]
         [SerializeField] private Transform _generatedRoot;
+
+        [Header("Entities")]
+        [SerializeField] private GameObject _slimePrefab;
+        [SerializeField] private ActorData _slimeBlueprint;
+        [SerializeField] private int _maxEnemiesPerRoom = 3;
 
         private LevelGenerationService _levelGenerationService;
         private GreedyMeshingService _meshingService;
@@ -532,6 +539,8 @@ namespace Gameplay.World
             room.Sockets.Clear();
             VoxelStairBuilder.DiscoverRoomSockets(grid, bottomLeft, room.Sockets, maxSockets: 14);
 
+            SpawnRoomEntities(room);
+
             _generatedGrids.Add(new GridPlacement
             {
                 Grid = grid,
@@ -567,6 +576,50 @@ namespace Gameplay.World
 
             var exitTrigger = exitObj.AddComponent<ExitTrigger>();
             exitTrigger.Configure(new Vector3(triggerWidth, triggerHeight, triggerDepth));
+        }
+
+        private void SpawnRoomEntities(LevelRoomNode room)
+        {
+            if (_slimePrefab == null)
+                return;
+
+            int spawned = 0;
+            foreach (var socket in room.Sockets)
+            {
+                if (socket.Type != SocketType.EnemySpawn)
+                    continue;
+
+                if (spawned >= _maxEnemiesPerRoom)
+                    break;
+
+                SpawnEntity<BaseActor>(_slimePrefab, _slimeBlueprint, socket.WorldPosition, room.Id);
+                spawned++;
+            }
+        }
+
+        private T SpawnEntity<T>(
+            GameObject prefab,
+            ActorData blueprint,
+            Vector3 worldPosition,
+            string roomId) where T : BaseActor
+        {
+            var instance = Instantiate(prefab, _generatedRoot, false);
+            var entity = instance.GetComponent<T>();
+
+            if (entity == null)
+            {
+                Debug.LogError($"[LevelLayoutRenderer] Prefab does not have a {typeof(T).Name} component.");
+                Destroy(instance);
+                return null;
+            }
+
+            instance.transform.position = worldPosition;
+            entity.RoomId = roomId;
+
+            if (blueprint != null)
+                entity.Initialize(blueprint);
+
+            return entity;
         }
 
         private void BuildConnectionGrid(
