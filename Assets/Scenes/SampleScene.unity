@@ -25228,6 +25228,7 @@ GameObject:
   - component: {fileID: 2060040536}
   - component: {fileID: 2060040535}
   - component: {fileID: 2060040534}
+  - component: {fileID: 2060040540}
   m_Layer: 6
   m_Name: Actor
   m_TagString: Player

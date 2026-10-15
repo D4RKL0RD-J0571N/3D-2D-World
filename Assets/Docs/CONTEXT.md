@@ -21,6 +21,8 @@ This document maintains the "living" state of the project development. It is upd
 - [x] Documentation Refresh (2026-10-15) — precision corrections to `STATES.md`, expanded Phase 2 milestones in `CONTEXT.md`; see `AUDIT_LOG.md`
 - [x] ExitTrigger placement wired (2026-10-15) — `LevelLayoutRenderer` now spawns `ExitTrigger` in the exit room during generation and re-spawns it on save/load
 - [x] Milestone A — Enemy spawning from `EnemySpawn` sockets (2026-10-15) — `LevelLayoutRenderer` now spawns `SlimeEntity` prefabs via `Instantiate`, assigns a `SlimeActorData` blueprint, and `SlimeEntity` sleeps/wakes on `AreaTierChangedEvent`
+- [x] World Map / Minimap system (2026-10-15) — `WorldMapService` builds a top-down map from `LevelLayout`, reveals rooms on entry, tracks `MapEntity` components, and `WorldMapHUD` renders it with zoom/opacity/layer customization
+- [x] `ITickable` service wiring (2026-10-15) — `GameBootstrapper.Update` now ticks all registered `ITickable` services
 
 ## Active Work / In-Progress
 - **Combat Loop**: Closing the player-to-enemy damage path (Milestone B).

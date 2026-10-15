@@ -1,0 +1,35 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!114 &11400000
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: c653a85311484a3ca4e4291ba2d955ad, type: 3}
+  m_Name: WorldMapConfig
+  m_EditorClassIdentifier: 
+  PixelsPerUnit: 2
+  FloorColor: {r: 0.35, g: 0.35, b: 0.38, a: 1}
+  WallColor: {r: 0.18, g: 0.18, b: 0.2, a: 1}
+  UnexploredColor: {r: 0.05, g: 0.05, b: 0.06, a: 0.95}
+  CorridorColor: {r: 0.28, g: 0.28, b: 0.3, a: 1}
+  PlayerIcon: {fileID: 0}
+  EnemyIcon: {fileID: 0}
+  NpcIcon: {fileID: 0}
+  InteractableIcon: {fileID: 0}
+  CustomIcon: {fileID: 0}
+  MinimapSize: 200
+  MinimapAnchor: {x: 1, y: 1}
+  MinimapOffset: {x: -20, y: -20}
+  MinimapZoom: 0.5
+  WorldMapDefaultZoom: 1
+  WorldMapMinZoom: 0.25
+  WorldMapMaxZoom: 4
+  ToggleWorldMapKey: 109
+  ToggleMinimapKey: 9
+  EntityUpdateInterval: 2
+  RevealNeighborDistance: 1
