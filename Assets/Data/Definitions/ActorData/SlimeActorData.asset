@@ -1,0 +1,26 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!114 &11400000
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 263e3a27f32a9c74c80b7e8be503972d, type: 3}
+  m_Name: SlimeActorData
+  m_EditorClassIdentifier: 
+  Id: ACT_0002
+  DisplayName: Slime
+  StartingLevel: 1
+  XpLevelUpBase: 75
+  XpLevelUpMult: 25
+  StartingAttributes:
+  - AttributeName: Health
+    MaximumValue: 30
+    CurrentValue: 30
+    RegenerationRate: 0
+    RegenerationMultiplier: 1
+    CombatRegenerationRate: 0

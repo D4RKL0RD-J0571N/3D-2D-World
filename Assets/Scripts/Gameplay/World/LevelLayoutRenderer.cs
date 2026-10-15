@@ -4,6 +4,7 @@ namespace Gameplay.World
     using System.Collections.Generic;
     using Core;
     using Core.Utils;
+    using Data.Config;
     using Domain.Grid;
     using Domain.LevelGeneration;
     using Systems.LevelGeneration;
@@ -22,6 +23,11 @@ namespace Gameplay.World
 
         [Header("Build")]
         [SerializeField] private Transform _generatedRoot;
+
+        [Header("Entities")]
+        [SerializeField] private GameObject _slimePrefab;
+        [SerializeField] private ActorData _slimeBlueprint;
+        [SerializeField] private int _maxEnemiesPerRoom = 3;
 
         private LevelGenerationService _levelGenerationService;
         private GreedyMeshingService _meshingService;
@@ -532,6 +538,8 @@ namespace Gameplay.World
             room.Sockets.Clear();
             VoxelStairBuilder.DiscoverRoomSockets(grid, bottomLeft, room.Sockets, maxSockets: 14);
 
+            SpawnRoomEntities(room);
+
             _generatedGrids.Add(new GridPlacement
             {
                 Grid = grid,
@@ -567,6 +575,44 @@ namespace Gameplay.World
 
             var exitTrigger = exitObj.AddComponent<ExitTrigger>();
             exitTrigger.Configure(new Vector3(triggerWidth, triggerHeight, triggerDepth));
+        }
+
+        private void SpawnRoomEntities(LevelRoomNode room)
+        {
+            if (_slimePrefab == null)
+                return;
+
+            int spawned = 0;
+            foreach (var socket in room.Sockets)
+            {
+                if (socket.Type != SocketType.EnemySpawn)
+                    continue;
+
+                if (spawned >= _maxEnemiesPerRoom)
+                    break;
+
+                SpawnSlime(room, socket.WorldPosition);
+                spawned++;
+            }
+        }
+
+        private void SpawnSlime(LevelRoomNode room, Vector3 worldPosition)
+        {
+            var instance = Instantiate(_slimePrefab, _generatedRoot, false);
+            var slime = instance.GetComponent<SlimeEntity>();
+
+            if (slime == null)
+            {
+                Debug.LogError("[LevelLayoutRenderer] Slime prefab does not have a SlimeEntity component.");
+                Destroy(instance);
+                return;
+            }
+
+            instance.transform.position = worldPosition;
+            slime.RoomId = room.Id;
+
+            if (_slimeBlueprint != null)
+                slime.Initialize(_slimeBlueprint);
         }
 
         private void BuildConnectionGrid(

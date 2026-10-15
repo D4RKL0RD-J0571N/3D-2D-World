@@ -20,9 +20,10 @@ This document maintains the "living" state of the project development. It is upd
 - [x] Documentation Refresh (2026-08-21) — `STATES.md`, `EVENTS.md`, `LEVEL_GENERATION.md`, `Log.md`, `AUDIT_LOG.md`, and `ARCHITECTURE.md`'s technical sections corrected against actual code; see `AUDIT_LOG.md` for the full list of what was wrong and why
 - [x] Documentation Refresh (2026-10-15) — precision corrections to `STATES.md`, expanded Phase 2 milestones in `CONTEXT.md`; see `AUDIT_LOG.md`
 - [x] ExitTrigger placement wired (2026-10-15) — `LevelLayoutRenderer` now spawns `ExitTrigger` in the exit room during generation and re-spawns it on save/load
+- [x] Milestone A — Enemy spawning from `EnemySpawn` sockets (2026-10-15) — `LevelLayoutRenderer` now spawns `SlimeEntity` prefabs via `Instantiate`, assigns a `SlimeActorData` blueprint, and `SlimeEntity` sleeps/wakes on `AreaTierChangedEvent`
 
 ## Active Work / In-Progress
-- **Player Systems**: Refining `Player_Movement`, `Player_Look`, and interaction logic.
+- **Combat Loop**: Closing the player-to-enemy damage path (Milestone B).
 - **World Interaction**: Ensuring snappy transitions between player actions and environmental responses.
 
 ## Recent Decisions & Context

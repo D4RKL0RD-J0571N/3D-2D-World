@@ -872,6 +872,9 @@ MonoBehaviour:
     SpawnOffset: {x: 0, y: 5, z: 0}
   _config: {fileID: 11400000, guid: 5aa0db1b0408209489f384b50bf0576e, type: 2}
   _generatedRoot: {fileID: 0}
+  _slimePrefab: {fileID: 5463117924848943462, guid: 76e52db0389acb44d9c84c88245ac0d6, type: 3}
+  _slimeBlueprint: {fileID: 11400000, guid: 730e9d60517e4bd5836847918ebf6f67, type: 2}
+  _maxEnemiesPerRoom: 3
 --- !u!4 &86834506
 Transform:
   m_ObjectHideFlags: 0
