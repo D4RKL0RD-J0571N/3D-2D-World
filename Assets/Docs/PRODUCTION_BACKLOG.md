@@ -109,6 +109,7 @@ A complete, playable single-player quest slice where Jack awakens at a forest cr
 
 #### `TICK-02`: Actor Attributes & Player Blueprint Hardening
 - **Priority**: P0 (Blocker)
+- **Status**: COMPLETED (Pending Review)
 - **Dependencies**: `TICK-01`
 - **Affected Files**:
   - [`Assets/Scripts/Gameplay/Entities/AttributeComponent.cs`](file:///D:/Development/Game%20Development/3D%202D%20World/Assets/Scripts/Gameplay/Entities/AttributeComponent.cs)

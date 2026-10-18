@@ -1320,7 +1320,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 7241c7d6a27835a4c93dc4448202726b, type: 3}
   m_Name: 
   m_EditorClassIdentifier: Assembly-CSharp::Gameplay.Entities.BaseActor
-  _blueprint: {fileID: 11400000, guid: 0a3f76a3e1b416b4db64a287dedc556b, type: 2}
+  _blueprint: {fileID: 11400000, guid: 26da22f73450db345a57466a07549598, type: 2}
 --- !u!134 &2071692867
 PhysicsMaterial:
   m_ObjectHideFlags: 0
