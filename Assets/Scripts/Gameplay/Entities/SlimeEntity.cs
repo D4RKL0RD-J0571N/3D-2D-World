@@ -1,7 +1,9 @@
 namespace Gameplay.Entities
 {
+    using System.Collections;
     using UnityEngine;
     using Domain.Entities;
+    using Domain.Combat;
     using Core;
     using Core.Utils;
 
@@ -14,7 +16,7 @@ namespace Gameplay.Entities
     }
 
     /// <summary>
-    /// Slime entity controller with hop movement, physics jumping, and player aggro.
+    /// Slime entity controller with hop movement, physics jumping, player aggro, and melee acid bite attacks.
     /// Uses billboarded sprite rendering.
     /// </summary>
     [RequireComponent(typeof(CharacterController))]
@@ -35,6 +37,8 @@ namespace Gameplay.Entities
         [Header("Perception & Aggro")]
         [SerializeField] private float _detectionRange = 8.0f;
         [SerializeField] private float _attackRange = 1.8f;
+        [SerializeField] private float _attackCooldown = 1.2f;
+        [SerializeField] private int _attackDamage = 10;
 
         [Header("Visual Squash & Stretch")]
         [SerializeField] private Transform _visualRoot;
@@ -47,14 +51,17 @@ namespace Gameplay.Entities
         private float _stateTimer;
         private Vector3 _moveDirection;
         private bool _isSleeping;
+        private bool _isDead;
+        private float _lastAttackTime = -10f;
         private SpriteRenderer _spriteRenderer;
 
         #endregion
 
         #region Unity Lifecycle
 
-        private void Awake()
+        protected override void Awake()
         {
+            base.Awake();
             _controller = GetComponent<CharacterController>();
 
             bool hasValidRoot = false;
@@ -102,7 +109,7 @@ namespace Gameplay.Entities
 
         private void Update()
         {
-            if (_controller == null || _isSleeping)
+            if (_controller == null || _isSleeping || _isDead)
                 return;
 
             UpdateAI(Time.deltaTime);
@@ -158,9 +165,7 @@ namespace Gameplay.Entities
                         }
                         else if (distToPlayer <= _attackRange)
                         {
-                            // Within attack range — pause before next hop.
-                            // Future Milestone B can replace this with an actual attack.
-                            _stateTimer = 0.5f;
+                            ExecuteMeleeAttack();
                         }
                         else
                         {
@@ -173,10 +178,41 @@ namespace Gameplay.Entities
                     if (_controller.isGrounded && _verticalVelocity <= 0f)
                     {
                         _currentState = SlimeAIState.Chasing;
-                        _stateTimer = 0.5f; // Short pause after landing
+                        _stateTimer = 0.4f; // Short pause after landing
                     }
                     break;
             }
+        }
+
+        private void ExecuteMeleeAttack()
+        {
+            if (Time.time < _lastAttackTime + _attackCooldown)
+            {
+                _stateTimer = 0.2f;
+                return;
+            }
+
+            _lastAttackTime = Time.time;
+            _stateTimer = _attackCooldown;
+
+            if (_playerTransform != null)
+            {
+                var playerActor = _playerTransform.GetComponentInParent<BaseActor>();
+                if (playerActor != null)
+                {
+                    var damageInfo = new DamageInfo(
+                        _attackDamage,
+                        DamageType.Acid,
+                        gameObject,
+                        _playerTransform.position,
+                        Vector3.up);
+
+                    playerActor.TakeDamage(damageInfo);
+                }
+            }
+
+            // Visual bite / hop feedback
+            _verticalVelocity = _hopJumpVelocity * 0.5f;
         }
 
         private void StartWanderHop()
@@ -236,13 +272,74 @@ namespace Gameplay.Entities
 
         private void UpdateVisualFeedback()
         {
-            if (_visualRoot == null)
+            if (_visualRoot == null || _isDead)
                 return;
 
             // Simple bouncy squash & stretch based on vertical velocity
             float scaleY = Mathf.Clamp(1.0f + (_verticalVelocity * 0.04f), 0.7f, 1.4f);
             float scaleXZ = 1.0f / Mathf.Sqrt(scaleY);
             _visualRoot.localScale = new Vector3(scaleXZ, scaleY, scaleXZ);
+        }
+
+        #endregion
+
+        #region Combat & Lifecycle
+
+        public override void TakeDamage(DamageInfo damage)
+        {
+            if (_isDead) return;
+
+            base.TakeDamage(damage);
+
+            var health = Attributes?.GetAttribute("Health");
+            if (health != null && health.CurrentValue <= 0)
+            {
+                Die();
+            }
+        }
+
+        private void Die()
+        {
+            if (_isDead) return;
+            _isDead = true;
+
+            if (_controller != null)
+            {
+                _controller.enabled = false;
+            }
+
+            StartCoroutine(DeathRoutine());
+        }
+
+        private IEnumerator DeathRoutine()
+        {
+            float elapsed = 0f;
+            float duration = 0.35f;
+
+            Vector3 startScale = _visualRoot != null ? _visualRoot.localScale : Vector3.one;
+            Vector3 targetScale = new Vector3(startScale.x * 1.5f, 0.1f, startScale.z * 1.5f);
+
+            while (elapsed < duration)
+            {
+                elapsed += Time.deltaTime;
+                float t = elapsed / duration;
+
+                if (_visualRoot != null)
+                {
+                    _visualRoot.localScale = Vector3.Lerp(startScale, targetScale, t);
+                }
+
+                if (_spriteRenderer != null)
+                {
+                    Color c = _spriteRenderer.color;
+                    c.a = Mathf.Lerp(1f, 0f, t);
+                    _spriteRenderer.color = c;
+                }
+
+                yield return null;
+            }
+
+            Destroy(gameObject);
         }
 
         #endregion

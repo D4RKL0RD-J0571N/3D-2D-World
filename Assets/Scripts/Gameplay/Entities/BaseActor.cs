@@ -1,10 +1,14 @@
 namespace Gameplay.Entities
 {
+    using System.Collections;
+    using System.Collections.Generic;
     using UnityEngine;
     using Data.Config;
+    using Domain.Combat;
 
     /// <summary>
     /// Base actor shell coordinating peer components (attributes, stats, states) on an entity.
+    /// Provides concrete combat reception methods adhering to direct component composition without forced interfaces.
     /// </summary>
     [AddComponentMenu("3D2DWorld/Entities/Base Actor")]
     [DisallowMultipleComponent]
@@ -21,6 +25,24 @@ namespace Gameplay.Entities
 
         public ActorData ActorBlueprint => Blueprint as ActorData;
 
+        public AttributeComponent Attributes
+        {
+            get
+            {
+                EnsureComponentsCached();
+                return _attributeComponent;
+            }
+        }
+
+        public StatsComponent Stats
+        {
+            get
+            {
+                EnsureComponentsCached();
+                return _statsComponent;
+            }
+        }
+
         /// <summary>
         /// Runtime room/area assignment used by area-scheduling systems.
         /// </summary>
@@ -28,9 +50,18 @@ namespace Gameplay.Entities
 
         #endregion
 
+        #region Unity Lifecycle
+
+        protected virtual void Awake()
+        {
+            EnsureComponentsCached();
+        }
+
+        #endregion
+
         #region Component Resolution
 
-        private void EnsureComponentsCached()
+        protected void EnsureComponentsCached()
         {
             if (_attributeComponent == null) _attributeComponent = GetComponent<AttributeComponent>();
             if (_statsComponent == null) _statsComponent = GetComponent<StatsComponent>();
@@ -54,6 +85,88 @@ namespace Gameplay.Entities
             EnsureComponentsCached();
             _attributeComponent?.Initialize(this);
             _statsComponent?.Initialize(this);
+        }
+
+        #endregion
+
+        #region Combat API
+
+        /// <summary>
+        /// Applies incoming damage to this actor's attributes and executes hit reactions.
+        /// Concrete peer method adhering to direct component composition without forced interfaces.
+        /// </summary>
+        public virtual void TakeDamage(DamageInfo damage)
+        {
+            EnsureComponentsCached();
+
+            if (_attributeComponent != null)
+            {
+                _attributeComponent.ApplyDamage("Health", damage.Amount);
+            }
+
+            PlayHitReaction(damage);
+        }
+
+        protected virtual void PlayHitReaction(DamageInfo damage)
+        {
+            if (gameObject.activeInHierarchy)
+            {
+                StartCoroutine(FlashDamageRoutine());
+            }
+        }
+
+        private IEnumerator FlashDamageRoutine()
+        {
+            var renderers = GetComponentsInChildren<Renderer>();
+            if (renderers == null || renderers.Length == 0) yield break;
+
+            var origColors = new Dictionary<Renderer, Color>();
+            foreach (var r in renderers)
+            {
+                if (r == null) continue;
+
+                if (r is SpriteRenderer sr)
+                {
+                    origColors[r] = sr.color;
+                    sr.color = Color.red;
+                }
+                else if (r.sharedMaterial != null && r.material != null)
+                {
+                    if (r.material.HasProperty("_BaseColor"))
+                    {
+                        origColors[r] = r.material.GetColor("_BaseColor");
+                        r.material.SetColor("_BaseColor", Color.red);
+                    }
+                    else if (r.material.HasProperty("_Color"))
+                    {
+                        origColors[r] = r.material.color;
+                        r.material.color = Color.red;
+                    }
+                }
+            }
+
+            yield return new WaitForSeconds(0.12f);
+
+            foreach (var kvp in origColors)
+            {
+                if (kvp.Key == null) continue;
+
+                if (kvp.Key is SpriteRenderer sr)
+                {
+                    sr.color = kvp.Value;
+                }
+                else if (kvp.Key.material != null)
+                {
+                    if (kvp.Key.material.HasProperty("_BaseColor"))
+                    {
+                        kvp.Key.material.SetColor("_BaseColor", kvp.Value);
+                    }
+                    else if (kvp.Key.material.HasProperty("_Color"))
+                    {
+                        kvp.Key.material.color = kvp.Value;
+                    }
+                }
+            }
         }
 
         #endregion
