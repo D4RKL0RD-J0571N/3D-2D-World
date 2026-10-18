@@ -34,8 +34,6 @@ namespace Core
 
         private void Update()
         {
-            _stateMachine?.Tick(Time.deltaTime);
-
             foreach (var tickable in _tickables)
                 tickable?.Tick(Time.deltaTime);
         }
