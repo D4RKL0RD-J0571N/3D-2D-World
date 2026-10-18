@@ -35,6 +35,10 @@ namespace Gameplay.Player
     {
     }
 
+    public sealed class PlayerInteractUseInputEvent : GameEvent
+    {
+    }
+
     public sealed class ToggleWorldMapInputEvent : GameEvent
     {
     }

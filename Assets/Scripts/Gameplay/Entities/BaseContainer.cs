@@ -4,52 +4,107 @@ namespace Gameplay.Entities
     using System.Collections.Generic;
     using Data.Config;
 
+    /// <summary>
+    /// Chest, crate, or container in the world that stores items and can be looted/opened by a user.
+    /// </summary>
+    [AddComponentMenu("3D2DWorld/Entities/Base Container")]
+    [DisallowMultipleComponent]
+    [RequireComponent(typeof(InventoryComponent))]
     public class BaseContainer : BaseEntity
     {
+        #region Fields
+
+        private InventoryComponent _inventory;
+
+        #endregion
+
+        #region Properties
+
         public ContainerData ContainerBlueprint => Blueprint as ContainerData;
 
-        // Runtime inventory representation
-        // For now, a simple list of ItemData. Later, an InventorySlot class with quantities.
-        [SerializeField] private List<ItemData> _inventory = new List<ItemData>();
+        public InventoryComponent Inventory => _inventory;
+
+        public override string InteractionPrompt
+        {
+            get
+            {
+                if (ContainerBlueprint != null && ContainerBlueprint.IsLocked)
+                    return $"{ContainerBlueprint.DisplayName} (Locked)";
+
+                return Blueprint != null
+                    ? $"Press E to open {Blueprint.DisplayName}"
+                    : "Press E to open container";
+            }
+        }
+
+        #endregion
+
+        #region Unity Lifecycle
+
+        private void Awake()
+        {
+            _inventory = GetComponent<InventoryComponent>();
+        }
+
+        #endregion
+
+        #region Initialization
 
         public override void Initialize(EntityData blueprint)
         {
             if (!(blueprint is ContainerData))
             {
-                Debug.LogError($"[BaseContainer] Cannot initialize with non-ContainerData blueprint!");
+                Debug.LogError($"[BaseContainer] Cannot initialize with non-ContainerData blueprint on {name}!");
                 return;
             }
 
             base.Initialize(blueprint);
-            
-            // Broadcast container-specific initialization
-            SendMessage("OnContainerInitialized", this, SendMessageOptions.DontRequireReceiver);
         }
 
-        public override void OnActivate()
+        #endregion
+
+        #region Interaction
+
+        public override void OnInteract(GameObject user)
         {
-            base.OnActivate();
-            
             if (ContainerBlueprint != null && ContainerBlueprint.IsLocked)
             {
                 Debug.Log($"[BaseContainer] {ContainerBlueprint.DisplayName} is locked!");
                 return;
             }
 
-            Debug.Log($"[BaseContainer] Opened {ContainerBlueprint?.DisplayName}. Contains {_inventory.Count} items.");
-            // Publish an event here later to open UI, e.g., Core.GameEventManager.Publish(new ContainerOpenedEvent { Container = this });
+            if (user != null && user.TryGetComponent<InventoryComponent>(out var userInventory))
+            {
+                TransferItemsTo(userInventory);
+            }
+
+            Debug.Log($"[BaseContainer] Opened {ContainerBlueprint?.DisplayName ?? name}.");
         }
 
-        public void AddItem(ItemData item)
+        public override void OnActivate()
         {
-            if (_inventory.Count < (ContainerBlueprint?.SlotCount ?? 10))
+            base.OnActivate();
+            OnInteract(null);
+        }
+
+        private void TransferItemsTo(InventoryComponent targetInventory)
+        {
+            if (_inventory == null || targetInventory == null) return;
+
+            var slots = new List<Domain.Inventory.InventorySlot>(_inventory.Slots);
+            foreach (var slot in slots)
             {
-                _inventory.Add(item);
-            }
-            else
-            {
-                Debug.LogWarning($"[BaseContainer] {ContainerBlueprint?.DisplayName} is full!");
+                if (slot != null && !slot.IsEmpty)
+                {
+                    bool added = targetInventory.AddItem(slot.Item, slot.Count);
+                    if (added)
+                    {
+                        _inventory.RemoveItem(slot.Item, slot.Count);
+                    }
+                }
             }
         }
+
+        #endregion
     }
 }

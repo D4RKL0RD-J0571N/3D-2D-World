@@ -139,13 +139,17 @@ A complete, playable single-player quest slice where Jack awakens at a forest cr
 
 #### `TICK-03`: Interaction Controller & Inventory Foundation
 - **Priority**: P1
+- **Status**: COMPLETED (Pending Review)
 - **Dependencies**: `TICK-02`
 - **Affected Files**:
-  - `Assets/Scripts/Domain/Interaction/IInteractable.cs` (New)
+  - `Assets/Scripts/Domain/Inventory/InventorySlot.cs` (New)
+  - `Assets/Scripts/Domain/Inventory/InventoryEvents.cs` (New)
+  - `Assets/Scripts/Gameplay/Entities/InventoryComponent.cs` (New)
   - `Assets/Scripts/Gameplay/Player/PlayerInteractionController.cs` (New)
+  - [`Assets/Scripts/Gameplay/Entities/BaseEntity.cs`](file:///D:/Development/Game%20Development/3D%202D%20World/Assets/Scripts/Gameplay/Entities/BaseEntity.cs)
   - [`Assets/Scripts/Gameplay/Entities/BaseItem.cs`](file:///D:/Development/Game%20Development/3D%202D%20World/Assets/Scripts/Gameplay/Entities/BaseItem.cs)
   - [`Assets/Scripts/Gameplay/Entities/BaseContainer.cs`](file:///D:/Development/Game%20Development/3D%202D%20World/Assets/Scripts/Gameplay/Entities/BaseContainer.cs)
-  - `Assets/Scripts/Gameplay/Entities/InventoryComponent.cs` (New)
+  - [`Assets/Scripts/Gameplay/Player/PlayerInputEvents.cs`](file:///D:/Development/Game%20Development/3D%202D%20World/Assets/Scripts/Gameplay/Player/PlayerInputEvents.cs)
   - [`Assets/Scripts/Systems/Input/InputManager.cs`](file:///D:/Development/Game%20Development/3D%202D%20World/Assets/Scripts/Systems/Input/InputManager.cs)
 - **Specification**:
   1. Create `IInteractable` interface (`string PromptText`, `void Interact(GameObject user)`).

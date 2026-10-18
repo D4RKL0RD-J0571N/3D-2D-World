@@ -1,4 +1,4 @@
-    namespace Gameplay.Entities
+namespace Gameplay.Entities
 {
     using UnityEngine;
     using Data.Config;
@@ -24,6 +24,13 @@
             set => _blueprint = value;
         }
 
+        /// <summary>
+        /// Contextual prompt shown to the player when looking at this entity.
+        /// </summary>
+        public virtual string InteractionPrompt => Blueprint != null
+            ? $"Press E to interact with {Blueprint.DisplayName}"
+            : "Press E to interact";
+
         #endregion
 
         #region Initialization
@@ -35,11 +42,20 @@
 
         #endregion
 
-        #region Activation
+        #region Interaction & Activation
+
+        /// <summary>
+        /// Invoked when a user (e.g. player) directly interacts with this entity in the world.
+        /// </summary>
+        /// <param name="user">The initiating GameObject (e.g. player actor).</param>
+        public virtual void OnInteract(GameObject user)
+        {
+            OnActivate();
+        }
 
         public virtual void OnActivate()
         {
-            // Default activation behavior (e.g. interacting with it)
+            // Default activation behavior
         }
 
         #endregion
