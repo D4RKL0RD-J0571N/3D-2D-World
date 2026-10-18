@@ -84,6 +84,12 @@ namespace Core
                 hudGo.AddComponent<Gameplay.UI.HotbarHUD>();
             }
 
+            if (Object.FindFirstObjectByType<Gameplay.UI.PlayerHUD>() == null)
+            {
+                var playerHudGo = new GameObject("PlayerHUD");
+                playerHudGo.AddComponent<Gameplay.UI.PlayerHUD>();
+            }
+
             if (Object.FindFirstObjectByType<Gameplay.UI.WorldMapHUD>() == null)
             {
                 var mapGo = new GameObject("WorldMapHUD");

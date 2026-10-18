@@ -122,7 +122,17 @@ namespace Gameplay.Combat
         public bool TryExecuteAttack()
         {
             if (!CanAttack)
+            {
+                if (_attributeComponent == null)
+                    _attributeComponent = GetComponent<AttributeComponent>();
+
+                var stamina = _attributeComponent?.GetAttribute("Stamina");
+                if (stamina != null && stamina.CurrentValue < _minStaminaRequired)
+                {
+                    GameEventManager.Publish(new PlayerStaminaExhaustedEvent());
+                }
                 return false;
+            }
 
             ExecuteAttack();
             return true;
