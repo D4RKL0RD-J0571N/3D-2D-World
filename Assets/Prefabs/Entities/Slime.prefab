@@ -192,7 +192,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: Assembly-CSharp::Gameplay.Entities.SlimeEntity
   _blueprint: {fileID: 0}
-  _visualRoot: {fileID: 3600850881347590154}
+  _visualRoot: {fileID: 4159814987215021588}
   _hopSpeed: 3.5
   _chaseSpeed: 5
   _hopJumpVelocity: 4.5

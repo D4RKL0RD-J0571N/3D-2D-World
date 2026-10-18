@@ -57,11 +57,25 @@ namespace Gameplay.Entities
         {
             _controller = GetComponent<CharacterController>();
 
-            if (_visualRoot == null)
+            bool hasValidRoot = false;
+            try
+            {
+                hasValidRoot = _visualRoot != null;
+            }
+            catch (MissingReferenceException)
+            {
+                _visualRoot = null;
+            }
+
+            if (!hasValidRoot)
+            {
                 _visualRoot = transform.Find("Visual");
+            }
 
             if (_visualRoot != null)
+            {
                 _spriteRenderer = _visualRoot.GetComponent<SpriteRenderer>();
+            }
         }
 
         private void OnEnable()
