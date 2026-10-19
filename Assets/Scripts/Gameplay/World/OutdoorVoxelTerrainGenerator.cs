@@ -344,14 +344,29 @@ namespace Gameplay.World
 
         private void EnsureRegistry()
         {
-            if (_registry != null) return;
-
-            _registry = Resources.Load<BlockRegistry>("Config/BlockRegistry");
-#if UNITY_EDITOR
             if (_registry == null)
             {
-                _registry = UnityEditor.AssetDatabase.LoadAssetAtPath<BlockRegistry>(
-                    "Assets/Data/Config/WorldGeneration/BlockRegistry.asset");
+                _registry = Resources.Load<BlockRegistry>("Config/BlockRegistry");
+#if UNITY_EDITOR
+                if (_registry == null)
+                {
+                    _registry = UnityEditor.AssetDatabase.LoadAssetAtPath<BlockRegistry>(
+                        "Assets/Data/Config/WorldGeneration/BlockRegistry.asset");
+                }
+#endif
+            }
+
+#if UNITY_EDITOR
+            if (_woodItemData == null)
+            {
+                _woodItemData = UnityEditor.AssetDatabase.LoadAssetAtPath<ItemData>(
+                    "Assets/Data/Definitions/ItemData/Item_WoodLog.asset");
+            }
+
+            if (_stoneItemData == null)
+            {
+                _stoneItemData = UnityEditor.AssetDatabase.LoadAssetAtPath<ItemData>(
+                    "Assets/Data/Definitions/ItemData/Item_StoneChunk.asset");
             }
 #endif
         }
