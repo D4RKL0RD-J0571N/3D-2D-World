@@ -85,13 +85,15 @@ namespace Gameplay.Entities
             }
         }
 
-        private void OnEnable()
+        protected override void OnEnable()
         {
+            base.OnEnable();
             GameEventManager.AddListener<AreaTierChangedEvent>(OnAreaTierChanged);
         }
 
-        private void OnDisable()
+        protected override void OnDisable()
         {
+            base.OnDisable();
             GameEventManager.RemoveListener<AreaTierChangedEvent>(OnAreaTierChanged);
         }
 

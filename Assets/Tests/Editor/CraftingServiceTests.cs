@@ -89,5 +89,32 @@ namespace Tests.Editor
             Assert.AreEqual(3, _inventory.GetItemCount(_woodLog), "2 logs should have been consumed.");
             Assert.AreEqual(4, _inventory.GetItemCount(_woodPlank), "4 planks should have been produced.");
         }
+
+        [Test]
+        public void InventoryComponent_GetSaveData_And_RestoreSaveData_RoundtripsAccurately()
+        {
+            _inventory.AddItem(_woodLog, 3);
+            _inventory.AddItem(_woodPlank, 8);
+
+            var savedSlots = _inventory.GetSaveData();
+            Assert.IsNotNull(savedSlots);
+            Assert.AreEqual(2, savedSlots.Length);
+
+            // Create separate inventory component
+            var otherGo = new GameObject("OtherCrafter");
+            var otherInventory = otherGo.AddComponent<InventoryComponent>();
+
+            otherInventory.RestoreSaveData(savedSlots, id =>
+            {
+                if (id == _woodLog.Id) return _woodLog;
+                if (id == _woodPlank.Id) return _woodPlank;
+                return null;
+            });
+
+            Assert.AreEqual(3, otherInventory.GetItemCount(_woodLog));
+            Assert.AreEqual(8, otherInventory.GetItemCount(_woodPlank));
+
+            Object.DestroyImmediate(otherGo);
+        }
     }
 }

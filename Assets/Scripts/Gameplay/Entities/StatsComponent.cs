@@ -82,6 +82,18 @@ namespace Gameplay.Entities
             CheckLevelUpEligibility();
         }
 
+        public void SetLevel(int level)
+        {
+            _level = Mathf.Max(1, level);
+            CheckLevelUpEligibility();
+        }
+
+        public void SetExperience(float experience)
+        {
+            _experience = Mathf.Max(0f, experience);
+            CheckLevelUpEligibility();
+        }
+
         private void CheckLevelUpEligibility()
         {
             _xpNeeded = CalculateXpRequiredForLevelUp();

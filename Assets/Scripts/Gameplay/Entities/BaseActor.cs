@@ -57,6 +57,58 @@ namespace Gameplay.Entities
             EnsureComponentsCached();
         }
 
+        protected virtual void OnEnable()
+        {
+            Core.GameEventManager.AddListener<Domain.Persistence.EntityStateLoadedEvent>(OnEntityStateLoaded);
+        }
+
+        protected virtual void OnDisable()
+        {
+            Core.GameEventManager.RemoveListener<Domain.Persistence.EntityStateLoadedEvent>(OnEntityStateLoaded);
+        }
+
+        private void OnEntityStateLoaded(Domain.Persistence.EntityStateLoadedEvent evt)
+        {
+            if (evt == null || evt.State == null) return;
+
+            // Check if this event targets this entity (e.g., "Player" or matching InstanceId)
+            bool isTarget = (CompareTag("Player") && evt.State.EntityId == "Player") ||
+                            (!string.IsNullOrEmpty(evt.State.InstanceId) && evt.State.InstanceId == name);
+
+            if (!isTarget) return;
+
+            EnsureComponentsCached();
+
+            if (Stats != null && evt.State.Level > 0)
+            {
+                Stats.SetLevel(evt.State.Level);
+                Stats.SetExperience(evt.State.Experience);
+            }
+
+            if (Attributes != null && evt.State.CurrentHealth > 0)
+            {
+                var health = Attributes.GetAttribute("Health");
+                if (health != null)
+                {
+                    health.CurrentValue = Mathf.Clamp(evt.State.CurrentHealth, 0, health.MaximumValue);
+                }
+            }
+
+            if (TryGetComponent<InventoryComponent>(out var inventory) && evt.State.Inventory != null)
+            {
+                inventory.RestoreSaveData(evt.State.Inventory, id =>
+                {
+#if UNITY_EDITOR
+                    return UnityEditor.AssetDatabase.LoadAssetAtPath<Data.Config.ItemData>(
+                        $"Assets/Data/Definitions/ItemData/Item_{id.Replace("ITM_", "")}.asset") ??
+                        Resources.Load<Data.Config.ItemData>($"Definitions/ItemData/{id}");
+#else
+                    return Resources.Load<Data.Config.ItemData>($"Definitions/ItemData/{id}");
+#endif
+                });
+            }
+        }
+
         #endregion
 
         #region Component Resolution

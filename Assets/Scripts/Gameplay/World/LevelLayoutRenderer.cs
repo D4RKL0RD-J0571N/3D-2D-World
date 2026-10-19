@@ -155,6 +155,11 @@ namespace Gameplay.World
                     if (health != null)
                         playerSaveData.CurrentHealth = health.CurrentValue;
                 }
+
+                if (player.TryGetComponent<Gameplay.Entities.InventoryComponent>(out var inventory))
+                {
+                    playerSaveData.Inventory = inventory.GetSaveData();
+                }
             }
 
             var saveData = new Domain.Persistence.LevelSaveData

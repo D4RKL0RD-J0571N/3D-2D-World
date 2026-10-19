@@ -163,5 +163,54 @@ namespace Gameplay.Entities
         }
 
         #endregion
+
+        #region Persistence
+
+        /// <summary>
+        /// Serializes the inventory contents into an array of <see cref="Domain.Persistence.InventorySlotSaveData"/>.
+        /// </summary>
+        public Domain.Persistence.InventorySlotSaveData[] GetSaveData()
+        {
+            var result = new List<Domain.Persistence.InventorySlotSaveData>();
+            for (int i = 0; i < _slots.Count; i++)
+            {
+                var slot = _slots[i];
+                if (slot != null && slot.Item != null && slot.Count > 0)
+                {
+                    result.Add(new Domain.Persistence.InventorySlotSaveData
+                    {
+                        ItemId = slot.Item.Id,
+                        Count = slot.Count
+                    });
+                }
+            }
+            return result.ToArray();
+        }
+
+        /// <summary>
+        /// Restores inventory slots from save data using the item registry/database for lookup.
+        /// </summary>
+        public void RestoreSaveData(Domain.Persistence.InventorySlotSaveData[] savedSlots, System.Func<string, ItemData> itemLookup)
+        {
+            _slots.Clear();
+            if (savedSlots == null || itemLookup == null) return;
+
+            foreach (var savedSlot in savedSlots)
+            {
+                if (string.IsNullOrEmpty(savedSlot.ItemId) || savedSlot.Count <= 0) continue;
+
+                var item = itemLookup(savedSlot.ItemId);
+                if (item != null)
+                {
+                    _slots.Add(new InventorySlot(item, savedSlot.Count));
+                }
+                else
+                {
+                    Debug.LogWarning($"[InventoryComponent] Could not resolve Item ID {savedSlot.ItemId} during restore!");
+                }
+            }
+        }
+
+        #endregion
     }
 }
