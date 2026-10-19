@@ -176,6 +176,7 @@ namespace Gameplay.Combat
                 QueryTriggerInteraction.Ignore);
 
             BaseActor closestTarget = null;
+            HarvestableNode closestHarvestable = null;
             RaycastHit closestHit = default;
             float minDistance = float.MaxValue;
 
@@ -195,12 +196,26 @@ namespace Gameplay.Combat
                     {
                         minDistance = hit.distance;
                         closestTarget = targetActor;
+                        closestHarvestable = null;
+                        closestHit = hit;
+                    }
+                    continue;
+                }
+
+                var harvestable = hit.collider.GetComponentInParent<HarvestableNode>();
+                if (harvestable != null && !harvestable.IsDepleted)
+                {
+                    if (hit.distance < minDistance)
+                    {
+                        minDistance = hit.distance;
+                        closestHarvestable = harvestable;
+                        closestTarget = null;
                         closestHit = hit;
                     }
                 }
             }
 
-            if (closestTarget != null)
+            if (closestTarget != null || closestHarvestable != null)
             {
                 var damageInfo = new DamageInfo(
                     _damageAmount,
@@ -209,7 +224,14 @@ namespace Gameplay.Combat
                     closestHit.point,
                     closestHit.normal);
 
-                closestTarget.TakeDamage(damageInfo);
+                if (closestTarget != null)
+                {
+                    closestTarget.TakeDamage(damageInfo);
+                }
+                else if (closestHarvestable != null)
+                {
+                    closestHarvestable.TakeDamage(damageInfo);
+                }
             }
         }
 
