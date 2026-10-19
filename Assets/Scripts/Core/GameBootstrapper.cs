@@ -70,6 +70,7 @@ namespace Core
             ServiceLocator.Register(new Systems.Interaction.GridInteractionService());
             ServiceLocator.Register(new Systems.Interaction.HotbarService());
             ServiceLocator.Register(new Systems.Interaction.BlockPlacementService());
+            ServiceLocator.Register(new Systems.Crafting.CraftingService());
             ServiceLocator.Register(new Systems.Persistence.FileSaveService());
 
             ServiceLocator.Register(new Systems.Player.PlayerSpawnService()); // Also making sure the spawn service is registered!
