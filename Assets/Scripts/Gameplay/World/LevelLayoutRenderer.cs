@@ -4,7 +4,9 @@ namespace Gameplay.World
     using System.Collections.Generic;
     using Core;
     using Core.Utils;
+    using Data.Config;
     using Domain.Grid;
+    using Gameplay.Entities;
     using Domain.LevelGeneration;
     using Systems.LevelGeneration;
     using Systems.Meshing;
@@ -22,6 +24,17 @@ namespace Gameplay.World
 
         [Header("Build")]
         [SerializeField] private Transform _generatedRoot;
+
+        [Header("Entities")]
+        [SerializeField] private GameObject _slimePrefab;
+        [SerializeField] private ActorData _slimeBlueprint;
+        [SerializeField] private int _maxEnemiesPerRoom = 3;
+
+        [Header("Harvestable Props")]
+        [SerializeField] private ItemData _woodItemData;
+        [SerializeField] private ItemData _stoneItemData;
+        [SerializeField] private int _maxFoliagePerRoom = 4;
+        [SerializeField] private int _maxResourcesPerRoom = 3;
 
         private LevelGenerationService _levelGenerationService;
         private GreedyMeshingService _meshingService;
@@ -141,6 +154,11 @@ namespace Gameplay.World
 
                     if (health != null)
                         playerSaveData.CurrentHealth = health.CurrentValue;
+                }
+
+                if (player.TryGetComponent<Gameplay.Entities.InventoryComponent>(out var inventory))
+                {
+                    playerSaveData.Inventory = inventory.GetSaveData();
                 }
             }
 
@@ -403,6 +421,8 @@ namespace Gameplay.World
 
             var rng = new System.Random(layout.Seed ^ room.GridPosition.GetHashCode());
 
+            bool placeCeiling = arch == null || (arch.HasCeiling && arch.ElevationMode != RoomElevationMode.OpenSkyGlade);
+
             // Default base floor with procedural wear variants and ceiling
             for (int x = 0; x < room.Size.x; x++)
             {
@@ -417,11 +437,14 @@ namespace Gameplay.World
                         z,
                         activeFloor.RuntimeId);
 
-                    grid.SetBlock(
-                        x,
-                        height,
-                        z,
-                        ceilingBlock.RuntimeId);
+                    if (placeCeiling)
+                    {
+                        grid.SetBlock(
+                            x,
+                            height,
+                            z,
+                            ceilingBlock.RuntimeId);
+                    }
                 }
             }
 
@@ -528,9 +551,12 @@ namespace Gameplay.World
                     0,
                     room.Size.y * 0.5f);
 
-            // Discover and register sockets (spawn points for entities, breakables, chests)
+            // Discover and register sockets (spawn points for entities, breakables, chests, and foliage/resources)
             room.Sockets.Clear();
-            VoxelStairBuilder.DiscoverRoomSockets(grid, bottomLeft, room.Sockets, maxSockets: 14);
+            bool isOpenSky = arch != null && arch.ElevationMode == RoomElevationMode.OpenSkyGlade;
+            VoxelStairBuilder.DiscoverRoomSockets(grid, bottomLeft, room.Sockets, maxSockets: 14, isOpenSky: isOpenSky);
+
+            SpawnRoomEntities(room);
 
             _generatedGrids.Add(new GridPlacement
             {
@@ -567,6 +593,174 @@ namespace Gameplay.World
 
             var exitTrigger = exitObj.AddComponent<ExitTrigger>();
             exitTrigger.Configure(new Vector3(triggerWidth, triggerHeight, triggerDepth));
+        }
+
+        private void SpawnRoomEntities(LevelRoomNode room)
+        {
+            int spawnedEnemies = 0;
+            int spawnedFoliage = 0;
+            int spawnedResources = 0;
+
+            EnsureHarvestDropItems();
+
+            foreach (var socket in room.Sockets)
+            {
+                switch (socket.Type)
+                {
+                    case SocketType.EnemySpawn:
+                        if (_slimePrefab != null && spawnedEnemies < _maxEnemiesPerRoom)
+                        {
+                            SpawnEntity<BaseActor>(_slimePrefab, _slimeBlueprint, socket.WorldPosition, room.Id);
+                            spawnedEnemies++;
+                        }
+                        break;
+
+                    case SocketType.PropFoliage:
+                        if (spawnedFoliage < _maxFoliagePerRoom)
+                        {
+                            SpawnFoliageProp(socket.WorldPosition);
+                            spawnedFoliage++;
+                        }
+                        break;
+
+                    case SocketType.PropResource:
+                        if (spawnedResources < _maxResourcesPerRoom)
+                        {
+                            SpawnResourceProp(socket.WorldPosition);
+                            spawnedResources++;
+                        }
+                        break;
+                }
+            }
+        }
+
+        private void SpawnFoliageProp(Vector3 worldPos)
+        {
+            var treeObj = new GameObject("Room_Harvestable_Tree");
+            treeObj.transform.SetParent(_generatedRoot, true);
+            treeObj.transform.position = worldPos;
+
+            // Trunk placeholder
+            var trunk = GameObject.CreatePrimitive(PrimitiveType.Cylinder);
+            trunk.name = "Trunk";
+            trunk.transform.SetParent(treeObj.transform, false);
+            trunk.transform.localPosition = new Vector3(0, 1.25f, 0);
+            trunk.transform.localScale = new Vector3(0.5f, 1.25f, 0.5f);
+
+            // Leaves placeholder
+            var leaves = GameObject.CreatePrimitive(PrimitiveType.Cube);
+            leaves.name = "Leaves";
+            leaves.transform.SetParent(treeObj.transform, false);
+            leaves.transform.localPosition = new Vector3(0, 2.75f, 0);
+            leaves.transform.localScale = new Vector3(1.8f, 1.5f, 1.8f);
+
+            ApplyPlaceholderMaterial(trunk, new Color(0.35f, 0.28f, 0.22f));
+            ApplyPlaceholderMaterial(leaves, new Color(0.28f, 0.42f, 0.25f));
+
+            var boxCol = treeObj.AddComponent<BoxCollider>();
+            boxCol.center = new Vector3(0, 1.5f, 0);
+            boxCol.size = new Vector3(1.2f, 3.0f, 1.2f);
+
+            var trunkCol = trunk.GetComponent<Collider>();
+            if (trunkCol != null) DestroyImmediate(trunkCol);
+            var leavesCol = leaves.GetComponent<Collider>();
+            if (leavesCol != null) DestroyImmediate(leavesCol);
+
+            var harvestNode = treeObj.AddComponent<HarvestableNode>();
+            harvestNode.ConfigureNode(
+                maxIntegrity: 60,
+                dropItem: _woodItemData,
+                dropAmount: 3
+            );
+        }
+
+        private void SpawnResourceProp(Vector3 worldPos)
+        {
+            var rockObj = new GameObject("Room_Harvestable_Boulder");
+            rockObj.transform.SetParent(_generatedRoot, true);
+            rockObj.transform.position = worldPos;
+
+            var visual = GameObject.CreatePrimitive(PrimitiveType.Sphere);
+            visual.name = "BoulderMesh";
+            visual.transform.SetParent(rockObj.transform, false);
+            visual.transform.localPosition = new Vector3(0, 0.45f, 0);
+            visual.transform.localScale = new Vector3(1.2f, 0.9f, 1.1f);
+
+            ApplyPlaceholderMaterial(visual, new Color(0.48f, 0.48f, 0.50f));
+
+            var sphereCol = rockObj.AddComponent<SphereCollider>();
+            sphereCol.center = new Vector3(0, 0.45f, 0);
+            sphereCol.radius = 0.65f;
+
+            var visCol = visual.GetComponent<Collider>();
+            if (visCol != null) DestroyImmediate(visCol);
+
+            var harvestNode = rockObj.AddComponent<HarvestableNode>();
+            harvestNode.ConfigureNode(
+                maxIntegrity: 80,
+                dropItem: _stoneItemData,
+                dropAmount: 4
+            );
+        }
+
+        private static void ApplyPlaceholderMaterial(GameObject target, Color color)
+        {
+            var rend = target.GetComponent<Renderer>();
+            if (rend != null)
+            {
+                var shader = Shader.Find("Universal Render Pipeline/Lit") ?? Shader.Find("Standard");
+                if (shader != null)
+                {
+                    var mat = new Material(shader) { color = color };
+                    if (mat.HasProperty("_BaseColor"))
+                    {
+                        mat.SetColor("_BaseColor", color);
+                    }
+                    rend.material = mat;
+                }
+            }
+        }
+
+        private void EnsureHarvestDropItems()
+        {
+#if UNITY_EDITOR
+            if (_woodItemData == null)
+            {
+                _woodItemData = UnityEditor.AssetDatabase.LoadAssetAtPath<ItemData>(
+                    "Assets/Data/Definitions/ItemData/Item_WoodLog.asset");
+            }
+
+            if (_stoneItemData == null)
+            {
+                _stoneItemData = UnityEditor.AssetDatabase.LoadAssetAtPath<ItemData>(
+                    "Assets/Data/Definitions/ItemData/Item_StoneChunk.asset");
+            }
+#endif
+        }
+
+        private T SpawnEntity<T>(
+            GameObject prefab,
+            ActorData blueprint,
+            Vector3 worldPosition,
+            string roomId) where T : BaseActor
+        {
+            var instance = Instantiate(prefab, _generatedRoot, false);
+            var entity = instance.GetComponent<T>();
+
+            if (entity == null)
+            {
+                Debug.LogError($"[LevelLayoutRenderer] Prefab does not have a {typeof(T).Name} component.");
+                Destroy(instance);
+                return null;
+            }
+
+            instance.transform.position = worldPosition;
+            entity.RoomId = roomId;
+
+            if (blueprint != null)
+                entity.Initialize(blueprint);
+
+            return entity;
         }
 
         private void BuildConnectionGrid(

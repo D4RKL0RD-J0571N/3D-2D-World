@@ -118,6 +118,7 @@ GameObject:
   - component: {fileID: 6843323922374004625}
   - component: {fileID: 1832476741065085683}
   - component: {fileID: 453467147614747432}
+  - component: {fileID: 4827364519}
   m_Layer: 0
   m_Name: Slime
   m_TagString: Untagged
@@ -191,6 +192,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: Assembly-CSharp::Gameplay.Entities.SlimeEntity
   _blueprint: {fileID: 0}
+  _visualRoot: {fileID: 4159814987215021588}
   _hopSpeed: 3.5
   _chaseSpeed: 5
   _hopJumpVelocity: 4.5
@@ -199,4 +201,21 @@ MonoBehaviour:
   _idleTimeMax: 2.5
   _detectionRange: 8
   _attackRange: 1.8
-  _visualRoot: {fileID: 0}
+--- !u!114 &4827364519
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 5463117924848943462}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 0d857329b0e643ac99626c0e6e149558, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: Assembly-CSharp::Systems.WorldMap.MapEntity
+  _type: 1
+  _customIcon: {fileID: 0}
+  _customColor: {r: 1, g: 0.2, b: 0.2, a: 1}
+  _showOnMinimap: 1
+  _showOnWorldMap: 1
+  _iconSize: 8

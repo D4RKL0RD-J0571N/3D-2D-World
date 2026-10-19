@@ -1,0 +1,39 @@
+<ui:UXML xmlns:ui="UnityEngine.UIElements" xmlns:uie="UnityEditor.UIElements">
+    <ui:VisualElement name="PlayerHudRoot" class="player-hud-root" picking-mode="Ignore">
+        <!-- Damage Flash Vignette -->
+        <ui:VisualElement name="DamageVignette" class="damage-vignette" picking-mode="Ignore" />
+
+        <!-- Status Bars (Top-Left) -->
+        <ui:VisualElement name="StatusContainer" class="status-container" picking-mode="Ignore">
+            <!-- Health Bar -->
+            <ui:VisualElement name="HealthBar" class="status-bar health-bar" picking-mode="Ignore">
+                <ui:Label text="HP" class="status-bar__badge status-bar__badge--health" />
+                <ui:VisualElement name="HealthBarTrack" class="status-bar__track" picking-mode="Ignore">
+                    <ui:VisualElement name="HealthBarFill" class="status-bar__fill status-bar__fill--health" picking-mode="Ignore" />
+                    <ui:Label name="HealthLabel" text="100 / 100" class="status-bar__label" />
+                </ui:VisualElement>
+            </ui:VisualElement>
+
+            <!-- Stamina Bar -->
+            <ui:VisualElement name="StaminaBar" class="status-bar stamina-bar" picking-mode="Ignore">
+                <ui:Label text="SP" class="status-bar__badge status-bar__badge--stamina" />
+                <ui:VisualElement name="StaminaBarTrack" class="status-bar__track" picking-mode="Ignore">
+                    <ui:VisualElement name="StaminaBarFill" class="status-bar__fill status-bar__fill--stamina" picking-mode="Ignore" />
+                    <ui:Label name="StaminaLabel" text="100 / 100" class="status-bar__label" />
+                </ui:VisualElement>
+            </ui:VisualElement>
+        </ui:VisualElement>
+
+        <!-- Center Crosshair Reticle -->
+        <ui:VisualElement name="ReticleContainer" class="reticle-container" picking-mode="Ignore">
+            <ui:VisualElement name="ReticleDot" class="reticle-dot" picking-mode="Ignore" />
+        </ui:VisualElement>
+
+        <!-- Contextual Interaction Prompt -->
+        <ui:VisualElement name="PromptContainer" class="prompt-container" picking-mode="Ignore">
+            <ui:VisualElement name="PromptBadge" class="prompt-badge" picking-mode="Ignore">
+                <ui:Label name="PromptLabel" text="[E] Interact" class="prompt-label" />
+            </ui:VisualElement>
+        </ui:VisualElement>
+    </ui:VisualElement>
+</ui:UXML>

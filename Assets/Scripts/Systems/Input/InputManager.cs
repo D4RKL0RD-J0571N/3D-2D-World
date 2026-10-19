@@ -20,8 +20,11 @@ namespace Systems.Input
         private InputAction _cancelAction;
         private InputAction _interactPrimaryAction;
         private InputAction _interactSecondaryAction;
+        private InputAction _interactUseAction;
         private InputAction _hotbarAction;
         private InputAction _saveAction;
+        private InputAction _toggleWorldMapAction;
+        private InputAction _toggleMinimapAction;
         private GameStateMachine _gameStateManager;
 
         private float _deadzone = 0.1f;
@@ -76,8 +79,14 @@ namespace Systems.Input
             _interactSecondaryAction = new InputAction("InteractSecondary", binding: "<Mouse>/rightButton");
             _interactSecondaryAction.AddBinding("<Gamepad>/leftTrigger");
 
+            _interactUseAction = new InputAction("InteractUse", binding: "<Keyboard>/e");
+            _interactUseAction.AddBinding("<Gamepad>/buttonWest");
+
             _saveAction = new InputAction("Save", binding: "<Keyboard>/f5");
             _hotbarAction = new InputAction("Hotbar");
+
+            _toggleWorldMapAction = new InputAction("ToggleWorldMap", binding: "<Keyboard>/m");
+            _toggleMinimapAction = new InputAction("ToggleMinimap", binding: "<Keyboard>/tab");
 
             _hotbarAction.AddBinding("<Keyboard>/1");
             _hotbarAction.AddBinding("<Keyboard>/2");
@@ -102,8 +111,11 @@ namespace Systems.Input
             _confirmAction.performed += OnConfirm;
             _interactPrimaryAction.performed += OnInteractPrimary;
             _interactSecondaryAction.performed += OnInteractSecondary;
+            _interactUseAction.performed += OnInteractUse;
             _saveAction.performed += OnSave;
             _hotbarAction.performed += OnHotbar;
+            _toggleWorldMapAction.performed += OnToggleWorldMap;
+            _toggleMinimapAction.performed += OnToggleMinimap;
 
             _moveAction.Enable();
             _lookAction.Enable();
@@ -115,13 +127,26 @@ namespace Systems.Input
             _cancelAction.Enable();
             _interactPrimaryAction.Enable();
             _interactSecondaryAction.Enable();
+            _interactUseAction.Enable();
             _saveAction.Enable();
             _hotbarAction.Enable();
+            _toggleWorldMapAction.Enable();
+            _toggleMinimapAction.Enable();
         }
 
         private void OnSave(InputAction.CallbackContext context)
         {
             if (context.performed) GameEventManager.Publish(new Domain.Persistence.GameSaveRequestedEvent());
+        }
+
+        private void OnToggleWorldMap(InputAction.CallbackContext context)
+        {
+            if (context.performed) GameEventManager.Publish(new ToggleWorldMapInputEvent());
+        }
+
+        private void OnToggleMinimap(InputAction.CallbackContext context)
+        {
+            if (context.performed) GameEventManager.Publish(new ToggleMinimapInputEvent());
         }
 
         private void OnHotbar(InputAction.CallbackContext context)
@@ -155,6 +180,12 @@ namespace Systems.Input
         {
             if (!CanReadGameplayInput()) return;
             if (context.performed) GameEventManager.Publish(new PlayerInteractSecondaryInputEvent());
+        }
+
+        private void OnInteractUse(InputAction.CallbackContext context)
+        {
+            if (!CanReadGameplayInput()) return;
+            if (context.performed) GameEventManager.Publish(new PlayerInteractUseInputEvent());
         }
 
         private void OnConfirm(InputAction.CallbackContext context)
@@ -303,6 +334,13 @@ namespace Systems.Input
                 _interactSecondaryAction.Dispose();
             }
 
+            if (_interactUseAction != null)
+            {
+                _interactUseAction.performed -= OnInteractUse;
+                _interactUseAction.Disable();
+                _interactUseAction.Dispose();
+            }
+
             if (_saveAction != null)
             {
                 _saveAction.performed -= OnSave;
@@ -315,6 +353,20 @@ namespace Systems.Input
                 _hotbarAction.performed -= OnHotbar;
                 _hotbarAction.Disable();
                 _hotbarAction.Dispose();
+            }
+
+            if (_toggleWorldMapAction != null)
+            {
+                _toggleWorldMapAction.performed -= OnToggleWorldMap;
+                _toggleWorldMapAction.Disable();
+                _toggleWorldMapAction.Dispose();
+            }
+
+            if (_toggleMinimapAction != null)
+            {
+                _toggleMinimapAction.performed -= OnToggleMinimap;
+                _toggleMinimapAction.Disable();
+                _toggleMinimapAction.Dispose();
             }
         }
     }

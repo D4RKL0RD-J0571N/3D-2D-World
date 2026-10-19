@@ -1,0 +1,152 @@
+.player-hud-root {
+    width: 100%;
+    height: 100%;
+    position: absolute;
+    left: 0;
+    top: 0;
+    right: 0;
+    bottom: 0;
+    pointer-events: none;
+}
+
+/* Fullscreen damage flash */
+.damage-vignette {
+    position: absolute;
+    left: 0;
+    top: 0;
+    right: 0;
+    bottom: 0;
+    background-color: rgba(220, 30, 30, 0);
+    transition-property: background-color;
+    transition-duration: 0.12s;
+}
+
+.damage-vignette--active {
+    background-color: rgba(220, 30, 30, 0.35);
+}
+
+/* Status Bars Container (Top-Left) */
+.status-container {
+    position: absolute;
+    left: 20px;
+    top: 20px;
+    flex-direction: column;
+    padding: 8px 12px;
+    background-color: rgba(18, 18, 22, 0.85);
+    border-radius: 8px;
+    border-width: 2px;
+    border-color: rgba(50, 50, 60, 0.9);
+}
+
+.status-bar {
+    flex-direction: row;
+    align-items: center;
+    margin-top: 3px;
+    margin-bottom: 3px;
+}
+
+.status-bar__badge {
+    width: 24px;
+    font-size: 11px;
+    -unity-font-style: bold;
+    -unity-text-align: middle-center;
+    margin-right: 6px;
+    color: rgb(240, 240, 240);
+    text-shadow: 1px 1px 0 rgba(0, 0, 0, 0.8);
+}
+
+.status-bar__badge--health {
+    color: rgb(255, 90, 90);
+}
+
+.status-bar__badge--stamina {
+    color: rgb(255, 205, 50);
+}
+
+.status-bar__track {
+    width: 180px;
+    height: 16px;
+    background-color: rgba(28, 28, 34, 0.95);
+    border-radius: 4px;
+    border-width: 1px;
+    border-color: rgba(60, 60, 75, 0.8);
+    overflow: hidden;
+    position: relative;
+    justify-content: center;
+}
+
+.status-bar__fill {
+    position: absolute;
+    left: 0;
+    top: 0;
+    bottom: 0;
+    width: 100%;
+    border-radius: 3px;
+    transition-property: width;
+    transition-duration: 0.1s;
+}
+
+.status-bar__fill--health {
+    background-color: rgb(220, 53, 69);
+}
+
+.status-bar__fill--stamina {
+    background-color: rgb(245, 166, 35);
+}
+
+.status-bar--exhausted {
+    border-color: rgb(255, 50, 50);
+    background-color: rgba(80, 20, 20, 0.95);
+}
+
+.status-bar__label {
+    position: absolute;
+    width: 100%;
+    font-size: 10px;
+    -unity-font-style: bold;
+    -unity-text-align: middle-center;
+    color: rgb(255, 255, 255);
+    text-shadow: 1px 1px 0 rgba(0, 0, 0, 0.9);
+}
+
+/* Center Crosshair */
+.reticle-container {
+    position: absolute;
+    width: 100%;
+    height: 100%;
+    justify-content: center;
+    align-items: center;
+}
+
+.reticle-dot {
+    width: 6px;
+    height: 6px;
+    background-color: rgba(255, 255, 255, 0.75);
+    border-radius: 3px;
+    border-width: 1px;
+    border-color: rgba(0, 0, 0, 0.6);
+}
+
+/* Interaction Prompt Container */
+.prompt-container {
+    position: absolute;
+    width: 100%;
+    top: 56%;
+    align-items: center;
+    justify-content: center;
+}
+
+.prompt-badge {
+    padding: 6px 14px;
+    background-color: rgba(18, 18, 24, 0.88);
+    border-radius: 6px;
+    border-width: 1.5px;
+    border-color: rgba(250, 205, 50, 0.85);
+}
+
+.prompt-label {
+    color: rgb(250, 250, 250);
+    font-size: 13px;
+    -unity-font-style: bold;
+    text-shadow: 1px 1px 0 rgba(0, 0, 0, 0.85);
+}

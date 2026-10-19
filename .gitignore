@@ -110,3 +110,8 @@ InitTestScene*.unity*
 /.continue
 /.kilo/node_modules/
 /.kilo/worktrees/
+
+# Unity crash recovery auto-saves
+/[Aa]ssets/_Recovery/
+/[Aa]ssets/_Recovery.meta
+
