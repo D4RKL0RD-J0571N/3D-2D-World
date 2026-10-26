@@ -10,11 +10,13 @@
   <Project Path="DamageNumbersPro.csproj" />
   <Project Path="MagicPigGames.Northstar.Editor.csproj" />
   <Project Path="Lofelt.NiceVibrations.csproj" />
+  <Project Path="Assembly-CSharp-firstpass.csproj" />
   <Project Path="Unity.Pipeline.Tests.Runtime.csproj" />
   <Project Path="Lofelt.NiceVibrations.Demo.csproj" />
   <Project Path="Lofelt.NiceVibrations.Editor.csproj" />
   <Project Path="MagicPigGames.Shared.Editor.csproj" />
   <Project Path="AllIn1SpriteShaderAssembly.csproj" />
+  <Project Path="Assembly-CSharp-Editor-firstpass.csproj" />
   <Project Path="MagicPigGames.Northstar.csproj" />
   <Project Path="MagicPigGames.Shared.csproj" />
   <Project Path="Sirenix.OdinInspector.Modules.UnityMathematics.csproj" />
