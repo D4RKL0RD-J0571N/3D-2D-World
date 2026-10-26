@@ -4,6 +4,7 @@ namespace Gameplay.UI
     using Domain.Museum;
     using Systems.Museum;
     using UnityEngine;
+    using UnityEngine.InputSystem;
     using UnityEngine.UIElements;
 
     /// <summary>
@@ -68,24 +69,34 @@ namespace Gameplay.UI
         {
             GameEventManager.AddListener<ExhibitInspectedEvent>(OnExhibitInspected);
             GameEventManager.AddListener<ExhibitInspectionClosedEvent>(OnExhibitInspectionClosed);
+            GameEventManager.AddListener<ToggleCuratorHudEvent>(OnToggleCuratorHud);
         }
 
         private void OnDisable()
         {
             GameEventManager.RemoveListener<ExhibitInspectedEvent>(OnExhibitInspected);
             GameEventManager.RemoveListener<ExhibitInspectionClosedEvent>(OnExhibitInspectionClosed);
+            GameEventManager.RemoveListener<ToggleCuratorHudEvent>(OnToggleCuratorHud);
         }
 
         private void Update()
         {
-            if (Input.GetKeyDown(toggleKey))
+            var keyboard = Keyboard.current;
+            if (keyboard == null) return;
+
+            if (keyboard.f2Key.wasPressedThisFrame)
             {
                 ToggleVisible();
             }
-            else if (Input.GetKeyDown(KeyCode.Escape) && IsVisible())
+            else if (keyboard.escapeKey.wasPressedThisFrame && IsVisible())
             {
                 SetVisible(false);
             }
+        }
+
+        private void OnToggleCuratorHud(ToggleCuratorHudEvent evt)
+        {
+            ToggleVisible();
         }
 
         #endregion

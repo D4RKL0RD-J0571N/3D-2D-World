@@ -58,6 +58,13 @@ namespace Domain.Museum
     }
 
     /// <summary>
+    /// Published to toggle the Curator evaluation HUD overlay.
+    /// </summary>
+    public sealed class ToggleCuratorHudEvent : GameEvent
+    {
+    }
+
+    /// <summary>
     /// Published when the curator evaluation manifest is written to disk.
     /// </summary>
     public sealed class MuseumReportExportedEvent : GameEvent
