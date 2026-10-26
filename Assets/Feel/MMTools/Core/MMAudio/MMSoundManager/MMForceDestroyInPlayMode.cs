@@ -29,7 +29,7 @@ namespace MoreMountains.Tools
 
 		static void DeleteAll()
 		{
-			MMForceDestroyInPlayMode[] sounds = FindObjectsByType<MMForceDestroyInPlayMode>(FindObjectsInactive.Include);
+			MMForceDestroyInPlayMode[] sounds = FindObjectsByType<MMForceDestroyInPlayMode>(FindObjectsInactive.Include, FindObjectsSortMode.None);
 			foreach (var sound in sounds)
 			{
 				sound.Delete();

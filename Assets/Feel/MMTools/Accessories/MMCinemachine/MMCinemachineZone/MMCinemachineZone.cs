@@ -1,4 +1,4 @@
-﻿using System.Collections;
+using System.Collections;
 using System.Collections.Generic;
 #if MM_CINEMACHINE
 using Cinemachine;
@@ -118,7 +118,7 @@ namespace MoreMountains.Tools
 		[RuntimeInitializeOnLoadMethod(RuntimeInitializeLoadType.SubsystemRegistration)]
 		protected static void InitializeStatics()
 		{
-			foreach (var zone in FindObjectsByType<MMCinemachineZone>())
+			foreach (var zone in FindObjectsByType<MMCinemachineZone>(FindObjectsSortMode.None))
 			{
 				zone.Awake();
 			}

@@ -87,6 +87,7 @@ namespace Core
             EnsureHUD<Gameplay.UI.WorldMapHUD>("WorldMapHUD");
             EnsureHUD<Gameplay.UI.LabHUD>("LabHUD");
             EnsureHUD<Gameplay.UI.CuratorHUD>("CuratorHUD");
+            EnsureHUD<Gameplay.Combat.CombatFeedbackBridge>("CombatFeedbackBridge");
 
             _ = _stateMachine.TransitionToAsync(new Playing());
         }

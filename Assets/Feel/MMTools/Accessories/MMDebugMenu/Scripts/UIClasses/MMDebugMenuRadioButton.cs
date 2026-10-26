@@ -1,4 +1,4 @@
-﻿using System.Collections.Generic;
+using System.Collections.Generic;
 using UnityEngine;
 
 #if MM_UI
@@ -31,7 +31,7 @@ namespace MoreMountains.Tools
 		{
 			_group = new List<MMDebugMenuRadioButton> ();
 
-			MMDebugMenuRadioButton[] radioButtons = FindObjectsByType(typeof(MMDebugMenuRadioButton)) as MMDebugMenuRadioButton[];
+			MMDebugMenuRadioButton[] radioButtons = FindObjectsByType<MMDebugMenuRadioButton>(FindObjectsSortMode.None);
 			foreach (MMDebugMenuRadioButton radioButton in radioButtons) 
 			{
 				if ((radioButton.RadioButtonGroupName == RadioButtonGroupName)

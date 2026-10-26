@@ -1,4 +1,4 @@
-﻿using System.Collections.Generic;
+using System.Collections.Generic;
 using MoreMountains.Tools;
 using UnityEngine;
 using UnityEngine.SceneManagement;
@@ -83,7 +83,7 @@ namespace MoreMountains.Feedbacks
             
 			if (_pools.Count == 0)
 			{
-				var pools = FindObjectsByType<MMMiniObjectPool>();
+				var pools = FindObjectsByType<MMMiniObjectPool>(FindObjectsSortMode.None);
 				if (pools.Length > 0)
 				{
 					_pools.AddRange(pools);
