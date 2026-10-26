@@ -315,11 +315,13 @@ namespace Hypertonic.GridPlacement.Editor
                 PS5Mapping.GridInputDefinition = touchInputDefinition;
             }
 
+#if !UNITY_2023_1_OR_NEWER
             PlatformGridInputsDefinitionMapping StadiaMapping = _gridSettings.PlatformGridInputsDefinitionMappings.Find(x => x.RuntimePlatform.Equals(RuntimePlatform.Stadia));
             if (StadiaMapping != null && StadiaMapping.GridInputDefinition == null)
             {
                 StadiaMapping.GridInputDefinition = touchInputDefinition;
             }
+#endif
 
             PlatformGridInputsDefinitionMapping SwitchMapping = _gridSettings.PlatformGridInputsDefinitionMappings.Find(x => x.RuntimePlatform.Equals(RuntimePlatform.Switch));
             if (SwitchMapping != null && SwitchMapping.GridInputDefinition == null)

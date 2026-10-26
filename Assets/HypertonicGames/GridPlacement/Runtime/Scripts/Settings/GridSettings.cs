@@ -108,7 +108,9 @@ namespace Hypertonic.GridPlacement
             new PlatformGridInputsDefinitionMapping(RuntimePlatform.OSXPlayer, null),
             new PlatformGridInputsDefinitionMapping(RuntimePlatform.PS4, null),
             new PlatformGridInputsDefinitionMapping(RuntimePlatform.PS5, null),
+            #if !UNITY_2023_1_OR_NEWER
             new PlatformGridInputsDefinitionMapping(RuntimePlatform.Stadia, null),
+#endif
             new PlatformGridInputsDefinitionMapping(RuntimePlatform.Switch, null),
             new PlatformGridInputsDefinitionMapping(RuntimePlatform.tvOS, null),
             new PlatformGridInputsDefinitionMapping(RuntimePlatform.WindowsEditor, null),
