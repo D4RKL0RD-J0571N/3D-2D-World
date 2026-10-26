@@ -1,0 +1,79 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!1 &3610840834123891122
+GameObject:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  serializedVersion: 6
+  m_Component:
+  - component: {fileID: 3690935944218348289}
+  - component: {fileID: 4851451509986700088}
+  m_Layer: 1
+  m_Name: CustomMarker
+  m_TagString: Untagged
+  m_Icon: {fileID: 0}
+  m_NavMeshLayer: 0
+  m_StaticEditorFlags: 0
+  m_IsActive: 0
+--- !u!4 &3690935944218348289
+Transform:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 3610840834123891122}
+  serializedVersion: 2
+  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
+  m_LocalPosition: {x: 0, y: 0, z: 0}
+  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_ConstrainProportionsScale: 0
+  m_Children: []
+  m_Father: {fileID: 0}
+  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!114 &4851451509986700088
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 3610840834123891122}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 8290daa3d4ccb4444b35180c6db97e0a, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  Data:
+    DisplayIcon: 1
+    Icon: {fileID: 2800000, guid: 0f34d99fad6836a4998ed35a62ca23b0, type: 3}
+    IconOffset: {x: 0, y: 16}
+    Text: 1
+    DisplayTextInNavigationBar: 1
+    DisplayTextInMiniMap: 1
+    DisplayTextInWorldMap: 1
+    DisplayTextIn3dWorld: 0
+    HintText: Marker
+    TextOffset: {x: 0, y: 65}
+    Range: 0
+    IconColor: {r: 1, g: 1, b: 1, a: 1}
+    TextColor: {r: 1, g: 1, b: 1, a: 1}
+    RangeColor: {r: 1, g: 1, b: 1, a: 1}
+    DisapperDistance: 5000
+    StateIcons: []
+    GroupId: 5
+    IconSize: 64
+    FontSize: 21
+    AlwaysKeepSize: 1
+    AlwaysKeepSizeInNavigagtionBar: 0
+    Poping: 0
+    Visible: 1
+    ShowIconIn3dWorld: 0
+    IconOffsetIn3dWorld: 1
+    IconDisappearDistanceIn3dWorld: 50
+  EntranceOfLayer: -1
+  ShowDebugIcon: 1
+  ShowDebugText: 1
+  ShowDebugRange: 1
+  ClickToOpenSubMap: 0
+  SubMapUid: 
