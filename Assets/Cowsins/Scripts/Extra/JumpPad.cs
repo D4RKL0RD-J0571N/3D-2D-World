@@ -23,7 +23,7 @@ namespace cowsins
         {
             if (!other.CompareTag("Player") || !other.TryGetComponent<Rigidbody>(out Rigidbody playerRigidbody)) return;
 
-            playerRigidbody.velocity = Vector3.zero;
+            playerRigidbody.linearVelocity = Vector3.zero;
 
             if (other.TryGetComponent<PlayerMovement>(out PlayerMovement playerMovement))
             {
@@ -42,7 +42,7 @@ namespace cowsins
                     vForceDirection = other.transform.up;
                     break;
                 case ForceModeType.PlayerMovementDirection:
-                    hForceDirection = playerRigidbody.velocity.normalized;
+                    hForceDirection = playerRigidbody.linearVelocity.normalized;
                     vForceDirection = other.transform.up;
                     break;
                 case ForceModeType.JumpPadLocalAxis:

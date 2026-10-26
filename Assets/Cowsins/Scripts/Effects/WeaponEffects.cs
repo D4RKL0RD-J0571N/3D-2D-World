@@ -185,7 +185,7 @@ namespace cowsins
             bobPos.x = (cos * bobLimit.x * (canBob ? 1 : 0)) - (inputX * movementLimit.x);
             bobPos.y = sin * bobLimit.y;
 
-            if (canBob) bobPos.y -= rb.velocity.y * movementLimit.y;
+            if (canBob) bobPos.y -= rb.linearVelocity.y * movementLimit.y;
 
             bobPos.z = -inputY * movementLimit.z;
 

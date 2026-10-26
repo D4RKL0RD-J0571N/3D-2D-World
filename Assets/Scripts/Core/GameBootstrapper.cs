@@ -81,12 +81,14 @@ namespace Core
 
             ServiceLocator.Register(new Systems.Lab.LabService());
             ServiceLocator.Register(new Systems.Museum.CuratorService());
+            ServiceLocator.Register(new Systems.Creator.CreatorStudioService());
 
             EnsureHUD<Gameplay.UI.HotbarHUD>("HotbarHUD");
             EnsureHUD<Gameplay.UI.PlayerHUD>("PlayerHUD");
             EnsureHUD<Gameplay.UI.WorldMapHUD>("WorldMapHUD");
             EnsureHUD<Gameplay.UI.LabHUD>("LabHUD");
             EnsureHUD<Gameplay.UI.CuratorHUD>("CuratorHUD");
+            EnsureHUD<Gameplay.UI.CreatorStudioHUD>("CreatorStudioHUD");
             EnsureHUD<Gameplay.Combat.CombatFeedbackBridge>("CombatFeedbackBridge");
 
             _ = _stateMachine.TransitionToAsync(new Playing());

@@ -47,6 +47,10 @@ namespace Gameplay.Combat
                 if (_isAttacking || Time.time < _lastAttackTime + _attackCooldown)
                     return false;
 
+                var creatorService = ServiceLocator.Get<Systems.Creator.CreatorStudioService>();
+                if (creatorService != null && creatorService.IsBuildMode)
+                    return false;
+
                 if (_attributeComponent == null)
                     _attributeComponent = GetComponent<AttributeComponent>();
 

@@ -140,8 +140,8 @@ namespace cowsins
 
         private void UpdateVelocityState()
         {
-            Vector3 linearVelocity = Vector3.ClampMagnitude(rb.velocity, playerSettings.maxSpeedAllowed);
-            rb.velocity = linearVelocity;
+            Vector3 linearVelocity = Vector3.ClampMagnitude(rb.linearVelocity, playerSettings.maxSpeedAllowed);
+            rb.linearVelocity = linearVelocity;
             CurrentVelocityMagnitude = linearVelocity.magnitude;
             CurrentPlanarVelocityMagnitude = new Vector2(linearVelocity.x, linearVelocity.z).magnitude;
         }
@@ -187,8 +187,8 @@ namespace cowsins
             rb.interpolation = RigidbodyInterpolation.Interpolate;
 
             // Ensure no drag, we handle friction manually
-            rb.drag = 0f;
-            rb.angularDrag = 0.05f;
+            rb.linearDamping = 0f;
+            rb.angularDamping = 0.05f;
         }
 
         private void InitializeBehaviours()

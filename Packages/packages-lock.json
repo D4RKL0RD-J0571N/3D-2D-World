@@ -7,6 +7,12 @@
       "dependencies": {},
       "url": "https://packages.unity.com"
     },
+    "com.memorypack.runtime": {
+      "version": "file:com.memorypack.runtime",
+      "depth": 0,
+      "source": "embedded",
+      "dependencies": {}
+    },
     "com.unity.2d.animation": {
       "version": "13.0.6",
       "depth": 1,
@@ -293,7 +299,7 @@
     },
     "com.unity.nuget.newtonsoft-json": {
       "version": "3.2.2",
-      "depth": 1,
+      "depth": 0,
       "source": "registry",
       "dependencies": {},
       "url": "https://packages.unity.com"

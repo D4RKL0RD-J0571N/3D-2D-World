@@ -1,0 +1,60 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!114 &11400000
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 5f083c65a4ec48945a883a1d352d8c1f, type: 3}
+  m_Name: DefaultCreatorCatalog
+  m_EditorClassIdentifier: Assembly-CSharp::Domain.Creator.CreatorCatalogSO
+  items:
+  - id: target_dummy
+    displayName: Target Combat Dummy
+    category: 1
+    description: Interactive training dummy with procedural wobble and health regen.
+    prefab: {fileID: 743281837179316180, guid: 67b4baa1373d12f4fa67f0810e3f6f4a, type: 3}
+    icon: {fileID: 0}
+    placementOffset: {x: 0, y: 0, z: 0}
+    defaultScale: {x: 1, y: 1, z: 1}
+    gridSnapSize: 1
+  - id: museum_pedestal
+    displayName: Showroom Pedestal
+    category: 3
+    description: Classic white museum exhibit pedestal.
+    prefab: {fileID: 1601934781904568393, guid: d6263d024b26a8d45a37384d4309f310, type: 3}
+    icon: {fileID: 0}
+    placementOffset: {x: 0, y: 0, z: 0}
+    defaultScale: {x: 1, y: 1, z: 1}
+    gridSnapSize: 1
+  - id: cube_block
+    displayName: Standard 1m Block
+    category: 2
+    description: 1x1x1 modular building block for voxel/structural prototyping.
+    prefab: {fileID: 5618760069282384459, guid: c8e75c7e4a473444bae4878cc7d5a670, type: 3}
+    icon: {fileID: 0}
+    placementOffset: {x: 0, y: 0, z: 0}
+    defaultScale: {x: 1, y: 1, z: 1}
+    gridSnapSize: 1
+  - id: slime_enemy
+    displayName: Green Slime
+    category: 1
+    description: Basic enemy combatant entity.
+    prefab: {fileID: 5463117924848943462, guid: 76e52db0389acb44d9c84c88245ac0d6, type: 3}
+    icon: {fileID: 0}
+    placementOffset: {x: 0, y: 0, z: 0}
+    defaultScale: {x: 1, y: 1, z: 1}
+    gridSnapSize: 1
+  - id: rifle_weapon
+    displayName: Combat Assault Rifle
+    category: 0
+    description: Rapid fire combat assault rifle.
+    prefab: {fileID: 4366474878721369579, guid: 5ca5d64a3d7b321408787460766590cd, type: 3}
+    icon: {fileID: 0}
+    placementOffset: {x: 0, y: 0, z: 0}
+    defaultScale: {x: 1, y: 1, z: 1}
+    gridSnapSize: 1

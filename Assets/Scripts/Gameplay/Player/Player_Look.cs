@@ -42,8 +42,9 @@ namespace Gameplay.Player
                 return;
             }
 
-            // Pause FPS camera look when the Curator HUD modal is open
-            if (Gameplay.UI.CuratorHUD.IsOpen)
+            // Pause FPS camera look when the Curator HUD modal is open or when in Creator Build Mode
+            var creatorService = ServiceLocator.Get<Systems.Creator.CreatorStudioService>();
+            if (Gameplay.UI.CuratorHUD.IsOpen || (creatorService != null && creatorService.IsBuildMode))
             {
                 _lookInput = Vector2.zero;
                 return;
@@ -52,11 +53,14 @@ namespace Gameplay.Player
             var mouse = UnityEngine.InputSystem.Mouse.current;
             if (mouse != null)
             {
-                // Clicking into the Game View locks cursor and restores FPS look
+                // Clicking into the Game View locks cursor and restores FPS look (only when not in Build Mode)
                 if (mouse.leftButton.wasPressedThisFrame && Cursor.lockState != CursorLockMode.Locked)
                 {
-                    Cursor.lockState = CursorLockMode.Locked;
-                    Cursor.visible = false;
+                    if (creatorService == null || !creatorService.IsBuildMode)
+                    {
+                        Cursor.lockState = CursorLockMode.Locked;
+                        Cursor.visible = false;
+                    }
                 }
 
                 Vector2 delta = mouse.delta.ReadValue();

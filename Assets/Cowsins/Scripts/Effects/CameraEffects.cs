@@ -187,7 +187,7 @@ namespace cowsins
 
             bobPos.x = (Mathf.Cos(bobSpeed) * bobLimit.x) - (inputManager.X * movementLimit.x);
             bobPos.y = Mathf.Sin(bobSpeed) * bobLimit.y;
-            if (player.CurrentSpeed > 0) bobPos.y -= rb.velocity.y * movementLimit.y;
+            if (player.CurrentSpeed > 0) bobPos.y -= rb.linearVelocity.y * movementLimit.y;
             bobPos.z = -(inputManager.Y * movementLimit.z);
 
             bobRot.x = inputManager.X != 0 ? rotationMultiplier.x * Mathf.Sin(2f * bobSpeed) : rotationMultiplier.x * Mathf.Sin(2f * bobSpeed) / 2f;
