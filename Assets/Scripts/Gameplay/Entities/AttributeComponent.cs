@@ -134,7 +134,13 @@ namespace Gameplay.Entities
             if (_attributes.TryGetValue(attributeName, out var attr))
             {
                 attr.CurrentValue = Mathf.Max(0, attr.CurrentValue - amount);
-                GameEventManager.Publish(new EntityDamagedEvent { Target = _actor, Amount = amount });
+
+                // Only broadcast the damage event for Health — stamina consumption
+                // is an internal resource cost, not external damage.
+                if (attributeName == "Health")
+                {
+                    GameEventManager.Publish(new EntityDamagedEvent { Target = _actor, Amount = amount });
+                }
 
                 if (attr.CurrentValue == 0 && attributeName == "Health" && _stateComponent != null)
                 {

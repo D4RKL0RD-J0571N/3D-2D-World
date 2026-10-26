@@ -73,31 +73,32 @@ namespace Core
             ServiceLocator.Register(new Systems.Crafting.CraftingService());
             ServiceLocator.Register(new Systems.Persistence.FileSaveService());
 
-            ServiceLocator.Register(new Systems.Player.PlayerSpawnService()); // Also making sure the spawn service is registered!
+            ServiceLocator.Register(new Systems.Player.PlayerSpawnService());
 
             var worldMapService = new Systems.WorldMap.WorldMapService();
             ServiceLocator.Register(worldMapService);
             TrackTickable(worldMapService);
 
-            if (Object.FindFirstObjectByType<Gameplay.UI.HotbarHUD>() == null)
-            {
-                var hudGo = new GameObject("HotbarHUD");
-                hudGo.AddComponent<Gameplay.UI.HotbarHUD>();
-            }
+            ServiceLocator.Register(new Systems.Lab.LabService());
 
-            if (Object.FindFirstObjectByType<Gameplay.UI.PlayerHUD>() == null)
-            {
-                var playerHudGo = new GameObject("PlayerHUD");
-                playerHudGo.AddComponent<Gameplay.UI.PlayerHUD>();
-            }
-
-            if (Object.FindFirstObjectByType<Gameplay.UI.WorldMapHUD>() == null)
-            {
-                var mapGo = new GameObject("WorldMapHUD");
-                mapGo.AddComponent<Gameplay.UI.WorldMapHUD>();
-            }
+            EnsureHUD<Gameplay.UI.HotbarHUD>("HotbarHUD");
+            EnsureHUD<Gameplay.UI.PlayerHUD>("PlayerHUD");
+            EnsureHUD<Gameplay.UI.WorldMapHUD>("WorldMapHUD");
+            EnsureHUD<Gameplay.UI.LabHUD>("LabHUD");
 
             _ = _stateMachine.TransitionToAsync(new Playing());
+        }
+
+        /// <summary>
+        /// Creates a HUD GameObject with the given component if none exists in the scene.
+        /// </summary>
+        private static void EnsureHUD<T>(string goName) where T : Component
+        {
+            if (Object.FindFirstObjectByType<T>() == null)
+            {
+                var go = new GameObject(goName);
+                go.AddComponent<T>();
+            }
         }
 
         private void TrackTickable(ITickable tickable)

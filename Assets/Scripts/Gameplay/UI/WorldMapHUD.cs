@@ -294,6 +294,8 @@ namespace Gameplay.UI
             _minimapContent.style.position = Position.Absolute;
             _minimapContent.style.left = 0;
             _minimapContent.style.top = 0;
+            _minimapContent.style.minWidth  = new Length(1);
+            _minimapContent.style.minHeight = new Length(1);
 
             _minimapIconsContainer.style.position = Position.Absolute;
             _minimapIconsContainer.style.left = 0;
@@ -368,15 +370,17 @@ namespace Gameplay.UI
         {
             var rect = room.WorldRect;
             float scale = _config.PixelsPerUnit * zoom;
+            var bounds = _service.WorldBounds;
 
             visual.style.position = Position.Absolute;
-            visual.style.left = rect.xMin * scale;
-            visual.style.top = rect.yMin * scale;
-            visual.style.width = rect.width * scale;
+            visual.style.left  = (rect.xMin - bounds.xMin) * scale;
+            visual.style.top   = (rect.yMin - bounds.yMin) * scale;
+            visual.style.width  = rect.width  * scale;
             visual.style.height = rect.height * scale;
             visual.style.backgroundColor = room.IsRevealed ? _config.FloorColor : _config.UnexploredColor;
             visual.style.opacity = room.IsRevealed ? _opacity : _opacity * 0.5f;
-            visual.style.display = room.IsRevealed || _showWorldMap ? DisplayStyle.Flex : DisplayStyle.None;
+            // Always show on minimap (as fog if unrevealed), only fully revealed on world map
+            visual.style.display = DisplayStyle.Flex;
         }
 
         private void BuildCorridorVisuals()
@@ -448,8 +452,14 @@ namespace Gameplay.UI
         private void UpdateCorridorVisual(VisualElement visual, RoomMapData from, RoomMapData to, float zoom)
         {
             float scale = _config.PixelsPerUnit * zoom;
-            Vector2 start = new Vector2(from.WorldRect.center.x * scale, from.WorldRect.center.y * scale);
-            Vector2 end = new Vector2(to.WorldRect.center.x * scale, to.WorldRect.center.y * scale);
+            var bounds = _service.WorldBounds;
+
+            Vector2 start = new Vector2(
+                (from.WorldRect.center.x - bounds.xMin) * scale,
+                (from.WorldRect.center.y - bounds.yMin) * scale);
+            Vector2 end = new Vector2(
+                (to.WorldRect.center.x - bounds.xMin) * scale,
+                (to.WorldRect.center.y - bounds.yMin) * scale);
 
             Vector2 delta = end - start;
             float length = delta.magnitude;

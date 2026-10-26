@@ -25,6 +25,7 @@ namespace Systems.Input
         private InputAction _saveAction;
         private InputAction _toggleWorldMapAction;
         private InputAction _toggleMinimapAction;
+        private InputAction _toggleLabAction;
         private GameStateMachine _gameStateManager;
 
         private float _deadzone = 0.1f;
@@ -87,6 +88,7 @@ namespace Systems.Input
 
             _toggleWorldMapAction = new InputAction("ToggleWorldMap", binding: "<Keyboard>/m");
             _toggleMinimapAction = new InputAction("ToggleMinimap", binding: "<Keyboard>/tab");
+            _toggleLabAction = new InputAction("ToggleLab", binding: "<Keyboard>/f1");
 
             _hotbarAction.AddBinding("<Keyboard>/1");
             _hotbarAction.AddBinding("<Keyboard>/2");
@@ -116,6 +118,7 @@ namespace Systems.Input
             _hotbarAction.performed += OnHotbar;
             _toggleWorldMapAction.performed += OnToggleWorldMap;
             _toggleMinimapAction.performed += OnToggleMinimap;
+            _toggleLabAction.performed += OnToggleLab;
 
             _moveAction.Enable();
             _lookAction.Enable();
@@ -132,6 +135,7 @@ namespace Systems.Input
             _hotbarAction.Enable();
             _toggleWorldMapAction.Enable();
             _toggleMinimapAction.Enable();
+            _toggleLabAction.Enable();
         }
 
         private void OnSave(InputAction.CallbackContext context)
@@ -147,6 +151,11 @@ namespace Systems.Input
         private void OnToggleMinimap(InputAction.CallbackContext context)
         {
             if (context.performed) GameEventManager.Publish(new ToggleMinimapInputEvent());
+        }
+
+        private void OnToggleLab(InputAction.CallbackContext context)
+        {
+            if (context.performed) GameEventManager.Publish(new Domain.Lab.ToggleLabHudEvent());
         }
 
         private void OnHotbar(InputAction.CallbackContext context)
@@ -367,6 +376,13 @@ namespace Systems.Input
                 _toggleMinimapAction.performed -= OnToggleMinimap;
                 _toggleMinimapAction.Disable();
                 _toggleMinimapAction.Dispose();
+            }
+
+            if (_toggleLabAction != null)
+            {
+                _toggleLabAction.performed -= OnToggleLab;
+                _toggleLabAction.Disable();
+                _toggleLabAction.Dispose();
             }
         }
     }

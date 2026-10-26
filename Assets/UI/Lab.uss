@@ -1,0 +1,131 @@
+.lab-root {
+    position: absolute;
+    right: 20px;
+    top: 20px;
+    width: 340px;
+    max-height: 80%;
+    background-color: rgba(8, 10, 14, 0.92);
+    border-width: 1px;
+    border-color: rgba(100, 120, 160, 0.5);
+    border-radius: 6px;
+    padding: 0;
+}
+
+.lab-header {
+    flex-direction: row;
+    align-items: center;
+    padding: 8px 12px;
+    background-color: rgba(20, 30, 50, 0.95);
+    border-bottom-width: 1px;
+    border-color: rgba(100, 120, 160, 0.3);
+}
+
+.lab-title {
+    flex-grow: 1;
+    font-size: 13px;
+    color: rgba(140, 200, 255, 1);
+    -unity-font-style: bold;
+    letter-spacing: 3px;
+}
+
+.lab-button {
+    background-color: rgba(40, 60, 100, 0.8);
+    border-color: rgba(100, 140, 200, 0.4);
+    border-radius: 3px;
+    color: rgba(180, 210, 255, 1);
+    font-size: 11px;
+    padding: 4px 10px;
+    margin-right: 6px;
+    cursor: link;
+}
+
+.lab-button:hover {
+    background-color: rgba(60, 90, 140, 0.9);
+}
+
+.lab-close-button {
+    background-color: rgba(100, 30, 30, 0.7);
+    border-color: rgba(180, 60, 60, 0.5);
+    border-radius: 3px;
+    color: rgba(255, 180, 180, 1);
+    font-size: 14px;
+    padding: 2px 8px;
+    cursor: link;
+}
+
+.lab-close-button:hover {
+    background-color: rgba(160, 40, 40, 0.9);
+}
+
+.lab-scroll {
+    flex-grow: 1;
+    max-height: 600px;
+}
+
+.lab-groups-container {
+    padding: 8px;
+}
+
+.lab-group {
+    margin-bottom: 10px;
+    background-color: rgba(15, 20, 32, 0.8);
+    border-radius: 4px;
+    border-width: 1px;
+    border-color: rgba(60, 80, 120, 0.4);
+    overflow: hidden;
+}
+
+.lab-group-header {
+    flex-direction: row;
+    align-items: center;
+    padding: 6px 10px;
+    background-color: rgba(25, 35, 60, 0.9);
+    cursor: link;
+}
+
+.lab-group-title {
+    flex-grow: 1;
+    font-size: 12px;
+    color: rgba(160, 200, 240, 1);
+    -unity-font-style: bold;
+}
+
+.lab-group-toggle-arrow {
+    font-size: 10px;
+    color: rgba(120, 160, 200, 0.8);
+}
+
+.lab-group-body {
+    padding: 6px 10px 10px;
+}
+
+.lab-param-row {
+    margin-bottom: 8px;
+}
+
+.lab-param-label {
+    font-size: 11px;
+    color: rgba(180, 200, 220, 0.9);
+    margin-bottom: 2px;
+}
+
+.lab-param-value {
+    font-size: 10px;
+    color: rgba(140, 200, 140, 1);
+    margin-left: 6px;
+    min-width: 40px;
+}
+
+.lab-slider-row {
+    flex-direction: row;
+    align-items: center;
+}
+
+.lab-slider {
+    flex-grow: 1;
+}
+
+.lab-toggle {
+    color: rgba(180, 200, 220, 0.9);
+    font-size: 11px;
+}
