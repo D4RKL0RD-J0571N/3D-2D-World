@@ -1,0 +1,28 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!114 &11400000
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: d99e36ef486e73e438ae778331a97d84, type: 3}
+  m_Name: OpenAIAPI
+  m_EditorClassIdentifier: 
+  nameId: OpenAIAPI
+  nameString: OpenAI API
+  description: Easily use the OpenAI API to do all kinds actions with AI directly
+    from inside Unity
+  tags: Utility, API, Web
+  iconSprite: {fileID: 21300000, guid: 879a7c2247d88a747989aeb7c4ac4c64, type: 3}
+  demoScene: {fileID: 102900000, guid: e4fa4dc94133a30479dc526c7624de8d, type: 3}
+  walkthroughVideoYouTubeVideo:
+    youTubeId: 
+    title: 
+  tutorialVideoYouTubeVideo:
+    youTubeId: 
+    title: 
+  relatedVideoYouTubeVideoArray: []
