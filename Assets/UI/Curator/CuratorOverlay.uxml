@@ -1,0 +1,35 @@
+<ui:UXML xmlns:ui="UnityEngine.UIElements" xmlns:uie="UnityEditor.UIElements">
+    <ui:VisualElement name="CuratorRoot" class="curator-root">
+        <ui:VisualElement name="CuratorHeader" class="curator-header">
+            <ui:Label name="CuratorTitle" text="CURATOR EVALUATION" class="curator-title" />
+            <ui:Button name="CuratorClose" text="×" class="curator-close-button" />
+        </ui:VisualElement>
+        
+        <ui:VisualElement name="CuratorBody" class="curator-body">
+            <ui:VisualElement class="meta-row">
+                <ui:Label name="ExhibitCategory" text="WEAPON" class="badge-category" />
+                <ui:Label name="ExhibitId" text="EXH_0001" class="badge-id" />
+            </ui:VisualElement>
+
+            <ui:Label name="ExhibitName" text="Exhibit Display Name" class="curator-exhibit-name" />
+            <ui:Label name="ExhibitOrigin" text="Source: RetroWeaponPack_V1" class="curator-origin" />
+            
+            <ui:Label name="ExhibitDescription" text="Detailed notes regarding this asset or mechanic testing." class="curator-description" />
+
+            <ui:Label text="VERDICT / EVALUATION" class="section-label" />
+            <ui:VisualElement class="rating-button-row">
+                <ui:Button name="BtnKeep" text="⭐ KEEP" class="rating-btn rating-btn-keep" />
+                <ui:Button name="BtnRefine" text="🔧 REFINE" class="rating-btn rating-btn-refine" />
+                <ui:Button name="BtnDiscard" text="❌ DISCARD" class="rating-btn rating-btn-discard" />
+            </ui:VisualElement>
+            <ui:Label name="RatingStatusLabel" text="Status: Unrated" class="rating-status" />
+
+            <ui:Label text="CURATOR NOTES" class="section-label" />
+            <ui:TextField name="CuratorNotesField" multiline="true" class="notes-field" />
+        </ui:VisualElement>
+
+        <ui:VisualElement name="CuratorFooter" class="curator-footer">
+            <ui:Button name="BtnExportReport" text="💾 Save &amp; Export Report" class="curator-action-button" />
+        </ui:VisualElement>
+    </ui:VisualElement>
+</ui:UXML>

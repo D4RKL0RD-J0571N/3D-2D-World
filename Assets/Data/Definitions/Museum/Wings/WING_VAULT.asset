@@ -1,0 +1,20 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!114 &11400000
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 5a994ccdf07a28d4cb4b20b54bd76798, type: 3}
+  m_Name: WING_VAULT
+  m_EditorClassIdentifier: Assembly-CSharp::Domain.Museum.MuseumWingDefinitionSO
+  wingId: WING_VAULT
+  wingTitle: The Vault (Loot & Survival)
+  themeColor: {r: 0.2, g: 0.7, b: 0.4, a: 1}
+  exhibits:
+  - {fileID: 11400000, guid: 6732d47bfe17fd443ba08c85dd637f93, type: 2}
+  - {fileID: 11400000, guid: 59184cee843132543b44cb66e82c4d5b, type: 2}

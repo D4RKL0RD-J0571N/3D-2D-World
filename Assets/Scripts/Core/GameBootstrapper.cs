@@ -80,11 +80,13 @@ namespace Core
             TrackTickable(worldMapService);
 
             ServiceLocator.Register(new Systems.Lab.LabService());
+            ServiceLocator.Register(new Systems.Museum.CuratorService());
 
             EnsureHUD<Gameplay.UI.HotbarHUD>("HotbarHUD");
             EnsureHUD<Gameplay.UI.PlayerHUD>("PlayerHUD");
             EnsureHUD<Gameplay.UI.WorldMapHUD>("WorldMapHUD");
             EnsureHUD<Gameplay.UI.LabHUD>("LabHUD");
+            EnsureHUD<Gameplay.UI.CuratorHUD>("CuratorHUD");
 
             _ = _stateMachine.TransitionToAsync(new Playing());
         }

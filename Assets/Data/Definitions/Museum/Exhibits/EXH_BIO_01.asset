@@ -1,0 +1,26 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!114 &11400000
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 24a65e85d53052c4d9782f8afdd88419, type: 3}
+  m_Name: EXH_BIO_01
+  m_EditorClassIdentifier: Assembly-CSharp::Domain.Museum.MuseumExhibitDefinitionSO
+  exhibitId: EXH_BIO_01
+  displayName: Primeval Loam Canopy
+  category: 5
+  packageOrigin: 3D 2D World Greedy Voxels
+  description: Procedural multi-tier voxel rooms with seamless UV tiling.
+  previewPrefab: {fileID: 0}
+  billboardSprite: {fileID: 0}
+  isBillboardSprite: 0
+  displayOffset: {x: 0, y: 0.5, z: 0}
+  rotationOffset: {x: 0, y: 0, z: 0}
+  previewScale: 1
+  rotateContinuously: 1

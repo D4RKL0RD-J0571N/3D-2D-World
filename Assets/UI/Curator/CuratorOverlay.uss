@@ -1,0 +1,197 @@
+.curator-root {
+    position: absolute;
+    right: 24px;
+    bottom: 24px;
+    width: 380px;
+    max-height: 85%;
+    background-color: rgba(12, 16, 22, 0.95);
+    border-width: 1px;
+    border-color: rgba(90, 140, 200, 0.45);
+    border-radius: 8px;
+    padding: 0;
+    box-shadow: 0 8px 24px rgba(0, 0, 0, 0.6);
+}
+
+.curator-header {
+    flex-direction: row;
+    align-items: center;
+    padding: 10px 14px;
+    background-color: rgba(18, 26, 40, 0.98);
+    border-bottom-width: 1px;
+    border-color: rgba(100, 140, 200, 0.3);
+    border-top-left-radius: 7px;
+    border-top-right-radius: 7px;
+}
+
+.curator-title {
+    flex-grow: 1;
+    font-size: 13px;
+    color: rgba(130, 210, 255, 1);
+    -unity-font-style: bold;
+    letter-spacing: 2px;
+}
+
+.curator-close-button {
+    background-color: rgba(90, 30, 30, 0.6);
+    border-color: rgba(180, 60, 60, 0.4);
+    border-radius: 4px;
+    color: rgba(255, 180, 180, 1);
+    font-size: 14px;
+    width: 26px;
+    height: 26px;
+    padding: 0;
+    cursor: link;
+}
+
+.curator-close-button:hover {
+    background-color: rgba(160, 40, 40, 0.9);
+}
+
+.curator-body {
+    padding: 14px;
+}
+
+.meta-row {
+    flex-direction: row;
+    margin-bottom: 8px;
+}
+
+.badge-category {
+    background-color: rgba(30, 80, 160, 0.6);
+    color: rgba(160, 220, 255, 1);
+    border-radius: 4px;
+    font-size: 10px;
+    padding: 2px 8px;
+    margin-right: 8px;
+    -unity-font-style: bold;
+}
+
+.badge-id {
+    background-color: rgba(40, 50, 65, 0.6);
+    color: rgba(180, 190, 205, 1);
+    border-radius: 4px;
+    font-size: 10px;
+    padding: 2px 8px;
+}
+
+.curator-exhibit-name {
+    font-size: 16px;
+    color: rgba(240, 245, 255, 1);
+    -unity-font-style: bold;
+    margin-bottom: 2px;
+}
+
+.curator-origin {
+    font-size: 11px;
+    color: rgba(140, 160, 180, 1);
+    margin-bottom: 10px;
+}
+
+.curator-description {
+    font-size: 12px;
+    color: rgba(200, 210, 225, 0.9);
+    white-space: normal;
+    background-color: rgba(18, 24, 34, 0.6);
+    padding: 8px;
+    border-radius: 4px;
+    margin-bottom: 12px;
+    border-left-width: 2px;
+    border-left-color: rgba(80, 150, 240, 0.6);
+}
+
+.section-label {
+    font-size: 10px;
+    color: rgba(130, 160, 200, 1);
+    letter-spacing: 1.5px;
+    -unity-font-style: bold;
+    margin-bottom: 6px;
+}
+
+.rating-button-row {
+    flex-direction: row;
+    margin-bottom: 6px;
+}
+
+.rating-btn {
+    flex: 1;
+    height: 32px;
+    font-size: 11px;
+    -unity-font-style: bold;
+    border-radius: 4px;
+    border-width: 1px;
+    margin: 0 3px;
+    cursor: link;
+}
+
+.rating-btn-keep {
+    background-color: rgba(20, 80, 40, 0.6);
+    border-color: rgba(40, 160, 80, 0.5);
+    color: rgba(160, 255, 180, 1);
+}
+
+.rating-btn-keep:hover, .rating-btn-keep.active {
+    background-color: rgba(30, 130, 60, 0.9);
+    border-color: rgba(80, 240, 120, 0.9);
+}
+
+.rating-btn-refine {
+    background-color: rgba(100, 75, 20, 0.6);
+    border-color: rgba(200, 150, 40, 0.5);
+    color: rgba(255, 220, 140, 1);
+}
+
+.rating-btn-refine:hover, .rating-btn-refine.active {
+    background-color: rgba(160, 120, 30, 0.9);
+    border-color: rgba(255, 200, 60, 0.9);
+}
+
+.rating-btn-discard {
+    background-color: rgba(90, 30, 30, 0.6);
+    border-color: rgba(180, 50, 50, 0.5);
+    color: rgba(255, 160, 160, 1);
+}
+
+.rating-btn-discard:hover, .rating-btn-discard.active {
+    background-color: rgba(150, 40, 40, 0.9);
+    border-color: rgba(255, 80, 80, 0.9);
+}
+
+.rating-status {
+    font-size: 11px;
+    color: rgba(160, 180, 200, 1);
+    margin-bottom: 12px;
+}
+
+.notes-field {
+    min-height: 60px;
+    background-color: rgba(14, 20, 28, 0.8);
+    border-color: rgba(70, 100, 140, 0.4);
+    border-radius: 4px;
+    color: rgba(230, 240, 255, 1);
+    font-size: 12px;
+    margin-bottom: 10px;
+}
+
+.curator-footer {
+    padding: 10px 14px;
+    background-color: rgba(16, 22, 32, 0.9);
+    border-top-width: 1px;
+    border-color: rgba(80, 120, 170, 0.25);
+    border-bottom-left-radius: 7px;
+    border-bottom-right-radius: 7px;
+}
+
+.curator-action-button {
+    height: 30px;
+    background-color: rgba(30, 70, 130, 0.85);
+    border-color: rgba(90, 150, 240, 0.6);
+    color: rgba(220, 240, 255, 1);
+    font-size: 11px;
+    -unity-font-style: bold;
+    border-radius: 4px;
+    cursor: link;
+}
+
+.curator-action-button:hover {
+    background-color: rgba(45, 100, 190, 1);
+}
