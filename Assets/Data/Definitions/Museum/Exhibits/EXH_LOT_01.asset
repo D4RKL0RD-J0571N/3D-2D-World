@@ -17,10 +17,10 @@ MonoBehaviour:
   category: 2
   packageOrigin: 2017 Medkit Props
   description: Instantly bandages severe bleeding and restores 50 HP.
-  previewPrefab: {fileID: 0}
+  previewPrefab: {fileID: 1252215276490424, guid: ec57999cb86ce3f49b1fad4dda1944ee, type: 3}
   billboardSprite: {fileID: 0}
   isBillboardSprite: 0
-  displayOffset: {x: 0, y: 0.5, z: 0}
+  displayOffset: {x: 0, y: 0.2, z: 0}
   rotationOffset: {x: 0, y: 0, z: 0}
   previewScale: 1
   rotateContinuously: 1

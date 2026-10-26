@@ -122,6 +122,17 @@ namespace Domain.Museum
             isBillboardSprite = sprite != null;
         }
 
+        public void SetPreviewPrefab(GameObject prefab, float scale = 1.0f, Vector3 offset = default)
+        {
+            previewPrefab = prefab;
+            isBillboardSprite = false;
+            previewScale = scale;
+            if (offset != default)
+            {
+                displayOffset = offset;
+            }
+        }
+
         #endregion
     }
 }
