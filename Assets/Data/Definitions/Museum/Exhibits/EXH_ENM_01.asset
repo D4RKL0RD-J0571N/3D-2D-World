@@ -17,10 +17,10 @@ MonoBehaviour:
   category: 1
   packageOrigin: 3D 2D World (Built-in)
   description: Reactive 2.5D minion with squash-and-stretch hopping physics.
-  previewPrefab: {fileID: 0}
+  previewPrefab: {fileID: 5463117924848943462, guid: 76e52db0389acb44d9c84c88245ac0d6, type: 3}
   billboardSprite: {fileID: 0}
-  isBillboardSprite: 1
-  displayOffset: {x: 0, y: 0.5, z: 0}
+  isBillboardSprite: 0
+  displayOffset: {x: 0, y: 0.2, z: 0}
   rotationOffset: {x: 0, y: 0, z: 0}
   previewScale: 1
   rotateContinuously: 1

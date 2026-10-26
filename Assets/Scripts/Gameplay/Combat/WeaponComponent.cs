@@ -73,6 +73,15 @@ namespace Gameplay.Combat
             ResolveCamera();
         }
 
+        private void Update()
+        {
+            var mouse = UnityEngine.InputSystem.Mouse.current;
+            if (mouse != null && mouse.leftButton.wasPressedThisFrame && !Gameplay.UI.CuratorHUD.IsOpen && Cursor.lockState == CursorLockMode.Locked)
+            {
+                TryExecuteAttack();
+            }
+        }
+
         private void OnEnable()
         {
             GameEventManager.AddListener<PlayerInteractPrimaryInputEvent>(OnPrimaryInteract);

@@ -51,13 +51,13 @@ namespace Domain.Museum
 #if ODIN_INSPECTOR
         [TitleGroup("Visuals & Prefab")]
 #endif
-        [SerializeField] private GameObject previewPrefab;
+        [SerializeField] private GameObject previewPrefab = null;
 
 #if ODIN_INSPECTOR
         [TitleGroup("Visuals & Prefab")]
         [PreviewField(60, ObjectFieldAlignment.Left)]
 #endif
-        [SerializeField] private Sprite billboardSprite;
+        [SerializeField] private Sprite billboardSprite = null;
 
 #if ODIN_INSPECTOR
         [TitleGroup("Visuals & Prefab")]

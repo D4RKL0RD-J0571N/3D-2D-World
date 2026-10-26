@@ -118,6 +118,16 @@ namespace Gameplay.Entities
         #region Public API
 
         /// <summary>
+        /// Registers or replaces an attribute dynamically at runtime.
+        /// </summary>
+        public void RegisterAttribute(BaseAttribute attribute)
+        {
+            if (attribute == null || string.IsNullOrEmpty(attribute.AttributeName)) return;
+            _attributes[attribute.AttributeName] = attribute;
+            _regenAccumulators[attribute.AttributeName] = 0f;
+        }
+
+        /// <summary>
         /// Retrieves an attribute by name, or null if not registered.
         /// </summary>
         public BaseAttribute GetAttribute(string name)

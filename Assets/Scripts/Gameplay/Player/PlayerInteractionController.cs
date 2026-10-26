@@ -63,6 +63,15 @@ namespace Gameplay.Player
         private void Update()
         {
             UpdateInteractionTarget();
+
+            var keyboard = UnityEngine.InputSystem.Keyboard.current;
+            if (keyboard != null && keyboard.eKey.wasPressedThisFrame && !Gameplay.UI.CuratorHUD.IsOpen)
+            {
+                if (_currentTarget != null)
+                {
+                    _currentTarget.OnInteract(gameObject);
+                }
+            }
         }
 
         #endregion

@@ -17,10 +17,10 @@ MonoBehaviour:
   category: 5
   packageOrigin: 3D 2D World Greedy Voxels
   description: Procedural multi-tier voxel rooms with seamless UV tiling.
-  previewPrefab: {fileID: 0}
+  previewPrefab: {fileID: 5618760069282384459, guid: c8e75c7e4a473444bae4878cc7d5a670, type: 3}
   billboardSprite: {fileID: 0}
   isBillboardSprite: 0
-  displayOffset: {x: 0, y: 0.5, z: 0}
+  displayOffset: {x: 0, y: 0.4, z: 0}
   rotationOffset: {x: 0, y: 0, z: 0}
-  previewScale: 1
+  previewScale: 0.8
   rotateContinuously: 1

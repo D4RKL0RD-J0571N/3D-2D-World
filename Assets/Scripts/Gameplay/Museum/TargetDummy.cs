@@ -52,6 +52,18 @@ namespace Gameplay.Museum
             {
                 _originalColor = meshRenderer.material.color;
             }
+
+            // Ensure dummy has a Health attribute to receive combat hits and test damage numbers
+            if (Attributes != null && Attributes.GetAttribute("Health") == null)
+            {
+                Attributes.RegisterAttribute(new Domain.Entities.BaseAttribute
+                {
+                    AttributeName = "Health",
+                    MaximumValue = 1000,
+                    CurrentValue = 1000,
+                    RegenerationRate = 0f
+                });
+            }
         }
 
         private void Update()

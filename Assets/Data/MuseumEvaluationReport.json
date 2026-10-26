@@ -1,4 +1,47 @@
 {
-    "LastUpdatedUtc": "2026-10-26T06:46:15.6066184Z",
-    "Records": []
+    "LastUpdatedUtc": "2026-10-26T07:03:56.2344324Z",
+    "Records": [
+        {
+            "ExhibitId": "EXH_WPN_02",
+            "Rating": 0,
+            "Notes": "a",
+            "EvaluatedAtUtc": "2026-10-26T07:02:57.3732261Z"
+        },
+        {
+            "ExhibitId": "EXH_WPN_01",
+            "Rating": 0,
+            "Notes": "aaaasdddddw",
+            "EvaluatedAtUtc": "2026-10-26T07:02:55.8779099Z"
+        },
+        {
+            "ExhibitId": "EXH_ENM_02",
+            "Rating": 0,
+            "Notes": "w",
+            "EvaluatedAtUtc": "2026-10-26T07:03:33.0816266Z"
+        },
+        {
+            "ExhibitId": "EXH_ENM_03",
+            "Rating": 0,
+            "Notes": "",
+            "EvaluatedAtUtc": "2026-10-26T07:03:18.7414186Z"
+        },
+        {
+            "ExhibitId": "EXH_ENM_01",
+            "Rating": 3,
+            "Notes": " ",
+            "EvaluatedAtUtc": "2026-10-26T07:03:28.4362813Z"
+        },
+        {
+            "ExhibitId": "EXH_LOT_03",
+            "Rating": 2,
+            "Notes": "Has",
+            "EvaluatedAtUtc": "2026-10-26T07:03:50.3838781Z"
+        },
+        {
+            "ExhibitId": "EXH_LOT_02",
+            "Rating": 0,
+            "Notes": "",
+            "EvaluatedAtUtc": "2026-10-26T07:03:38.6806949Z"
+        }
+    ]
 }

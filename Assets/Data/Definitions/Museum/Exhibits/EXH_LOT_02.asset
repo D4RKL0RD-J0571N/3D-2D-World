@@ -17,10 +17,10 @@ MonoBehaviour:
   category: 2
   packageOrigin: Liquid Volume Pro 2
   description: Glowing 3D fluid container with dynamic meniscus physics.
-  previewPrefab: {fileID: 0}
+  previewPrefab: {fileID: 1166157590206430, guid: 2f6b811df78820d43921df0c0bb90236, type: 3}
   billboardSprite: {fileID: 0}
   isBillboardSprite: 0
-  displayOffset: {x: 0, y: 0.5, z: 0}
+  displayOffset: {x: 0, y: 0.2, z: 0}
   rotationOffset: {x: 0, y: 0, z: 0}
   previewScale: 1
   rotateContinuously: 1
