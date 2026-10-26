@@ -1,0 +1,95 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!114 &11400000
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 6d4d2aa46c9b4374ca4583fa2baadc8a, type: 3}
+  m_Name: Gamepad Icons List
+  m_EditorClassIdentifier: 
+  gamepads:
+  - profileName: Xbox One
+    gamepadType: 0
+    gamepadIdentifiers:
+    - xbox
+    - xinput
+    - microsoft
+    - gamesir
+    buttons:
+    - button: 5
+      icon: {fileID: 21300000, guid: 578baaf41901a00459e4a226c576d9e1, type: 3}
+    - button: 6
+      icon: {fileID: 21300000, guid: 8fde29bc1b851cc4bab339e6d4eabf60, type: 3}
+    - button: 7
+      icon: {fileID: 21300000, guid: ef1af0989a6e0334a946057d0b5f91c5, type: 3}
+    - button: 4
+      icon: {fileID: 21300000, guid: ff780e56efc9ef6449bb66b6407fd3e4, type: 3}
+    - button: 0
+      icon: {fileID: 21300000, guid: 3490fd2ea46f8994783aaff799111510, type: 3}
+    - button: 1
+      icon: {fileID: 21300000, guid: 354435a7a6f3198479f23bede2eba0b1, type: 3}
+    - button: 2
+      icon: {fileID: 21300000, guid: 66b6252e50fa6ed4fbe906b56a255f33, type: 3}
+    - button: 3
+      icon: {fileID: 21300000, guid: e6a8ea5a114395944aba16c3d8766b46, type: 3}
+    - button: 8
+      icon: {fileID: 21300000, guid: bf6b647681a39b7498435d000ccf64b5, type: 3}
+    - button: 9
+      icon: {fileID: 21300000, guid: 0546f32863f01cd4c93087b221e76aa6, type: 3}
+    - button: 10
+      icon: {fileID: 21300000, guid: f2c9a20e051a0cd4ca806f11bda4a369, type: 3}
+    - button: 11
+      icon: {fileID: 21300000, guid: 6747e3a6c6b4f10499e7a845541385cf, type: 3}
+    - button: 12
+      icon: {fileID: 21300000, guid: d95b51eec2b4edd43b7405a8c520601e, type: 3}
+    - button: 13
+      icon: {fileID: 21300000, guid: 0fa7109ae22dde64b9fad202a9e76c3f, type: 3}
+    - button: 32
+      icon: {fileID: 21300000, guid: f6ca312012610e24f9c2e289e01479b2, type: 3}
+    - button: 33
+      icon: {fileID: 21300000, guid: a4fc08df898b88c4a9fa2407bb089e17, type: 3}
+  - profileName: Playstation
+    gamepadType: 1
+    gamepadIdentifiers:
+    - dualsense
+    - dualshock
+    - sony
+    - wireless controller
+    buttons:
+    - button: 5
+      icon: {fileID: 21300000, guid: 578baaf41901a00459e4a226c576d9e1, type: 3}
+    - button: 6
+      icon: {fileID: 21300000, guid: 8fde29bc1b851cc4bab339e6d4eabf60, type: 3}
+    - button: 7
+      icon: {fileID: 21300000, guid: ef1af0989a6e0334a946057d0b5f91c5, type: 3}
+    - button: 4
+      icon: {fileID: 21300000, guid: ff780e56efc9ef6449bb66b6407fd3e4, type: 3}
+    - button: 0
+      icon: {fileID: 21300000, guid: 3490fd2ea46f8994783aaff799111510, type: 3}
+    - button: 1
+      icon: {fileID: 21300000, guid: 354435a7a6f3198479f23bede2eba0b1, type: 3}
+    - button: 2
+      icon: {fileID: 21300000, guid: 66b6252e50fa6ed4fbe906b56a255f33, type: 3}
+    - button: 3
+      icon: {fileID: 21300000, guid: e6a8ea5a114395944aba16c3d8766b46, type: 3}
+    - button: 8
+      icon: {fileID: 21300000, guid: bf6b647681a39b7498435d000ccf64b5, type: 3}
+    - button: 9
+      icon: {fileID: 21300000, guid: 0546f32863f01cd4c93087b221e76aa6, type: 3}
+    - button: 10
+      icon: {fileID: 21300000, guid: f2c9a20e051a0cd4ca806f11bda4a369, type: 3}
+    - button: 11
+      icon: {fileID: 21300000, guid: 6747e3a6c6b4f10499e7a845541385cf, type: 3}
+    - button: 12
+      icon: {fileID: 21300000, guid: d95b51eec2b4edd43b7405a8c520601e, type: 3}
+    - button: 13
+      icon: {fileID: 21300000, guid: 0fa7109ae22dde64b9fad202a9e76c3f, type: 3}
+    - button: 32
+      icon: {fileID: 21300000, guid: f6ca312012610e24f9c2e289e01479b2, type: 3}
+    - button: 33
+      icon: {fileID: 21300000, guid: a4fc08df898b88c4a9fa2407bb089e17, type: 3}

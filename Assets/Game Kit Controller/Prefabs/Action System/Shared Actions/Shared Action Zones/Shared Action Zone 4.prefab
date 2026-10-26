@@ -1,0 +1,154 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!1 &7953482818942340979
+GameObject:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  serializedVersion: 6
+  m_Component:
+  - component: {fileID: 7953482818942340980}
+  - component: {fileID: 7953482818942340981}
+  m_Layer: 0
+  m_Name: Shared Action Zone 4
+  m_TagString: Untagged
+  m_Icon: {fileID: 0}
+  m_NavMeshLayer: 0
+  m_StaticEditorFlags: 0
+  m_IsActive: 1
+--- !u!4 &7953482818942340980
+Transform:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 7953482818942340979}
+  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
+  m_LocalPosition: {x: 0, y: 0, z: 0}
+  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_Children:
+  - {fileID: 7953482819866432014}
+  m_Father: {fileID: 0}
+  m_RootOrder: 0
+  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!114 &7953482818942340981
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 7953482818942340979}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 55a484ed12e5f244c88f623b363311f0, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  sharedActionZoneEnabled: 1
+  sharedActionName: Stealth Window Kick 1
+  disableSharedActionZoneAfterUse: 0
+  setPlayerAsFirstCharacter: 1
+  setAIAsFirstCharacterIfSignalOwner: 1
+  useSharedActionContent: 1
+  mainSharedActionContent: {fileID: 0}
+  sharedActionContentPrefab: {fileID: 96197491996234495, guid: e1dc88cfca35c0347ac3685d6008144f,
+    type: 3}
+  useSharedZoneInsideRange: 1
+  useZonePositionRange: 1
+  xRange: {x: -2, y: 2}
+  zRange: {x: -1, y: 1}
+  useZoneRotationRange: 0
+  rotationRange: 0
+  useCustomSharedZoneRotationCenter: 0
+  customSharedZoneTransform: {fileID: 0}
+  maxDistanceToUseSharedActionZone: 5
+  useMaxDistanceXZToUseSharedActionZone: 0
+  maxDistanceXToUseSharedActionZone: 0
+  maxDistanceZToUseSharedActionZone: 0
+  useMinDistanceToActivateActionFirstCharacter: 0
+  minDistanceToActivateActionFirstCharacter: 0
+  useMinAngleToActivateActionFirstCharacter: 0
+  minAngleToActivateActionFirstCharacter: 0
+  useMinDistanceToActivateActionSecondCharacter: 0
+  minDistanceToActivateActionSecondCharacter: 0
+  useMinAngleToActivateActionSecondCharacter: 0
+  minAngleToActivateActionSecondCharacter: 0
+  useMinAngleToActivateActionOnCharactersDirection: 0
+  minAngleToActivateActionOnCharactersDirection: 0
+  mainSharedActionContentFound: 0
+--- !u!1 &7953482819866432013
+GameObject:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  serializedVersion: 6
+  m_Component:
+  - component: {fileID: 7953482819866432014}
+  - component: {fileID: 7953482819866432000}
+  - component: {fileID: 7953482819866432015}
+  m_Layer: 2
+  m_Name: Shared Action Zone Trigger
+  m_TagString: Untagged
+  m_Icon: {fileID: 0}
+  m_NavMeshLayer: 0
+  m_StaticEditorFlags: 0
+  m_IsActive: 1
+--- !u!4 &7953482819866432014
+Transform:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 7953482819866432013}
+  m_LocalRotation: {x: -0, y: -0, z: -0, w: 1}
+  m_LocalPosition: {x: 0, y: 0, z: 2.56}
+  m_LocalScale: {x: 6.34865, y: 6.34865, z: 6.46}
+  m_Children: []
+  m_Father: {fileID: 7953482818942340980}
+  m_RootOrder: 0
+  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!65 &7953482819866432000
+BoxCollider:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 7953482819866432013}
+  m_Material: {fileID: 0}
+  m_IsTrigger: 1
+  m_Enabled: 1
+  serializedVersion: 2
+  m_Size: {x: 1, y: 1, z: 1}
+  m_Center: {x: 0, y: 0, z: 0}
+--- !u!114 &7953482819866432015
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 7953482819866432013}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 9bd58d4d93174bc4782f400e75ffeb8c, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  sharedActionZoneTriggerEnabled: 1
+  sharedActionZoneNameOnEnter: Stealth Window Kick 1
+  useSharedActionTimerOnEnter: 0
+  sharedActionTimerOnEnter: 0
+  setSharedActionZoneOnExit: 0
+  sharedActionZoneNameOnExit: 
+  useSharedActionTimerOnExit: 0
+  sharedActionTimerOnExit: 0
+  enableSharedActionRemoteActivatorOnTriggerEnter: 1
+  disableSharedActionRemoteActivatorOnTriggerExit: 1
+  setCustomSharedActionNameOnEnter: 0
+  customSharedActionNameOnEnter: 
+  removeCustomSharedActionNameOnExit: 0
+  useTagList: 0
+  tagList: []
+  useLayerMask: 1
+  layerMask:
+    serializedVersion: 2
+    m_Bits: 1048576

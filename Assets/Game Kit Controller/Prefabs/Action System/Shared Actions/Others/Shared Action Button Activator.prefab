@@ -1,0 +1,358 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!1 &4818122205134688023
+GameObject:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  serializedVersion: 6
+  m_Component:
+  - component: {fileID: 4812494599650662379}
+  - component: {fileID: 4829947663497907511}
+  - component: {fileID: 4846149337622177859}
+  - component: {fileID: 4818122205134688016}
+  - component: {fileID: 4818122205134688017}
+  - component: {fileID: 4818122205134688022}
+  m_Layer: 2
+  m_Name: Shared Action Button Activator
+  m_TagString: device
+  m_Icon: {fileID: 0}
+  m_NavMeshLayer: 0
+  m_StaticEditorFlags: 0
+  m_IsActive: 1
+--- !u!4 &4812494599650662379
+Transform:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 4818122205134688023}
+  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
+  m_LocalPosition: {x: 0, y: 0, z: 0}
+  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_Children: []
+  m_Father: {fileID: 0}
+  m_RootOrder: 0
+  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!135 &4829947663497907511
+SphereCollider:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 4818122205134688023}
+  m_Material: {fileID: 0}
+  m_IsTrigger: 1
+  m_Enabled: 1
+  serializedVersion: 2
+  m_Radius: 1.03
+  m_Center: {x: 0, y: 1, z: 0}
+--- !u!114 &4846149337622177859
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 4818122205134688023}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 80fe7bfbecac2ee4895bd133d0b782df, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  deviceName: Special Attack
+  deviceAction: Activate
+  useMultipleInteraction: 0
+  multipleInteractionNameList: []
+  secondaryDeviceAction: 
+  reloadDeviceActionOnPress: 0
+  hideIconOnPress: 0
+  disableIconOnPress: 0
+  showIcon: 1
+  showTouchIconButton: 1
+  hideIconOnUseDevice: 0
+  showIconOnStopUseDevice: 0
+  useTransformForStringAction: 0
+  transformForStringAction: {fileID: 0}
+  useSeparatedTransformForEveryView: 0
+  transformForThirdPerson: {fileID: 0}
+  transformForFirstPerson: {fileID: 0}
+  useLocalOffset: 1
+  actionOffset: 1
+  setUsingDeviceState: 0
+  setTextFontSizeActive: 0
+  textFontSize: 17
+  iconEnabled: 1
+  useRaycastToDetectDeviceParts: 0
+  usingDevice: 0
+  useCustomMinDistanceToUseDevice: 0
+  customMinDistanceToUseDevice: 0
+  ignoreDistanceToDevice: 0
+  useCustomMinAngleToUse: 0
+  customMinAngleToUseDevice: 0
+  useRelativeDirectionBetweenPlayerAndObject: 0
+  useCustomIconButtonInfo: 0
+  customIconButtonInfoName: 
+  ignoreUseOnlyDeviceIfVisibleOnCamera: 1
+  useCustomDeviceTransformPosition: 0
+  customDeviceTransformPosition: {fileID: 0}
+  useFixedDeviceIconPosition: 0
+  checkIfObstacleBetweenDeviceAndPlayer: 0
+  showIconTexture: 0
+  iconTexture: {fileID: 0}
+  useObjectDescription: 0
+  objectDescription: 
+  descriptionFontSize: 14
+  showObjectAmount: 0
+  objectAmount: 0
+  useHoldInteractionButton: 0
+  holdInteractionButtonDuration: 0
+  showGizmo: 0
+  gizmoLabelColor: {r: 0, g: 1, b: 0, a: 1}
+  gizmoColor: {r: 1, g: 1, b: 1, a: 1}
+  gizmoRadius: 0.3
+--- !u!114 &4818122205134688016
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 4818122205134688023}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: be8030885d591eb408518d093fad5d5b, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  useOnlyForTrigger: 1
+  functionToSetPlayer: 
+  activateDeviceOnTriggerEnter: 0
+  useFreeInteraction: 0
+  useFreeInteractionEvent: 0
+  freeInteractionEvent:
+    m_PersistentCalls:
+      m_Calls: []
+  useMoveCameraToDevice: 0
+  disableDeviceWhenStopUsing: 0
+  stopUsingDeviceWhenUnlock: 0
+  disableAndRemoveDeviceWhenUnlock: 0
+  functionToUseDevice:
+    m_PersistentCalls:
+      m_Calls:
+      - m_Target: {fileID: 4818122205134688017}
+        m_MethodName: activateSharedActionByName
+        m_Mode: 1
+        m_Arguments:
+          m_ObjectArgument: {fileID: 0}
+          m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
+          m_IntArgument: 0
+          m_FloatArgument: 0
+          m_StringArgument: 
+          m_BoolArgument: 0
+        m_CallState: 2
+  usingDevice: 0
+  unlockFunctionCall:
+    m_PersistentCalls:
+      m_Calls: []
+  lockFunctionCall:
+    m_PersistentCalls:
+      m_Calls: []
+  currentPlayer: {fileID: 0}
+  activateEventOnTriggerStay: 0
+  triggerStayEvent:
+    m_PersistentCalls:
+      m_Calls: []
+  eventOnTriggerStayRate: 0
+  activateEventOnTriggerEnter: 0
+  triggerEnterEvent:
+    m_PersistentCalls:
+      m_Calls: []
+  activateEventOnTriggerExit: 0
+  triggerExitEvent:
+    m_PersistentCalls:
+      m_Calls: []
+  sendPlayerOnTriggerEnter: 0
+  eventToSendPlayerOnTriggerEnter:
+    m_PersistentCalls:
+      m_Calls: []
+  sendPlayerOnTriggerExit: 0
+  eventToSendPlayerOnTriggerExit:
+    m_PersistentCalls:
+      m_Calls: []
+  activateEventIfUnableToUseDevice: 0
+  unableToUseDeviceEvent:
+    m_PersistentCalls:
+      m_Calls: []
+  sendCurrentPlayerOnEvent: 1
+  setCurrentPlayerEvent:
+    m_PersistentCalls:
+      m_Calls:
+      - m_Target: {fileID: 4818122205134688017}
+        m_MethodName: setExternalCharacter
+        m_Mode: 0
+        m_Arguments:
+          m_ObjectArgument: {fileID: 0}
+          m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
+          m_IntArgument: 0
+          m_FloatArgument: 0
+          m_StringArgument: 
+          m_BoolArgument: 0
+        m_CallState: 2
+  useEventOnStartUsingDevice: 0
+  useEventOnStopUsingDevice: 0
+  eventOnStartUsingDevice:
+    m_PersistentCalls:
+      m_Calls: []
+  eventOnStopUsingDevice:
+    m_PersistentCalls:
+      m_Calls: []
+  deviceCanBeUsed: 1
+  playerInside: 0
+  cameraMovementManager: {fileID: 0}
+  deviceMovementManager: {fileID: 0}
+  disableDeviceInteractionAfterUsingOnce: 0
+  useConditionSystemToStartDevice: 0
+  mainGKCConditionInfoToStartDevice: {fileID: 0}
+  useConditionSystemToStopDevice: 0
+  mainGKCConditionInfoToStopDevice: {fileID: 0}
+  showDebugPrint: 0
+--- !u!114 &4818122205134688017
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 4818122205134688023}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 3a0434bf3fd90274bacd7514423eed8a, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  buttonActivatorEnabled: 1
+  buttonActive: 0
+  setActiveStateOnStart: 0
+  sharedActionNameOnStart: 
+  useRandomSharedActionName: 0
+  showDebugPrint: 0
+  sharedActionName: Close Combat 3
+  currentTimeToDisableActivator: 0
+  currentExternalCharacter: {fileID: 0}
+  checkToDisableActivatorInProcess: 0
+  sharedActionEventInfoList: []
+  useEventsItTargetDetected: 1
+  eventsItTargetDetected:
+    m_PersistentCalls:
+      m_Calls:
+      - m_Target: {fileID: 4818122205134688017}
+        m_MethodName: disableActivator
+        m_Mode: 1
+        m_Arguments:
+          m_ObjectArgument: {fileID: 0}
+          m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
+          m_IntArgument: 0
+          m_FloatArgument: 0
+          m_StringArgument: 
+          m_BoolArgument: 0
+        m_CallState: 2
+  useEventsItTargetNotDetected: 0
+  eventsItTargetNotDetected:
+    m_PersistentCalls:
+      m_Calls: []
+  eventOnAssigningNewInfo:
+    m_PersistentCalls:
+      m_Calls: []
+  eventToSendNewActionName:
+    m_PersistentCalls:
+      m_Calls: []
+  eventOnEnableActivator:
+    m_PersistentCalls:
+      m_Calls:
+      - m_Target: {fileID: 4829947663497907511}
+        m_MethodName: set_enabled
+        m_Mode: 6
+        m_Arguments:
+          m_ObjectArgument: {fileID: 0}
+          m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
+          m_IntArgument: 0
+          m_FloatArgument: 0
+          m_StringArgument: 
+          m_BoolArgument: 1
+        m_CallState: 2
+      - m_Target: {fileID: 4818122205134688022}
+        m_MethodName: set_enabled
+        m_Mode: 6
+        m_Arguments:
+          m_ObjectArgument: {fileID: 0}
+          m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
+          m_IntArgument: 0
+          m_FloatArgument: 0
+          m_StringArgument: 
+          m_BoolArgument: 1
+        m_CallState: 2
+  eventOnDisableActivator:
+    m_PersistentCalls:
+      m_Calls:
+      - m_Target: {fileID: 4829947663497907511}
+        m_MethodName: set_enabled
+        m_Mode: 6
+        m_Arguments:
+          m_ObjectArgument: {fileID: 0}
+          m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
+          m_IntArgument: 0
+          m_FloatArgument: 0
+          m_StringArgument: 
+          m_BoolArgument: 0
+        m_CallState: 2
+      - m_Target: {fileID: 4818122205134688016}
+        m_MethodName: removeDeviceFromListWithoutDisablingDevice
+        m_Mode: 1
+        m_Arguments:
+          m_ObjectArgument: {fileID: 0}
+          m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
+          m_IntArgument: 0
+          m_FloatArgument: 0
+          m_StringArgument: 
+          m_BoolArgument: 0
+        m_CallState: 2
+      - m_Target: {fileID: 4818122205134688022}
+        m_MethodName: set_enabled
+        m_Mode: 6
+        m_Arguments:
+          m_ObjectArgument: {fileID: 0}
+          m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
+          m_IntArgument: 0
+          m_FloatArgument: 0
+          m_StringArgument: 
+          m_BoolArgument: 0
+        m_CallState: 2
+      - m_Target: {fileID: 4818122205134688016}
+        m_MethodName: setUsingDeviceState
+        m_Mode: 6
+        m_Arguments:
+          m_ObjectArgument: {fileID: 0}
+          m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
+          m_IntArgument: 0
+          m_FloatArgument: 0
+          m_StringArgument: 
+          m_BoolArgument: 0
+        m_CallState: 2
+  mainSharedActionSystem: {fileID: 0}
+--- !u!114 &4818122205134688022
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 4818122205134688023}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 7ceb6c90a67d825418766c477c318629, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  followObjectActive: 1
+  objectToFollow: {fileID: 0}
+  followPosition: 1
+  followRotation: 1
+  mainTransform: {fileID: 0}
+  checkIfObjectToFollowNull: 0
+  objectToFollowLocated: 0
+  showDebugPrint: 0

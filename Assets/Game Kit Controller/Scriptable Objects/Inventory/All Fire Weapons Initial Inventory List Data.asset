@@ -1,0 +1,96 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!114 &11400000
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_PrefabParentObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 14a18edf5c34fa342b66285456c1949c, type: 3}
+  m_Name: All Fire Weapons Initial Inventory List Data
+  m_EditorClassIdentifier: 
+  Name: Fire Weapons
+  ID: 0
+  initialInventoryObjectInfoList:
+  - Name: Acid Shooter
+    amount: 1
+    isEquipped: 1
+    addInventoryObject: 1
+  - Name: Assault Rifle
+    amount: 1
+    isEquipped: 1
+    addInventoryObject: 1
+  - Name: Double Shotgun
+    amount: 1
+    isEquipped: 1
+    addInventoryObject: 1
+  - Name: Flamethrower
+    amount: 1
+    isEquipped: 1
+    addInventoryObject: 1
+  - Name: Flashlight
+    amount: 1
+    isEquipped: 1
+    addInventoryObject: 1
+  - Name: Gravity Gun
+    amount: 1
+    isEquipped: 1
+    addInventoryObject: 1
+  - Name: Healer
+    amount: 1
+    isEquipped: 1
+    addInventoryObject: 1
+  - Name: Homing Missiles
+    amount: 1
+    isEquipped: 1
+    addInventoryObject: 1
+  - Name: Laser Blaster
+    amount: 1
+    isEquipped: 1
+    addInventoryObject: 1
+  - Name: Laser Miner
+    amount: 1
+    isEquipped: 1
+    addInventoryObject: 1
+  - Name: Laser Shooter
+    amount: 1
+    isEquipped: 1
+    addInventoryObject: 1
+  - Name: P-35
+    amount: 1
+    isEquipped: 1
+    addInventoryObject: 1
+  - Name: P-36
+    amount: 1
+    isEquipped: 1
+    addInventoryObject: 1
+  - Name: Plasma Cutter
+    amount: 1
+    isEquipped: 1
+    addInventoryObject: 1
+  - Name: Revolver
+    amount: 1
+    isEquipped: 1
+    addInventoryObject: 1
+  - Name: Shotgun
+    amount: 1
+    isEquipped: 1
+    addInventoryObject: 1
+  - Name: Smartphone
+    amount: 1
+    isEquipped: 1
+    addInventoryObject: 1
+  - Name: Sniper Rifle
+    amount: 1
+    isEquipped: 1
+    addInventoryObject: 1
+  - Name: Spear Launcher
+    amount: 1
+    isEquipped: 1
+    addInventoryObject: 1
+  - Name: Sticky Grenade Launcher
+    amount: 1
+    isEquipped: 1
+    addInventoryObject: 1

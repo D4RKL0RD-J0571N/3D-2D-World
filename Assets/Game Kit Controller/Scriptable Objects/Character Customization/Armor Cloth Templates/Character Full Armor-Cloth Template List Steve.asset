@@ -1,0 +1,20 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!114 &11400000
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 43c84f0e78da1d04281821566f0b940b, type: 3}
+  m_Name: Character Full Armor-Cloth Template List Steve
+  m_EditorClassIdentifier: 
+  Name: Steve
+  ID: 0
+  fullArmorClothTemplateList:
+  - {fileID: 11400000, guid: b030c791d5e7f6f4a919d919a7b10e67, type: 2}
+  - {fileID: 11400000, guid: 66ccb06606ecdf347a95af7fa94b6d28, type: 2}
+  - {fileID: 11400000, guid: 26755793799ef4a469af113b5cfbedde, type: 2}

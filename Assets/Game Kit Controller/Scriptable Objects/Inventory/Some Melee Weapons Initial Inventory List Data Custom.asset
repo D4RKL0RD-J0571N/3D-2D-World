@@ -1,0 +1,25 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!114 &11400000
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 14a18edf5c34fa342b66285456c1949c, type: 3}
+  m_Name: Some Melee Weapons Initial Inventory List Data Custom
+  m_EditorClassIdentifier: 
+  Name: Melee Weapons
+  ID: 0
+  initialInventoryObjectInfoList:
+  - Name: Buster Sword
+    amount: 1
+    isEquipped: 1
+    addInventoryObject: 1
+  - Name: Hexagon Shield
+    amount: 1
+    isEquipped: 1
+    addInventoryObject: 1

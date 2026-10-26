@@ -1,0 +1,317 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!1 &1754977299366964
+GameObject:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  serializedVersion: 6
+  m_Component:
+  - component: {fileID: 4694991761376566}
+  - component: {fileID: 33795121573070726}
+  - component: {fileID: 65891972421477632}
+  - component: {fileID: 23909770583165220}
+  - component: {fileID: 114720210431990548}
+  m_Layer: 0
+  m_Name: Sand (Using Health)
+  m_TagString: enemy
+  m_Icon: {fileID: 0}
+  m_NavMeshLayer: 0
+  m_StaticEditorFlags: 0
+  m_IsActive: 1
+--- !u!4 &4694991761376566
+Transform:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1754977299366964}
+  m_LocalRotation: {x: -0, y: -0, z: -0, w: 1}
+  m_LocalPosition: {x: 0, y: 0, z: 0}
+  m_LocalScale: {x: 1, y: 2, z: 1}
+  m_Children: []
+  m_Father: {fileID: 0}
+  m_RootOrder: 0
+  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!33 &33795121573070726
+MeshFilter:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1754977299366964}
+  m_Mesh: {fileID: 10202, guid: 0000000000000000e000000000000000, type: 0}
+--- !u!65 &65891972421477632
+BoxCollider:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1754977299366964}
+  m_Material: {fileID: 0}
+  m_IsTrigger: 0
+  m_Enabled: 1
+  serializedVersion: 2
+  m_Size: {x: 1, y: 1, z: 1}
+  m_Center: {x: 0, y: 0, z: 0}
+--- !u!23 &23909770583165220
+MeshRenderer:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1754977299366964}
+  m_Enabled: 1
+  m_CastShadows: 1
+  m_ReceiveShadows: 1
+  m_DynamicOccludee: 1
+  m_MotionVectors: 1
+  m_LightProbeUsage: 1
+  m_ReflectionProbeUsage: 1
+  m_RayTracingMode: 2
+  m_RenderingLayerMask: 1
+  m_RendererPriority: 0
+  m_Materials:
+  - {fileID: 10303, guid: 0000000000000000f000000000000000, type: 0}
+  m_StaticBatchInfo:
+    firstSubMesh: 0
+    subMeshCount: 0
+  m_StaticBatchRoot: {fileID: 0}
+  m_ProbeAnchor: {fileID: 0}
+  m_LightProbeVolumeOverride: {fileID: 0}
+  m_ScaleInLightmap: 1
+  m_ReceiveGI: 1
+  m_PreserveUVs: 1
+  m_IgnoreNormalsForChartDetection: 0
+  m_ImportantGI: 0
+  m_StitchLightmapSeams: 1
+  m_SelectedEditorRenderState: 3
+  m_MinimumChartSize: 4
+  m_AutoUVMaxDistance: 0.5
+  m_AutoUVMaxAngle: 89
+  m_LightmapParameters: {fileID: 0}
+  m_SortingLayerID: 0
+  m_SortingLayer: 0
+  m_SortingOrder: 0
+--- !u!114 &114720210431990548
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1754977299366964}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: c23d6bae7a883c047961b819ec997d00, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  useHealthAmountOnSpot: 0
+  healhtAmountOnSpot: 0
+  killCharacterOnEmtpyHealthAmountOnSpot: 0
+  removeComponentOnEmptyHealth: 0
+  ignoreUseHealthAmountOnSpot: 0
+  eventOnEmtpyHealthAmountOnSpot:
+    m_PersistentCalls:
+      m_Calls: []
+  healthAmountOnSpotEmpty: 0
+  healthAmount: 100
+  maxHealthAmount: 100
+  generalDamageMultiplerEnabled: 1
+  generalDamageMultiplerActive: 0
+  generalDamageMultiplier: 1
+  regenerateHealth: 0
+  constantRegenerate: 0
+  regenerateSpeed: 0
+  regenerateTime: 0
+  regenerateAmount: 0
+  invincible: 0
+  useEventOnDamageReceivedWithTemporalInvincibility: 0
+  maxDelayBetweenDamageReceivedAndInvincibilityStateActive: 0
+  eventOnDamageReceivedWithTemporalInvincibility:
+    m_PersistentCalls:
+      m_Calls: []
+  sendAttackerOnEventDamageReceivedWithTemporalInvincibility: 0
+  eventToSendAttackerOnDamageReceivedWithTemporalInvincibility:
+    m_PersistentCalls:
+      m_Calls: []
+  useEventsOnInvincibleStateChange: 0
+  eventOnInvicibleOn:
+    m_PersistentCalls:
+      m_Calls: []
+  eventOnInvicibleOff:
+    m_PersistentCalls:
+      m_Calls: []
+  dead: 0
+  damagePrefab: {fileID: 0}
+  placeToShoot: {fileID: 0}
+  placeToShootActive: 1
+  scorchMarkPrefab: {fileID: 0}
+  useEventOnDamageEnabled: 1
+  eventOnDamage:
+    m_PersistentCalls:
+      m_Calls: []
+  useEventOnDamageWithAmount: 0
+  eventOnDamageWithAmount:
+    m_PersistentCalls:
+      m_Calls: []
+  useEventOnDamageWithAttacker: 0
+  eventOnDamageWithAttacker:
+    m_PersistentCalls:
+      m_Calls: []
+  useExtraDamageFunctions: 0
+  delayInDamageFunctions: 0
+  extraDamageFunctionList: []
+  useEventOnDamageShield: 0
+  eventOnDamageShield:
+    m_PersistentCalls:
+      m_Calls: []
+  useEventOnDamageShieldWithAttacker: 0
+  eventOnDamageShieldWithAttacker:
+    m_PersistentCalls:
+      m_Calls: []
+  deadFuncionCall:
+    m_PersistentCalls:
+      m_Calls: []
+  extraDeadFunctionCall:
+    m_PersistentCalls:
+      m_Calls: []
+  resurrectFunctionCall:
+    m_PersistentCalls:
+      m_Calls: []
+  useExtraDeadFunctions: 0
+  delayInExtraDeadFunctions: 0
+  useEventWithAttackerOnDeath: 0
+  eventWithAttackerOnDeath:
+    m_PersistentCalls:
+      m_Calls: []
+  useShield: 0
+  mainShieldSystem: {fileID: 0}
+  playerStatsManager: {fileID: 0}
+  healthStatName: Current Health
+  maxHealthStatName: Max Health
+  setHealthBarAsNotVisibleAtStart: 0
+  settings:
+    useHealthSlider: 1
+    enemyHealthSlider: {fileID: 115120, guid: 0c00999cb1102cd438afdb06b45a296a, type: 3}
+    sliderOffset: {x: 0, y: 1, z: 0}
+    useRaycastToCheckVisible: 1
+    layer:
+      serializedVersion: 2
+      m_Bits: 4294831097
+    enemyName: Sand Surface
+    allyName: 
+    enemySliderColor: {r: 1, g: 0, b: 0, a: 1}
+    allySliderColor: {r: 0, g: 1, b: 0, a: 1}
+    nameTextColor: {r: 0, g: 0, b: 0, a: 1}
+    removeHealthBarSliderOnDeath: 1
+    healthBarSliderActiveOnStart: 0
+  advancedSettings:
+    notHuman: 0
+    useWeakSpots: 0
+    weakSpots: []
+    useHealthAmountOnSpotEnabled: 1
+    haveRagdoll: 0
+    allowPushCharacterOnExplosions: 1
+    activateRagdollOnDamageReceived: 1
+    minDamageToEnableRagdoll: 0
+    ragdollCanReceiveDamageOnImpact: 0
+    ragdollEvent:
+      m_PersistentCalls:
+        m_Calls: []
+    showGizmo: 1
+    labelTextSize: 5
+    gizmoLabelColor: {r: 0, g: 0, b: 0, a: 1}
+    alphaColor: 0
+    gizmoRadius: 0.18
+  showWeakSpotsInScannerMode: 0
+  weakSpotMesh: {fileID: 0}
+  weakSpotMeshAlphaValue: 0
+  healthSlider: {fileID: 0}
+  healthSliderText: {fileID: 0}
+  useCircleHealthSlider: 0
+  circleHealthSlider: {fileID: 0}
+  hideHealthSliderWhenNotDamageReceived: 0
+  timeToHideHealthSliderAfterDamage: 0
+  mainHealthSliderParent: {fileID: 0}
+  hiddenHealthSliderParent: {fileID: 0}
+  mainHealthSliderTransform: {fileID: 0}
+  useHealthSlideInfoOnScreen: 0
+  enemyTag: enemy
+  friendTag: friend
+  canBeSedated: 1
+  awakeOnDamageIfSedated: 0
+  sedateActive: 0
+  sedateUntilReceiveDamageState: 0
+  useEventOnSedate: 0
+  sedateStartEvent:
+    m_PersistentCalls:
+      m_Calls: []
+  sedateEndEvent:
+    m_PersistentCalls:
+      m_Calls: []
+  showSettings: 0
+  showAdvancedSettings: 0
+  showDamageDeadSettings: 0
+  resurrectAfterDelayEnabled: 0
+  resurrectDelay: 0
+  eventToResurrectAfterDelay:
+    m_PersistentCalls:
+      m_Calls: []
+  showDamageReceivedDebugInfo: 0
+  customDamageReceiverList: []
+  useEventOnHealthValueList: 0
+  eventOnHealthValueList: []
+  useDamageTypeCheck: 0
+  damageTypeInfoList: []
+  checkOnlyDamageTypesOnDamageReceived: 0
+  blockDamageActive: 0
+  blockDamageProtectionAmount: 0
+  useEventsOnDamageBlocked: 0
+  eventOnDamageBlocked:
+    m_PersistentCalls:
+      m_Calls: []
+  useDamageHitReaction: 0
+  mainDamageHitReactionSystem: {fileID: 0}
+  debugDamageSourceTransform: {fileID: 0}
+  eventToSendCurrentHealthAmount:
+    m_PersistentCalls:
+      m_Calls: []
+  objectIsCharacter: 1
+  sendInfoToCharacterCustomizationOnDamageEnabled: 0
+  mainInventoryCharacterCustomizationSystem: {fileID: 0}
+  mainDecalManagerName: Decal Manager
+  impactDecalList:
+  - Default Regular Shoot
+  - Metal Regular Shoot
+  - Flesh Regular Shoot
+  - Stone Shoot
+  - Sand Shoot
+  - 
+  impactDecalIndex: 4
+  impactDecalName: Sand Shoot
+  useImpactSurface: 1
+  checkDamageReceiverOnChildrenTransform: 0
+  mainDamageReceiver: {fileID: 0}
+  ragdollManager: {fileID: 0}
+  damageInScreenManager: {fileID: 0}
+  healthAmountToTakeOnEditor: 0
+  healthAmountToGiveOnEditor: 0
+  mainManagerName: Health Bar Manager
+  currentID: 0
+  currentSedateDuration: 0
+  receiveDamageEvenDead: 0
+  damageTypeExplanation: 'Damage Resistance as 0 means the damage received doesn''t
+    change, and value between 0 and 1 will decrease damage received, being 1 equal
+    to total resistance, receiving 0 damage.
+
+
+    Between -10 and 0, it will be
+    weakness, adding to the basedamage, the damage resistance value multiplied for
+    the damage value, with a maximum of damage equal to damage + damagex10.'
+  receiveDamageFromCollisionsEnabled: 0
+  minTimeToReceiveDamageOnImpact: 0
+  minVelocityToReceiveDamageOnImpact: 0
+  receiveDamageOnImpactMultiplier: 0
+  addDamageReceiversToCustomTransformList: 0
+  customTransformListDamageReceiver: []

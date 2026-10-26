@@ -1,0 +1,1302 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!1 &4634508683504220610
+GameObject:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  serializedVersion: 6
+  m_Component:
+  - component: {fileID: 4637401235640578266}
+  - component: {fileID: 4741260516320923508}
+  - component: {fileID: 4745003597813053502}
+  m_Layer: 2
+  m_Name: Button Panel
+  m_TagString: Untagged
+  m_Icon: {fileID: 0}
+  m_NavMeshLayer: 0
+  m_StaticEditorFlags: 0
+  m_IsActive: 1
+--- !u!4 &4637401235640578266
+Transform:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 4634508683504220610}
+  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
+  m_LocalPosition: {x: 0, y: 0, z: 0}
+  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_Children:
+  - {fileID: 4631247710348067756}
+  - {fileID: 4630960067636315726}
+  m_Father: {fileID: 4630903049027042226}
+  m_RootOrder: 0
+  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!114 &4741260516320923508
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 4634508683504220610}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: a20aebbba880bbd44b97110170187dee, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  animationName: Action Event Button Panel
+  forwardSpeed: 1
+  backwardSpeed: 1
+  resetAnimationOnEnable: 0
+  resetAnimationOnDisable: 0
+  playAnimation: 0
+  playingAnimation: 0
+  mainAnimationLocated: 0
+  playingAnimationForward: 0
+  mainAnimation: {fileID: 0}
+  useEventOnPlayAnimationForward: 0
+  eventOnPlayAnimationForward:
+    m_PersistentCalls:
+      m_Calls: []
+  useEventOnEndOfAnimationForward: 0
+  eventOnEndOfAnimationForward:
+    m_PersistentCalls:
+      m_Calls: []
+  useEventOnPlayAnimationBackward: 0
+  eventOnPlayAnimationBackward:
+    m_PersistentCalls:
+      m_Calls: []
+  useEventOnEndOfAnimationBackward: 0
+  eventOnEndOfAnimationBackward:
+    m_PersistentCalls:
+      m_Calls: []
+--- !u!111 &4745003597813053502
+Animation:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 4634508683504220610}
+  m_Enabled: 1
+  serializedVersion: 3
+  m_Animation: {fileID: 0}
+  m_Animations:
+  - {fileID: 7400000, guid: 35b28e3a8a7fef840ab6937437e356c5, type: 2}
+  m_WrapMode: 0
+  m_PlayAutomatically: 0
+  m_AnimatePhysics: 0
+  m_CullingType: 0
+--- !u!1 &4634545380526721366
+GameObject:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  serializedVersion: 6
+  m_Component:
+  - component: {fileID: 4637322531942428908}
+  m_Layer: 0
+  m_Name: spawnPosition
+  m_TagString: Untagged
+  m_Icon: {fileID: 0}
+  m_NavMeshLayer: 0
+  m_StaticEditorFlags: 0
+  m_IsActive: 1
+--- !u!4 &4637322531942428908
+Transform:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 4634545380526721366}
+  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
+  m_LocalPosition: {x: 0, y: 2.59, z: 3.56}
+  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_Children: []
+  m_Father: {fileID: 4637112340803481212}
+  m_RootOrder: 0
+  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!1 &4634797173838991040
+GameObject:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  serializedVersion: 6
+  m_Component:
+  - component: {fileID: 4631247710348067756}
+  - component: {fileID: 4624106648175825640}
+  - component: {fileID: 4611690607067680286}
+  m_Layer: 0
+  m_Name: Cylinder
+  m_TagString: Untagged
+  m_Icon: {fileID: 0}
+  m_NavMeshLayer: 0
+  m_StaticEditorFlags: 0
+  m_IsActive: 1
+--- !u!4 &4631247710348067756
+Transform:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 4634797173838991040}
+  m_LocalRotation: {x: 0.7071068, y: -0, z: -0, w: 0.7071068}
+  m_LocalPosition: {x: 0, y: 1.202, z: -0.10099983}
+  m_LocalScale: {x: 0.18854344, y: 0.10648491, z: 0.18854377}
+  m_Children: []
+  m_Father: {fileID: 4637401235640578266}
+  m_RootOrder: 0
+  m_LocalEulerAnglesHint: {x: 90, y: 0, z: 0}
+--- !u!33 &4624106648175825640
+MeshFilter:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 4634797173838991040}
+  m_Mesh: {fileID: 10206, guid: 0000000000000000e000000000000000, type: 0}
+--- !u!23 &4611690607067680286
+MeshRenderer:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 4634797173838991040}
+  m_Enabled: 1
+  m_CastShadows: 1
+  m_ReceiveShadows: 1
+  m_DynamicOccludee: 1
+  m_MotionVectors: 1
+  m_LightProbeUsage: 1
+  m_ReflectionProbeUsage: 1
+  m_RayTracingMode: 2
+  m_RenderingLayerMask: 1
+  m_RendererPriority: 0
+  m_Materials:
+  - {fileID: 2100000, guid: 2a1f0ff4ada437d459279ae5fca8a8fb, type: 2}
+  m_StaticBatchInfo:
+    firstSubMesh: 0
+    subMeshCount: 0
+  m_StaticBatchRoot: {fileID: 0}
+  m_ProbeAnchor: {fileID: 0}
+  m_LightProbeVolumeOverride: {fileID: 0}
+  m_ScaleInLightmap: 1
+  m_ReceiveGI: 1
+  m_PreserveUVs: 1
+  m_IgnoreNormalsForChartDetection: 0
+  m_ImportantGI: 0
+  m_StitchLightmapSeams: 1
+  m_SelectedEditorRenderState: 3
+  m_MinimumChartSize: 4
+  m_AutoUVMaxDistance: 0.5
+  m_AutoUVMaxAngle: 89
+  m_LightmapParameters: {fileID: 0}
+  m_SortingLayerID: 0
+  m_SortingLayer: 0
+  m_SortingOrder: 0
+--- !u!1 &4634816836425029600
+GameObject:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  serializedVersion: 6
+  m_Component:
+  - component: {fileID: 4630903049027042226}
+  - component: {fileID: 4662070485349863318}
+  - component: {fileID: 4738397900127165626}
+  - component: {fileID: 4738841864261707524}
+  - component: {fileID: 4738327297468080468}
+  - component: {fileID: 4738710562587834320}
+  m_Layer: 2
+  m_Name: Action System Trigger (Long Press Button)
+  m_TagString: device
+  m_Icon: {fileID: 0}
+  m_NavMeshLayer: 0
+  m_StaticEditorFlags: 0
+  m_IsActive: 1
+--- !u!4 &4630903049027042226
+Transform:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 4634816836425029600}
+  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
+  m_LocalPosition: {x: 0, y: 0, z: 0}
+  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_Children:
+  - {fileID: 4637401235640578266}
+  - {fileID: 4630963321747790968}
+  - {fileID: 4631293350672366330}
+  - {fileID: 4637418071719932996}
+  - {fileID: 4637112340803481212}
+  - {fileID: 4630833531491563082}
+  m_Father: {fileID: 0}
+  m_RootOrder: 0
+  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!65 &4662070485349863318
+BoxCollider:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 4634816836425029600}
+  m_Material: {fileID: 0}
+  m_IsTrigger: 1
+  m_Enabled: 1
+  serializedVersion: 2
+  m_Size: {x: 2, y: 2, z: 2}
+  m_Center: {x: 0, y: 1, z: 0}
+--- !u!114 &4738397900127165626
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 4634816836425029600}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 45fc770a0dc8169449e7164daf5e37bf, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  eventList: []
+  enterEventList:
+  - name: 
+    objectToCall: {fileID: 0}
+    functionNameList: []
+    secondsDelay: 0
+    useRandomDelay: 0
+    randomDelayRange: {x: 0, y: 0}
+    sendGameObject: 0
+    objectToSend: {fileID: 0}
+    sendObjectDetected: 1
+    sendObjectDetectedFunction: 
+    sendObjectDetectedByEvent: 1
+    eventToSendObjectDetected:
+      m_PersistentCalls:
+        m_Calls:
+        - m_Target: {fileID: 4738841864261707524}
+          m_MethodName: setPlayerActionActive
+          m_Mode: 0
+          m_Arguments:
+            m_ObjectArgument: {fileID: 0}
+            m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
+            m_IntArgument: 0
+            m_FloatArgument: 0
+            m_StringArgument: 
+            m_BoolArgument: 0
+          m_CallState: 2
+    useEventFunction: 1
+    eventFunction:
+      m_PersistentCalls:
+        m_Calls: []
+    useBroadcastMessage: 0
+    broadcastMessageStringList: []
+    useRemoteEvent: 0
+    remoteEventNameList: []
+  exitEventList:
+  - name: 
+    objectToCall: {fileID: 0}
+    functionNameList: []
+    secondsDelay: 0
+    useRandomDelay: 0
+    randomDelayRange: {x: 0, y: 0}
+    sendGameObject: 0
+    objectToSend: {fileID: 0}
+    sendObjectDetected: 1
+    sendObjectDetectedFunction: 
+    sendObjectDetectedByEvent: 1
+    eventToSendObjectDetected:
+      m_PersistentCalls:
+        m_Calls:
+        - m_Target: {fileID: 4738841864261707524}
+          m_MethodName: setPlayerActionDeactivate
+          m_Mode: 0
+          m_Arguments:
+            m_ObjectArgument: {fileID: 0}
+            m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
+            m_IntArgument: 0
+            m_FloatArgument: 0
+            m_StringArgument: 
+            m_BoolArgument: 0
+          m_CallState: 2
+    useEventFunction: 1
+    eventFunction:
+      m_PersistentCalls:
+        m_Calls: []
+    useBroadcastMessage: 0
+    broadcastMessageStringList: []
+    useRemoteEvent: 0
+    remoteEventNameList: []
+  useSameFunctionInList: 0
+  sameFunctionList: []
+  useSameObjectToCall: 0
+  callThisObject: 0
+  sameObjectToCall: {fileID: 0}
+  triggeredByButton: 0
+  useObjectToTrigger: 0
+  objectNeededToTrigger: {fileID: 0}
+  useTagToTrigger: 1
+  tagNeededToTrigger: Player
+  useTagList: 0
+  tagList: []
+  loopEventAtTheEndEnabled: 0
+  justCallOnTrigger: 0
+  callFunctionEveryTimeTriggered: 1
+  eventTriggered: 0
+  dontUseDelay: 0
+  useSameDelay: 0
+  generalDelay: 0
+  useRandomDelay: 0
+  randomDelayRange: {x: 0, y: 0}
+  triggerEventType: 2
+  useLayerMask: 0
+  layerMask:
+    serializedVersion: 2
+    m_Bits: 0
+  coroutineActive: 0
+  setParentToNull: 0
+  objectDetected: {fileID: 0}
+  triggerEventAtStart: 0
+  isEnter: 0
+  isExit: 0
+--- !u!114 &4738841864261707524
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 4634816836425029600}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: cc1db0794fd4b9e4ebf007f9e3afdf44, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  useMinDistanceToActivateAction: 1
+  minDistanceToActivateAction: 1
+  useMinAngleToActivateAction: 0
+  minAngleToActivateAction: 20
+  checkOppositeAngle: 0
+  canStopPreviousAction: 0
+  canForceToPlayCustomAction: 0
+  currentActionInfoIndex: 0
+  actionInfoList:
+  - Name: Use Button
+    useActionName: 1
+    actionName: Use Button
+    useActionID: 0
+    actionID: 0
+    removeActionIDValueImmediately: 0
+    useCrossFadeAnimation: 1
+    pausePlayerActionsInput: 1
+    pausePlayerMovementInput: 1
+    resetPlayerMovementInput: 0
+    resetPlayerMovementInputSmoothly: 0
+    removePlayerMovementInputValues: 1
+    enablePlayerCanMoveAfterAction: 0
+    allowDownVelocityDuringAction: 0
+    pauseInteractionButton: 0
+    pauseInputListDuringActionActive: 0
+    ignorePauseInputListDuringAction: 0
+    pausePlayerCameraRotationInput: 0
+    pausePlayerCameraActionsInput: 0
+    pausePlayerCameraViewChange: 1
+    pausePlayerCameraMouseWheel: 1
+    disableHeadBob: 1
+    pauseHeadBob: 1
+    ignoreCameraDirectionOnMovement: 0
+    ignoreCameraDirectionOnStrafeMovement: 0
+    pauseStrafeState: 1
+    useNewCameraStateOnActionStart: 0
+    newCameraStateNameOnActionStart: 
+    setPreviousCameraStateOnActionEnd: 0
+    useNewCameraStateOnActionEnd: 0
+    newCameraStateNameOnActionEnd: 
+    ignorePivotCameraCollision: 0
+    useExtraFollowTransformPositionOffsetActiveFBA: 0
+    currentExtraFollowTransformPositionOffsetFBA: {x: 0, y: 0, z: 0}
+    ignorePlayerRotationToCameraOnFBA: 1
+    playerCameraTransformFollowsPlayerTransformRotationOnFBA: 0
+    ignoreHorizontalCameraRotationOnFBA: 0
+    ignoreVerticalCameraRotationOnFBA: 0
+    resetCameraRotationForwardOnFBA: 0
+    setCustomHeadTrackTargetToLook: 0
+    customHeadTrackTargetToLook: {fileID: 0}
+    useCustomHeadTrackTolook: 0
+    customHeadTrackToLookName: 
+    disablePlayerGravity: 0
+    disablePlayerOnGroundState: 0
+    disablePlayerCollider: 0
+    disablePlayerColliderComponent: 0
+    enablePlayerColliderComponentOnActionEnd: 0
+    ignoreSetLastTimeFallingOnActionEnd: 0
+    reloadMainColliderOnCharacterOnActionEnd: 0
+    changePlayerColliderScale: 0
+    disableIKOnHands: 1
+    disableIKOnFeet: 1
+    pauseHeadTrack: 1
+    usCustomPauseHeadTrackOnFBA: 0
+    customPauseHeadTrackOnFBA: 0
+    setNoFrictionOnCollider: 1
+    forceRootMotionDuringAction: 1
+    ignoreRootMotionDuringAction: 0
+    actionCanHappenOnAir: 0
+    jumpCanResumePlayer: 0
+    useMovementInput: 0
+    useInteractionButtonToActivateAnimation: 1
+    animationTriggeredByExternalEvent: 0
+    resumePlayerAfterAction: 1
+    increaseActionIndexAfterComplete: 0
+    waitForNextPlayerInteractionButtonPress: 0
+    stayInState: 0
+    resetActionIndexAfterComplete: 0
+    animationDuration: 3.2
+    animationSpeed: 1
+    actionDurationOnFirstPerson: 1
+    actionUsesMovement: 0
+    adjustRotationDuringMovement: 0
+    delayToPlayAnimation: 0
+    usePositionToAdjustPlayer: 1
+    positionToAdjustPlayer: {fileID: 4637418071719932996}
+    adjustPlayerPositionSpeed: 0.3
+    usePositionToAdjustPlayerOnlyOnFBA: 0
+    userLerpToAdjustPosition: 0
+    movePlayerOnDirection: 0
+    movePlayerOnDirectionRaycastDistance: 0
+    movePlayerOnDirectionSpeed: 0
+    movePlayerDirection: {x: 0, y: 0, z: 0}
+    movePlayerOnDirectionLayermask:
+      serializedVersion: 2
+      m_Bits: 0
+    usePhysicsForceOnMovePlayer: 0
+    physicsForceOnMovePlayer: 0
+    physicsForceOnMovePlayerDuration: 0
+    checkIfPositionReachedOnPhysicsForceOnMovePlayer: 0
+    mainAvatarTarget: 0
+    matchTargetTransform: {fileID: 4630963321747790968}
+    matchTargetPositionWeightMask: {x: 1, y: 0, z: 1}
+    matchTargetRotationWeightMask: 5
+    matchPlayerRotation: 0
+    matchPlayerRotationSpeed: 11
+    playerTargetTransform: {fileID: 4630963321747790968}
+    adjustPlayerPositionRotationDuring: 1
+    matchStartValue: 0
+    matchEndValue: 1
+    usePlayerWalkTarget: 0
+    useWalkAtTheEndOfAction: 0
+    playerWalkTarget: {fileID: 0}
+    pausePlayerInputDuringWalk: 0
+    maxWalkSpeed: 1
+    activateDynamicObstacleDetection: 0
+    setPlayerFacingDirection: 1
+    playerFacingDirectionTransform: {fileID: 4637418071719932996}
+    maxRotationAmount: 1
+    minRotationAmount: 0.3
+    minRotationAngle: 10
+    adjustFacingDirectionBasedOnPlayerPosition: 0
+    facingDirectionPositionTransform: {fileID: 0}
+    adjustRotationAtOnce: 0
+    useMovingPlayerToPositionTarget: 0
+    movingPlayerToPositionTargetSpeed: 5
+    movingPlayerToPositionTargetDelay: 0
+    ignoreSetPlayerFacingDirectionOnFBA: 0
+    destroyActionOnEnd: 0
+    removeActionOnEnd: 0
+    setActionState: 0
+    actionStateName: 
+    actionStateToConfigure: 0
+    setObjectParent: 0
+    boneParent: 0
+    objectToSetParent: {fileID: 0}
+    bonePositionReference: {fileID: 0}
+    waitTimeToParentObject: 0
+    setObjectParentSpeed: 0
+    useMountPoint: 0
+    mountPointName: 
+    resetObjectPositionAndParentAfterAction: 1
+    useEventInfoList: 1
+    useAccumulativeDelay: 0
+    useAnimationSpeedOnDelay: 0
+    eventInfoList:
+    - delayToActivate: 0.4
+      eventToUse:
+        m_PersistentCalls:
+          m_Calls:
+          - m_Target: {fileID: 4738327297468080468}
+            m_MethodName: removeDeviceFromListWithoutDisablingDevice
+            m_Mode: 1
+            m_Arguments:
+              m_ObjectArgument: {fileID: 0}
+              m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
+              m_IntArgument: 0
+              m_FloatArgument: 0
+              m_StringArgument: 
+              m_BoolArgument: 0
+            m_CallState: 2
+      useRemoteEvent: 0
+      remoteEventName: 
+      useRemoteEventNameList: 0
+      remoteEventNameList: []
+      eventTriggered: 0
+      sendCurrentPlayerOnEvent: 0
+      eventToSendCurrentPlayer:
+        m_PersistentCalls:
+          m_Calls: []
+      callThisEventIfActionStopped: 0
+    - delayToActivate: 1.2
+      eventToUse:
+        m_PersistentCalls:
+          m_Calls:
+          - m_Target: {fileID: 4741260516320923508}
+            m_MethodName: playForwardAnimation
+            m_Mode: 1
+            m_Arguments:
+              m_ObjectArgument: {fileID: 0}
+              m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
+              m_IntArgument: 0
+              m_FloatArgument: 0
+              m_StringArgument: 
+              m_BoolArgument: 0
+            m_CallState: 2
+          - m_Target: {fileID: 4715334265164269268}
+            m_MethodName: Play
+            m_Mode: 1
+            m_Arguments:
+              m_ObjectArgument: {fileID: 0}
+              m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
+              m_IntArgument: 0
+              m_FloatArgument: 0
+              m_StringArgument: 
+              m_BoolArgument: 0
+            m_CallState: 2
+      useRemoteEvent: 0
+      remoteEventName: 
+      useRemoteEventNameList: 0
+      remoteEventNameList: []
+      eventTriggered: 0
+      sendCurrentPlayerOnEvent: 0
+      eventToSendCurrentPlayer:
+        m_PersistentCalls:
+          m_Calls: []
+      callThisEventIfActionStopped: 0
+    - delayToActivate: 1.4
+      eventToUse:
+        m_PersistentCalls:
+          m_Calls:
+          - m_Target: {fileID: 4738655866449391094}
+            m_MethodName: getObject
+            m_Mode: 1
+            m_Arguments:
+              m_ObjectArgument: {fileID: 0}
+              m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
+              m_IntArgument: 0
+              m_FloatArgument: 0
+              m_StringArgument: 
+              m_BoolArgument: 0
+            m_CallState: 2
+      useRemoteEvent: 0
+      remoteEventName: 
+      useRemoteEventNameList: 0
+      remoteEventNameList: []
+      eventTriggered: 0
+      sendCurrentPlayerOnEvent: 0
+      eventToSendCurrentPlayer:
+        m_PersistentCalls:
+          m_Calls: []
+      callThisEventIfActionStopped: 0
+    - delayToActivate: 3.8
+      eventToUse:
+        m_PersistentCalls:
+          m_Calls:
+          - m_Target: {fileID: 4738327297468080468}
+            m_MethodName: addDeviceToList
+            m_Mode: 1
+            m_Arguments:
+              m_ObjectArgument: {fileID: 0}
+              m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
+              m_IntArgument: 0
+              m_FloatArgument: 0
+              m_StringArgument: 
+              m_BoolArgument: 0
+            m_CallState: 2
+      useRemoteEvent: 0
+      remoteEventName: 
+      useRemoteEventNameList: 0
+      remoteEventNameList: []
+      eventTriggered: 0
+      sendCurrentPlayerOnEvent: 0
+      eventToSendCurrentPlayer:
+        m_PersistentCalls:
+          m_Calls: []
+      callThisEventIfActionStopped: 0
+    firstPersonEventInfoList: []
+    disableHUDOnAction: 0
+    showGizmo: 0
+    keepWeaponsDuringAction: 1
+    drawWeaponsAfterAction: 1
+    disableIKWeaponsDuringAction: 0
+    stopAimOnFireWeapons: 0
+    stopShootOnFireWeapons: 0
+    hideMeleWeaponMeshOnAction: 0
+    setInvincibilityStateActive: 0
+    invincibilityStateDuration: 0
+    checkEventsOnTemporalInvincibilityActive: 0
+    disableDamageReactionDuringAction: 0
+    addHealthAmountOnAction: 0
+    healthAmountToAdd: 0
+    removeHealthAmountOnAction: 0
+    healthAmountToRemove: 0
+    setHealthOnActionEnd: 0
+    killCharacter: 0
+    delayToKillCharacter: 0
+    activateCharacterRagdoll: 0
+    delatyToActivateCharacterRagdoll: 0
+    ragdollStateDuration: 0
+    addForceToRagdoll: 0
+    ragdollForce: 0
+    useDirectionForRagdoll: 0
+    directionForRagdollTransform: {fileID: 0}
+    useLocalCharacterRagdollForceDirection: 0
+    localCharacterRagdollForceDirection: {x: 0, y: 0, z: 1}
+    checkIfPlayerOnGround: 1
+    checkConditionsToStartActionOnUpdate: 0
+    playerMovingToStartAction: 0
+    checkPlayerToNotCrouch: 0
+    stopActionIfPlayerIsOnAir: 0
+    delayToStopActionIfPlayerIsOnAir: 0
+    getUpIfPlayerCrouching: 1
+    crouchOnActionEnd: 0
+    setPreviousCrouchStateOnActionEnd: 0
+    checkIfPlayerCanGetUpFromCrouch: 0
+    dropGrabbedObjectsOnAction: 1
+    dropOnlyIfNotGrabbedPhysically: 1
+    dropIfGrabbedPhysicallyWithIK: 1
+    keepGrabbedObjectOnActionIfNotDropped: 0
+    keepMeleeWeaponGrabbed: 0
+    drawMeleeWeaponGrabbedOnActionEnd: 0
+    stopCurrentMeleeAttackInProcess: 0
+    useEventIfActionStopped: 0
+    eventIfActionStopped:
+      m_PersistentCalls:
+        m_Calls: []
+    pauseCustomInputListDuringActionActive: 0
+    customInputToPauseOnActionInfoList: []
+    layerForRaycast:
+      serializedVersion: 2
+      m_Bits: 8388609
+    useRaycastToAdjustMatchTransform: 0
+    useRaycastToAdjustTargetTransform: 0
+    useRaycastToAdjustPositionToAdjustPlayer: 1
+    useRaycastToAdjustMatchTransformExplanation: This is the option to adjust the
+      matchTargetTransform transform to the ground, used to match the player position
+      to the animation position.
+    useRaycastToAdjustTargetTransformExplanation: This is the option to adjust the
+      playerWalkTarget transform to the ground, used to make the player to walk to
+      a certain position during the action.
+    useRaycastToAdjustPositionToAdjustPlayerExplanation: This is the option to adjust
+      the positionToAdjustPlayer transform to the ground, used to move the player
+      to the exact zone to play the animation.
+    pauseAIOnActionStart: 0
+    resumeAIOnActionEnd: 0
+    assignPartnerOnActionEnd: 0
+    checkUseMinAngleToActivateAction: 0
+    checkUseMinDistanceToActivateAction: 0
+    setMoveNavMeshPaused: 0
+    ignoreAnimationTransitionCheck: 0
+    pauseActivationOfOtherCustomActions: 0
+    disableAnyStateConfiguredWithExitTime: 0
+  playerList: []
+  useEventsOnPlayerInsideOutside: 0
+  eventOnPlayerInside:
+    m_PersistentCalls:
+      m_Calls: []
+  eventOnPlayerOutside:
+    m_PersistentCalls:
+      m_Calls: []
+  useEventsOnStartEndAction: 0
+  eventOnStartAction:
+    m_PersistentCalls:
+      m_Calls: []
+  eventOnEndAction:
+    m_PersistentCalls:
+      m_Calls: []
+  useEventAfterResumePlayer: 0
+  eventAfterResumePlayer:
+    m_PersistentCalls:
+      m_Calls: []
+  actionTransform: {fileID: 0}
+  sendCurrentPlayerOnEvent: 0
+  eventToSendCurrentPlayer:
+    m_PersistentCalls:
+      m_Calls: []
+  useEventBeforeStartAction: 0
+  eventBeforeStartAction:
+    m_PersistentCalls:
+      m_Calls: []
+  mainTrigger: {fileID: 0}
+  activateCustomActionAfterActionComplete: 0
+  customActionToActiveAfterActionComplete: 
+  addActionToListStoredToPlay: 0
+  playActionAutomaticallyIfStoredAtEnd: 0
+  clearAddActionToListStoredToPlay: 0
+  useEventsToEnableDisableActionObject: 0
+  eventToEnableActionObject:
+    m_PersistentCalls:
+      m_Calls: []
+  eventToDisableActionObject:
+    m_PersistentCalls:
+      m_Calls: []
+  categoryName: 
+  canInterruptOtherActionActive: 0
+  actionListToInterrupt: []
+  useCategoryToCheckInterrupt: 0
+  actionCategoryListToInterrupt: []
+  eventOnInterrupOtherActionActive:
+    m_PersistentCalls:
+      m_Calls: []
+  useEventOnInterruptedAction: 0
+  eventOnInterruptedAction:
+    m_PersistentCalls:
+      m_Calls: []
+  useProbabilityToActivateAction: 0
+  probablityToActivateAction: 0
+  animationUsedOnUpperBody: 0
+  disableRegularActionActiveState: 0
+  disableRegularActionActiveStateOnEnd: 0
+  changeCameraViewToThirdPersonOnAction: 1
+  changeCameraViewToThirdPersonOnActionOnFullBodyAwareness: 0
+  keepCameraRotationToHeadOnFullBodyAwareness: 0
+  actionsCanBeUsedOnFirstPerson: 0
+  ignoreChangeToThirdPerson: 0
+  disableIgnorePlayerListChange: 0
+  showDebugPrint: 0
+  showGizmo: 0
+  showAllGizmo: 0
+  mainAnimator: {fileID: 0}
+  newAnimationClip: {fileID: 0}
+  enableAnimatorLayerOnAction: 0
+  animatorLayerToEnableName: 
+  actionNameToReplace: 
+  animationLayerName: Base Layer
+  newAnimationSpeed: 1
+  activateAnimationReplace: 0
+  newAnimationIsMirror: 0
+  setPlayerParentDuringActionActive: 0
+  playerParentDuringAction: {fileID: 0}
+--- !u!114 &4738327297468080468
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 4634816836425029600}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: be8030885d591eb408518d093fad5d5b, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  playerTag: Player
+  useOnlyForTrigger: 1
+  functionToSetPlayer: 
+  activateDeviceOnTriggerEnter: 0
+  useFreeInteraction: 0
+  useFreeInteractionEvent: 0
+  freeInteractionEvent:
+    m_PersistentCalls:
+      m_Calls: []
+  useMoveCameraToDevice: 0
+  disableDeviceWhenStopUsing: 0
+  stopUsingDeviceWhenUnlock: 0
+  disableAndRemoveDeviceWhenUnlock: 0
+  functionToUseDevice:
+    m_PersistentCalls:
+      m_Calls: []
+  usingDevice: 0
+  unlockFunctionCall:
+    m_PersistentCalls:
+      m_Calls: []
+  lockFunctionCall:
+    m_PersistentCalls:
+      m_Calls: []
+  currentPlayer: {fileID: 0}
+  activateEventOnTriggerStay: 0
+  triggerStayEvent:
+    m_PersistentCalls:
+      m_Calls: []
+  eventOnTriggerStayRate: 0
+  activateEventOnTriggerEnter: 0
+  triggerEnterEvent:
+    m_PersistentCalls:
+      m_Calls: []
+  activateEventOnTriggerExit: 0
+  triggerExitEvent:
+    m_PersistentCalls:
+      m_Calls: []
+  sendPlayerOnTriggerEnter: 0
+  eventToSendPlayerOnTriggerEnter:
+    m_PersistentCalls:
+      m_Calls: []
+  sendPlayerOnTriggerExit: 0
+  eventToSendPlayerOnTriggerExit:
+    m_PersistentCalls:
+      m_Calls: []
+  activateEventIfUnableToUseDevice: 0
+  unableToUseDeviceEvent:
+    m_PersistentCalls:
+      m_Calls: []
+  sendCurrentPlayerOnEvent: 0
+  setCurrentPlayerEvent:
+    m_PersistentCalls:
+      m_Calls: []
+  useEventOnStartUsingDevice: 0
+  useEventOnStopUsingDevice: 0
+  eventOnStartUsingDevice:
+    m_PersistentCalls:
+      m_Calls: []
+  eventOnStopUsingDevice:
+    m_PersistentCalls:
+      m_Calls: []
+  deviceCanBeUsed: 1
+  playerInside: 0
+  cameraMovementManager: {fileID: 0}
+  deviceMovementManager: {fileID: 0}
+  disableDeviceInteractionAfterUsingOnce: 0
+  useConditionSystemToStartDevice: 0
+  mainGKCConditionInfoToStartDevice: {fileID: 0}
+  useConditionSystemToStopDevice: 0
+  mainGKCConditionInfoToStopDevice: {fileID: 0}
+  showDebugPrint: 0
+--- !u!114 &4738710562587834320
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 4634816836425029600}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 80fe7bfbecac2ee4895bd133d0b782df, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  deviceName: Button
+  deviceAction: Press
+  useMultipleInteraction: 0
+  multipleInteractionNameList: []
+  secondaryDeviceAction: 
+  reloadDeviceActionOnPress: 0
+  hideIconOnPress: 0
+  disableIconOnPress: 0
+  showIcon: 1
+  showTouchIconButton: 1
+  hideIconOnUseDevice: 0
+  showIconOnStopUseDevice: 0
+  useTransformForStringAction: 1
+  transformForStringAction: {fileID: 4631293350672366330}
+  useSeparatedTransformForEveryView: 0
+  transformForThirdPerson: {fileID: 0}
+  transformForFirstPerson: {fileID: 0}
+  useLocalOffset: 1
+  actionOffset: 1
+  setUsingDeviceState: 0
+  setTextFontSizeActive: 0
+  textFontSize: 17
+  iconEnabled: 1
+  useRaycastToDetectDeviceParts: 0
+  usingDevice: 0
+  useCustomMinDistanceToUseDevice: 1
+  customMinDistanceToUseDevice: 1
+  ignoreDistanceToDevice: 0
+  useCustomMinAngleToUse: 0
+  customMinAngleToUseDevice: 20
+  useRelativeDirectionBetweenPlayerAndObject: 0
+  removeDeviceFromPlayerListOnMaxDistance: 0
+  maxDistanceToRemoveDeviceFromPlayerList: 0
+  useCustomIconButtonInfo: 1
+  customIconButtonInfoName: Default
+  ignoreUseOnlyDeviceIfVisibleOnCamera: 1
+  useCustomDeviceTransformPosition: 1
+  customDeviceTransformPosition: {fileID: 4631293350672366330}
+  useFixedDeviceIconPosition: 0
+  checkIfObstacleBetweenDeviceAndPlayer: 0
+  showIconTexture: 0
+  iconTexture: {fileID: 0}
+  useObjectDescription: 0
+  objectDescription: 
+  descriptionFontSize: 14
+  showObjectAmount: 0
+  objectAmount: 0
+  useHoldInteractionButton: 1
+  holdInteractionButtonDuration: 2
+  useMaxDistanceToCameraCenter: 0
+  maxDistanceToCameraCenter: 0
+  showGizmo: 0
+  gizmoLabelColor: {r: 0, g: 1, b: 0, a: 1}
+  gizmoColor: {r: 1, g: 1, b: 1, a: 1}
+  gizmoRadius: 0.3
+--- !u!1 &4634963351141059288
+GameObject:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  serializedVersion: 6
+  m_Component:
+  - component: {fileID: 4630960067636315726}
+  - component: {fileID: 4621162272784472902}
+  - component: {fileID: 4664937793632792304}
+  - component: {fileID: 4613339344353820068}
+  m_Layer: 0
+  m_Name: Cube (1)
+  m_TagString: Untagged
+  m_Icon: {fileID: 0}
+  m_NavMeshLayer: 0
+  m_StaticEditorFlags: 4294967295
+  m_IsActive: 1
+--- !u!4 &4630960067636315726
+Transform:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 4634963351141059288}
+  m_LocalRotation: {x: -0, y: -0, z: -0, w: 1}
+  m_LocalPosition: {x: 0, y: 0.35500002, z: 0.02630043}
+  m_LocalScale: {x: 0.43244123, y: 2.1305585, z: 0.1581957}
+  m_Children: []
+  m_Father: {fileID: 4637401235640578266}
+  m_RootOrder: 1
+  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!33 &4621162272784472902
+MeshFilter:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 4634963351141059288}
+  m_Mesh: {fileID: 10202, guid: 0000000000000000e000000000000000, type: 0}
+--- !u!65 &4664937793632792304
+BoxCollider:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 4634963351141059288}
+  m_Material: {fileID: 0}
+  m_IsTrigger: 0
+  m_Enabled: 1
+  serializedVersion: 2
+  m_Size: {x: 1, y: 1, z: 1}
+  m_Center: {x: 0, y: 0, z: 0}
+--- !u!23 &4613339344353820068
+MeshRenderer:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 4634963351141059288}
+  m_Enabled: 1
+  m_CastShadows: 1
+  m_ReceiveShadows: 1
+  m_DynamicOccludee: 1
+  m_MotionVectors: 1
+  m_LightProbeUsage: 1
+  m_ReflectionProbeUsage: 1
+  m_RayTracingMode: 2
+  m_RenderingLayerMask: 1
+  m_RendererPriority: 0
+  m_Materials:
+  - {fileID: 2100000, guid: c3072e3e04de08d478fc76f7555f1e29, type: 2}
+  m_StaticBatchInfo:
+    firstSubMesh: 0
+    subMeshCount: 0
+  m_StaticBatchRoot: {fileID: 0}
+  m_ProbeAnchor: {fileID: 0}
+  m_LightProbeVolumeOverride: {fileID: 0}
+  m_ScaleInLightmap: 1
+  m_ReceiveGI: 1
+  m_PreserveUVs: 1
+  m_IgnoreNormalsForChartDetection: 0
+  m_ImportantGI: 0
+  m_StitchLightmapSeams: 1
+  m_SelectedEditorRenderState: 3
+  m_MinimumChartSize: 4
+  m_AutoUVMaxDistance: 0.5
+  m_AutoUVMaxAngle: 89
+  m_LightmapParameters: {fileID: 0}
+  m_SortingLayerID: 0
+  m_SortingLayer: 0
+  m_SortingOrder: 0
+--- !u!1 &4635008479965196632
+GameObject:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  serializedVersion: 6
+  m_Component:
+  - component: {fileID: 4630963321747790968}
+  m_Layer: 2
+  m_Name: Match Target Transform
+  m_TagString: Untagged
+  m_Icon: {fileID: 0}
+  m_NavMeshLayer: 0
+  m_StaticEditorFlags: 0
+  m_IsActive: 1
+--- !u!4 &4630963321747790968
+Transform:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 4635008479965196632}
+  m_LocalRotation: {x: -0, y: -0, z: -0, w: 1}
+  m_LocalPosition: {x: 0, y: 0, z: -0.646}
+  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_Children: []
+  m_Father: {fileID: 4630903049027042226}
+  m_RootOrder: 1
+  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!1 &4635036230871803600
+GameObject:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  serializedVersion: 6
+  m_Component:
+  - component: {fileID: 4637112340803481212}
+  - component: {fileID: 4738655866449391094}
+  m_Layer: 0
+  m_Name: Explosive Barrel Vending Machine
+  m_TagString: Untagged
+  m_Icon: {fileID: 0}
+  m_NavMeshLayer: 0
+  m_StaticEditorFlags: 0
+  m_IsActive: 1
+--- !u!4 &4637112340803481212
+Transform:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 4635036230871803600}
+  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
+  m_LocalPosition: {x: 0, y: 0, z: 0}
+  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_Children:
+  - {fileID: 4637322531942428908}
+  m_Father: {fileID: 4630903049027042226}
+  m_RootOrder: 4
+  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!114 &4738655866449391094
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 4635036230871803600}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: ab7fbb1d4b6593f45abf82cca85cb35a, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  vendingMachineEnabled: 1
+  radiusToSpawn: 0
+  useSpawnLimitAmount: 0
+  spawnLimitAmount: 0
+  objectToSpawn: {fileID: 113650, guid: 190ac834b6f448146bc38a787641fcd5, type: 3}
+  spawnPosition: {fileID: 4637322531942428908}
+  spawnObjectList: 0
+  objectListToSpawn: []
+  showGizmo: 0
+--- !u!1 &4635076159363144562
+GameObject:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  serializedVersion: 6
+  m_Component:
+  - component: {fileID: 4630833531491563082}
+  - component: {fileID: 4715334265164269268}
+  m_Layer: 2
+  m_Name: Press Button Sound Source
+  m_TagString: Untagged
+  m_Icon: {fileID: 0}
+  m_NavMeshLayer: 0
+  m_StaticEditorFlags: 0
+  m_IsActive: 1
+--- !u!4 &4630833531491563082
+Transform:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 4635076159363144562}
+  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
+  m_LocalPosition: {x: 0, y: 0, z: 0}
+  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_Children: []
+  m_Father: {fileID: 4630903049027042226}
+  m_RootOrder: 5
+  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!82 &4715334265164269268
+AudioSource:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 4635076159363144562}
+  m_Enabled: 1
+  serializedVersion: 4
+  OutputAudioMixerGroup: {fileID: 0}
+  m_audioClip: {fileID: 8300000, guid: 922f03e1dc270804ba6d52f5d3875806, type: 3}
+  m_PlayOnAwake: 0
+  m_Volume: 1
+  m_Pitch: 1
+  Loop: 0
+  Mute: 0
+  Spatialize: 0
+  SpatializePostEffects: 0
+  Priority: 128
+  DopplerLevel: 1
+  MinDistance: 1
+  MaxDistance: 500
+  Pan2D: 0
+  rolloffMode: 0
+  BypassEffects: 0
+  BypassListenerEffects: 0
+  BypassReverbZones: 0
+  rolloffCustomCurve:
+    serializedVersion: 2
+    m_Curve:
+    - serializedVersion: 3
+      time: 0
+      value: 1
+      inSlope: 0
+      outSlope: 0
+      tangentMode: 0
+      weightedMode: 0
+      inWeight: 0.33333334
+      outWeight: 0.33333334
+    - serializedVersion: 3
+      time: 1
+      value: 0
+      inSlope: 0
+      outSlope: 0
+      tangentMode: 0
+      weightedMode: 0
+      inWeight: 0.33333334
+      outWeight: 0.33333334
+    m_PreInfinity: 2
+    m_PostInfinity: 2
+    m_RotationOrder: 4
+  panLevelCustomCurve:
+    serializedVersion: 2
+    m_Curve:
+    - serializedVersion: 3
+      time: 0
+      value: 0
+      inSlope: 0
+      outSlope: 0
+      tangentMode: 0
+      weightedMode: 0
+      inWeight: 0.33333334
+      outWeight: 0.33333334
+    m_PreInfinity: 2
+    m_PostInfinity: 2
+    m_RotationOrder: 0
+  spreadCustomCurve:
+    serializedVersion: 2
+    m_Curve:
+    - serializedVersion: 3
+      time: 0
+      value: 0
+      inSlope: 0
+      outSlope: 0
+      tangentMode: 0
+      weightedMode: 0
+      inWeight: 0.33333334
+      outWeight: 0.33333334
+    m_PreInfinity: 2
+    m_PostInfinity: 2
+    m_RotationOrder: 0
+  reverbZoneMixCustomCurve:
+    serializedVersion: 2
+    m_Curve:
+    - serializedVersion: 3
+      time: 0
+      value: 1
+      inSlope: 0
+      outSlope: 0
+      tangentMode: 0
+      weightedMode: 0
+      inWeight: 0.33333334
+      outWeight: 0.33333334
+    m_PreInfinity: 2
+    m_PostInfinity: 2
+    m_RotationOrder: 0
+--- !u!1 &4635083089197017376
+GameObject:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  serializedVersion: 6
+  m_Component:
+  - component: {fileID: 4631293350672366330}
+  m_Layer: 2
+  m_Name: Device Position Transform
+  m_TagString: Untagged
+  m_Icon: {fileID: 0}
+  m_NavMeshLayer: 0
+  m_StaticEditorFlags: 0
+  m_IsActive: 1
+--- !u!4 &4631293350672366330
+Transform:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 4635083089197017376}
+  m_LocalRotation: {x: -0, y: -0, z: -0, w: 1}
+  m_LocalPosition: {x: 0, y: 1.235, z: -0.036999702}
+  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_Children: []
+  m_Father: {fileID: 4630903049027042226}
+  m_RootOrder: 2
+  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!1 &4636356849613068206
+GameObject:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  serializedVersion: 6
+  m_Component:
+  - component: {fileID: 4637418071719932996}
+  m_Layer: 2
+  m_Name: Player Target Position
+  m_TagString: Untagged
+  m_Icon: {fileID: 0}
+  m_NavMeshLayer: 0
+  m_StaticEditorFlags: 0
+  m_IsActive: 1
+--- !u!4 &4637418071719932996
+Transform:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 4636356849613068206}
+  m_LocalRotation: {x: -0, y: -0, z: -0, w: 1}
+  m_LocalPosition: {x: 0, y: 0, z: -0.646}
+  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_Children: []
+  m_Father: {fileID: 4630903049027042226}
+  m_RootOrder: 3
+  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}

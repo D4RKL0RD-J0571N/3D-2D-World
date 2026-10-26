@@ -1,0 +1,278 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!1 &2934877654668541425
+GameObject:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  serializedVersion: 6
+  m_Component:
+  - component: {fileID: 2934877654668541426}
+  m_Layer: 0
+  m_Name: Spawn Position
+  m_TagString: Untagged
+  m_Icon: {fileID: 0}
+  m_NavMeshLayer: 0
+  m_StaticEditorFlags: 0
+  m_IsActive: 1
+--- !u!4 &2934877654668541426
+Transform:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 2934877654668541425}
+  m_LocalRotation: {x: -0, y: -0, z: -0, w: 1}
+  m_LocalPosition: {x: -4.88, y: 7.8192854, z: 16.109432}
+  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_Children: []
+  m_Father: {fileID: 2934877654895637161}
+  m_RootOrder: 0
+  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!1 &2934877654895637166
+GameObject:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  serializedVersion: 6
+  m_Component:
+  - component: {fileID: 2934877654895637161}
+  - component: {fileID: 2934877654895637160}
+  - component: {fileID: 2934877654895637167}
+  m_Layer: 0
+  m_Name: Simple AI Spawn Over Time
+  m_TagString: Untagged
+  m_Icon: {fileID: 0}
+  m_NavMeshLayer: 0
+  m_StaticEditorFlags: 0
+  m_IsActive: 1
+--- !u!4 &2934877654895637161
+Transform:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 2934877654895637166}
+  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
+  m_LocalPosition: {x: 0, y: 0, z: 0}
+  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_Children:
+  - {fileID: 2934877654668541426}
+  - {fileID: 2930631430785418501}
+  m_Father: {fileID: 0}
+  m_RootOrder: 0
+  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!114 &2934877654895637160
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 2934877654895637166}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 45fc770a0dc8169449e7164daf5e37bf, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  eventList:
+  - name: 
+    objectToCall: {fileID: 0}
+    functionNameList: []
+    secondsDelay: 1
+    useRandomDelay: 0
+    randomDelayRange: {x: 0, y: 0}
+    sendGameObject: 0
+    objectToSend: {fileID: 0}
+    sendObjectDetected: 0
+    sendObjectDetectedFunction: 
+    sendObjectDetectedByEvent: 0
+    eventToSendObjectDetected:
+      m_PersistentCalls:
+        m_Calls: []
+    useEventFunction: 1
+    eventFunction:
+      m_PersistentCalls:
+        m_Calls: []
+    useBroadcastMessage: 0
+    broadcastMessageStringList: []
+    useRemoteEvent: 0
+    remoteEventNameList: []
+  - name: 
+    objectToCall: {fileID: 0}
+    functionNameList: []
+    secondsDelay: 2
+    useRandomDelay: 0
+    randomDelayRange: {x: 0, y: 0}
+    sendGameObject: 0
+    objectToSend: {fileID: 0}
+    sendObjectDetected: 0
+    sendObjectDetectedFunction: 
+    sendObjectDetectedByEvent: 0
+    eventToSendObjectDetected:
+      m_PersistentCalls:
+        m_Calls: []
+    useEventFunction: 1
+    eventFunction:
+      m_PersistentCalls:
+        m_Calls:
+        - m_Target: {fileID: 2934877654895637167}
+          m_MethodName: activateSpawnObject
+          m_Mode: 1
+          m_Arguments:
+            m_ObjectArgument: {fileID: 0}
+            m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
+            m_IntArgument: 0
+            m_FloatArgument: 0
+            m_StringArgument: 
+            m_BoolArgument: 0
+          m_CallState: 2
+    useBroadcastMessage: 0
+    broadcastMessageStringList: []
+    useRemoteEvent: 0
+    remoteEventNameList: []
+  enterEventList: []
+  exitEventList: []
+  useSameFunctionInList: 0
+  sameFunctionList: []
+  useSameObjectToCall: 0
+  callThisObject: 0
+  sameObjectToCall: {fileID: 0}
+  triggeredByButton: 0
+  useObjectToTrigger: 0
+  objectNeededToTrigger: {fileID: 0}
+  useTagToTrigger: 0
+  tagNeededToTrigger: 
+  useTagList: 0
+  tagList: []
+  loopEventAtTheEndEnabled: 1
+  justCallOnTrigger: 1
+  callFunctionEveryTimeTriggered: 1
+  eventTriggered: 0
+  dontUseDelay: 0
+  useSameDelay: 0
+  generalDelay: 0
+  useRandomDelay: 0
+  randomDelayRange: {x: 0, y: 0}
+  triggerEventType: 0
+  useLayerMask: 0
+  layerMask:
+    serializedVersion: 2
+    m_Bits: 0
+  coroutineActive: 0
+  setParentToNull: 0
+  objectDetected: {fileID: 0}
+  triggerEventAtStart: 1
+  isEnter: 0
+  isExit: 0
+--- !u!114 &2934877654895637167
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 2934877654895637166}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 5348dbf9d359d8f428c7b022390b8ddc, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  spawnObjectEnabled: 1
+  objectToSpawn: {fileID: 0}
+  spawnPosition: {fileID: 2934877654668541426}
+  radiusToSpawn: 4
+  setObjectRotation: 1
+  setObjectScale: 0
+  newObjectScale: {x: 0, y: 0, z: 0}
+  spawnAmountOfSameObject: 0
+  amountOfSameObjectToSpawn: 0
+  spawnObjectsOnStart: 0
+  spawnObjectFromPoolingSystem: 1
+  checkGKC_PoolingElementOnSpawnedObject: 1
+  useSpawnReferencePosition: 0
+  spawnReferencePosition: {fileID: 0}
+  setSpawnedObjectParent: 0
+  spawnedObjectParent: {fileID: 0}
+  useRaycastToSpawnObject: 1
+  layerToSpawnObject:
+    serializedVersion: 2
+    m_Bits: 1
+  useInfiniteRaycastDistance: 1
+  raycastDistance: 0
+  raycastSpawnObjectOffset: {x: 0, y: 0, z: 0}
+  launchRaycastToDownDirection: 1
+  adjustSpawnedObjectToSurfaceNormal: 0
+  ignoreRigidbodiesOnRaycast: 0
+  spawnObjectList: 0
+  objectListToSpawn: []
+  storeSpawnedObjects: 0
+  spawnedObjectList: []
+  useSpawnLimitAmount: 0
+  spawnLimitAmount: 0
+  checkIfObjectsSpawnedAreDead: 0
+  eventOnLimitReached:
+    m_PersistentCalls:
+      m_Calls: []
+  eventOnLimitNotReached:
+    m_PersistentCalls:
+      m_Calls: []
+  useRandomPossibilityToSpawn: 0
+  possibilityToSpawn: 0
+  sendSpawnedObjectOnEvent: 0
+  eventToSendSPawnedObject:
+    m_PersistentCalls:
+      m_Calls: []
+  sendSpawnedObjectOnRemoteEvent: 0
+  remoteEventToSendObject: 
+  useRemoveEventList: 0
+  removeEventNameList: []
+  showGizmo: 0
+  currentNumberOfSpawnObjects: 0
+--- !u!1 &2936220592522063317
+GameObject:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  serializedVersion: 6
+  m_Component:
+  - component: {fileID: 2930631430785418501}
+  - component: {fileID: 2966793353000774445}
+  m_Layer: 0
+  m_Name: Preload Pooling System
+  m_TagString: Untagged
+  m_Icon: {fileID: 0}
+  m_NavMeshLayer: 0
+  m_StaticEditorFlags: 0
+  m_IsActive: 1
+--- !u!4 &2930631430785418501
+Transform:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 2936220592522063317}
+  m_LocalRotation: {x: -0, y: -0, z: -0, w: 1}
+  m_LocalPosition: {x: -14.248453, y: 0.06928539, z: -13.18057}
+  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_Children: []
+  m_Father: {fileID: 2934877654895637161}
+  m_RootOrder: 1
+  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!114 &2966793353000774445
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 2936220592522063317}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 70cf8c8c6742f484cb201066b07f9bbb, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  preloadObjectsEnabled: 1
+  poolObjectPreloadInfoList:
+  - prefabObject: {fileID: 0}
+    objectAmount: 6

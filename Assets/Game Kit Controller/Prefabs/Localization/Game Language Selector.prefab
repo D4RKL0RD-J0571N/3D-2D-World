@@ -1,0 +1,404 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!1 &1005769321053016
+GameObject:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  serializedVersion: 6
+  m_Component:
+  - component: {fileID: 4094179865018768}
+  - component: {fileID: 114628984645190458}
+  m_Layer: 0
+  m_Name: UI Elements Localization Manager
+  m_TagString: Untagged
+  m_Icon: {fileID: 0}
+  m_NavMeshLayer: 0
+  m_StaticEditorFlags: 0
+  m_IsActive: 1
+--- !u!4 &4094179865018768
+Transform:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1005769321053016}
+  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
+  m_LocalPosition: {x: 0, y: 0, z: 0}
+  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_Children: []
+  m_Father: {fileID: 4608888935321694}
+  m_RootOrder: 0
+  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!114 &114628984645190458
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1005769321053016}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: a064d1d85fe75364fb2d32cb19643f7e, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  currentLanguageToEdit: English
+  filePath: Assets/Game Kit Controller/Scripts/Editor/Resources/
+  filePathBuild: ./Localization/
+  fileFormat: .csv
+  fileName: UI Elements Localization
+  useLocalFilePath: 0
+  useResourcesPath: 0
+  localizationEnabled: 1
+  showDebugPrint: 0
+  useEventsOnLanguageChange: 0
+  eventOnLanguageChange:
+    m_PersistentCalls:
+      m_Calls: []
+--- !u!1 &1048119457004738
+GameObject:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  serializedVersion: 6
+  m_Component:
+  - component: {fileID: 4608888935321694}
+  - component: {fileID: 114109691166507818}
+  m_Layer: 0
+  m_Name: Game Language Selector
+  m_TagString: Untagged
+  m_Icon: {fileID: 0}
+  m_NavMeshLayer: 0
+  m_StaticEditorFlags: 0
+  m_IsActive: 1
+--- !u!4 &4608888935321694
+Transform:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1048119457004738}
+  m_LocalRotation: {x: -0, y: -0, z: -0, w: 1}
+  m_LocalPosition: {x: 0, y: 0, z: 0}
+  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_Children:
+  - {fileID: 4094179865018768}
+  - {fileID: 4754357052586950}
+  - {fileID: 4052522920581890}
+  - {fileID: 4417632605805132}
+  - {fileID: 4571027984338300}
+  - {fileID: 4156723427047308}
+  m_Father: {fileID: 0}
+  m_RootOrder: 0
+  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!114 &114109691166507818
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1048119457004738}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 5487f5f7d5e0b1548ade2576f244818e, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  languageSelectionEnabled: 1
+  languageNameList:
+  - English
+  - Spanish
+  - French
+  currentLanguage: English
+  updateElementsOnLanguageChange: 1
+  checkLanguageActive: 1
+  checkUpdateCurrentLanguageByPlayerPrefsOnStart: 0
+  showDebugPrint: 0
+  languageUpdatedBySettings: 0
+  checkSystemLanguageOnStart: 0
+  eventOnLanguageCheckAtStart:
+    m_PersistentCalls:
+      m_Calls: []
+  updateUIDropDownOnLanguageOnStart: 0
+  languageDropDown: {fileID: 0}
+--- !u!1 &1141114242275684
+GameObject:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  serializedVersion: 6
+  m_Component:
+  - component: {fileID: 4571027984338300}
+  - component: {fileID: 114368616544536600}
+  m_Layer: 0
+  m_Name: Skills Localization Manager
+  m_TagString: Untagged
+  m_Icon: {fileID: 0}
+  m_NavMeshLayer: 0
+  m_StaticEditorFlags: 0
+  m_IsActive: 1
+--- !u!4 &4571027984338300
+Transform:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1141114242275684}
+  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
+  m_LocalPosition: {x: 0, y: 0, z: 0}
+  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_Children: []
+  m_Father: {fileID: 4608888935321694}
+  m_RootOrder: 4
+  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!114 &114368616544536600
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1141114242275684}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 4e0507dd475e79e4e801927798b235e7, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  currentLanguageToEdit: English
+  filePath: Assets/Game Kit Controller/Scripts/Editor/Resources/
+  filePathBuild: ./Localization/
+  fileFormat: .csv
+  fileName: Skills System Localization
+  useLocalFilePath: 0
+  useResourcesPath: 0
+  localizationEnabled: 1
+  showDebugPrint: 0
+  useEventsOnLanguageChange: 0
+  eventOnLanguageChange:
+    m_PersistentCalls:
+      m_Calls: []
+--- !u!1 &1538933920063004
+GameObject:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  serializedVersion: 6
+  m_Component:
+  - component: {fileID: 4417632605805132}
+  - component: {fileID: 114967171852370406}
+  m_Layer: 0
+  m_Name: Interaction Objects Localization Manager
+  m_TagString: Untagged
+  m_Icon: {fileID: 0}
+  m_NavMeshLayer: 0
+  m_StaticEditorFlags: 0
+  m_IsActive: 1
+--- !u!4 &4417632605805132
+Transform:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1538933920063004}
+  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
+  m_LocalPosition: {x: 0, y: 0, z: 0}
+  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_Children: []
+  m_Father: {fileID: 4608888935321694}
+  m_RootOrder: 3
+  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!114 &114967171852370406
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1538933920063004}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 060da37e0f721474a99e0add72c2881e, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  currentLanguageToEdit: English
+  filePath: Assets/Game Kit Controller/Scripts/Editor/Resources/
+  filePathBuild: ./Localization/
+  fileFormat: .csv
+  fileName: Interaction Objects Localization
+  useLocalFilePath: 0
+  useResourcesPath: 0
+  localizationEnabled: 1
+  showDebugPrint: 0
+  useEventsOnLanguageChange: 0
+  eventOnLanguageChange:
+    m_PersistentCalls:
+      m_Calls: []
+--- !u!1 &1617200668795316
+GameObject:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  serializedVersion: 6
+  m_Component:
+  - component: {fileID: 4156723427047308}
+  - component: {fileID: 114744851435836374}
+  m_Layer: 0
+  m_Name: Point And Click Localization Manager
+  m_TagString: Untagged
+  m_Icon: {fileID: 0}
+  m_NavMeshLayer: 0
+  m_StaticEditorFlags: 0
+  m_IsActive: 1
+--- !u!4 &4156723427047308
+Transform:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1617200668795316}
+  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
+  m_LocalPosition: {x: 0, y: 0, z: 0}
+  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_Children: []
+  m_Father: {fileID: 4608888935321694}
+  m_RootOrder: 5
+  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!114 &114744851435836374
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1617200668795316}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 0164845b756e5a3469bfc39e6e6c2436, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  currentLanguageToEdit: English
+  filePath: Assets/Game Kit Controller/Scripts/Editor/Resources/
+  filePathBuild: ./Localization/
+  fileFormat: .csv
+  fileName: Point And Click System Localization
+  useLocalFilePath: 0
+  useResourcesPath: 0
+  localizationEnabled: 1
+  showDebugPrint: 0
+  useEventsOnLanguageChange: 0
+  eventOnLanguageChange:
+    m_PersistentCalls:
+      m_Calls: []
+--- !u!1 &1802603748007514
+GameObject:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  serializedVersion: 6
+  m_Component:
+  - component: {fileID: 4052522920581890}
+  - component: {fileID: 114753418453359584}
+  m_Layer: 0
+  m_Name: Mission Localization Manager
+  m_TagString: Untagged
+  m_Icon: {fileID: 0}
+  m_NavMeshLayer: 0
+  m_StaticEditorFlags: 0
+  m_IsActive: 1
+--- !u!4 &4052522920581890
+Transform:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1802603748007514}
+  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
+  m_LocalPosition: {x: 0, y: 0, z: 0}
+  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_Children: []
+  m_Father: {fileID: 4608888935321694}
+  m_RootOrder: 2
+  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!114 &114753418453359584
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1802603748007514}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 0c4c18c12c557f64f859e58aa24de139, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  currentLanguageToEdit: English
+  filePath: Assets/Game Kit Controller/Scripts/Editor/Resources/
+  filePathBuild: ./Localization/
+  fileFormat: .csv
+  fileName: Mission System Localization
+  useLocalFilePath: 0
+  useResourcesPath: 0
+  localizationEnabled: 1
+  showDebugPrint: 0
+  useEventsOnLanguageChange: 0
+  eventOnLanguageChange:
+    m_PersistentCalls:
+      m_Calls: []
+--- !u!1 &1974676093020822
+GameObject:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  serializedVersion: 6
+  m_Component:
+  - component: {fileID: 4754357052586950}
+  - component: {fileID: 114948778330056938}
+  m_Layer: 0
+  m_Name: Inventory Localization Manager
+  m_TagString: Untagged
+  m_Icon: {fileID: 0}
+  m_NavMeshLayer: 0
+  m_StaticEditorFlags: 0
+  m_IsActive: 1
+--- !u!4 &4754357052586950
+Transform:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1974676093020822}
+  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
+  m_LocalPosition: {x: 0, y: 0, z: 0}
+  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_Children: []
+  m_Father: {fileID: 4608888935321694}
+  m_RootOrder: 1
+  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!114 &114948778330056938
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1974676093020822}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 2c147ce2c7a14ef4d9030943b7c2a10b, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  currentLanguageToEdit: English
+  filePath: Assets/Game Kit Controller/Scripts/Editor/Resources/
+  filePathBuild: ./Localization/
+  fileFormat: .csv
+  fileName: Inventory Info Localization
+  useLocalFilePath: 0
+  useResourcesPath: 0
+  localizationEnabled: 1
+  showDebugPrint: 0
+  useEventsOnLanguageChange: 0
+  eventOnLanguageChange:
+    m_PersistentCalls:
+      m_Calls: []

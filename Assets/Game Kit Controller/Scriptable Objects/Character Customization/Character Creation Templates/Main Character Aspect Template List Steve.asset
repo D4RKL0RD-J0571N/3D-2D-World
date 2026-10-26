@@ -1,0 +1,24 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!114 &11400000
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 3e662bfee0e7a5a4aafc5cdfc06b76c7, type: 3}
+  m_Name: Main Character Aspect Template List Steve
+  m_EditorClassIdentifier: 
+  Name: Main Character Aspect Template List
+  ID: 0
+  characterAspectCustomizationTemplateList:
+  - {fileID: 11400000, guid: 9ae1170a889b11b4db77bdd1277ae9b8, type: 2}
+  - {fileID: 11400000, guid: be837d84d64dded43bb05b6aa0668620, type: 2}
+  - {fileID: 11400000, guid: 338578104e0cb514fb77cbb7e5e47b74, type: 2}
+  - {fileID: 11400000, guid: 35d0d813758e39c43b96b18a00e29de7, type: 2}
+  - {fileID: 11400000, guid: b4e409bfd8523754ea05e549c76f3f5e, type: 2}
+  - {fileID: 11400000, guid: c17789fd77131394b9ce169c98c28b81, type: 2}
+  - {fileID: 11400000, guid: f1052022d28db4b458f425b1ece11193, type: 2}

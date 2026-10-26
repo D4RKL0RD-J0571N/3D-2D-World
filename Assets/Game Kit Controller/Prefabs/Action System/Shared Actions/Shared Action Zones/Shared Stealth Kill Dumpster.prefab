@@ -1,0 +1,1854 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!1 &678646337888102051
+GameObject:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  serializedVersion: 6
+  m_Component:
+  - component: {fileID: 4644125819713971734}
+  - component: {fileID: 3580353971701472835}
+  m_Layer: 0
+  m_Name: Action System Trigger (AI)
+  m_TagString: Untagged
+  m_Icon: {fileID: 0}
+  m_NavMeshLayer: 0
+  m_StaticEditorFlags: 0
+  m_IsActive: 1
+--- !u!4 &4644125819713971734
+Transform:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 678646337888102051}
+  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
+  m_LocalPosition: {x: 0.1, y: 0, z: 0}
+  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_Children:
+  - {fileID: 8158895271381902651}
+  - {fileID: 8533077977961742754}
+  - {fileID: 1775901787674454053}
+  m_Father: {fileID: 3242310541017226489}
+  m_RootOrder: 1
+  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!114 &3580353971701472835
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 678646337888102051}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: cc1db0794fd4b9e4ebf007f9e3afdf44, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  useMinDistanceToActivateAction: 0
+  minDistanceToActivateAction: 1
+  useMinAngleToActivateAction: 0
+  minAngleToActivateAction: 20
+  checkOppositeAngle: 0
+  canStopPreviousAction: 1
+  canForceToPlayCustomAction: 1
+  currentActionInfoIndex: 0
+  actionInfoList:
+  - Name: Shared Stealth Kill Dumpster (Victim)
+    useActionName: 1
+    actionName: Shared Stealth Kill Dumpster (Victim)
+    useActionID: 0
+    actionID: 0
+    removeActionIDValueImmediately: 0
+    useCrossFadeAnimation: 1
+    pausePlayerActionsInput: 1
+    pausePlayerMovementInput: 1
+    resetPlayerMovementInput: 0
+    resetPlayerMovementInputSmoothly: 0
+    removePlayerMovementInputValues: 1
+    enablePlayerCanMoveAfterAction: 0
+    allowDownVelocityDuringAction: 0
+    pauseInteractionButton: 0
+    pauseInputListDuringActionActive: 0
+    ignorePauseInputListDuringAction: 0
+    pausePlayerCameraRotationInput: 0
+    pausePlayerCameraActionsInput: 0
+    pausePlayerCameraViewChange: 1
+    pausePlayerCameraMouseWheel: 1
+    disableHeadBob: 1
+    pauseHeadBob: 1
+    ignoreCameraDirectionOnMovement: 1
+    ignoreCameraDirectionOnStrafeMovement: 1
+    pauseStrafeState: 0
+    useNewCameraStateOnActionStart: 0
+    newCameraStateNameOnActionStart: 
+    setPreviousCameraStateOnActionEnd: 0
+    useNewCameraStateOnActionEnd: 0
+    newCameraStateNameOnActionEnd: 
+    ignorePivotCameraCollision: 0
+    useExtraFollowTransformPositionOffsetActiveFBA: 0
+    currentExtraFollowTransformPositionOffsetFBA: {x: 0, y: 0, z: 0}
+    ignorePlayerRotationToCameraOnFBA: 0
+    ignoreHorizontalCameraRotationOnFBA: 0
+    ignoreVerticalCameraRotationOnFBA: 0
+    resetCameraRotationForwardOnFBA: 0
+    setCustomHeadTrackTargetToLook: 0
+    customHeadTrackTargetToLook: {fileID: 0}
+    useCustomHeadTrackTolook: 0
+    customHeadTrackToLookName: 
+    disablePlayerGravity: 0
+    disablePlayerOnGroundState: 0
+    disablePlayerCollider: 1
+    disablePlayerColliderComponent: 0
+    enablePlayerColliderComponentOnActionEnd: 0
+    ignoreSetLastTimeFallingOnActionEnd: 0
+    reloadMainColliderOnCharacterOnActionEnd: 0
+    changePlayerColliderScale: 0
+    disableIKOnHands: 1
+    disableIKOnFeet: 1
+    pauseHeadTrack: 1
+    usCustomPauseHeadTrackOnFBA: 0
+    customPauseHeadTrackOnFBA: 0
+    setNoFrictionOnCollider: 1
+    forceRootMotionDuringAction: 1
+    actionCanHappenOnAir: 0
+    jumpCanResumePlayer: 0
+    useMovementInput: 0
+    useInteractionButtonToActivateAnimation: 0
+    animationTriggeredByExternalEvent: 1
+    resumePlayerAfterAction: 1
+    increaseActionIndexAfterComplete: 0
+    waitForNextPlayerInteractionButtonPress: 0
+    stayInState: 0
+    resetActionIndexAfterComplete: 0
+    animationDuration: 6.89
+    animationSpeed: 1
+    actionDurationOnFirstPerson: 1
+    actionUsesMovement: 0
+    adjustRotationDuringMovement: 0
+    delayToPlayAnimation: 0
+    usePositionToAdjustPlayer: 1
+    positionToAdjustPlayer: {fileID: 8533077977961742754}
+    adjustPlayerPositionSpeed: 0.3
+    usePositionToAdjustPlayerOnlyOnFBA: 0
+    movePlayerOnDirection: 0
+    movePlayerOnDirectionRaycastDistance: 0
+    movePlayerOnDirectionSpeed: 0
+    movePlayerDirection: {x: 0, y: 0, z: 0}
+    movePlayerOnDirectionLayermask:
+      serializedVersion: 2
+      m_Bits: 0
+    usePhysicsForceOnMovePlayer: 0
+    physicsForceOnMovePlayer: 0
+    physicsForceOnMovePlayerDuration: 0
+    checkIfPositionReachedOnPhysicsForceOnMovePlayer: 0
+    mainAvatarTarget: 0
+    matchTargetTransform: {fileID: 0}
+    matchTargetPositionWeightMask: {x: 0, y: 0, z: 0}
+    matchTargetRotationWeightMask: 0
+    matchPlayerRotation: 0
+    matchPlayerRotationSpeed: 11
+    playerTargetTransform: {fileID: 8158895271381902651}
+    adjustPlayerPositionRotationDuring: 0
+    matchStartValue: 0
+    matchEndValue: 1
+    usePlayerWalkTarget: 0
+    useWalkAtTheEndOfAction: 0
+    playerWalkTarget: {fileID: 0}
+    pausePlayerInputDuringWalk: 0
+    maxWalkSpeed: 1
+    activateDynamicObstacleDetection: 0
+    setPlayerFacingDirection: 0
+    playerFacingDirectionTransform: {fileID: 8533077977961742754}
+    maxRotationAmount: 1
+    minRotationAmount: 0.3
+    minRotationAngle: 10
+    adjustFacingDirectionBasedOnPlayerPosition: 0
+    facingDirectionPositionTransform: {fileID: 0}
+    adjustRotationAtOnce: 0
+    useMovingPlayerToPositionTarget: 0
+    movingPlayerToPositionTargetSpeed: 5
+    movingPlayerToPositionTargetDelay: 0
+    ignoreSetPlayerFacingDirectionOnFBA: 0
+    destroyActionOnEnd: 0
+    removeActionOnEnd: 1
+    setActionState: 0
+    actionStateName: 
+    actionStateToConfigure: 0
+    setObjectParent: 0
+    boneParent: 0
+    objectToSetParent: {fileID: 0}
+    bonePositionReference: {fileID: 0}
+    waitTimeToParentObject: 0
+    setObjectParentSpeed: 0
+    useMountPoint: 0
+    mountPointName: 
+    resetObjectPositionAndParentAfterAction: 1
+    useEventInfoList: 0
+    useAccumulativeDelay: 0
+    useAnimationSpeedOnDelay: 0
+    eventInfoList:
+    - delayToActivate: 0
+      eventToUse:
+        m_PersistentCalls:
+          m_Calls: []
+      useRemoteEvent: 0
+      remoteEventName: 
+      eventTriggered: 0
+      sendCurrentPlayerOnEvent: 0
+      eventToSendCurrentPlayer:
+        m_PersistentCalls:
+          m_Calls: []
+      callThisEventIfActionStopped: 0
+    - delayToActivate: 2.65
+      eventToUse:
+        m_PersistentCalls:
+          m_Calls: []
+      useRemoteEvent: 0
+      remoteEventName: Kill Character Remote Event
+      eventTriggered: 0
+      sendCurrentPlayerOnEvent: 0
+      eventToSendCurrentPlayer:
+        m_PersistentCalls:
+          m_Calls: []
+      callThisEventIfActionStopped: 0
+    firstPersonEventInfoList: []
+    disableHUDOnAction: 0
+    showGizmo: 0
+    keepWeaponsDuringAction: 1
+    drawWeaponsAfterAction: 0
+    disableIKWeaponsDuringAction: 0
+    stopAimOnFireWeapons: 0
+    stopShootOnFireWeapons: 0
+    hideMeleWeaponMeshOnAction: 0
+    setInvincibilityStateActive: 0
+    invincibilityStateDuration: 0
+    checkEventsOnTemporalInvincibilityActive: 0
+    disableDamageReactionDuringAction: 1
+    addHealthAmountOnAction: 0
+    healthAmountToAdd: 0
+    removeHealthAmountOnAction: 0
+    healthAmountToRemove: 15
+    setHealthOnActionEnd: 1
+    killCharacter: 1
+    delayToKillCharacter: 6.84
+    activateCharacterRagdoll: 0
+    delatyToActivateCharacterRagdoll: 0.6
+    ragdollStateDuration: 4
+    addForceToRagdoll: 1
+    ragdollForce: 0.8
+    useDirectionForRagdoll: 1
+    directionForRagdollTransform: {fileID: 1775901787674454053}
+    useLocalCharacterRagdollForceDirection: 0
+    localCharacterRagdollForceDirection: {x: 0, y: 0, z: 1}
+    checkIfPlayerOnGround: 1
+    checkConditionsToStartActionOnUpdate: 0
+    playerMovingToStartAction: 0
+    checkPlayerToNotCrouch: 0
+    stopActionIfPlayerIsOnAir: 0
+    delayToStopActionIfPlayerIsOnAir: 0
+    getUpIfPlayerCrouching: 1
+    crouchOnActionEnd: 0
+    setPreviousCrouchStateOnActionEnd: 0
+    checkIfPlayerCanGetUpFromCrouch: 0
+    dropGrabbedObjectsOnAction: 1
+    dropOnlyIfNotGrabbedPhysically: 1
+    dropIfGrabbedPhysicallyWithIK: 1
+    keepGrabbedObjectOnActionIfNotDropped: 0
+    keepMeleeWeaponGrabbed: 0
+    drawMeleeWeaponGrabbedOnActionEnd: 0
+    stopCurrentMeleeAttackInProcess: 0
+    useEventIfActionStopped: 0
+    eventIfActionStopped:
+      m_PersistentCalls:
+        m_Calls: []
+    pauseCustomInputListDuringActionActive: 0
+    customInputToPauseOnActionInfoList: []
+    layerForRaycast:
+      serializedVersion: 2
+      m_Bits: 0
+    useRaycastToAdjustMatchTransform: 0
+    useRaycastToAdjustTargetTransform: 0
+    useRaycastToAdjustPositionToAdjustPlayer: 0
+    useRaycastToAdjustMatchTransformExplanation: This is the option to adjust the
+      matchTargetTransform transform to the ground, used to match the player position
+      to the animation position.
+    useRaycastToAdjustTargetTransformExplanation: This is the option to adjust the
+      playerWalkTarget transform to the ground, used to make the player to walk to
+      a certain position during the action.
+    useRaycastToAdjustPositionToAdjustPlayerExplanation: This is the option to adjust
+      the positionToAdjustPlayer transform to the ground, used to move the player
+      to the exact zone to play the animation.
+    pauseAIOnActionStart: 1
+    resumeAIOnActionEnd: 0
+    assignPartnerOnActionEnd: 0
+    checkUseMinAngleToActivateAction: 0
+    checkUseMinDistanceToActivateAction: 0
+    setMoveNavMeshPaused: 0
+    ignoreAnimationTransitionCheck: 0
+    pauseActivationOfOtherCustomActions: 0
+    disableAnyStateConfiguredWithExitTime: 0
+  playerList: []
+  useEventsOnPlayerInsideOutside: 0
+  eventOnPlayerInside:
+    m_PersistentCalls:
+      m_Calls: []
+  eventOnPlayerOutside:
+    m_PersistentCalls:
+      m_Calls: []
+  useEventsOnStartEndAction: 0
+  eventOnStartAction:
+    m_PersistentCalls:
+      m_Calls: []
+  eventOnEndAction:
+    m_PersistentCalls:
+      m_Calls: []
+  useEventAfterResumePlayer: 0
+  eventAfterResumePlayer:
+    m_PersistentCalls:
+      m_Calls: []
+  actionTransform: {fileID: 0}
+  sendCurrentPlayerOnEvent: 0
+  eventToSendCurrentPlayer:
+    m_PersistentCalls:
+      m_Calls: []
+  useEventBeforeStartAction: 0
+  eventBeforeStartAction:
+    m_PersistentCalls:
+      m_Calls: []
+  mainTrigger: {fileID: 0}
+  activateCustomActionAfterActionComplete: 0
+  customActionToActiveAfterActionComplete: 
+  addActionToListStoredToPlay: 0
+  playActionAutomaticallyIfStoredAtEnd: 0
+  clearAddActionToListStoredToPlay: 0
+  useEventsToEnableDisableActionObject: 0
+  eventToEnableActionObject:
+    m_PersistentCalls:
+      m_Calls: []
+  eventToDisableActionObject:
+    m_PersistentCalls:
+      m_Calls: []
+  categoryName: 
+  canInterruptOtherActionActive: 0
+  actionListToInterrupt: []
+  useCategoryToCheckInterrupt: 0
+  actionCategoryListToInterrupt: []
+  eventOnInterrupOtherActionActive:
+    m_PersistentCalls:
+      m_Calls: []
+  useEventOnInterruptedAction: 0
+  eventOnInterruptedAction:
+    m_PersistentCalls:
+      m_Calls: []
+  useProbabilityToActivateAction: 0
+  probablityToActivateAction: 0
+  animationUsedOnUpperBody: 0
+  disableRegularActionActiveState: 0
+  disableRegularActionActiveStateOnEnd: 0
+  changeCameraViewToThirdPersonOnAction: 0
+  changeCameraViewToThirdPersonOnActionOnFullBodyAwareness: 0
+  keepCameraRotationToHeadOnFullBodyAwareness: 0
+  actionsCanBeUsedOnFirstPerson: 0
+  ignoreChangeToThirdPerson: 0
+  disableIgnorePlayerListChange: 0
+  showDebugPrint: 0
+  showGizmo: 0
+  showAllGizmo: 0
+  mainAnimator: {fileID: 0}
+  newAnimationClip: {fileID: 0}
+  enableAnimatorLayerOnAction: 0
+  animatorLayerToEnableName: 
+  actionNameToReplace: 
+  animationLayerName: Base Layer
+  newAnimationSpeed: 1
+  activateAnimationReplace: 0
+  newAnimationIsMirror: 0
+  setPlayerParentDuringActionActive: 0
+  playerParentDuringAction: {fileID: 0}
+--- !u!1 &919132147707551044
+GameObject:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  serializedVersion: 6
+  m_Component:
+  - component: {fileID: 543450651966851070}
+  - component: {fileID: 1809591191}
+  m_Layer: 0
+  m_Name: Dumpster
+  m_TagString: Untagged
+  m_Icon: {fileID: 0}
+  m_NavMeshLayer: 0
+  m_StaticEditorFlags: 0
+  m_IsActive: 1
+--- !u!4 &543450651966851070
+Transform:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 919132147707551044}
+  m_LocalRotation: {x: -0, y: 1, z: -0, w: 0}
+  m_LocalPosition: {x: 0, y: 0, z: 1.4330007}
+  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_Children:
+  - {fileID: 4912018962841548586}
+  - {fileID: 8270029569664462490}
+  m_Father: {fileID: 3242310541017226489}
+  m_RootOrder: 2
+  m_LocalEulerAnglesHint: {x: 0, y: 180, z: 0}
+--- !u!114 &1809591191
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 919132147707551044}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 1eb1af949d75a4749a9842436da162ff, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  eventEnabled: 1
+  useEventsOnActivateAndDisabled: 1
+  useDelayToEvent: 1
+  delayToEvent: 2
+  activated: 0
+  callOnStart: 0
+  eventToCallOnActivate:
+    m_PersistentCalls:
+      m_Calls:
+      - m_Target: {fileID: 1095929410}
+        m_MethodName: set_isKinematic
+        m_Mode: 6
+        m_Arguments:
+          m_ObjectArgument: {fileID: 0}
+          m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
+          m_IntArgument: 0
+          m_FloatArgument: 0
+          m_StringArgument: 
+          m_BoolArgument: 0
+        m_CallState: 2
+  eventToCallOnDisable:
+    m_PersistentCalls:
+      m_Calls: []
+  regularEventToCall:
+    m_PersistentCalls:
+      m_Calls: []
+--- !u!1 &1653080677058599589
+GameObject:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  serializedVersion: 6
+  m_Component:
+  - component: {fileID: 1155198854014430851}
+  m_Layer: 2
+  m_Name: Player Target Position
+  m_TagString: Untagged
+  m_Icon: {fileID: 0}
+  m_NavMeshLayer: 0
+  m_StaticEditorFlags: 0
+  m_IsActive: 1
+--- !u!4 &1155198854014430851
+Transform:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1653080677058599589}
+  m_LocalRotation: {x: -0, y: -0, z: -0, w: 1}
+  m_LocalPosition: {x: 0, y: 0.42, z: 0}
+  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_Children: []
+  m_Father: {fileID: 3662304143922237698}
+  m_RootOrder: 1
+  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!1 &2535491106273625979
+GameObject:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  serializedVersion: 6
+  m_Component:
+  - component: {fileID: 3242310541017226489}
+  - component: {fileID: 6719529460877213409}
+  m_Layer: 0
+  m_Name: Shared Stealth Kill Dumpster
+  m_TagString: Untagged
+  m_Icon: {fileID: 0}
+  m_NavMeshLayer: 0
+  m_StaticEditorFlags: 0
+  m_IsActive: 1
+--- !u!4 &3242310541017226489
+Transform:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 2535491106273625979}
+  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
+  m_LocalPosition: {x: 0, y: 0, z: 0}
+  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_Children:
+  - {fileID: 3662304143922237698}
+  - {fileID: 4644125819713971734}
+  - {fileID: 543450651966851070}
+  - {fileID: 4418929747449559870}
+  - {fileID: 4209542405500102466}
+  m_Father: {fileID: 0}
+  m_RootOrder: 0
+  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!114 &6719529460877213409
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 2535491106273625979}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 2455fd955d41f764581e3953ece2f78f, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  firstCharacterIsPlayer: 1
+  adjustPositionToFirstCharacter: 0
+  adjustPositionToSecondCharacter: 1
+  matchPositionUsedOnAction: 1
+  adjustMatchPositionOnFirstCharacter: 1
+  adjustMatchPositionOnSecondCharacter: 1
+  alignMainSharedActionGameObjectToBothCharacters: 0
+  useProbabilityToUseAction: 0
+  probabilityToUseAction: 0
+  useMinDistanceToActivateAction: 0
+  minDistanceToActivateAction: 0
+  useMinAngleToActivateAction: 0
+  minAngleToActivateAction: 0
+  checkCharacterStats: 0
+  sharedActionConditionStatInfoList: []
+  stopActionIfAnyCharacterIsDead: 1
+  stopActionIfFirstCharacterIsDead: 0
+  stopActionIfSecondCharacterIsDead: 0
+  firstCharacterActionSystem: {fileID: 1054251040049368179}
+  secondCharacterActionSystem: {fileID: 3580353971701472835}
+--- !u!1 &3432243273977209628
+GameObject:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  serializedVersion: 6
+  m_Component:
+  - component: {fileID: 3662304143922237698}
+  - component: {fileID: 1054251040049368179}
+  m_Layer: 0
+  m_Name: Action System Trigger (Player)
+  m_TagString: Untagged
+  m_Icon: {fileID: 0}
+  m_NavMeshLayer: 0
+  m_StaticEditorFlags: 0
+  m_IsActive: 1
+--- !u!4 &3662304143922237698
+Transform:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 3432243273977209628}
+  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
+  m_LocalPosition: {x: -0, y: 0, z: -1.27}
+  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_Children:
+  - {fileID: 2219603008218539728}
+  - {fileID: 1155198854014430851}
+  m_Father: {fileID: 3242310541017226489}
+  m_RootOrder: 0
+  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!114 &1054251040049368179
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 3432243273977209628}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: cc1db0794fd4b9e4ebf007f9e3afdf44, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  useMinDistanceToActivateAction: 0
+  minDistanceToActivateAction: 4
+  useMinAngleToActivateAction: 0
+  minAngleToActivateAction: 90
+  checkOppositeAngle: 0
+  canStopPreviousAction: 0
+  canForceToPlayCustomAction: 0
+  currentActionInfoIndex: 0
+  actionInfoList:
+  - Name: Shared Stealth Kill Dumpster (Attacker)
+    useActionName: 1
+    actionName: Shared Stealth Kill Dumpster (Attacker)
+    useActionID: 0
+    actionID: 0
+    removeActionIDValueImmediately: 0
+    useCrossFadeAnimation: 1
+    pausePlayerActionsInput: 1
+    pausePlayerMovementInput: 1
+    resetPlayerMovementInput: 0
+    resetPlayerMovementInputSmoothly: 0
+    removePlayerMovementInputValues: 1
+    enablePlayerCanMoveAfterAction: 0
+    allowDownVelocityDuringAction: 0
+    pauseInteractionButton: 0
+    pauseInputListDuringActionActive: 0
+    ignorePauseInputListDuringAction: 0
+    pausePlayerCameraRotationInput: 0
+    pausePlayerCameraActionsInput: 0
+    pausePlayerCameraViewChange: 1
+    pausePlayerCameraMouseWheel: 1
+    disableHeadBob: 0
+    pauseHeadBob: 0
+    ignoreCameraDirectionOnMovement: 1
+    ignoreCameraDirectionOnStrafeMovement: 1
+    pauseStrafeState: 0
+    useNewCameraStateOnActionStart: 0
+    newCameraStateNameOnActionStart: 
+    setPreviousCameraStateOnActionEnd: 0
+    useNewCameraStateOnActionEnd: 0
+    newCameraStateNameOnActionEnd: 
+    ignorePivotCameraCollision: 0
+    useExtraFollowTransformPositionOffsetActiveFBA: 0
+    currentExtraFollowTransformPositionOffsetFBA: {x: 0, y: 0, z: 0}
+    ignorePlayerRotationToCameraOnFBA: 0
+    ignoreHorizontalCameraRotationOnFBA: 0
+    ignoreVerticalCameraRotationOnFBA: 0
+    resetCameraRotationForwardOnFBA: 0
+    setCustomHeadTrackTargetToLook: 0
+    customHeadTrackTargetToLook: {fileID: 0}
+    useCustomHeadTrackTolook: 0
+    customHeadTrackToLookName: 
+    disablePlayerGravity: 0
+    disablePlayerOnGroundState: 0
+    disablePlayerCollider: 1
+    disablePlayerColliderComponent: 0
+    enablePlayerColliderComponentOnActionEnd: 0
+    ignoreSetLastTimeFallingOnActionEnd: 0
+    reloadMainColliderOnCharacterOnActionEnd: 0
+    changePlayerColliderScale: 0
+    disableIKOnHands: 1
+    disableIKOnFeet: 1
+    pauseHeadTrack: 1
+    usCustomPauseHeadTrackOnFBA: 0
+    customPauseHeadTrackOnFBA: 0
+    setNoFrictionOnCollider: 0
+    forceRootMotionDuringAction: 1
+    actionCanHappenOnAir: 0
+    jumpCanResumePlayer: 0
+    useMovementInput: 0
+    useInteractionButtonToActivateAnimation: 0
+    animationTriggeredByExternalEvent: 1
+    resumePlayerAfterAction: 1
+    increaseActionIndexAfterComplete: 0
+    waitForNextPlayerInteractionButtonPress: 0
+    stayInState: 0
+    resetActionIndexAfterComplete: 0
+    animationDuration: 6.89
+    animationSpeed: 1
+    actionDurationOnFirstPerson: 1
+    actionUsesMovement: 0
+    adjustRotationDuringMovement: 0
+    delayToPlayAnimation: 0
+    usePositionToAdjustPlayer: 1
+    positionToAdjustPlayer: {fileID: 1155198854014430851}
+    adjustPlayerPositionSpeed: 0.3
+    usePositionToAdjustPlayerOnlyOnFBA: 0
+    movePlayerOnDirection: 0
+    movePlayerOnDirectionRaycastDistance: 0
+    movePlayerOnDirectionSpeed: 0
+    movePlayerDirection: {x: 0, y: 0, z: 0}
+    movePlayerOnDirectionLayermask:
+      serializedVersion: 2
+      m_Bits: 0
+    usePhysicsForceOnMovePlayer: 0
+    physicsForceOnMovePlayer: 0
+    physicsForceOnMovePlayerDuration: 0
+    checkIfPositionReachedOnPhysicsForceOnMovePlayer: 0
+    mainAvatarTarget: 0
+    matchTargetTransform: {fileID: 0}
+    matchTargetPositionWeightMask: {x: 0, y: 0, z: 0}
+    matchTargetRotationWeightMask: 0
+    matchPlayerRotation: 0
+    matchPlayerRotationSpeed: 0
+    playerTargetTransform: {fileID: 0}
+    adjustPlayerPositionRotationDuring: 1
+    matchStartValue: 0
+    matchEndValue: 1
+    usePlayerWalkTarget: 0
+    useWalkAtTheEndOfAction: 0
+    playerWalkTarget: {fileID: 0}
+    pausePlayerInputDuringWalk: 0
+    maxWalkSpeed: 1
+    activateDynamicObstacleDetection: 0
+    setPlayerFacingDirection: 0
+    playerFacingDirectionTransform: {fileID: 1155198854014430851}
+    maxRotationAmount: 1
+    minRotationAmount: 0.3
+    minRotationAngle: 10
+    adjustFacingDirectionBasedOnPlayerPosition: 0
+    facingDirectionPositionTransform: {fileID: 0}
+    adjustRotationAtOnce: 0
+    useMovingPlayerToPositionTarget: 0
+    movingPlayerToPositionTargetSpeed: 5
+    movingPlayerToPositionTargetDelay: 0
+    ignoreSetPlayerFacingDirectionOnFBA: 0
+    destroyActionOnEnd: 0
+    removeActionOnEnd: 1
+    setActionState: 0
+    actionStateName: 
+    actionStateToConfigure: 0
+    setObjectParent: 0
+    boneParent: 0
+    objectToSetParent: {fileID: 0}
+    bonePositionReference: {fileID: 0}
+    waitTimeToParentObject: 0
+    setObjectParentSpeed: 0
+    useMountPoint: 0
+    mountPointName: 
+    resetObjectPositionAndParentAfterAction: 1
+    useEventInfoList: 1
+    useAccumulativeDelay: 0
+    useAnimationSpeedOnDelay: 0
+    eventInfoList:
+    - delayToActivate: 2
+      eventToUse:
+        m_PersistentCalls:
+          m_Calls: []
+      useRemoteEvent: 0
+      remoteEventName: Activate Rotating Kick Camera Shake
+      eventTriggered: 0
+      sendCurrentPlayerOnEvent: 1
+      eventToSendCurrentPlayer:
+        m_PersistentCalls:
+          m_Calls:
+          - m_Target: {fileID: 4594646636414937497}
+            m_MethodName: setCurrentPlayerAndActivateCameraShake
+            m_Mode: 0
+            m_Arguments:
+              m_ObjectArgument: {fileID: 0}
+              m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
+              m_IntArgument: 0
+              m_FloatArgument: 0
+              m_StringArgument: 
+              m_BoolArgument: 0
+            m_CallState: 2
+          - m_Target: {fileID: 3193279915967314979}
+            m_MethodName: Play
+            m_Mode: 1
+            m_Arguments:
+              m_ObjectArgument: {fileID: 0}
+              m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
+              m_IntArgument: 0
+              m_FloatArgument: 0
+              m_StringArgument: 
+              m_BoolArgument: 0
+            m_CallState: 2
+      callThisEventIfActionStopped: 0
+    - delayToActivate: 6
+      eventToUse:
+        m_PersistentCalls:
+          m_Calls:
+          - m_Target: {fileID: 1809591191}
+            m_MethodName: activateDevice
+            m_Mode: 1
+            m_Arguments:
+              m_ObjectArgument: {fileID: 0}
+              m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
+              m_IntArgument: 0
+              m_FloatArgument: 0
+              m_StringArgument: 
+              m_BoolArgument: 0
+            m_CallState: 2
+      useRemoteEvent: 0
+      remoteEventName: Activate Rotating Kick Camera Shake
+      eventTriggered: 0
+      sendCurrentPlayerOnEvent: 0
+      eventToSendCurrentPlayer:
+        m_PersistentCalls:
+          m_Calls: []
+      callThisEventIfActionStopped: 0
+    firstPersonEventInfoList: []
+    disableHUDOnAction: 0
+    showGizmo: 0
+    keepWeaponsDuringAction: 1
+    drawWeaponsAfterAction: 1
+    disableIKWeaponsDuringAction: 0
+    stopAimOnFireWeapons: 0
+    stopShootOnFireWeapons: 0
+    hideMeleWeaponMeshOnAction: 0
+    setInvincibilityStateActive: 0
+    invincibilityStateDuration: 0
+    checkEventsOnTemporalInvincibilityActive: 0
+    disableDamageReactionDuringAction: 1
+    addHealthAmountOnAction: 0
+    healthAmountToAdd: 0
+    removeHealthAmountOnAction: 0
+    healthAmountToRemove: 0
+    setHealthOnActionEnd: 0
+    killCharacter: 0
+    delayToKillCharacter: 0
+    activateCharacterRagdoll: 0
+    delatyToActivateCharacterRagdoll: 0
+    ragdollStateDuration: 0
+    addForceToRagdoll: 0
+    ragdollForce: 0
+    useDirectionForRagdoll: 0
+    directionForRagdollTransform: {fileID: 0}
+    useLocalCharacterRagdollForceDirection: 0
+    localCharacterRagdollForceDirection: {x: 0, y: 0, z: 1}
+    checkIfPlayerOnGround: 1
+    checkConditionsToStartActionOnUpdate: 0
+    playerMovingToStartAction: 0
+    checkPlayerToNotCrouch: 0
+    stopActionIfPlayerIsOnAir: 0
+    delayToStopActionIfPlayerIsOnAir: 0
+    getUpIfPlayerCrouching: 1
+    crouchOnActionEnd: 0
+    setPreviousCrouchStateOnActionEnd: 0
+    checkIfPlayerCanGetUpFromCrouch: 0
+    dropGrabbedObjectsOnAction: 1
+    dropOnlyIfNotGrabbedPhysically: 1
+    dropIfGrabbedPhysicallyWithIK: 1
+    keepGrabbedObjectOnActionIfNotDropped: 0
+    keepMeleeWeaponGrabbed: 0
+    drawMeleeWeaponGrabbedOnActionEnd: 0
+    stopCurrentMeleeAttackInProcess: 0
+    useEventIfActionStopped: 0
+    eventIfActionStopped:
+      m_PersistentCalls:
+        m_Calls: []
+    pauseCustomInputListDuringActionActive: 0
+    customInputToPauseOnActionInfoList: []
+    layerForRaycast:
+      serializedVersion: 2
+      m_Bits: 8388609
+    useRaycastToAdjustMatchTransform: 0
+    useRaycastToAdjustTargetTransform: 0
+    useRaycastToAdjustPositionToAdjustPlayer: 1
+    useRaycastToAdjustMatchTransformExplanation: This is the option to adjust the
+      matchTargetTransform transform to the ground, used to match the player position
+      to the animation position.
+    useRaycastToAdjustTargetTransformExplanation: This is the option to adjust the
+      playerWalkTarget transform to the ground, used to make the player to walk to
+      a certain position during the action.
+    useRaycastToAdjustPositionToAdjustPlayerExplanation: This is the option to adjust
+      the positionToAdjustPlayer transform to the ground, used to move the player
+      to the exact zone to play the animation.
+    pauseAIOnActionStart: 1
+    resumeAIOnActionEnd: 1
+    assignPartnerOnActionEnd: 0
+    checkUseMinAngleToActivateAction: 0
+    checkUseMinDistanceToActivateAction: 0
+    setMoveNavMeshPaused: 0
+    ignoreAnimationTransitionCheck: 0
+    pauseActivationOfOtherCustomActions: 0
+    disableAnyStateConfiguredWithExitTime: 0
+  playerList: []
+  useEventsOnPlayerInsideOutside: 0
+  eventOnPlayerInside:
+    m_PersistentCalls:
+      m_Calls: []
+  eventOnPlayerOutside:
+    m_PersistentCalls:
+      m_Calls: []
+  useEventsOnStartEndAction: 0
+  eventOnStartAction:
+    m_PersistentCalls:
+      m_Calls: []
+  eventOnEndAction:
+    m_PersistentCalls:
+      m_Calls: []
+  useEventAfterResumePlayer: 0
+  eventAfterResumePlayer:
+    m_PersistentCalls:
+      m_Calls: []
+  actionTransform: {fileID: 0}
+  sendCurrentPlayerOnEvent: 0
+  eventToSendCurrentPlayer:
+    m_PersistentCalls:
+      m_Calls: []
+  useEventBeforeStartAction: 0
+  eventBeforeStartAction:
+    m_PersistentCalls:
+      m_Calls: []
+  mainTrigger: {fileID: 0}
+  activateCustomActionAfterActionComplete: 0
+  customActionToActiveAfterActionComplete: 
+  addActionToListStoredToPlay: 0
+  playActionAutomaticallyIfStoredAtEnd: 0
+  clearAddActionToListStoredToPlay: 0
+  useEventsToEnableDisableActionObject: 0
+  eventToEnableActionObject:
+    m_PersistentCalls:
+      m_Calls: []
+  eventToDisableActionObject:
+    m_PersistentCalls:
+      m_Calls: []
+  categoryName: 
+  canInterruptOtherActionActive: 0
+  actionListToInterrupt: []
+  useCategoryToCheckInterrupt: 0
+  actionCategoryListToInterrupt: []
+  eventOnInterrupOtherActionActive:
+    m_PersistentCalls:
+      m_Calls: []
+  useEventOnInterruptedAction: 0
+  eventOnInterruptedAction:
+    m_PersistentCalls:
+      m_Calls: []
+  useProbabilityToActivateAction: 0
+  probablityToActivateAction: 0
+  animationUsedOnUpperBody: 0
+  disableRegularActionActiveState: 0
+  disableRegularActionActiveStateOnEnd: 0
+  changeCameraViewToThirdPersonOnAction: 0
+  changeCameraViewToThirdPersonOnActionOnFullBodyAwareness: 0
+  keepCameraRotationToHeadOnFullBodyAwareness: 0
+  actionsCanBeUsedOnFirstPerson: 0
+  ignoreChangeToThirdPerson: 0
+  disableIgnorePlayerListChange: 0
+  showDebugPrint: 0
+  showGizmo: 0
+  showAllGizmo: 0
+  mainAnimator: {fileID: 0}
+  newAnimationClip: {fileID: 0}
+  enableAnimatorLayerOnAction: 0
+  animatorLayerToEnableName: 
+  actionNameToReplace: 
+  animationLayerName: Base Layer
+  newAnimationSpeed: 1
+  activateAnimationReplace: 0
+  newAnimationIsMirror: 0
+  setPlayerParentDuringActionActive: 0
+  playerParentDuringAction: {fileID: 0}
+--- !u!1 &4011182495059242835
+GameObject:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  serializedVersion: 6
+  m_Component:
+  - component: {fileID: 4418929747449559870}
+  - component: {fileID: 4594646636414937497}
+  - component: {fileID: 3193279915967314979}
+  m_Layer: 2
+  m_Name: Shake Camera
+  m_TagString: Untagged
+  m_Icon: {fileID: 0}
+  m_NavMeshLayer: 0
+  m_StaticEditorFlags: 0
+  m_IsActive: 1
+--- !u!4 &4418929747449559870
+Transform:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 4011182495059242835}
+  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
+  m_LocalPosition: {x: 0, y: 0, z: 0}
+  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_Children: []
+  m_Father: {fileID: 3242310541017226489}
+  m_RootOrder: 3
+  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!114 &4594646636414937497
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 4011182495059242835}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 1688134050b0e8a4b86b67ac8cc8f30e, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  externalCameraShakeEnabled: 1
+  externalShakeName: Rotating Kick
+  shakeUsingDistance: 0
+  minDistanceToShake: 0
+  layer:
+    serializedVersion: 2
+    m_Bits: 0
+  useShakeListTriggeredByActions: 0
+  shakeTriggeredByActionList:
+  - actionName: Big Fall
+    shakeName: Medium Fall
+    nameIndex: 8
+    useShakeEvent: 0
+    eventAtStart:
+      m_PersistentCalls:
+        m_Calls: []
+    eventAtEnd:
+      m_PersistentCalls:
+        m_Calls: []
+  useShakeEvent: 0
+  eventAtStart:
+    m_PersistentCalls:
+      m_Calls: []
+  eventAtEnd:
+    m_PersistentCalls:
+      m_Calls: []
+  setPlayerManually: 1
+  currentPlayer: {fileID: 0}
+  mainManagerName: External Shake List Manager
+  showGizmo: 0
+  gizmoLabelColor: {r: 0, g: 0, b: 0, a: 0}
+  nameIndex: 15
+  nameList:
+  - Big Explosion
+  - Medium Explosion
+  - Little Explosion
+  - Big Bullets
+  - Medium Bullets
+  - Little Bullets
+  - Laser
+  - Big Fall
+  - Medium Fall
+  - Core Activation
+  - Jump Scare
+  - Big Door Opening
+  - Foot Stomp Test
+  - Kick Combo
+  - Punch Combo
+  - Rotating Kick
+  - Hit Object
+  - Melee Attack Target To Damage Found
+  - Cutting Mode Slice
+  - Small Melee Damage Received
+  - Medium Melee Damage Received
+  - Large Melee Damage Received
+  externalShakeManager: {fileID: 0}
+--- !u!82 &3193279915967314979
+AudioSource:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 4011182495059242835}
+  m_Enabled: 1
+  serializedVersion: 4
+  OutputAudioMixerGroup: {fileID: 0}
+  m_audioClip: {fileID: 8300000, guid: 7927dc70b2a4a414ebcc5a9ff6ab7f13, type: 3}
+  m_PlayOnAwake: 0
+  m_Volume: 1
+  m_Pitch: 1
+  Loop: 0
+  Mute: 0
+  Spatialize: 0
+  SpatializePostEffects: 0
+  Priority: 128
+  DopplerLevel: 1
+  MinDistance: 1
+  MaxDistance: 500
+  Pan2D: 0
+  rolloffMode: 0
+  BypassEffects: 0
+  BypassListenerEffects: 0
+  BypassReverbZones: 0
+  rolloffCustomCurve:
+    serializedVersion: 2
+    m_Curve:
+    - serializedVersion: 3
+      time: 0
+      value: 1
+      inSlope: 0
+      outSlope: 0
+      tangentMode: 0
+      weightedMode: 0
+      inWeight: 0.33333334
+      outWeight: 0.33333334
+    - serializedVersion: 3
+      time: 1
+      value: 0
+      inSlope: 0
+      outSlope: 0
+      tangentMode: 0
+      weightedMode: 0
+      inWeight: 0.33333334
+      outWeight: 0.33333334
+    m_PreInfinity: 2
+    m_PostInfinity: 2
+    m_RotationOrder: 4
+  panLevelCustomCurve:
+    serializedVersion: 2
+    m_Curve:
+    - serializedVersion: 3
+      time: 0
+      value: 0
+      inSlope: 0
+      outSlope: 0
+      tangentMode: 0
+      weightedMode: 0
+      inWeight: 0.33333334
+      outWeight: 0.33333334
+    m_PreInfinity: 2
+    m_PostInfinity: 2
+    m_RotationOrder: 4
+  spreadCustomCurve:
+    serializedVersion: 2
+    m_Curve:
+    - serializedVersion: 3
+      time: 0
+      value: 0
+      inSlope: 0
+      outSlope: 0
+      tangentMode: 0
+      weightedMode: 0
+      inWeight: 0.33333334
+      outWeight: 0.33333334
+    m_PreInfinity: 2
+    m_PostInfinity: 2
+    m_RotationOrder: 4
+  reverbZoneMixCustomCurve:
+    serializedVersion: 2
+    m_Curve:
+    - serializedVersion: 3
+      time: 0
+      value: 1
+      inSlope: 0
+      outSlope: 0
+      tangentMode: 0
+      weightedMode: 0
+      inWeight: 0.33333334
+      outWeight: 0.33333334
+    m_PreInfinity: 2
+    m_PostInfinity: 2
+    m_RotationOrder: 4
+--- !u!1 &4027228792529504337
+GameObject:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  serializedVersion: 6
+  m_Component:
+  - component: {fileID: 8270029569664462490}
+  - component: {fileID: 1065579885887007351}
+  - component: {fileID: 7418098771961014781}
+  - component: {fileID: 1095929410}
+  - component: {fileID: 1095929411}
+  - component: {fileID: 1095929409}
+  m_Layer: 0
+  m_Name: Lid
+  m_TagString: Untagged
+  m_Icon: {fileID: 0}
+  m_NavMeshLayer: 0
+  m_StaticEditorFlags: 0
+  m_IsActive: 1
+--- !u!4 &8270029569664462490
+Transform:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 4027228792529504337}
+  m_LocalRotation: {x: -0.7071068, y: 0, z: 0, w: 0.7071068}
+  m_LocalPosition: {x: 0.025, y: 1.6296058, z: -0.514}
+  m_LocalScale: {x: 0.73777544, y: 0.73777544, z: 0.73777544}
+  m_Children: []
+  m_Father: {fileID: 543450651966851070}
+  m_RootOrder: 1
+  m_LocalEulerAnglesHint: {x: -90, y: 0, z: 0}
+--- !u!33 &1065579885887007351
+MeshFilter:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 4027228792529504337}
+  m_Mesh: {fileID: 4293751317952506913, guid: fbf90132faa6d244a84d496d04da2606, type: 3}
+--- !u!23 &7418098771961014781
+MeshRenderer:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 4027228792529504337}
+  m_Enabled: 1
+  m_CastShadows: 1
+  m_ReceiveShadows: 1
+  m_DynamicOccludee: 1
+  m_MotionVectors: 1
+  m_LightProbeUsage: 1
+  m_ReflectionProbeUsage: 1
+  m_RayTracingMode: 2
+  m_RenderingLayerMask: 1
+  m_RendererPriority: 0
+  m_Materials:
+  - {fileID: 4362962105363994262, guid: fbf90132faa6d244a84d496d04da2606, type: 3}
+  m_StaticBatchInfo:
+    firstSubMesh: 0
+    subMeshCount: 0
+  m_StaticBatchRoot: {fileID: 0}
+  m_ProbeAnchor: {fileID: 0}
+  m_LightProbeVolumeOverride: {fileID: 0}
+  m_ScaleInLightmap: 1
+  m_ReceiveGI: 1
+  m_PreserveUVs: 0
+  m_IgnoreNormalsForChartDetection: 0
+  m_ImportantGI: 0
+  m_StitchLightmapSeams: 1
+  m_SelectedEditorRenderState: 3
+  m_MinimumChartSize: 4
+  m_AutoUVMaxDistance: 0.5
+  m_AutoUVMaxAngle: 89
+  m_LightmapParameters: {fileID: 0}
+  m_SortingLayerID: 0
+  m_SortingLayer: 0
+  m_SortingOrder: 0
+--- !u!54 &1095929410
+Rigidbody:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 4027228792529504337}
+  serializedVersion: 2
+  m_Mass: 1
+  m_Drag: 0
+  m_AngularDrag: 0.05
+  m_UseGravity: 1
+  m_IsKinematic: 1
+  m_Interpolate: 0
+  m_Constraints: 0
+  m_CollisionDetection: 0
+--- !u!64 &1095929411
+MeshCollider:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 4027228792529504337}
+  m_Material: {fileID: 0}
+  m_IsTrigger: 0
+  m_Enabled: 1
+  serializedVersion: 4
+  m_Convex: 1
+  m_CookingOptions: 30
+  m_Mesh: {fileID: 4293751317952506913, guid: fbf90132faa6d244a84d496d04da2606, type: 3}
+--- !u!153 &1095929409
+ConfigurableJoint:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 4027228792529504337}
+  m_ConnectedBody: {fileID: 0}
+  m_Anchor: {x: 0, y: 0, z: 0}
+  m_Axis: {x: 1, y: 0, z: 0}
+  m_AutoConfigureConnectedAnchor: 0
+  m_ConnectedAnchor: {x: 11.87, y: 1.63, z: 4.0949736}
+  serializedVersion: 2
+  m_SecondaryAxis: {x: 1, y: 0, z: 0}
+  m_XMotion: 2
+  m_YMotion: 0
+  m_ZMotion: 0
+  m_AngularXMotion: 2
+  m_AngularYMotion: 0
+  m_AngularZMotion: 0
+  m_LinearLimitSpring:
+    spring: 0
+    damper: 0
+  m_LinearLimit:
+    limit: 0
+    bounciness: 0
+    contactDistance: 0
+  m_AngularXLimitSpring:
+    spring: 0
+    damper: 0
+  m_LowAngularXLimit:
+    limit: 0
+    bounciness: 0
+    contactDistance: 0
+  m_HighAngularXLimit:
+    limit: 0
+    bounciness: 0
+    contactDistance: 0
+  m_AngularYZLimitSpring:
+    spring: 0
+    damper: 0
+  m_AngularYLimit:
+    limit: 0
+    bounciness: 0
+    contactDistance: 0
+  m_AngularZLimit:
+    limit: 0
+    bounciness: 0
+    contactDistance: 0
+  m_TargetPosition: {x: 0, y: 0, z: 0}
+  m_TargetVelocity: {x: 0, y: 0, z: 0}
+  m_XDrive:
+    serializedVersion: 3
+    positionSpring: 0
+    positionDamper: 0
+    maximumForce: 3.4028233e+38
+  m_YDrive:
+    serializedVersion: 3
+    positionSpring: 0
+    positionDamper: 0
+    maximumForce: 3.4028233e+38
+  m_ZDrive:
+    serializedVersion: 3
+    positionSpring: 0
+    positionDamper: 0
+    maximumForce: 3.4028233e+38
+  m_TargetRotation: {x: 0, y: 0, z: 0, w: 1}
+  m_TargetAngularVelocity: {x: 0, y: 0, z: 0}
+  m_RotationDriveMode: 0
+  m_AngularXDrive:
+    serializedVersion: 3
+    positionSpring: 0
+    positionDamper: 0
+    maximumForce: 3.4028233e+38
+  m_AngularYZDrive:
+    serializedVersion: 3
+    positionSpring: 0
+    positionDamper: 0
+    maximumForce: 3.4028233e+38
+  m_SlerpDrive:
+    serializedVersion: 3
+    positionSpring: 0
+    positionDamper: 0
+    maximumForce: 3.4028233e+38
+  m_ProjectionMode: 0
+  m_ProjectionDistance: 0.1
+  m_ProjectionAngle: 180
+  m_ConfiguredInWorldSpace: 0
+  m_SwapBodies: 0
+  m_BreakForce: Infinity
+  m_BreakTorque: Infinity
+  m_EnableCollision: 0
+  m_EnablePreprocessing: 1
+  m_MassScale: 1
+  m_ConnectedMassScale: 1
+--- !u!1 &4215173859400662974
+GameObject:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  serializedVersion: 6
+  m_Component:
+  - component: {fileID: 4209542405500102466}
+  - component: {fileID: 4297926200907169182}
+  - component: {fileID: 4318025678143508474}
+  - component: {fileID: 4315255422011955434}
+  - component: {fileID: 4278363223707984584}
+  - component: {fileID: 4215173859400662975}
+  m_Layer: 2
+  m_Name: Noise Signal Button
+  m_TagString: device
+  m_Icon: {fileID: 0}
+  m_NavMeshLayer: 0
+  m_StaticEditorFlags: 0
+  m_IsActive: 0
+--- !u!4 &4209542405500102466
+Transform:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 4215173859400662974}
+  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
+  m_LocalPosition: {x: 0.16, y: 0.692, z: 0.46}
+  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_Children: []
+  m_Father: {fileID: 3242310541017226489}
+  m_RootOrder: 4
+  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!135 &4297926200907169182
+SphereCollider:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 4215173859400662974}
+  m_Material: {fileID: 0}
+  m_IsTrigger: 1
+  m_Enabled: 1
+  serializedVersion: 2
+  m_Radius: 0.45
+  m_Center: {x: 0, y: 0, z: 0}
+--- !u!114 &4318025678143508474
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 4215173859400662974}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: c22e01c2beea51d44b1fbdf441f37fda, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  buttonEnabled: 1
+  pressSound: {fileID: 8300000, guid: 224fe7d6bda81fe4598dfc27b072ae69, type: 3}
+  pressAudioElement:
+    audioPlayMethod: 1
+    audioEventName: 
+    clip: {fileID: 0}
+    audioSourceName: 
+    audioSource: {fileID: 0}
+    audioSourceAssigned: 0
+  sendCurrentUser: 0
+  notUsableWhileAnimationIsPlaying: 1
+  useSingleSwitch: 1
+  buttonUsesAnimation: 0
+  switchAnimationName: simpleSwitch
+  animationSpeed: 1
+  useUnityEvents: 1
+  objectToCallFunctions:
+    m_PersistentCalls:
+      m_Calls:
+      - m_Target: {fileID: 4215173859400662975}
+        m_MethodName: activateNoiseExternally
+        m_Mode: 1
+        m_Arguments:
+          m_ObjectArgument: {fileID: 0}
+          m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
+          m_IntArgument: 0
+          m_FloatArgument: 0
+          m_StringArgument: 
+          m_BoolArgument: 0
+        m_CallState: 2
+  turnOnEvent:
+    m_PersistentCalls:
+      m_Calls: []
+  turnOffEvent:
+    m_PersistentCalls:
+      m_Calls: []
+  objectToActive: {fileID: 0}
+  activeFunctionName: 
+  sendThisButton: 0
+  switchTurnedOn: 0
+  audioSource: {fileID: 0}
+  buttonAnimation: {fileID: 0}
+  deviceStringActionManager: {fileID: 0}
+--- !u!114 &4315255422011955434
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 4215173859400662974}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 80fe7bfbecac2ee4895bd133d0b782df, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  deviceName: Button
+  deviceAction: Make Noise
+  useMultipleInteraction: 0
+  multipleInteractionNameList: []
+  secondaryDeviceAction: 
+  reloadDeviceActionOnPress: 0
+  hideIconOnPress: 0
+  disableIconOnPress: 0
+  showIcon: 1
+  showTouchIconButton: 1
+  hideIconOnUseDevice: 0
+  showIconOnStopUseDevice: 0
+  useTransformForStringAction: 0
+  transformForStringAction: {fileID: 0}
+  useSeparatedTransformForEveryView: 0
+  transformForThirdPerson: {fileID: 0}
+  transformForFirstPerson: {fileID: 0}
+  useLocalOffset: 1
+  actionOffset: 1
+  setUsingDeviceState: 0
+  setTextFontSizeActive: 0
+  textFontSize: 17
+  iconEnabled: 1
+  useRaycastToDetectDeviceParts: 0
+  usingDevice: 0
+  useCustomMinDistanceToUseDevice: 0
+  customMinDistanceToUseDevice: 0
+  ignoreDistanceToDevice: 0
+  useCustomMinAngleToUse: 0
+  customMinAngleToUseDevice: 0
+  useRelativeDirectionBetweenPlayerAndObject: 0
+  useCustomIconButtonInfo: 0
+  customIconButtonInfoName: 
+  ignoreUseOnlyDeviceIfVisibleOnCamera: 1
+  useCustomDeviceTransformPosition: 0
+  customDeviceTransformPosition: {fileID: 0}
+  useFixedDeviceIconPosition: 0
+  checkIfObstacleBetweenDeviceAndPlayer: 0
+  showIconTexture: 0
+  iconTexture: {fileID: 0}
+  useObjectDescription: 0
+  objectDescription: 
+  descriptionFontSize: 14
+  showObjectAmount: 0
+  objectAmount: 0
+  useHoldInteractionButton: 0
+  holdInteractionButtonDuration: 0
+  showGizmo: 0
+  gizmoLabelColor: {r: 0, g: 1, b: 0, a: 1}
+  gizmoColor: {r: 1, g: 1, b: 1, a: 1}
+  gizmoRadius: 0.3
+--- !u!82 &4278363223707984584
+AudioSource:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 4215173859400662974}
+  m_Enabled: 1
+  serializedVersion: 4
+  OutputAudioMixerGroup: {fileID: 0}
+  m_audioClip: {fileID: 0}
+  m_PlayOnAwake: 1
+  m_Volume: 1
+  m_Pitch: 1
+  Loop: 0
+  Mute: 0
+  Spatialize: 0
+  SpatializePostEffects: 0
+  Priority: 128
+  DopplerLevel: 1
+  MinDistance: 1
+  MaxDistance: 500
+  Pan2D: 0
+  rolloffMode: 0
+  BypassEffects: 0
+  BypassListenerEffects: 0
+  BypassReverbZones: 0
+  rolloffCustomCurve:
+    serializedVersion: 2
+    m_Curve:
+    - serializedVersion: 3
+      time: 0
+      value: 1
+      inSlope: 0
+      outSlope: 0
+      tangentMode: 0
+      weightedMode: 0
+      inWeight: 0.33333334
+      outWeight: 0.33333334
+    - serializedVersion: 3
+      time: 1
+      value: 0
+      inSlope: 0
+      outSlope: 0
+      tangentMode: 0
+      weightedMode: 0
+      inWeight: 0.33333334
+      outWeight: 0.33333334
+    m_PreInfinity: 2
+    m_PostInfinity: 2
+    m_RotationOrder: 4
+  panLevelCustomCurve:
+    serializedVersion: 2
+    m_Curve:
+    - serializedVersion: 3
+      time: 0
+      value: 0
+      inSlope: 0
+      outSlope: 0
+      tangentMode: 0
+      weightedMode: 0
+      inWeight: 0.33333334
+      outWeight: 0.33333334
+    m_PreInfinity: 2
+    m_PostInfinity: 2
+    m_RotationOrder: 0
+  spreadCustomCurve:
+    serializedVersion: 2
+    m_Curve:
+    - serializedVersion: 3
+      time: 0
+      value: 0
+      inSlope: 0
+      outSlope: 0
+      tangentMode: 0
+      weightedMode: 0
+      inWeight: 0.33333334
+      outWeight: 0.33333334
+    m_PreInfinity: 2
+    m_PostInfinity: 2
+    m_RotationOrder: 0
+  reverbZoneMixCustomCurve:
+    serializedVersion: 2
+    m_Curve:
+    - serializedVersion: 3
+      time: 0
+      value: 1
+      inSlope: 0
+      outSlope: 0
+      tangentMode: 0
+      weightedMode: 0
+      inWeight: 0.33333334
+      outWeight: 0.33333334
+    m_PreInfinity: 2
+    m_PostInfinity: 2
+    m_RotationOrder: 0
+--- !u!114 &4215173859400662975
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 4215173859400662974}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 2decf8baac36dc74fb48a06101e37132, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  useNoise: 1
+  noiseRadius: 30
+  noiseExpandSpeed: 10
+  useNoiseDetection: 1
+  noiseDetectionLayer:
+    serializedVersion: 2
+    m_Bits: 1048576
+  noiseDecibels: 1
+  useNoisePositionOffset: 0
+  noisePositionOffset: {x: 0, y: 0, z: 0}
+  enableOnlyUsedByPlayer: 0
+  forceNoiseDetection: 1
+  noiseID: 2
+  activateNoiseAtStart: 0
+  usedOnRigidbody: 0
+  useRigidbodyCollisionSpeed: 0
+  maxCollisionSpeedValue: 0
+  collisionNoiseMultiplier: 0
+  mainDecalManagerName: Decal Manager
+  mainNoiseMeshManagerName: Noise Mesh Manager
+  useNoiseMesh: 1
+  showDebugPrint: 0
+  showGizmo: 1
+  showNoiseDetectionGizmo: 1
+  gizmoColor: {r: 0, g: 1, b: 0, a: 1}
+--- !u!1 &4229208227295280554
+GameObject:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  serializedVersion: 6
+  m_Component:
+  - component: {fileID: 4912018962841548586}
+  - component: {fileID: 7019393429240354521}
+  - component: {fileID: 8513626898146392177}
+  - component: {fileID: 1181988084}
+  m_Layer: 0
+  m_Name: Dumpster
+  m_TagString: Untagged
+  m_Icon: {fileID: 0}
+  m_NavMeshLayer: 0
+  m_StaticEditorFlags: 0
+  m_IsActive: 1
+--- !u!4 &4912018962841548586
+Transform:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 4229208227295280554}
+  m_LocalRotation: {x: -0.00000003774895, y: 0, z: -0, w: 1}
+  m_LocalPosition: {x: 0.003768487, y: 0.0062324405, z: -0.07528584}
+  m_LocalScale: {x: 0.73777544, y: 0.73777544, z: 0.73777544}
+  m_Children: []
+  m_Father: {fileID: 543450651966851070}
+  m_RootOrder: 0
+  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!33 &7019393429240354521
+MeshFilter:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 4229208227295280554}
+  m_Mesh: {fileID: 5124574302441228235, guid: fbf90132faa6d244a84d496d04da2606, type: 3}
+--- !u!23 &8513626898146392177
+MeshRenderer:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 4229208227295280554}
+  m_Enabled: 1
+  m_CastShadows: 1
+  m_ReceiveShadows: 1
+  m_DynamicOccludee: 1
+  m_MotionVectors: 1
+  m_LightProbeUsage: 1
+  m_ReflectionProbeUsage: 1
+  m_RayTracingMode: 2
+  m_RenderingLayerMask: 1
+  m_RendererPriority: 0
+  m_Materials:
+  - {fileID: -6959754721294216046, guid: fbf90132faa6d244a84d496d04da2606, type: 3}
+  - {fileID: 4362962105363994262, guid: fbf90132faa6d244a84d496d04da2606, type: 3}
+  m_StaticBatchInfo:
+    firstSubMesh: 0
+    subMeshCount: 0
+  m_StaticBatchRoot: {fileID: 0}
+  m_ProbeAnchor: {fileID: 0}
+  m_LightProbeVolumeOverride: {fileID: 0}
+  m_ScaleInLightmap: 1
+  m_ReceiveGI: 1
+  m_PreserveUVs: 0
+  m_IgnoreNormalsForChartDetection: 0
+  m_ImportantGI: 0
+  m_StitchLightmapSeams: 1
+  m_SelectedEditorRenderState: 3
+  m_MinimumChartSize: 4
+  m_AutoUVMaxDistance: 0.5
+  m_AutoUVMaxAngle: 89
+  m_LightmapParameters: {fileID: 0}
+  m_SortingLayerID: 0
+  m_SortingLayer: 0
+  m_SortingOrder: 0
+--- !u!64 &1181988084
+MeshCollider:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 4229208227295280554}
+  m_Material: {fileID: 0}
+  m_IsTrigger: 0
+  m_Enabled: 1
+  serializedVersion: 4
+  m_Convex: 0
+  m_CookingOptions: 30
+  m_Mesh: {fileID: 5124574302441228235, guid: fbf90132faa6d244a84d496d04da2606, type: 3}
+--- !u!1 &4380379348783184885
+GameObject:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  serializedVersion: 6
+  m_Component:
+  - component: {fileID: 2219603008218539728}
+  m_Layer: 2
+  m_Name: Match Target Transform
+  m_TagString: Untagged
+  m_Icon: {fileID: 0}
+  m_NavMeshLayer: 0
+  m_StaticEditorFlags: 0
+  m_IsActive: 1
+--- !u!4 &2219603008218539728
+Transform:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 4380379348783184885}
+  m_LocalRotation: {x: -0, y: -0, z: -0, w: 1}
+  m_LocalPosition: {x: 0, y: 0, z: 0}
+  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_Children: []
+  m_Father: {fileID: 3662304143922237698}
+  m_RootOrder: 0
+  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!1 &4605358958136482108
+GameObject:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  serializedVersion: 6
+  m_Component:
+  - component: {fileID: 1775901787674454053}
+  m_Layer: 0
+  m_Name: Ragdoll Direction
+  m_TagString: Untagged
+  m_Icon: {fileID: 0}
+  m_NavMeshLayer: 0
+  m_StaticEditorFlags: 0
+  m_IsActive: 1
+--- !u!4 &1775901787674454053
+Transform:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 4605358958136482108}
+  m_LocalRotation: {x: 0, y: 0.9954213, z: 0.09558515, w: 0}
+  m_LocalPosition: {x: 0, y: 0, z: 0}
+  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_Children: []
+  m_Father: {fileID: 4644125819713971734}
+  m_RootOrder: 2
+  m_LocalEulerAnglesHint: {x: -10.97, y: 180, z: 0}
+--- !u!1 &6098354096677672565
+GameObject:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  serializedVersion: 6
+  m_Component:
+  - component: {fileID: 8158895271381902651}
+  m_Layer: 2
+  m_Name: Match Target Transform
+  m_TagString: Untagged
+  m_Icon: {fileID: 0}
+  m_NavMeshLayer: 0
+  m_StaticEditorFlags: 0
+  m_IsActive: 1
+--- !u!4 &8158895271381902651
+Transform:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 6098354096677672565}
+  m_LocalRotation: {x: -0, y: -0, z: -0, w: 1}
+  m_LocalPosition: {x: 0, y: 0, z: 0}
+  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_Children: []
+  m_Father: {fileID: 4644125819713971734}
+  m_RootOrder: 0
+  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!1 &7174581340265260242
+GameObject:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  serializedVersion: 6
+  m_Component:
+  - component: {fileID: 8533077977961742754}
+  m_Layer: 2
+  m_Name: Player Target Position
+  m_TagString: Untagged
+  m_Icon: {fileID: 0}
+  m_NavMeshLayer: 0
+  m_StaticEditorFlags: 0
+  m_IsActive: 1
+--- !u!4 &8533077977961742754
+Transform:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 7174581340265260242}
+  m_LocalRotation: {x: -0, y: -0, z: -0, w: 1}
+  m_LocalPosition: {x: 0, y: 0, z: 0}
+  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_Children: []
+  m_Father: {fileID: 4644125819713971734}
+  m_RootOrder: 1
+  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}

@@ -1,0 +1,231 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!1 &701518163425871089
+GameObject:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  serializedVersion: 6
+  m_Component:
+  - component: {fileID: 701518163425871090}
+  - component: {fileID: 701518163425871091}
+  m_Layer: 0
+  m_Name: Shared Action Zone 3
+  m_TagString: Untagged
+  m_Icon: {fileID: 0}
+  m_NavMeshLayer: 0
+  m_StaticEditorFlags: 0
+  m_IsActive: 1
+--- !u!4 &701518163425871090
+Transform:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 701518163425871089}
+  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
+  m_LocalPosition: {x: 0, y: 0, z: 0}
+  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_Children:
+  - {fileID: 701518164296769241}
+  - {fileID: 7774585604821802629}
+  m_Father: {fileID: 0}
+  m_RootOrder: 0
+  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!114 &701518163425871091
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 701518163425871089}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 55a484ed12e5f244c88f623b363311f0, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  sharedActionZoneEnabled: 1
+  sharedActionName: Shared Stealth Kill Dumpster
+  disableSharedActionZoneAfterUse: 0
+  setPlayerAsFirstCharacter: 1
+  setAIAsFirstCharacterIfSignalOwner: 1
+  useSharedActionContent: 1
+  mainSharedActionContent: {fileID: 0}
+  sharedActionContentPrefab: {fileID: 2535491106273625979, guid: 85a15277d7ab8e143b00f56604c881c1,
+    type: 3}
+  useSharedZoneInsideRange: 0
+  useZonePositionRange: 0
+  xRange: {x: 0, y: 0}
+  zRange: {x: 0, y: 0}
+  useZoneRotationRange: 0
+  rotationRange: 0
+  useCustomSharedZoneRotationCenter: 0
+  customSharedZoneTransform: {fileID: 0}
+  maxDistanceToUseSharedActionZone: 3
+  useMaxDistanceXZToUseSharedActionZone: 0
+  maxDistanceXToUseSharedActionZone: 0
+  maxDistanceZToUseSharedActionZone: 0
+  useMinDistanceToActivateActionFirstCharacter: 0
+  minDistanceToActivateActionFirstCharacter: 0
+  useMinAngleToActivateActionFirstCharacter: 0
+  minAngleToActivateActionFirstCharacter: 0
+  useMinDistanceToActivateActionSecondCharacter: 0
+  minDistanceToActivateActionSecondCharacter: 0
+  useMinAngleToActivateActionSecondCharacter: 0
+  minAngleToActivateActionSecondCharacter: 0
+  useMinAngleToActivateActionOnCharactersDirection: 0
+  minAngleToActivateActionOnCharactersDirection: 0
+  mainSharedActionContentFound: 0
+--- !u!1 &701518164296769240
+GameObject:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  serializedVersion: 6
+  m_Component:
+  - component: {fileID: 701518164296769241}
+  - component: {fileID: 701518164296769243}
+  - component: {fileID: 701518164296769242}
+  m_Layer: 2
+  m_Name: Shared Action Zone Trigger
+  m_TagString: Untagged
+  m_Icon: {fileID: 0}
+  m_NavMeshLayer: 0
+  m_StaticEditorFlags: 0
+  m_IsActive: 1
+--- !u!4 &701518164296769241
+Transform:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 701518164296769240}
+  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
+  m_LocalPosition: {x: 0, y: 0.65, z: -0.46}
+  m_LocalScale: {x: 2.773385, y: 2.773385, z: 2.773385}
+  m_Children: []
+  m_Father: {fileID: 701518163425871090}
+  m_RootOrder: 0
+  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!65 &701518164296769243
+BoxCollider:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 701518164296769240}
+  m_Material: {fileID: 0}
+  m_IsTrigger: 1
+  m_Enabled: 1
+  serializedVersion: 2
+  m_Size: {x: 1, y: 1, z: 1}
+  m_Center: {x: 0, y: 0, z: 0}
+--- !u!114 &701518164296769242
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 701518164296769240}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 9bd58d4d93174bc4782f400e75ffeb8c, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  sharedActionZoneTriggerEnabled: 1
+  sharedActionZoneNameOnEnter: Shared Stealth Kill Dumpster
+  useSharedActionTimerOnEnter: 0
+  sharedActionTimerOnEnter: 0
+  setSharedActionZoneOnExit: 0
+  sharedActionZoneNameOnExit: 
+  useSharedActionTimerOnExit: 0
+  sharedActionTimerOnExit: 0
+  enableSharedActionRemoteActivatorOnTriggerEnter: 1
+  disableSharedActionRemoteActivatorOnTriggerExit: 1
+  setCustomSharedActionNameOnEnter: 0
+  customSharedActionNameOnEnter: 
+  removeCustomSharedActionNameOnExit: 0
+  useTagList: 0
+  tagList: []
+  useLayerMask: 1
+  layerMask:
+    serializedVersion: 2
+    m_Bits: 1048576
+--- !u!1 &7774585604821802628
+GameObject:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  serializedVersion: 6
+  m_Component:
+  - component: {fileID: 7774585604821802629}
+  - component: {fileID: 7774585604821802631}
+  - component: {fileID: 7774585604821802630}
+  m_Layer: 2
+  m_Name: Shared Action Zone Trigger For AI
+  m_TagString: Untagged
+  m_Icon: {fileID: 0}
+  m_NavMeshLayer: 0
+  m_StaticEditorFlags: 0
+  m_IsActive: 0
+--- !u!4 &7774585604821802629
+Transform:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 7774585604821802628}
+  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
+  m_LocalPosition: {x: 0, y: 0.65, z: -0.46}
+  m_LocalScale: {x: 2.773385, y: 2.773385, z: 2.773385}
+  m_Children: []
+  m_Father: {fileID: 701518163425871090}
+  m_RootOrder: 1
+  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!65 &7774585604821802631
+BoxCollider:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 7774585604821802628}
+  m_Material: {fileID: 0}
+  m_IsTrigger: 1
+  m_Enabled: 1
+  serializedVersion: 2
+  m_Size: {x: 1, y: 1, z: 1}
+  m_Center: {x: 0, y: 0, z: 0}
+--- !u!114 &7774585604821802630
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 7774585604821802628}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 9bd58d4d93174bc4782f400e75ffeb8c, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  sharedActionZoneTriggerEnabled: 1
+  sharedActionZoneNameOnEnter: 
+  useSharedActionTimerOnEnter: 0
+  sharedActionTimerOnEnter: 0
+  setSharedActionZoneOnExit: 0
+  sharedActionZoneNameOnExit: 
+  useSharedActionTimerOnExit: 0
+  sharedActionTimerOnExit: 0
+  enableSharedActionRemoteActivatorOnTriggerEnter: 0
+  disableSharedActionRemoteActivatorOnTriggerExit: 0
+  setCustomSharedActionNameOnEnter: 1
+  customSharedActionNameOnEnter: Shared Stealth Kill Dumpster
+  removeCustomSharedActionNameOnExit: 1
+  useTagList: 0
+  tagList: []
+  useLayerMask: 1
+  layerMask:
+    serializedVersion: 2
+    m_Bits: 1048576

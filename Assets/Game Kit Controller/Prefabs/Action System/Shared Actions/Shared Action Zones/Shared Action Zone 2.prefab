@@ -1,0 +1,154 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!1 &4492291746843570069
+GameObject:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  serializedVersion: 6
+  m_Component:
+  - component: {fileID: 4492291746843570068}
+  - component: {fileID: 4492291746843570070}
+  - component: {fileID: 4492291746843570071}
+  m_Layer: 2
+  m_Name: Shared Action Zone Trigger
+  m_TagString: Untagged
+  m_Icon: {fileID: 0}
+  m_NavMeshLayer: 0
+  m_StaticEditorFlags: 0
+  m_IsActive: 1
+--- !u!4 &4492291746843570068
+Transform:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 4492291746843570069}
+  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
+  m_LocalPosition: {x: 0, y: 1.19, z: 0}
+  m_LocalScale: {x: 2.773385, y: 2.773385, z: 2.773385}
+  m_Children: []
+  m_Father: {fileID: 6633653737905210418}
+  m_RootOrder: 0
+  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!65 &4492291746843570070
+BoxCollider:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 4492291746843570069}
+  m_Material: {fileID: 0}
+  m_IsTrigger: 1
+  m_Enabled: 1
+  serializedVersion: 2
+  m_Size: {x: 1, y: 1, z: 1}
+  m_Center: {x: 0, y: 0, z: 0}
+--- !u!114 &4492291746843570071
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 4492291746843570069}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 9bd58d4d93174bc4782f400e75ffeb8c, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  sharedActionZoneTriggerEnabled: 1
+  sharedActionZoneNameOnEnter: Stealth Kick 1
+  useSharedActionTimerOnEnter: 0
+  sharedActionTimerOnEnter: 0
+  setSharedActionZoneOnExit: 0
+  sharedActionZoneNameOnExit: 
+  useSharedActionTimerOnExit: 0
+  sharedActionTimerOnExit: 0
+  enableSharedActionRemoteActivatorOnTriggerEnter: 1
+  disableSharedActionRemoteActivatorOnTriggerExit: 1
+  setCustomSharedActionNameOnEnter: 0
+  customSharedActionNameOnEnter: 
+  removeCustomSharedActionNameOnExit: 0
+  useTagList: 0
+  tagList: []
+  useLayerMask: 1
+  layerMask:
+    serializedVersion: 2
+    m_Bits: 1048576
+--- !u!1 &6633653737905210421
+GameObject:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  serializedVersion: 6
+  m_Component:
+  - component: {fileID: 6633653737905210418}
+  - component: {fileID: 6633653737905210419}
+  m_Layer: 0
+  m_Name: Shared Action Zone 2
+  m_TagString: Untagged
+  m_Icon: {fileID: 0}
+  m_NavMeshLayer: 0
+  m_StaticEditorFlags: 0
+  m_IsActive: 1
+--- !u!4 &6633653737905210418
+Transform:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 6633653737905210421}
+  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
+  m_LocalPosition: {x: 0, y: 0, z: 0}
+  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_Children:
+  - {fileID: 4492291746843570068}
+  m_Father: {fileID: 0}
+  m_RootOrder: 0
+  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!114 &6633653737905210419
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 6633653737905210421}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 55a484ed12e5f244c88f623b363311f0, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  sharedActionZoneEnabled: 1
+  sharedActionName: Stealth Kick 1
+  disableSharedActionZoneAfterUse: 0
+  setPlayerAsFirstCharacter: 1
+  setAIAsFirstCharacterIfSignalOwner: 1
+  useSharedActionContent: 1
+  mainSharedActionContent: {fileID: 0}
+  sharedActionContentPrefab: {fileID: 6581110184427709093, guid: a011332fc8911e349b0570983efb1e40,
+    type: 3}
+  useSharedZoneInsideRange: 1
+  useZonePositionRange: 1
+  xRange: {x: -4, y: 4}
+  zRange: {x: -1, y: 1}
+  useZoneRotationRange: 0
+  rotationRange: 0
+  useCustomSharedZoneRotationCenter: 0
+  customSharedZoneTransform: {fileID: 0}
+  maxDistanceToUseSharedActionZone: 10
+  useMaxDistanceXZToUseSharedActionZone: 0
+  maxDistanceXToUseSharedActionZone: 0
+  maxDistanceZToUseSharedActionZone: 0
+  useMinDistanceToActivateActionFirstCharacter: 0
+  minDistanceToActivateActionFirstCharacter: 0
+  useMinAngleToActivateActionFirstCharacter: 0
+  minAngleToActivateActionFirstCharacter: 0
+  useMinDistanceToActivateActionSecondCharacter: 0
+  minDistanceToActivateActionSecondCharacter: 0
+  useMinAngleToActivateActionSecondCharacter: 0
+  minAngleToActivateActionSecondCharacter: 0
+  useMinAngleToActivateActionOnCharactersDirection: 0
+  minAngleToActivateActionOnCharactersDirection: 0
+  mainSharedActionContentFound: 0

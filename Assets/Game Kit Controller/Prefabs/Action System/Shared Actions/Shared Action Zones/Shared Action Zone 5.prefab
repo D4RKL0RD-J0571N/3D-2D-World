@@ -1,0 +1,185 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!1 &6734897861609346104
+GameObject:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  serializedVersion: 6
+  m_Component:
+  - component: {fileID: 6734897861609346105}
+  - component: {fileID: 6734897861609346107}
+  - component: {fileID: 6734897861609346106}
+  m_Layer: 2
+  m_Name: Shared Action Zone Trigger
+  m_TagString: Untagged
+  m_Icon: {fileID: 0}
+  m_NavMeshLayer: 0
+  m_StaticEditorFlags: 0
+  m_IsActive: 1
+--- !u!4 &6734897861609346105
+Transform:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 6734897861609346104}
+  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
+  m_LocalPosition: {x: 0, y: 1.72, z: 0}
+  m_LocalScale: {x: 6.3486533, y: 6.3486533, z: 6.3486533}
+  m_Children: []
+  m_Father: {fileID: 6734897862268533921}
+  m_RootOrder: 0
+  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!65 &6734897861609346107
+BoxCollider:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 6734897861609346104}
+  m_Material: {fileID: 0}
+  m_IsTrigger: 1
+  m_Enabled: 1
+  serializedVersion: 2
+  m_Size: {x: 1, y: 1, z: 1}
+  m_Center: {x: 0, y: 0, z: 0}
+--- !u!114 &6734897861609346106
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 6734897861609346104}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 9bd58d4d93174bc4782f400e75ffeb8c, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  sharedActionZoneTriggerEnabled: 1
+  sharedActionZoneNameOnEnter: Kick Against Furniture
+  useSharedActionTimerOnEnter: 0
+  sharedActionTimerOnEnter: 0
+  setSharedActionZoneOnExit: 0
+  sharedActionZoneNameOnExit: 
+  useSharedActionTimerOnExit: 0
+  sharedActionTimerOnExit: 0
+  enableSharedActionRemoteActivatorOnTriggerEnter: 1
+  disableSharedActionRemoteActivatorOnTriggerExit: 1
+  setCustomSharedActionNameOnEnter: 0
+  customSharedActionNameOnEnter: 
+  removeCustomSharedActionNameOnExit: 0
+  useTagList: 0
+  tagList: []
+  useLayerMask: 1
+  layerMask:
+    serializedVersion: 2
+    m_Bits: 1048576
+--- !u!1 &6734897862138820319
+GameObject:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  serializedVersion: 6
+  m_Component:
+  - component: {fileID: 6734897862138820312}
+  m_Layer: 0
+  m_Name: Shared Action Center
+  m_TagString: Untagged
+  m_Icon: {fileID: 0}
+  m_NavMeshLayer: 0
+  m_StaticEditorFlags: 0
+  m_IsActive: 1
+--- !u!4 &6734897862138820312
+Transform:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 6734897862138820319}
+  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
+  m_LocalPosition: {x: 0, y: 0, z: 0}
+  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_Children: []
+  m_Father: {fileID: 6734897862268533921}
+  m_RootOrder: 1
+  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!1 &6734897862268533920
+GameObject:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  serializedVersion: 6
+  m_Component:
+  - component: {fileID: 6734897862268533921}
+  - component: {fileID: 6734897862268533922}
+  m_Layer: 0
+  m_Name: Shared Action Zone 5
+  m_TagString: Untagged
+  m_Icon: {fileID: 0}
+  m_NavMeshLayer: 0
+  m_StaticEditorFlags: 0
+  m_IsActive: 1
+--- !u!4 &6734897862268533921
+Transform:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 6734897862268533920}
+  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
+  m_LocalPosition: {x: 0, y: 0, z: 0}
+  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_Children:
+  - {fileID: 6734897861609346105}
+  - {fileID: 6734897862138820312}
+  m_Father: {fileID: 0}
+  m_RootOrder: 0
+  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!114 &6734897862268533922
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 6734897862268533920}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 55a484ed12e5f244c88f623b363311f0, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  sharedActionZoneEnabled: 1
+  sharedActionName: Kick Against Furniture
+  disableSharedActionZoneAfterUse: 0
+  setPlayerAsFirstCharacter: 1
+  setAIAsFirstCharacterIfSignalOwner: 1
+  useSharedActionContent: 1
+  mainSharedActionContent: {fileID: 0}
+  sharedActionContentPrefab: {fileID: 2922425621584794362, guid: 5f34a13dc79894c41a2bf281bd44c01a,
+    type: 3}
+  useSharedZoneInsideRange: 1
+  useZonePositionRange: 1
+  xRange: {x: -3, y: 3}
+  zRange: {x: -3, y: 3}
+  useZoneRotationRange: 1
+  rotationRange: 360
+  useCustomSharedZoneRotationCenter: 1
+  customSharedZoneTransform: {fileID: 6734897862138820312}
+  maxDistanceToUseSharedActionZone: 6
+  useMaxDistanceXZToUseSharedActionZone: 0
+  maxDistanceXToUseSharedActionZone: 0
+  maxDistanceZToUseSharedActionZone: 0
+  useMinDistanceToActivateActionFirstCharacter: 0
+  minDistanceToActivateActionFirstCharacter: 0
+  useMinAngleToActivateActionFirstCharacter: 0
+  minAngleToActivateActionFirstCharacter: 0
+  useMinDistanceToActivateActionSecondCharacter: 0
+  minDistanceToActivateActionSecondCharacter: 0
+  useMinAngleToActivateActionSecondCharacter: 0
+  minAngleToActivateActionSecondCharacter: 0
+  useMinAngleToActivateActionOnCharactersDirection: 0
+  minAngleToActivateActionOnCharactersDirection: 0
+  mainSharedActionContentFound: 0

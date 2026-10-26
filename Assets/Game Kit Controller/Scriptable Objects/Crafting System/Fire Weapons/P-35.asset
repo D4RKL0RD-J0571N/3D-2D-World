@@ -1,0 +1,57 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!114 &11400000
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 871cdb62c88f27b47b5c390fd70817aa, type: 3}
+  m_Name: P-35
+  m_EditorClassIdentifier: 
+  Name: P-35
+  ID: 0
+  amountObtained: 1
+  isRawMaterial: 0
+  useObjectToPlace: 0
+  objectToPlace: {fileID: 0}
+  objectToPlacePositionOffset: {x: 0, y: 0, z: 0}
+  useCustomLayerMaskToPlaceObject: 0
+  customLayerMaskToPlaceObject:
+    serializedVersion: 2
+    m_Bits: 0
+  layerMaskToAttachObject:
+    serializedVersion: 2
+    m_Bits: 0
+  objectCanBeRotatedOnYAxis: 1
+  objectCanBeRotatedOnXAxis: 0
+  craftObjectInTime: 0
+  timeToCraftObject: 0
+  craftingIngredientObjectInfoList:
+  - Name: Copper
+    amountRequired: 2
+  - Name: Zync
+    amountRequired: 1
+  - Name: Iron
+    amountRequired: 6
+  - Name: Gold
+    amountRequired: 1
+  repairIngredientObjectInfoList:
+  - Name: Zync
+    amountRequired: 1
+  - Name: Iron
+    amountRequired: 4
+  brokenIngredientObjectInfoList:
+  - Name: Iron
+    amountRequired: 3
+  disassembleIngredientObjectInfoList:
+  - Name: Copper
+    amountRequired: 1
+  - Name: Iron
+    amountRequired: 4
+  checkStatsInfoToCraft: 0
+  craftingStatInfoToCraftList: []
+  processMaterialInfoList: []

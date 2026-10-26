@@ -1,0 +1,994 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!1 &289152772127334811
+GameObject:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  serializedVersion: 6
+  m_Component:
+  - component: {fileID: 6607776252259307335}
+  m_Layer: 0
+  m_Name: Match Target Transform
+  m_TagString: Untagged
+  m_Icon: {fileID: 0}
+  m_NavMeshLayer: 0
+  m_StaticEditorFlags: 0
+  m_IsActive: 1
+--- !u!4 &6607776252259307335
+Transform:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 289152772127334811}
+  m_LocalRotation: {x: -0, y: -0, z: -0, w: 1}
+  m_LocalPosition: {x: 0, y: 0, z: -0.646}
+  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_Children: []
+  m_Father: {fileID: 3707895277396438133}
+  m_RootOrder: 0
+  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!1 &2043623231481900882
+GameObject:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  serializedVersion: 6
+  m_Component:
+  - component: {fileID: 540783205440529704}
+  - component: {fileID: 3720197972064266497}
+  m_Layer: 2
+  m_Name: Shake Camera
+  m_TagString: Untagged
+  m_Icon: {fileID: 0}
+  m_NavMeshLayer: 0
+  m_StaticEditorFlags: 0
+  m_IsActive: 1
+--- !u!4 &540783205440529704
+Transform:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 2043623231481900882}
+  m_LocalRotation: {x: -0, y: -0, z: -0, w: 1}
+  m_LocalPosition: {x: 0, y: 0, z: 0}
+  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_Children: []
+  m_Father: {fileID: 5530968462168406979}
+  m_RootOrder: 2
+  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!114 &3720197972064266497
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 2043623231481900882}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 1688134050b0e8a4b86b67ac8cc8f30e, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  externalCameraShakeEnabled: 1
+  externalShakeName: Rotating Kick
+  shakeUsingDistance: 0
+  minDistanceToShake: 0
+  layer:
+    serializedVersion: 2
+    m_Bits: 0
+  useShakeListTriggeredByActions: 0
+  shakeTriggeredByActionList:
+  - actionName: Big Fall
+    shakeName: Medium Fall
+    nameIndex: 8
+    useShakeEvent: 0
+    eventAtStart:
+      m_PersistentCalls:
+        m_Calls: []
+    eventAtEnd:
+      m_PersistentCalls:
+        m_Calls: []
+  useShakeEvent: 0
+  eventAtStart:
+    m_PersistentCalls:
+      m_Calls: []
+  eventAtEnd:
+    m_PersistentCalls:
+      m_Calls: []
+  setPlayerManually: 1
+  currentPlayer: {fileID: 0}
+  mainManagerName: External Shake List Manager
+  showGizmo: 0
+  gizmoLabelColor: {r: 0, g: 0, b: 0, a: 0}
+  nameIndex: 15
+  nameList:
+  - Big Explosion
+  - Medium Explosion
+  - Little Explosion
+  - Big Bullets
+  - Medium Bullets
+  - Little Bullets
+  - Laser
+  - Big Fall
+  - Medium Fall
+  - Core Activation
+  - Jump Scare
+  - Big Door Opening
+  - Foot Stomp Test
+  - Kick Combo
+  - Punch Combo
+  - Rotating Kick
+  - Hit Object
+  - Melee Attack Target To Damage Found
+  - Cutting Mode Slice
+  - Small Melee Damage Received
+  - Medium Melee Damage Received
+  - Large Melee Damage Received
+  externalShakeManager: {fileID: 0}
+--- !u!1 &2277271709692559134
+GameObject:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  serializedVersion: 6
+  m_Component:
+  - component: {fileID: 3707895277396438133}
+  - component: {fileID: 5022170940534255611}
+  m_Layer: 0
+  m_Name: Action System Trigger (Player)
+  m_TagString: Untagged
+  m_Icon: {fileID: 0}
+  m_NavMeshLayer: 0
+  m_StaticEditorFlags: 0
+  m_IsActive: 1
+--- !u!4 &3707895277396438133
+Transform:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 2277271709692559134}
+  m_LocalRotation: {x: -0, y: -0, z: -0, w: 1}
+  m_LocalPosition: {x: 0, y: 0, z: 0}
+  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_Children:
+  - {fileID: 6607776252259307335}
+  - {fileID: 8899602796917375511}
+  m_Father: {fileID: 5530968462168406979}
+  m_RootOrder: 0
+  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!114 &5022170940534255611
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 2277271709692559134}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: cc1db0794fd4b9e4ebf007f9e3afdf44, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  useMinDistanceToActivateAction: 0
+  minDistanceToActivateAction: 2
+  useMinAngleToActivateAction: 0
+  minAngleToActivateAction: 60
+  checkOppositeAngle: 0
+  canStopPreviousAction: 0
+  canForceToPlayCustomAction: 0
+  currentActionInfoIndex: 0
+  actionInfoList:
+  - Name: Stealth Kill From Back
+    useActionName: 1
+    actionName: Stealth Kill From Back
+    useActionID: 0
+    actionID: 123456
+    removeActionIDValueImmediately: 0
+    useCrossFadeAnimation: 1
+    pausePlayerActionsInput: 1
+    pausePlayerMovementInput: 1
+    resetPlayerMovementInput: 0
+    resetPlayerMovementInputSmoothly: 0
+    removePlayerMovementInputValues: 1
+    enablePlayerCanMoveAfterAction: 0
+    allowDownVelocityDuringAction: 0
+    pauseInteractionButton: 0
+    pauseInputListDuringActionActive: 0
+    ignorePauseInputListDuringAction: 0
+    pausePlayerCameraRotationInput: 0
+    pausePlayerCameraActionsInput: 0
+    pausePlayerCameraViewChange: 1
+    pausePlayerCameraMouseWheel: 1
+    disableHeadBob: 0
+    pauseHeadBob: 0
+    ignoreCameraDirectionOnMovement: 1
+    ignoreCameraDirectionOnStrafeMovement: 1
+    pauseStrafeState: 0
+    useNewCameraStateOnActionStart: 1
+    newCameraStateNameOnActionStart: Third Person
+    setPreviousCameraStateOnActionEnd: 1
+    useNewCameraStateOnActionEnd: 0
+    newCameraStateNameOnActionEnd: 
+    ignorePivotCameraCollision: 0
+    useExtraFollowTransformPositionOffsetActiveFBA: 0
+    currentExtraFollowTransformPositionOffsetFBA: {x: 0, y: 0, z: 0}
+    ignorePlayerRotationToCameraOnFBA: 0
+    ignoreHorizontalCameraRotationOnFBA: 0
+    ignoreVerticalCameraRotationOnFBA: 0
+    resetCameraRotationForwardOnFBA: 0
+    setCustomHeadTrackTargetToLook: 0
+    customHeadTrackTargetToLook: {fileID: 0}
+    useCustomHeadTrackTolook: 0
+    customHeadTrackToLookName: 
+    disablePlayerGravity: 0
+    disablePlayerOnGroundState: 0
+    disablePlayerCollider: 1
+    disablePlayerColliderComponent: 1
+    enablePlayerColliderComponentOnActionEnd: 1
+    ignoreSetLastTimeFallingOnActionEnd: 0
+    reloadMainColliderOnCharacterOnActionEnd: 1
+    changePlayerColliderScale: 0
+    disableIKOnHands: 1
+    disableIKOnFeet: 1
+    pauseHeadTrack: 1
+    usCustomPauseHeadTrackOnFBA: 0
+    customPauseHeadTrackOnFBA: 0
+    setNoFrictionOnCollider: 0
+    forceRootMotionDuringAction: 1
+    actionCanHappenOnAir: 0
+    jumpCanResumePlayer: 0
+    useMovementInput: 0
+    useInteractionButtonToActivateAnimation: 0
+    animationTriggeredByExternalEvent: 1
+    resumePlayerAfterAction: 1
+    increaseActionIndexAfterComplete: 0
+    waitForNextPlayerInteractionButtonPress: 0
+    stayInState: 0
+    resetActionIndexAfterComplete: 0
+    animationDuration: 6.1
+    animationSpeed: 1
+    actionDurationOnFirstPerson: 1
+    actionUsesMovement: 0
+    adjustRotationDuringMovement: 0
+    delayToPlayAnimation: 0
+    usePositionToAdjustPlayer: 1
+    positionToAdjustPlayer: {fileID: 8899602796917375511}
+    adjustPlayerPositionSpeed: 0.3
+    usePositionToAdjustPlayerOnlyOnFBA: 0
+    movePlayerOnDirection: 0
+    movePlayerOnDirectionRaycastDistance: 0
+    movePlayerOnDirectionSpeed: 0
+    movePlayerDirection: {x: 0, y: 0, z: 0}
+    movePlayerOnDirectionLayermask:
+      serializedVersion: 2
+      m_Bits: 0
+    usePhysicsForceOnMovePlayer: 0
+    physicsForceOnMovePlayer: 0
+    physicsForceOnMovePlayerDuration: 0
+    checkIfPositionReachedOnPhysicsForceOnMovePlayer: 0
+    mainAvatarTarget: 0
+    matchTargetTransform: {fileID: 0}
+    matchTargetPositionWeightMask: {x: 0, y: 0, z: 0}
+    matchTargetRotationWeightMask: 0
+    matchPlayerRotation: 0
+    matchPlayerRotationSpeed: 0
+    playerTargetTransform: {fileID: 0}
+    adjustPlayerPositionRotationDuring: 1
+    matchStartValue: 0
+    matchEndValue: 0.8
+    usePlayerWalkTarget: 0
+    useWalkAtTheEndOfAction: 0
+    playerWalkTarget: {fileID: 0}
+    pausePlayerInputDuringWalk: 0
+    maxWalkSpeed: 1
+    activateDynamicObstacleDetection: 0
+    setPlayerFacingDirection: 0
+    playerFacingDirectionTransform: {fileID: 8899602796917375511}
+    maxRotationAmount: 1
+    minRotationAmount: 0.3
+    minRotationAngle: 10
+    adjustFacingDirectionBasedOnPlayerPosition: 0
+    facingDirectionPositionTransform: {fileID: 0}
+    adjustRotationAtOnce: 0
+    useMovingPlayerToPositionTarget: 0
+    movingPlayerToPositionTargetSpeed: 5
+    movingPlayerToPositionTargetDelay: 0
+    ignoreSetPlayerFacingDirectionOnFBA: 0
+    destroyActionOnEnd: 0
+    removeActionOnEnd: 1
+    setActionState: 0
+    actionStateName: 
+    actionStateToConfigure: 0
+    setObjectParent: 0
+    boneParent: 0
+    objectToSetParent: {fileID: 0}
+    bonePositionReference: {fileID: 0}
+    waitTimeToParentObject: 0
+    setObjectParentSpeed: 0
+    useMountPoint: 0
+    mountPointName: 
+    resetObjectPositionAndParentAfterAction: 1
+    useEventInfoList: 1
+    useAccumulativeDelay: 0
+    useAnimationSpeedOnDelay: 0
+    eventInfoList:
+    - delayToActivate: 3.3
+      eventToUse:
+        m_PersistentCalls:
+          m_Calls: []
+      useRemoteEvent: 0
+      remoteEventName: 
+      eventTriggered: 0
+      sendCurrentPlayerOnEvent: 1
+      eventToSendCurrentPlayer:
+        m_PersistentCalls:
+          m_Calls:
+          - m_Target: {fileID: 3720197972064266497}
+            m_MethodName: setCurrentPlayerAndActivateCameraShake
+            m_Mode: 0
+            m_Arguments:
+              m_ObjectArgument: {fileID: 0}
+              m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
+              m_IntArgument: 0
+              m_FloatArgument: 0
+              m_StringArgument: 
+              m_BoolArgument: 0
+            m_CallState: 2
+      callThisEventIfActionStopped: 0
+    firstPersonEventInfoList: []
+    disableHUDOnAction: 0
+    showGizmo: 0
+    keepWeaponsDuringAction: 1
+    drawWeaponsAfterAction: 1
+    disableIKWeaponsDuringAction: 0
+    stopAimOnFireWeapons: 0
+    stopShootOnFireWeapons: 0
+    hideMeleWeaponMeshOnAction: 0
+    setInvincibilityStateActive: 0
+    invincibilityStateDuration: 0
+    checkEventsOnTemporalInvincibilityActive: 0
+    disableDamageReactionDuringAction: 1
+    addHealthAmountOnAction: 0
+    healthAmountToAdd: 0
+    removeHealthAmountOnAction: 0
+    healthAmountToRemove: 0
+    setHealthOnActionEnd: 0
+    killCharacter: 0
+    delayToKillCharacter: 0
+    activateCharacterRagdoll: 0
+    delatyToActivateCharacterRagdoll: 0
+    ragdollStateDuration: 0
+    addForceToRagdoll: 0
+    ragdollForce: 0
+    useDirectionForRagdoll: 0
+    directionForRagdollTransform: {fileID: 0}
+    useLocalCharacterRagdollForceDirection: 0
+    localCharacterRagdollForceDirection: {x: 0, y: 0, z: 1}
+    checkIfPlayerOnGround: 1
+    checkConditionsToStartActionOnUpdate: 0
+    playerMovingToStartAction: 0
+    checkPlayerToNotCrouch: 0
+    stopActionIfPlayerIsOnAir: 0
+    delayToStopActionIfPlayerIsOnAir: 0
+    getUpIfPlayerCrouching: 1
+    crouchOnActionEnd: 0
+    setPreviousCrouchStateOnActionEnd: 0
+    checkIfPlayerCanGetUpFromCrouch: 0
+    dropGrabbedObjectsOnAction: 1
+    dropOnlyIfNotGrabbedPhysically: 1
+    dropIfGrabbedPhysicallyWithIK: 1
+    keepGrabbedObjectOnActionIfNotDropped: 0
+    keepMeleeWeaponGrabbed: 0
+    drawMeleeWeaponGrabbedOnActionEnd: 0
+    stopCurrentMeleeAttackInProcess: 0
+    useEventIfActionStopped: 0
+    eventIfActionStopped:
+      m_PersistentCalls:
+        m_Calls: []
+    pauseCustomInputListDuringActionActive: 0
+    customInputToPauseOnActionInfoList: []
+    layerForRaycast:
+      serializedVersion: 2
+      m_Bits: 8388609
+    useRaycastToAdjustMatchTransform: 0
+    useRaycastToAdjustTargetTransform: 0
+    useRaycastToAdjustPositionToAdjustPlayer: 1
+    useRaycastToAdjustMatchTransformExplanation: This is the option to adjust the
+      matchTargetTransform transform to the ground, used to match the player position
+      to the animation position.
+    useRaycastToAdjustTargetTransformExplanation: This is the option to adjust the
+      playerWalkTarget transform to the ground, used to make the player to walk to
+      a certain position during the action.
+    useRaycastToAdjustPositionToAdjustPlayerExplanation: This is the option to adjust
+      the positionToAdjustPlayer transform to the ground, used to move the player
+      to the exact zone to play the animation.
+    pauseAIOnActionStart: 1
+    resumeAIOnActionEnd: 1
+    assignPartnerOnActionEnd: 0
+    checkUseMinAngleToActivateAction: 0
+    checkUseMinDistanceToActivateAction: 0
+    setMoveNavMeshPaused: 0
+    ignoreAnimationTransitionCheck: 0
+    pauseActivationOfOtherCustomActions: 0
+    disableAnyStateConfiguredWithExitTime: 0
+  playerList: []
+  useEventsOnPlayerInsideOutside: 0
+  eventOnPlayerInside:
+    m_PersistentCalls:
+      m_Calls: []
+  eventOnPlayerOutside:
+    m_PersistentCalls:
+      m_Calls: []
+  useEventsOnStartEndAction: 0
+  eventOnStartAction:
+    m_PersistentCalls:
+      m_Calls: []
+  eventOnEndAction:
+    m_PersistentCalls:
+      m_Calls: []
+  useEventAfterResumePlayer: 0
+  eventAfterResumePlayer:
+    m_PersistentCalls:
+      m_Calls: []
+  actionTransform: {fileID: 0}
+  sendCurrentPlayerOnEvent: 0
+  eventToSendCurrentPlayer:
+    m_PersistentCalls:
+      m_Calls: []
+  useEventBeforeStartAction: 0
+  eventBeforeStartAction:
+    m_PersistentCalls:
+      m_Calls: []
+  mainTrigger: {fileID: 0}
+  activateCustomActionAfterActionComplete: 0
+  customActionToActiveAfterActionComplete: 
+  addActionToListStoredToPlay: 0
+  playActionAutomaticallyIfStoredAtEnd: 0
+  clearAddActionToListStoredToPlay: 0
+  useEventsToEnableDisableActionObject: 0
+  eventToEnableActionObject:
+    m_PersistentCalls:
+      m_Calls: []
+  eventToDisableActionObject:
+    m_PersistentCalls:
+      m_Calls: []
+  categoryName: 
+  canInterruptOtherActionActive: 0
+  actionListToInterrupt: []
+  useCategoryToCheckInterrupt: 0
+  actionCategoryListToInterrupt: []
+  eventOnInterrupOtherActionActive:
+    m_PersistentCalls:
+      m_Calls: []
+  useEventOnInterruptedAction: 0
+  eventOnInterruptedAction:
+    m_PersistentCalls:
+      m_Calls: []
+  useProbabilityToActivateAction: 0
+  probablityToActivateAction: 0
+  animationUsedOnUpperBody: 0
+  disableRegularActionActiveState: 0
+  disableRegularActionActiveStateOnEnd: 0
+  changeCameraViewToThirdPersonOnAction: 0
+  changeCameraViewToThirdPersonOnActionOnFullBodyAwareness: 0
+  keepCameraRotationToHeadOnFullBodyAwareness: 0
+  actionsCanBeUsedOnFirstPerson: 0
+  ignoreChangeToThirdPerson: 0
+  disableIgnorePlayerListChange: 0
+  showDebugPrint: 0
+  showGizmo: 0
+  showAllGizmo: 0
+  mainAnimator: {fileID: 0}
+  newAnimationClip: {fileID: 0}
+  enableAnimatorLayerOnAction: 0
+  animatorLayerToEnableName: 
+  actionNameToReplace: 
+  animationLayerName: Base Layer
+  newAnimationSpeed: 1
+  activateAnimationReplace: 0
+  newAnimationIsMirror: 0
+  setPlayerParentDuringActionActive: 0
+  playerParentDuringAction: {fileID: 0}
+--- !u!1 &2664104206349376239
+GameObject:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  serializedVersion: 6
+  m_Component:
+  - component: {fileID: 3664609306719519727}
+  m_Layer: 0
+  m_Name: Match Target Transform
+  m_TagString: Untagged
+  m_Icon: {fileID: 0}
+  m_NavMeshLayer: 0
+  m_StaticEditorFlags: 0
+  m_IsActive: 1
+--- !u!4 &3664609306719519727
+Transform:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 2664104206349376239}
+  m_LocalRotation: {x: -0, y: -0, z: -0, w: 1}
+  m_LocalPosition: {x: 0, y: 0, z: 0}
+  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_Children: []
+  m_Father: {fileID: 1111435227365585523}
+  m_RootOrder: 0
+  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!1 &3562174936160575374
+GameObject:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  serializedVersion: 6
+  m_Component:
+  - component: {fileID: 5530968462168406979}
+  - component: {fileID: 6472644834079070837}
+  m_Layer: 0
+  m_Name: Shared Action Stealth Kill 2
+  m_TagString: Untagged
+  m_Icon: {fileID: 0}
+  m_NavMeshLayer: 0
+  m_StaticEditorFlags: 0
+  m_IsActive: 1
+--- !u!4 &5530968462168406979
+Transform:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 3562174936160575374}
+  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
+  m_LocalPosition: {x: 0, y: 0, z: 0}
+  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_Children:
+  - {fileID: 3707895277396438133}
+  - {fileID: 1111435227365585523}
+  - {fileID: 540783205440529704}
+  m_Father: {fileID: 0}
+  m_RootOrder: 0
+  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!114 &6472644834079070837
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 3562174936160575374}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 2455fd955d41f764581e3953ece2f78f, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  firstCharacterIsPlayer: 1
+  adjustPositionToFirstCharacter: 1
+  adjustPositionToSecondCharacter: 0
+  matchPositionUsedOnAction: 1
+  adjustMatchPositionOnFirstCharacter: 1
+  adjustMatchPositionOnSecondCharacter: 1
+  alignMainSharedActionGameObjectToBothCharacters: 1
+  useProbabilityToUseAction: 0
+  probabilityToUseAction: 0
+  useMinDistanceToActivateAction: 0
+  minDistanceToActivateAction: 0
+  useMinAngleToActivateAction: 0
+  minAngleToActivateAction: 0
+  checkCharacterStats: 0
+  sharedActionConditionStatInfoList: []
+  stopActionIfAnyCharacterIsDead: 1
+  stopActionIfFirstCharacterIsDead: 0
+  stopActionIfSecondCharacterIsDead: 0
+  firstCharacterActionSystem: {fileID: 5022170940534255611}
+  secondCharacterActionSystem: {fileID: 681017570636877357}
+--- !u!1 &3754885000344370143
+GameObject:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  serializedVersion: 6
+  m_Component:
+  - component: {fileID: 1111435227365585523}
+  - component: {fileID: 681017570636877357}
+  m_Layer: 0
+  m_Name: Action System Trigger (AI)
+  m_TagString: Untagged
+  m_Icon: {fileID: 0}
+  m_NavMeshLayer: 0
+  m_StaticEditorFlags: 0
+  m_IsActive: 1
+--- !u!4 &1111435227365585523
+Transform:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 3754885000344370143}
+  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
+  m_LocalPosition: {x: 0, y: 0, z: 0}
+  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_Children:
+  - {fileID: 3664609306719519727}
+  - {fileID: 1540548547259550981}
+  m_Father: {fileID: 5530968462168406979}
+  m_RootOrder: 1
+  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!114 &681017570636877357
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 3754885000344370143}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: cc1db0794fd4b9e4ebf007f9e3afdf44, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  useMinDistanceToActivateAction: 0
+  minDistanceToActivateAction: 1
+  useMinAngleToActivateAction: 0
+  minAngleToActivateAction: 20
+  checkOppositeAngle: 0
+  canStopPreviousAction: 1
+  canForceToPlayCustomAction: 1
+  currentActionInfoIndex: 0
+  actionInfoList:
+  - Name: Stealth Death From Back
+    useActionName: 1
+    actionName: Stealth Death From Back
+    useActionID: 0
+    actionID: 0
+    removeActionIDValueImmediately: 0
+    useCrossFadeAnimation: 1
+    pausePlayerActionsInput: 1
+    pausePlayerMovementInput: 1
+    resetPlayerMovementInput: 0
+    resetPlayerMovementInputSmoothly: 0
+    removePlayerMovementInputValues: 1
+    enablePlayerCanMoveAfterAction: 0
+    allowDownVelocityDuringAction: 0
+    pauseInteractionButton: 0
+    pauseInputListDuringActionActive: 0
+    ignorePauseInputListDuringAction: 0
+    pausePlayerCameraRotationInput: 0
+    pausePlayerCameraActionsInput: 0
+    pausePlayerCameraViewChange: 1
+    pausePlayerCameraMouseWheel: 1
+    disableHeadBob: 1
+    pauseHeadBob: 1
+    ignoreCameraDirectionOnMovement: 1
+    ignoreCameraDirectionOnStrafeMovement: 1
+    pauseStrafeState: 0
+    useNewCameraStateOnActionStart: 0
+    newCameraStateNameOnActionStart: 
+    setPreviousCameraStateOnActionEnd: 0
+    useNewCameraStateOnActionEnd: 0
+    newCameraStateNameOnActionEnd: 
+    ignorePivotCameraCollision: 0
+    useExtraFollowTransformPositionOffsetActiveFBA: 0
+    currentExtraFollowTransformPositionOffsetFBA: {x: 0, y: 0, z: 0}
+    ignorePlayerRotationToCameraOnFBA: 0
+    ignoreHorizontalCameraRotationOnFBA: 0
+    ignoreVerticalCameraRotationOnFBA: 0
+    resetCameraRotationForwardOnFBA: 0
+    setCustomHeadTrackTargetToLook: 0
+    customHeadTrackTargetToLook: {fileID: 0}
+    useCustomHeadTrackTolook: 0
+    customHeadTrackToLookName: 
+    disablePlayerGravity: 0
+    disablePlayerOnGroundState: 0
+    disablePlayerCollider: 1
+    disablePlayerColliderComponent: 1
+    enablePlayerColliderComponentOnActionEnd: 1
+    ignoreSetLastTimeFallingOnActionEnd: 0
+    reloadMainColliderOnCharacterOnActionEnd: 1
+    changePlayerColliderScale: 0
+    disableIKOnHands: 1
+    disableIKOnFeet: 1
+    pauseHeadTrack: 1
+    usCustomPauseHeadTrackOnFBA: 0
+    customPauseHeadTrackOnFBA: 0
+    setNoFrictionOnCollider: 0
+    forceRootMotionDuringAction: 1
+    actionCanHappenOnAir: 0
+    jumpCanResumePlayer: 0
+    useMovementInput: 0
+    useInteractionButtonToActivateAnimation: 0
+    animationTriggeredByExternalEvent: 1
+    resumePlayerAfterAction: 1
+    increaseActionIndexAfterComplete: 0
+    waitForNextPlayerInteractionButtonPress: 0
+    stayInState: 0
+    resetActionIndexAfterComplete: 0
+    animationDuration: 6.1
+    animationSpeed: 1
+    actionDurationOnFirstPerson: 1
+    actionUsesMovement: 0
+    adjustRotationDuringMovement: 0
+    delayToPlayAnimation: 0
+    usePositionToAdjustPlayer: 1
+    positionToAdjustPlayer: {fileID: 1540548547259550981}
+    adjustPlayerPositionSpeed: 0.3
+    usePositionToAdjustPlayerOnlyOnFBA: 0
+    movePlayerOnDirection: 0
+    movePlayerOnDirectionRaycastDistance: 0
+    movePlayerOnDirectionSpeed: 0
+    movePlayerDirection: {x: 0, y: 0, z: 0}
+    movePlayerOnDirectionLayermask:
+      serializedVersion: 2
+      m_Bits: 0
+    usePhysicsForceOnMovePlayer: 0
+    physicsForceOnMovePlayer: 0
+    physicsForceOnMovePlayerDuration: 0
+    checkIfPositionReachedOnPhysicsForceOnMovePlayer: 0
+    mainAvatarTarget: 0
+    matchTargetTransform: {fileID: 0}
+    matchTargetPositionWeightMask: {x: 0, y: 0, z: 0}
+    matchTargetRotationWeightMask: 0
+    matchPlayerRotation: 0
+    matchPlayerRotationSpeed: 11
+    playerTargetTransform: {fileID: 3664609306719519727}
+    adjustPlayerPositionRotationDuring: 0
+    matchStartValue: 0
+    matchEndValue: 1
+    usePlayerWalkTarget: 0
+    useWalkAtTheEndOfAction: 0
+    playerWalkTarget: {fileID: 0}
+    pausePlayerInputDuringWalk: 0
+    maxWalkSpeed: 1
+    activateDynamicObstacleDetection: 0
+    setPlayerFacingDirection: 0
+    playerFacingDirectionTransform: {fileID: 1540548547259550981}
+    maxRotationAmount: 1
+    minRotationAmount: 0.3
+    minRotationAngle: 10
+    adjustFacingDirectionBasedOnPlayerPosition: 0
+    facingDirectionPositionTransform: {fileID: 0}
+    adjustRotationAtOnce: 0
+    useMovingPlayerToPositionTarget: 0
+    movingPlayerToPositionTargetSpeed: 5
+    movingPlayerToPositionTargetDelay: 0
+    ignoreSetPlayerFacingDirectionOnFBA: 0
+    destroyActionOnEnd: 0
+    removeActionOnEnd: 1
+    setActionState: 0
+    actionStateName: 
+    actionStateToConfigure: 0
+    setObjectParent: 0
+    boneParent: 0
+    objectToSetParent: {fileID: 0}
+    bonePositionReference: {fileID: 0}
+    waitTimeToParentObject: 0
+    setObjectParentSpeed: 0
+    useMountPoint: 0
+    mountPointName: 
+    resetObjectPositionAndParentAfterAction: 1
+    useEventInfoList: 0
+    useAccumulativeDelay: 0
+    useAnimationSpeedOnDelay: 0
+    eventInfoList: []
+    firstPersonEventInfoList: []
+    disableHUDOnAction: 0
+    showGizmo: 0
+    keepWeaponsDuringAction: 0
+    drawWeaponsAfterAction: 0
+    disableIKWeaponsDuringAction: 0
+    stopAimOnFireWeapons: 0
+    stopShootOnFireWeapons: 0
+    hideMeleWeaponMeshOnAction: 0
+    setInvincibilityStateActive: 0
+    invincibilityStateDuration: 0
+    checkEventsOnTemporalInvincibilityActive: 0
+    disableDamageReactionDuringAction: 1
+    addHealthAmountOnAction: 0
+    healthAmountToAdd: 0
+    removeHealthAmountOnAction: 0
+    healthAmountToRemove: 0
+    setHealthOnActionEnd: 0
+    killCharacter: 1
+    delayToKillCharacter: 5.5
+    activateCharacterRagdoll: 0
+    delatyToActivateCharacterRagdoll: 0
+    ragdollStateDuration: 0
+    addForceToRagdoll: 0
+    ragdollForce: 0
+    useDirectionForRagdoll: 0
+    directionForRagdollTransform: {fileID: 0}
+    useLocalCharacterRagdollForceDirection: 0
+    localCharacterRagdollForceDirection: {x: 0, y: 0, z: 1}
+    checkIfPlayerOnGround: 1
+    checkConditionsToStartActionOnUpdate: 0
+    playerMovingToStartAction: 0
+    checkPlayerToNotCrouch: 0
+    stopActionIfPlayerIsOnAir: 0
+    delayToStopActionIfPlayerIsOnAir: 0
+    getUpIfPlayerCrouching: 1
+    crouchOnActionEnd: 0
+    setPreviousCrouchStateOnActionEnd: 0
+    checkIfPlayerCanGetUpFromCrouch: 0
+    dropGrabbedObjectsOnAction: 1
+    dropOnlyIfNotGrabbedPhysically: 1
+    dropIfGrabbedPhysicallyWithIK: 1
+    keepGrabbedObjectOnActionIfNotDropped: 0
+    keepMeleeWeaponGrabbed: 0
+    drawMeleeWeaponGrabbedOnActionEnd: 0
+    stopCurrentMeleeAttackInProcess: 0
+    useEventIfActionStopped: 0
+    eventIfActionStopped:
+      m_PersistentCalls:
+        m_Calls: []
+    pauseCustomInputListDuringActionActive: 0
+    customInputToPauseOnActionInfoList: []
+    layerForRaycast:
+      serializedVersion: 2
+      m_Bits: 0
+    useRaycastToAdjustMatchTransform: 0
+    useRaycastToAdjustTargetTransform: 0
+    useRaycastToAdjustPositionToAdjustPlayer: 0
+    useRaycastToAdjustMatchTransformExplanation: This is the option to adjust the
+      matchTargetTransform transform to the ground, used to match the player position
+      to the animation position.
+    useRaycastToAdjustTargetTransformExplanation: This is the option to adjust the
+      playerWalkTarget transform to the ground, used to make the player to walk to
+      a certain position during the action.
+    useRaycastToAdjustPositionToAdjustPlayerExplanation: This is the option to adjust
+      the positionToAdjustPlayer transform to the ground, used to move the player
+      to the exact zone to play the animation.
+    pauseAIOnActionStart: 1
+    resumeAIOnActionEnd: 0
+    assignPartnerOnActionEnd: 0
+    checkUseMinAngleToActivateAction: 0
+    checkUseMinDistanceToActivateAction: 0
+    setMoveNavMeshPaused: 0
+    ignoreAnimationTransitionCheck: 0
+    pauseActivationOfOtherCustomActions: 0
+    disableAnyStateConfiguredWithExitTime: 0
+  playerList: []
+  useEventsOnPlayerInsideOutside: 0
+  eventOnPlayerInside:
+    m_PersistentCalls:
+      m_Calls: []
+  eventOnPlayerOutside:
+    m_PersistentCalls:
+      m_Calls: []
+  useEventsOnStartEndAction: 0
+  eventOnStartAction:
+    m_PersistentCalls:
+      m_Calls: []
+  eventOnEndAction:
+    m_PersistentCalls:
+      m_Calls: []
+  useEventAfterResumePlayer: 0
+  eventAfterResumePlayer:
+    m_PersistentCalls:
+      m_Calls: []
+  actionTransform: {fileID: 0}
+  sendCurrentPlayerOnEvent: 0
+  eventToSendCurrentPlayer:
+    m_PersistentCalls:
+      m_Calls: []
+  useEventBeforeStartAction: 0
+  eventBeforeStartAction:
+    m_PersistentCalls:
+      m_Calls: []
+  mainTrigger: {fileID: 0}
+  activateCustomActionAfterActionComplete: 0
+  customActionToActiveAfterActionComplete: 
+  addActionToListStoredToPlay: 0
+  playActionAutomaticallyIfStoredAtEnd: 0
+  clearAddActionToListStoredToPlay: 0
+  useEventsToEnableDisableActionObject: 0
+  eventToEnableActionObject:
+    m_PersistentCalls:
+      m_Calls: []
+  eventToDisableActionObject:
+    m_PersistentCalls:
+      m_Calls: []
+  categoryName: 
+  canInterruptOtherActionActive: 0
+  actionListToInterrupt: []
+  useCategoryToCheckInterrupt: 0
+  actionCategoryListToInterrupt: []
+  eventOnInterrupOtherActionActive:
+    m_PersistentCalls:
+      m_Calls: []
+  useEventOnInterruptedAction: 0
+  eventOnInterruptedAction:
+    m_PersistentCalls:
+      m_Calls: []
+  useProbabilityToActivateAction: 0
+  probablityToActivateAction: 0
+  animationUsedOnUpperBody: 0
+  disableRegularActionActiveState: 0
+  disableRegularActionActiveStateOnEnd: 0
+  changeCameraViewToThirdPersonOnAction: 0
+  changeCameraViewToThirdPersonOnActionOnFullBodyAwareness: 0
+  keepCameraRotationToHeadOnFullBodyAwareness: 0
+  actionsCanBeUsedOnFirstPerson: 0
+  ignoreChangeToThirdPerson: 0
+  disableIgnorePlayerListChange: 0
+  showDebugPrint: 0
+  showGizmo: 0
+  showAllGizmo: 0
+  mainAnimator: {fileID: 0}
+  newAnimationClip: {fileID: 0}
+  enableAnimatorLayerOnAction: 0
+  animatorLayerToEnableName: 
+  actionNameToReplace: 
+  animationLayerName: Base Layer
+  newAnimationSpeed: 1
+  activateAnimationReplace: 0
+  newAnimationIsMirror: 0
+  setPlayerParentDuringActionActive: 0
+  playerParentDuringAction: {fileID: 0}
+--- !u!1 &8180701169073402636
+GameObject:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  serializedVersion: 6
+  m_Component:
+  - component: {fileID: 8899602796917375511}
+  m_Layer: 0
+  m_Name: Player Target Position
+  m_TagString: Untagged
+  m_Icon: {fileID: 0}
+  m_NavMeshLayer: 0
+  m_StaticEditorFlags: 0
+  m_IsActive: 1
+--- !u!4 &8899602796917375511
+Transform:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 8180701169073402636}
+  m_LocalRotation: {x: -0, y: -0, z: -0, w: 1}
+  m_LocalPosition: {x: 0, y: 0.42, z: 0}
+  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_Children: []
+  m_Father: {fileID: 3707895277396438133}
+  m_RootOrder: 1
+  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!1 &9035497598058182416
+GameObject:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  serializedVersion: 6
+  m_Component:
+  - component: {fileID: 1540548547259550981}
+  m_Layer: 0
+  m_Name: Player Target Position
+  m_TagString: Untagged
+  m_Icon: {fileID: 0}
+  m_NavMeshLayer: 0
+  m_StaticEditorFlags: 0
+  m_IsActive: 1
+--- !u!4 &1540548547259550981
+Transform:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 9035497598058182416}
+  m_LocalRotation: {x: -0, y: -0, z: -0, w: 1}
+  m_LocalPosition: {x: 0, y: 0, z: 1}
+  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_Children: []
+  m_Father: {fileID: 1111435227365585523}
+  m_RootOrder: 1
+  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
