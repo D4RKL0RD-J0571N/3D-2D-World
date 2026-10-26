@@ -1,0 +1,16 @@
+fileFormatVersion: 2
+guid: bddd09e229d844b97b70be92d38bfe48
+PrefabImporter:
+  externalObjects: {}
+  userData: 
+  assetBundleName: 
+  assetBundleVariant: 
+AssetOrigin:
+  serializedVersion: 1
+  productId: 265823
+  packageName: Northstar Navigation and Tracking System (Compass, Radar, Screen &
+    Edge Overlay)
+  packageVersion: 1.1
+  assetPath: Assets/Magic Pig Games (Infinity PBR)/Northstar Tracking System/Prefabs/Icons
+    - Overlay/Northstar Icon.prefab
+  uploadId: 924152

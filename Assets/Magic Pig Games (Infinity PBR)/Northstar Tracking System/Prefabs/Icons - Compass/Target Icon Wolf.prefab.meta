@@ -1,0 +1,16 @@
+fileFormatVersion: 2
+guid: 2578170be9cf24d01ad283baf337d268
+PrefabImporter:
+  externalObjects: {}
+  userData: 
+  assetBundleName: 
+  assetBundleVariant: 
+AssetOrigin:
+  serializedVersion: 1
+  productId: 265823
+  packageName: Northstar Navigation and Tracking System (Compass, Radar, Screen &
+    Edge Overlay)
+  packageVersion: 1.1
+  assetPath: Assets/Magic Pig Games (Infinity PBR)/Northstar Tracking System/Prefabs/Icons
+    - Compass/Target Icon Wolf.prefab
+  uploadId: 924152

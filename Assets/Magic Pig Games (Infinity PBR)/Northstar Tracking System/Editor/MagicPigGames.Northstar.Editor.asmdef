@@ -1,0 +1,22 @@
+{
+    "name": "MagicPigGames.Northstar.Editor",
+    "rootNamespace": "MagicPigGames.Northstar",
+    "references": [
+        "MagicPigGames.Northstar",
+        "MagicPigGames.Shared",
+        "MagicPigGames.Shared.Editor",
+        "Unity.TextMeshPro",
+        "UnityEngine.UI"
+    ],
+    "includePlatforms": [
+        "Editor"
+    ],
+    "excludePlatforms": [],
+    "allowUnsafeCode": false,
+    "overrideReferences": false,
+    "precompiledReferences": [],
+    "autoReferenced": false,
+    "defineConstraints": [],
+    "versionDefines": [],
+    "noEngineReferences": false
+}

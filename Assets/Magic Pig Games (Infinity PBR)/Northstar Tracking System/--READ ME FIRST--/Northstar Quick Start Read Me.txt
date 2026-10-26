@@ -1,0 +1,16 @@
+Thanks for getting the Northstar Navigation System!
+
+COMPASS, RADAR, AND SCREEN OVERLAY
+1. Open the Northstar window: GameObject / Northstar / Create Window
+2. Optionally dock the window in your project.
+3. Click "Add Northstar Screen Overlay" to add the overlay to your scene.
+4. Click a Compass or Radar prefab button to add it to your scene.
+
+Note: If there is already a Compass/Radar in the scene it will be replaced; the screen overlay is
+never replaced — selecting it again will just ping the existing one.
+
+SCRIPTING / DOCUMENTATION
+https://infinitypbr.gitbook.io/infinity-pbr/tools-on-asset-store/northstar-tracking-and-navigation
+
+YOUTUBE TUTORIALS
+https://www.youtube.com/playlist?list=PLCK7vP-GxBCnZQXj5TFW3OjlcGf803qBa

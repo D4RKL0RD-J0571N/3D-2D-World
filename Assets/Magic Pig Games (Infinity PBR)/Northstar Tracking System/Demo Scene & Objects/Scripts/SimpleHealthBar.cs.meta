@@ -1,0 +1,20 @@
+fileFormatVersion: 2
+guid: a9726a82e2e234844b58687a2fcb0c7d
+MonoImporter:
+  externalObjects: {}
+  serializedVersion: 2
+  defaultReferences: []
+  executionOrder: 0
+  icon: {instanceID: 0}
+  userData: 
+  assetBundleName: 
+  assetBundleVariant: 
+AssetOrigin:
+  serializedVersion: 1
+  productId: 265823
+  packageName: Northstar Navigation and Tracking System (Compass, Radar, Screen &
+    Edge Overlay)
+  packageVersion: 1.1
+  assetPath: Assets/Magic Pig Games (Infinity PBR)/Northstar Tracking System/Demo
+    Scene & Objects/Scripts/SimpleHealthBar.cs
+  uploadId: 924152

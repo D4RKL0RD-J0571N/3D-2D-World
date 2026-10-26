@@ -1,0 +1,17 @@
+fileFormatVersion: 2
+guid: b2c43876ff4bd42158fa8e05b89a8161
+NativeFormatImporter:
+  externalObjects: {}
+  mainObjectFileID: 11400000
+  userData: 
+  assetBundleName: 
+  assetBundleVariant: 
+AssetOrigin:
+  serializedVersion: 1
+  productId: 265823
+  packageName: Northstar Navigation and Tracking System (Compass, Radar, Screen &
+    Edge Overlay)
+  packageVersion: 1.1
+  assetPath: Assets/Magic Pig Games (Infinity PBR)/Northstar Tracking System/Northstar
+    Overlay Settings/GlobalNorthstarSettings.asset
+  uploadId: 924152
