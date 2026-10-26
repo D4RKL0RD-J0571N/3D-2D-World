@@ -94,13 +94,29 @@ namespace Core
 
         /// <summary>
         /// Creates a HUD GameObject with the given component if none exists in the scene.
+        /// Prefers instantiating an existing prefab from Assets/Prefabs/UI/ or Resources/Prefabs/UI/ if available.
         /// </summary>
         private static void EnsureHUD<T>(string goName) where T : Component
         {
             if (Object.FindFirstObjectByType<T>() == null)
             {
-                var go = new GameObject(goName);
-                go.AddComponent<T>();
+                GameObject prefab = Resources.Load<GameObject>($"Prefabs/UI/{goName}");
+#if UNITY_EDITOR
+                if (prefab == null)
+                {
+                    prefab = UnityEditor.AssetDatabase.LoadAssetAtPath<GameObject>($"Assets/Prefabs/UI/{goName}.prefab");
+                }
+#endif
+                if (prefab != null)
+                {
+                    var instance = Object.Instantiate(prefab);
+                    instance.name = goName;
+                }
+                else
+                {
+                    var go = new GameObject(goName);
+                    go.AddComponent<T>();
+                }
             }
         }
 

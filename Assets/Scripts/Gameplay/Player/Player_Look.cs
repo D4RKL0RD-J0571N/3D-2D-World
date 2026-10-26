@@ -42,6 +42,12 @@ namespace Gameplay.Player
                 return;
             }
 
+            if (Cursor.lockState != CursorLockMode.Locked)
+            {
+                _lookInput = Vector2.zero;
+                return;
+            }
+
             Vector2 lookDelta = _lookInput;
             _lookInput = Vector2.zero;
 

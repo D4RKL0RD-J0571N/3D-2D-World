@@ -11,7 +11,7 @@ namespace Gameplay.Museum
     /// </summary>
     [AddComponentMenu("3D 2D World/Museum/Museum Exhibit Pedestal")]
     [SelectionBase]
-    public class MuseumExhibitPedestal : MonoBehaviour
+    public class MuseumExhibitPedestal : Gameplay.Entities.BaseEntity
     {
         #region Inspector Fields
 
@@ -24,6 +24,16 @@ namespace Gameplay.Museum
 
         [Header("Interaction Radius")]
         [SerializeField] private float triggerRadius = 2.5f;
+
+        #endregion
+
+        #region Properties
+
+        public override string InteractionPrompt => exhibitDefinition != null
+            ? $"[E] Inspect {exhibitDefinition.DisplayName} (F2 Curator)"
+            : "[E] Inspect Exhibit";
+
+        public bool IsPlayerInRange => _isPlayerInRange;
 
         #endregion
 
@@ -82,6 +92,11 @@ namespace Gameplay.Museum
 
         #region Public Methods
 
+        public override void OnInteract(GameObject user)
+        {
+            NotifyCuratorInspection();
+        }
+
         public void SetExhibit(MuseumExhibitDefinitionSO definition)
         {
             exhibitDefinition = definition;
@@ -134,6 +149,14 @@ namespace Gameplay.Museum
             }
             sphereCollider.isTrigger = true;
             sphereCollider.radius = triggerRadius;
+
+            var rb = GetComponent<Rigidbody>();
+            if (rb == null)
+            {
+                rb = gameObject.AddComponent<Rigidbody>();
+            }
+            rb.isKinematic = true;
+            rb.useGravity = false;
         }
 
         private void SpawnPreview()

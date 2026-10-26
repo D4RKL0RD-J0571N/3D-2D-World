@@ -20,9 +20,8 @@ namespace Gameplay.UI
 
         [Header("UI Document")]
         [SerializeField] private UIDocument uiDocument;
-
-        [Header("Keybindings")]
-        [SerializeField] private KeyCode toggleKey = KeyCode.F2;
+        [SerializeField] private VisualTreeAsset _curatorUxml;
+        [SerializeField] private StyleSheet _curatorUss;
 
         #endregion
 
@@ -48,6 +47,7 @@ namespace Gameplay.UI
 
         private MuseumExhibitDefinitionSO _currentExhibit;
         private CuratorRating _currentRating = CuratorRating.Unrated;
+        private bool _isVisible;
 
         #endregion
 
@@ -61,7 +61,7 @@ namespace Gameplay.UI
             }
 
             SetupUIDocument();
-            BuildUI();
+            BindUIElements();
             SetVisible(false);
         }
 
@@ -94,11 +94,6 @@ namespace Gameplay.UI
             }
         }
 
-        private void OnToggleCuratorHud(ToggleCuratorHudEvent evt)
-        {
-            ToggleVisible();
-        }
-
         #endregion
 
         #region UI Setup & Binding
@@ -106,49 +101,62 @@ namespace Gameplay.UI
         private void SetupUIDocument()
         {
             if (uiDocument == null) return;
+
+            ResolvePanelSettings();
+            ResolveUxmlAndUss();
+
+            uiDocument.sortingOrder = 100;
+
+            var root = uiDocument.rootVisualElement;
+            if (root != null && _curatorUss != null && !root.styleSheets.Contains(_curatorUss))
+            {
+                root.styleSheets.Add(_curatorUss);
+            }
+        }
+
+        private void ResolveUxmlAndUss()
+        {
+            if (_curatorUxml == null)
+            {
+                _curatorUxml = Resources.Load<VisualTreeAsset>("UI/CuratorOverlay");
+#if UNITY_EDITOR
+                if (_curatorUxml == null)
+                    _curatorUxml = UnityEditor.AssetDatabase.LoadAssetAtPath<VisualTreeAsset>("Assets/UI/Curator/CuratorOverlay.uxml");
+#endif
+            }
+
+            if (_curatorUss == null)
+            {
+                _curatorUss = Resources.Load<StyleSheet>("UI/CuratorOverlay");
+#if UNITY_EDITOR
+                if (_curatorUss == null)
+                    _curatorUss = UnityEditor.AssetDatabase.LoadAssetAtPath<StyleSheet>("Assets/UI/Curator/CuratorOverlay.uss");
+#endif
+            }
+
+            if (_curatorUxml != null && uiDocument.visualTreeAsset == null)
+            {
+                uiDocument.visualTreeAsset = _curatorUxml;
+            }
+        }
+
+        private void ResolvePanelSettings()
+        {
             if (uiDocument.panelSettings != null) return;
 
             var ps = Resources.Load<PanelSettings>("UI/PanelSettings");
 #if UNITY_EDITOR
             if (ps == null)
-            {
                 ps = UnityEditor.AssetDatabase.LoadAssetAtPath<PanelSettings>("Assets/UI/PanelSettings.asset");
-            }
 #endif
             if (ps != null) uiDocument.panelSettings = ps;
         }
 
-        private void BuildUI()
+        private void BindUIElements()
         {
-            if (uiDocument == null) return;
-            var rootVisual = uiDocument.rootVisualElement;
-            if (rootVisual == null) return;
+            if (uiDocument == null || uiDocument.rootVisualElement == null) return;
 
-            var uxml = Resources.Load<VisualTreeAsset>("UI/CuratorOverlay");
-#if UNITY_EDITOR
-            if (uxml == null)
-            {
-                uxml = UnityEditor.AssetDatabase.LoadAssetAtPath<VisualTreeAsset>("Assets/UI/Curator/CuratorOverlay.uxml");
-            }
-#endif
-            if (uxml != null)
-            {
-                uxml.CloneTree(rootVisual);
-            }
-
-            var uss = Resources.Load<StyleSheet>("UI/CuratorOverlay");
-#if UNITY_EDITOR
-            if (uss == null)
-            {
-                uss = UnityEditor.AssetDatabase.LoadAssetAtPath<StyleSheet>("Assets/UI/Curator/CuratorOverlay.uss");
-            }
-#endif
-            if (uss != null && !rootVisual.styleSheets.Contains(uss))
-            {
-                rootVisual.styleSheets.Add(uss);
-            }
-
-            _root = rootVisual.Q<VisualElement>("CuratorRoot");
+            _root = uiDocument.rootVisualElement.Q<VisualElement>("CuratorRoot");
             if (_root == null) return;
 
             _categoryLabel = _root.Q<Label>("ExhibitCategory");
@@ -199,6 +207,11 @@ namespace Gameplay.UI
         {
             SetVisible(false);
             _currentExhibit = null;
+        }
+
+        private void OnToggleCuratorHud(ToggleCuratorHudEvent evt)
+        {
+            ToggleVisible();
         }
 
         #endregion
@@ -265,32 +278,55 @@ namespace Gameplay.UI
                     if (_statusLabel != null) _statusLabel.text = "Rating: ❌ DISCARD (Do not include)";
                     break;
                 default:
-                    if (_statusLabel != null) _statusLabel.text = "Rating: Unrated (Walk near pedestal to rate)";
+                    if (_statusLabel != null) _statusLabel.text = "Rating: Unrated";
                     break;
             }
         }
 
         #endregion
 
-        #region Visibility Helpers
+        #region Visibility & Cursor State
 
         public void SetVisible(bool visible)
         {
+            _isVisible = visible;
+
+            if (_root == null)
+            {
+                BindUIElements();
+            }
+
             if (_root != null)
             {
-                _root.style.display = visible ? DisplayStyle.Flex : DisplayStyle.None;
+                _root.style.display = _isVisible ? DisplayStyle.Flex : DisplayStyle.None;
+
+                if (_isVisible && _currentExhibit == null)
+                {
+                    if (_categoryLabel != null) _categoryLabel.text = "CURATOR MODE";
+                    if (_idLabel != null) _idLabel.text = "OVERLAY";
+                    if (_nameLabel != null) _nameLabel.text = "Testing Museum Showroom";
+                    if (_originLabel != null) _originLabel.text = "Status: Ready";
+                    if (_descriptionLabel != null) _descriptionLabel.text = "Curator HUD active. Walk near any exhibit pedestal or aim at it and press [E] to evaluate the asset.";
+                    if (_statusLabel != null) _statusLabel.text = "Press F2 or [X] to close overlay";
+                }
+            }
+
+            // Manage cursor lock so player can click buttons when HUD is open
+            if (_isVisible)
+            {
+                UnityEngine.Cursor.lockState = CursorLockMode.None;
+                UnityEngine.Cursor.visible = true;
+            }
+            else
+            {
+                UnityEngine.Cursor.lockState = CursorLockMode.Locked;
+                UnityEngine.Cursor.visible = false;
             }
         }
 
-        public bool IsVisible()
-        {
-            return _root != null && _root.style.display == DisplayStyle.Flex;
-        }
+        public bool IsVisible() => _isVisible;
 
-        public void ToggleVisible()
-        {
-            SetVisible(!IsVisible());
-        }
+        public void ToggleVisible() => SetVisible(!IsVisible());
 
         #endregion
     }
