@@ -13,14 +13,14 @@ MonoBehaviour:
   m_Name: EXH_WPN_01
   m_EditorClassIdentifier: Assembly-CSharp::Domain.Museum.MuseumExhibitDefinitionSO
   exhibitId: EXH_WPN_01
-  displayName: Survival Combat Knife
+  displayName: Semi-Auto Service Pistol
   category: 0
   packageOrigin: RetroWeaponPack_V1
   description: Fast melee slashing weapon with quick stamina consumption.
-  previewPrefab: {fileID: 0}
+  previewPrefab: {fileID: 919132149155446097, guid: 7667e4e2fa7c47e44a5c343007a09fc6, type: 3}
   billboardSprite: {fileID: 0}
   isBillboardSprite: 0
-  displayOffset: {x: 0, y: 0.5, z: 0}
+  displayOffset: {x: 0, y: 0.35, z: 0}
   rotationOffset: {x: 0, y: 0, z: 0}
   previewScale: 1
   rotateContinuously: 1

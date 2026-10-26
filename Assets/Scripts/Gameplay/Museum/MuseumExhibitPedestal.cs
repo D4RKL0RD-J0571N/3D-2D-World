@@ -58,9 +58,9 @@ namespace Gameplay.Museum
 
         private void Update()
         {
-            if (_spawnedPreviewInstance != null && exhibitDefinition != null && exhibitDefinition.RotateContinuously)
+            if (_spawnedPreviewInstance != null && exhibitDefinition != null && exhibitDefinition.RotateContinuously && !exhibitDefinition.IsBillboardSprite)
             {
-                _spawnedPreviewInstance.transform.Rotate(Vector3.up, rotationSpeed * Time.deltaTime, Space.World);
+                _spawnedPreviewInstance.transform.Rotate(Vector3.up, rotationSpeed * Time.deltaTime, Space.Self);
             }
         }
 

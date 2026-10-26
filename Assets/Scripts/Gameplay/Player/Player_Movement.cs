@@ -60,6 +60,34 @@ namespace Gameplay.Player
                 return;
             }
 
+            // Direct Keyboard Input System reading (guarantees movement in all scenes)
+            var keyboard = UnityEngine.InputSystem.Keyboard.current;
+            if (keyboard != null)
+            {
+                float kx = 0f;
+                float ky = 0f;
+                if (keyboard.wKey.isPressed || keyboard.upArrowKey.isPressed) ky += 1f;
+                if (keyboard.sKey.isPressed || keyboard.downArrowKey.isPressed) ky -= 1f;
+                if (keyboard.aKey.isPressed || keyboard.leftArrowKey.isPressed) kx -= 1f;
+                if (keyboard.dKey.isPressed || keyboard.rightArrowKey.isPressed) kx += 1f;
+
+                if (kx != 0f || ky != 0f)
+                {
+                    _moveInput = new Vector2(kx, ky).normalized;
+                }
+                else
+                {
+                    _moveInput = Vector2.zero;
+                }
+
+                if (keyboard.leftShiftKey.isPressed) _runHeld = true;
+                else _runHeld = false;
+
+                if (keyboard.spaceKey.wasPressedThisFrame) _jumpQueued = true;
+                if (keyboard.leftCtrlKey.isPressed) _crouchHeld = true;
+                else _crouchHeld = false;
+            }
+
             IsCrouching = _crouchHeld;
             _currentSpeedMultiplier = IsCrouching ? _crouchMultiplier : (_runHeld ? _runMultiplier : 1.0f);
             ApplyStance();

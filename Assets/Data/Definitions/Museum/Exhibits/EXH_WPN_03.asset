@@ -17,10 +17,10 @@ MonoBehaviour:
   category: 0
   packageOrigin: RetroWeaponPack_V1
   description: High spread, devastating close-range buckshot.
-  previewPrefab: {fileID: 919132149155446097, guid: 44cecd0b360685f4c984b4e80a1901b6, type: 3}
+  previewPrefab: {fileID: 919132149155446097, guid: 67cbe5d718339fd4da5e85f39c97ccb2, type: 3}
   billboardSprite: {fileID: 0}
   isBillboardSprite: 0
-  displayOffset: {x: 0, y: 0.2, z: 0}
+  displayOffset: {x: 0, y: 0.35, z: 0}
   rotationOffset: {x: 0, y: 0, z: 0}
-  previewScale: 1.2
+  previewScale: 1
   rotateContinuously: 1

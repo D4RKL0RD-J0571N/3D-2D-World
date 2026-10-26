@@ -42,10 +42,28 @@ namespace Gameplay.Player
                 return;
             }
 
-            if (Cursor.lockState != CursorLockMode.Locked)
+            // Pause FPS camera look when the Curator HUD modal is open
+            if (Gameplay.UI.CuratorHUD.IsOpen)
             {
                 _lookInput = Vector2.zero;
                 return;
+            }
+
+            var mouse = UnityEngine.InputSystem.Mouse.current;
+            if (mouse != null)
+            {
+                // Clicking into the Game View locks cursor and restores FPS look
+                if (mouse.leftButton.wasPressedThisFrame && Cursor.lockState != CursorLockMode.Locked)
+                {
+                    Cursor.lockState = CursorLockMode.Locked;
+                    Cursor.visible = false;
+                }
+
+                Vector2 delta = mouse.delta.ReadValue();
+                if (delta != Vector2.zero)
+                {
+                    _lookInput = delta;
+                }
             }
 
             Vector2 lookDelta = _lookInput;

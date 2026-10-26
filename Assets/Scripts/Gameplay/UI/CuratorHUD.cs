@@ -43,7 +43,9 @@ namespace Gameplay.UI
 
         #endregion
 
-        #region Private State
+        #region Properties & State
+
+        public static bool IsOpen { get; private set; }
 
         private MuseumExhibitDefinitionSO _currentExhibit;
         private CuratorRating _currentRating = CuratorRating.Unrated;
@@ -290,6 +292,7 @@ namespace Gameplay.UI
         public void SetVisible(bool visible)
         {
             _isVisible = visible;
+            IsOpen = _isVisible;
 
             if (_root == null)
             {
