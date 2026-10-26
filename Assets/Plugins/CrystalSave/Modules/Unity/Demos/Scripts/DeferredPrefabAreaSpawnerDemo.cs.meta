@@ -1,0 +1,18 @@
+fileFormatVersion: 2
+guid: ff259bb1bd543a4b6a6a411c0181fcfd
+MonoImporter:
+  externalObjects: {}
+  serializedVersion: 2
+  defaultReferences: []
+  executionOrder: 0
+  icon: {instanceID: 0}
+  userData: 
+  assetBundleName: 
+  assetBundleVariant: 
+AssetOrigin:
+  serializedVersion: 1
+  productId: 319719
+  packageName: Crystal Save Professional | Save System & Save Migration
+  packageVersion: 1.8.74
+  assetPath: Assets/Plugins/CrystalSave/Modules/Unity/Demos/Scripts/DeferredPrefabAreaSpawnerDemo.cs
+  uploadId: 975986

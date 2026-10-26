@@ -1,0 +1,9 @@
+fileFormatVersion: 2
+guid: 362744479472ebb52ad326d572307d54
+AssetOrigin:
+  serializedVersion: 1
+  productId: 319719
+  packageName: Crystal Save Professional | Save System & Save Migration
+  packageVersion: 1.8.74
+  assetPath: Assets/Plugins/CrystalSave/Runtime/Managers/Systems/MySqlSaveSystem.cs
+  uploadId: 975986

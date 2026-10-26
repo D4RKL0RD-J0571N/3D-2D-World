@@ -1,0 +1,14 @@
+fileFormatVersion: 2
+guid: ec880a4bc15e2a62d9e7c5197598aeb8
+PrefabImporter:
+  externalObjects: {}
+  userData: 
+  assetBundleName: 
+  assetBundleVariant: 
+AssetOrigin:
+  serializedVersion: 1
+  productId: 319719
+  packageName: Crystal Save Professional | Save System & Save Migration
+  packageVersion: 1.8.74
+  assetPath: Assets/Plugins/CrystalSave/Modules/Unity/Demos/Prefabs/SphereRestore.prefab
+  uploadId: 975986

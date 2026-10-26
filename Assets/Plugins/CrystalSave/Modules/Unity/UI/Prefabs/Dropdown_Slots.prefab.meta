@@ -1,0 +1,14 @@
+fileFormatVersion: 2
+guid: 23dd63cddfe99ae119920321364619e5
+PrefabImporter:
+  externalObjects: {}
+  userData: 
+  assetBundleName: 
+  assetBundleVariant: 
+AssetOrigin:
+  serializedVersion: 1
+  productId: 319719
+  packageName: Crystal Save Professional | Save System & Save Migration
+  packageVersion: 1.8.74
+  assetPath: Assets/Plugins/CrystalSave/Modules/Unity/UI/Prefabs/Dropdown_Slots.prefab
+  uploadId: 975986

@@ -1,0 +1,14 @@
+fileFormatVersion: 2
+guid: 79d8edd5472f2bcdd99343cbd606a632
+DefaultImporter:
+  externalObjects: {}
+  userData: 
+  assetBundleName: 
+  assetBundleVariant: 
+AssetOrigin:
+  serializedVersion: 1
+  productId: 319719
+  packageName: Crystal Save Professional | Save System & Save Migration
+  packageVersion: 1.8.74
+  assetPath: Assets/Plugins/CrystalSave/Modules/Unity/Demos/Scenes/PersistentPrefabsAcrossScenes2.unity
+  uploadId: 975986

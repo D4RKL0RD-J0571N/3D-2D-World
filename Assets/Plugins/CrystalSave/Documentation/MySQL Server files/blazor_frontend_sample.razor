@@ -1,0 +1,81 @@
+@page "/crystalsave-demo"
+@inject HttpClient Http
+@using System.Net.Http.Json
+@using System.Net.Http
+@using System.Text
+@using System.Text.Json
+@using System.Collections.Generic
+
+<h3>Crystal Save transport demo</h3>
+<p>This example stores UTF-8 sample bytes. A game supplies its Crystal Save payload instead.</p>
+<button @onclick="Save">Save Slot 1</button>
+<button @onclick="Load">Load Slot 1</button>
+<button @onclick="List">List Slots</button>
+<p>@status</p>
+
+@code {
+    string api = "https://example.com"; // base URL of the backend
+    string apiKey = "SUPER_SECRET_TOKEN";
+    string userId = "player1";
+    string status = string.Empty;
+
+    async Task<HttpResponseMessage> Send(HttpMethod method, string path, object? body = null)
+    {
+        using var request = new HttpRequestMessage(method, api.TrimEnd('/') + path);
+        request.Headers.Add("X-API-KEY", apiKey);
+        if (body != null) request.Content = JsonContent.Create(body);
+        var response = await Http.SendAsync(request);
+        if (!response.IsSuccessStatusCode)
+        {
+            var code = response.StatusCode;
+            response.Dispose();
+            throw new HttpRequestException($"Server returned {(int)code} ({code}).");
+        }
+        return response;
+    }
+
+    async Task Save()
+    {
+        try
+        {
+            using var payload = await Send(HttpMethod.Post, "/save", new
+            {
+                uid = userId, slot = 1,
+                data = Convert.ToBase64String(Encoding.UTF8.GetBytes("Hello from Blazor"))
+            });
+            using var metadata = await Send(HttpMethod.Post, "/metadata", new
+            {
+                uid = userId, slot = 1, name = "Slot 1", ticks = DateTime.UtcNow.Ticks,
+                scene = "Main", shot = "", meta = new Dictionary<string,string> { ["Player"] = "Alice" }
+            });
+            status = "Saved!";
+        }
+        catch (HttpRequestException error) { status = error.Message; }
+    }
+
+    async Task Load()
+    {
+        try
+        {
+            using var response = await Send(HttpMethod.Get, $"/load?uid={Uri.EscapeDataString(userId)}&slot=1");
+            var data = await response.Content.ReadAsStringAsync();
+            status = string.IsNullOrEmpty(data) ? "No saved payload." :
+                "Loaded data: " + Encoding.UTF8.GetString(Convert.FromBase64String(data));
+        }
+        catch (HttpRequestException error) { status = error.Message; }
+    }
+
+    async Task List()
+    {
+        try
+        {
+            using var response = await Send(HttpMethod.Get, $"/list?uid={Uri.EscapeDataString(userId)}");
+            var slots = await response.Content.ReadFromJsonAsync<List<SlotMeta>>();
+            status = JsonSerializer.Serialize(slots);
+        }
+        catch (HttpRequestException error) { status = error.Message; }
+    }
+
+    public record MetaPair(string key, string? value);
+    public record SlotMeta(int slot, string name, long ticks, string scene, string shot, MetaPair[] meta);
+}

@@ -1,0 +1,15 @@
+fileFormatVersion: 2
+guid: 02e2ff058c90f0048b575ef6dfa7cc72
+NativeFormatImporter:
+  externalObjects: {}
+  mainObjectFileID: 24100000
+  userData: 
+  assetBundleName: 
+  assetBundleVariant: 
+AssetOrigin:
+  serializedVersion: 1
+  productId: 319719
+  packageName: Crystal Save Professional | Save System & Save Migration
+  packageVersion: 1.8.74
+  assetPath: Assets/Plugins/CrystalSave/Modules/Unity/Demos/NewAudioMixer.mixer
+  uploadId: 975986

@@ -1,0 +1,9 @@
+fileFormatVersion: 2
+guid: 09accd4ec54b9b643980fab9faf65b58
+AssetOrigin:
+  serializedVersion: 1
+  productId: 319719
+  packageName: Crystal Save Professional | Save System & Save Migration
+  packageVersion: 1.8.74
+  assetPath: Assets/Plugins/CrystalSave/Modules/Unity/Migration/MigrateMultipleSkinnedMeshRenderers.cs
+  uploadId: 975986

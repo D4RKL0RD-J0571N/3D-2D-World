@@ -1,0 +1,14 @@
+fileFormatVersion: 2
+guid: ad8c214eded70aca79c04f914c76f454
+DefaultImporter:
+  externalObjects: {}
+  userData: 
+  assetBundleName: 
+  assetBundleVariant: 
+AssetOrigin:
+  serializedVersion: 1
+  productId: 319719
+  packageName: Crystal Save Professional | Save System & Save Migration
+  packageVersion: 1.8.74
+  assetPath: Assets/Plugins/CrystalSave/Modules/Unity/Demos/Scenes/CrystalSaveDemo_AdditiveActiveState_Area.unity
+  uploadId: 975986

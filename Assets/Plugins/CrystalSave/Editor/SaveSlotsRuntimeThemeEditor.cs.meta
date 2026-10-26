@@ -1,0 +1,18 @@
+fileFormatVersion: 2
+guid: 1aac0c807e23c5e179763c8a4c2b30f8
+MonoImporter:
+  externalObjects: {}
+  serializedVersion: 2
+  defaultReferences: []
+  executionOrder: 0
+  icon: {instanceID: 0}
+  userData: 
+  assetBundleName: 
+  assetBundleVariant: 
+AssetOrigin:
+  serializedVersion: 1
+  productId: 319719
+  packageName: Crystal Save Professional | Save System & Save Migration
+  packageVersion: 1.8.74
+  assetPath: Assets/Plugins/CrystalSave/Editor/SaveSlotsRuntimeThemeEditor.cs
+  uploadId: 975986

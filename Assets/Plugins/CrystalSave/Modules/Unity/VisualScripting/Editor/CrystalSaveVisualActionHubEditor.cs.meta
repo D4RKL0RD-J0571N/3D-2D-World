@@ -1,0 +1,18 @@
+fileFormatVersion: 2
+guid: e7824943fc4b90208ae37fb0dde45be6
+MonoImporter:
+  externalObjects: {}
+  serializedVersion: 2
+  defaultReferences: []
+  executionOrder: 0
+  icon: {instanceID: 0}
+  userData: 
+  assetBundleName: 
+  assetBundleVariant: 
+AssetOrigin:
+  serializedVersion: 1
+  productId: 319719
+  packageName: Crystal Save Professional | Save System & Save Migration
+  packageVersion: 1.8.74
+  assetPath: Assets/Plugins/CrystalSave/Modules/Unity/VisualScripting/Editor/CrystalSaveVisualActionHubEditor.cs
+  uploadId: 975986

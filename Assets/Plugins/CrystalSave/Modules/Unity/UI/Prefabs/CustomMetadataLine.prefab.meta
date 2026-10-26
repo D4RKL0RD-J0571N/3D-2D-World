@@ -1,0 +1,14 @@
+fileFormatVersion: 2
+guid: 53a7af2fd76394fbeb9804a07c5259c0
+PrefabImporter:
+  externalObjects: {}
+  userData: 
+  assetBundleName: 
+  assetBundleVariant: 
+AssetOrigin:
+  serializedVersion: 1
+  productId: 319719
+  packageName: Crystal Save Professional | Save System & Save Migration
+  packageVersion: 1.8.74
+  assetPath: Assets/Plugins/CrystalSave/Modules/Unity/UI/Prefabs/CustomMetadataLine.prefab
+  uploadId: 975986

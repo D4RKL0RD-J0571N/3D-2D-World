@@ -1,0 +1,9 @@
+fileFormatVersion: 2
+guid: 9f582d075bc09b74b9ed7a58936ba7e5
+AssetOrigin:
+  serializedVersion: 1
+  productId: 319719
+  packageName: Crystal Save Professional | Save System & Save Migration
+  packageVersion: 1.8.74
+  assetPath: Assets/Plugins/CrystalSave/Runtime/Managers/Interfaces/IUserFolderResolver.cs
+  uploadId: 975986

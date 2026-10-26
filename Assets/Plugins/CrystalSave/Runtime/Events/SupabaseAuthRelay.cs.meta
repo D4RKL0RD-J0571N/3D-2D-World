@@ -1,0 +1,9 @@
+fileFormatVersion: 2
+guid: 4fbc7fdf60cd004c79dbea103c611600
+AssetOrigin:
+  serializedVersion: 1
+  productId: 319719
+  packageName: Crystal Save Professional | Save System & Save Migration
+  packageVersion: 1.8.74
+  assetPath: Assets/Plugins/CrystalSave/Runtime/Events/SupabaseAuthRelay.cs
+  uploadId: 975986

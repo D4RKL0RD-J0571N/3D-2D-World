@@ -1,0 +1,14 @@
+fileFormatVersion: 2
+guid: 20b038239c07a54f086ae2de64114ad4
+DefaultImporter:
+  externalObjects: {}
+  userData: 
+  assetBundleName: 
+  assetBundleVariant: 
+AssetOrigin:
+  serializedVersion: 1
+  productId: 319719
+  packageName: Crystal Save Professional | Save System & Save Migration
+  packageVersion: 1.8.74
+  assetPath: Assets/Plugins/CrystalSave/Documentation/MySQL Server files/blazor_frontend_sample.razor
+  uploadId: 975986

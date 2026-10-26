@@ -1,0 +1,9 @@
+fileFormatVersion: 2
+guid: 76221ba94b98d57fe939d4f9aa4af776
+AssetOrigin:
+  serializedVersion: 1
+  productId: 319719
+  packageName: Crystal Save Professional | Save System & Save Migration
+  packageVersion: 1.8.74
+  assetPath: Assets/Plugins/CrystalSave/Runtime/Managers/Interfaces/ISaveSystem.cs
+  uploadId: 975986

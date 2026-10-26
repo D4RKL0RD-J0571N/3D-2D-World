@@ -1,0 +1,18 @@
+fileFormatVersion: 2
+guid: 7dce6aba6bee4374a109aee53491ae96
+MonoImporter:
+  externalObjects: {}
+  serializedVersion: 2
+  defaultReferences: []
+  executionOrder: 0
+  icon: {instanceID: 0}
+  userData: 
+  assetBundleName: 
+  assetBundleVariant: 
+AssetOrigin:
+  serializedVersion: 1
+  productId: 319719
+  packageName: Crystal Save Professional | Save System & Save Migration
+  packageVersion: 1.8.74
+  assetPath: Assets/Plugins/CrystalSave/Editor/ComponentSaveBlobMigrationUtilityTests.cs
+  uploadId: 975986

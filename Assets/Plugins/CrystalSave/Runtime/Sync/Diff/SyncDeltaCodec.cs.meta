@@ -1,0 +1,18 @@
+fileFormatVersion: 2
+guid: e8090d25bcd7a27e09e456528989dd4d
+MonoImporter:
+  externalObjects: {}
+  serializedVersion: 2
+  defaultReferences: []
+  executionOrder: 0
+  icon: {instanceID: 0}
+  userData: 
+  assetBundleName: 
+  assetBundleVariant: 
+AssetOrigin:
+  serializedVersion: 1
+  productId: 319719
+  packageName: Crystal Save Professional | Save System & Save Migration
+  packageVersion: 1.8.74
+  assetPath: Assets/Plugins/CrystalSave/Runtime/Sync/Diff/SyncDeltaCodec.cs
+  uploadId: 975986

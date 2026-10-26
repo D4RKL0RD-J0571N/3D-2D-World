@@ -1,0 +1,9 @@
+fileFormatVersion: 2
+guid: c43e1481658c5174eaf756c25c98bfac
+AssetOrigin:
+  serializedVersion: 1
+  productId: 319719
+  packageName: Crystal Save Professional | Save System & Save Migration
+  packageVersion: 1.8.74
+  assetPath: Assets/Plugins/CrystalSave/Runtime/Managers/Interfaces/ILegacyConvertible.cs
+  uploadId: 975986

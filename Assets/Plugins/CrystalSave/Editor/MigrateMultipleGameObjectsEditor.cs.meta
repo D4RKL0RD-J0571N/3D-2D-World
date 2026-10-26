@@ -1,0 +1,9 @@
+fileFormatVersion: 2
+guid: a29c06f4bc3836049a676c1d2e78851f
+AssetOrigin:
+  serializedVersion: 1
+  productId: 319719
+  packageName: Crystal Save Professional | Save System & Save Migration
+  packageVersion: 1.8.74
+  assetPath: Assets/Plugins/CrystalSave/Editor/MigrateMultipleGameObjectsEditor.cs
+  uploadId: 975986

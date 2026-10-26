@@ -1,0 +1,9 @@
+fileFormatVersion: 2
+guid: 42da28972ea9eb74bb9cf4d899d66806
+AssetOrigin:
+  serializedVersion: 1
+  productId: 319719
+  packageName: Crystal Save Professional | Save System & Save Migration
+  packageVersion: 1.8.74
+  assetPath: Assets/Plugins/CrystalSave/Runtime/Components/Prefab/SaveablePrefab.cs
+  uploadId: 975986

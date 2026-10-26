@@ -1,0 +1,14 @@
+fileFormatVersion: 2
+guid: 178d2d359e7c5ae4fbf48a74535dd5ab
+PrefabImporter:
+  externalObjects: {}
+  userData: 
+  assetBundleName: 
+  assetBundleVariant: 
+AssetOrigin:
+  serializedVersion: 1
+  productId: 319719
+  packageName: Crystal Save Professional | Save System & Save Migration
+  packageVersion: 1.8.74
+  assetPath: Assets/Plugins/CrystalSave/Modules/Unity/Demos/Prefabs/Resources/Capsule.prefab
+  uploadId: 975986

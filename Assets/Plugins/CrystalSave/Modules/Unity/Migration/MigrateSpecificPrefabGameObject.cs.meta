@@ -1,0 +1,9 @@
+fileFormatVersion: 2
+guid: cd6afd2c955b82ca6812c26c3be1d9f7
+AssetOrigin:
+  serializedVersion: 1
+  productId: 319719
+  packageName: Crystal Save Professional | Save System & Save Migration
+  packageVersion: 1.8.74
+  assetPath: Assets/Plugins/CrystalSave/Modules/Unity/Migration/MigrateSpecificPrefabGameObject.cs
+  uploadId: 975986
