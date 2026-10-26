@@ -18,7 +18,7 @@ MonoBehaviour:
   packageOrigin: Legacy Fantasy Enemies
   description: Heavy charge attacks and frontal armor shield.
   previewPrefab: {fileID: 0}
-  billboardSprite: {fileID: 0}
+  billboardSprite: {fileID: 6541190551076345711, guid: e8f647423562afa46ae2a13ddc78c5b7, type: 3}
   isBillboardSprite: 1
   displayOffset: {x: 0, y: 0.5, z: 0}
   rotationOffset: {x: 0, y: 0, z: 0}

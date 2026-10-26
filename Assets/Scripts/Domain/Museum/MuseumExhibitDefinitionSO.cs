@@ -116,6 +116,12 @@ namespace Domain.Museum
             isBillboardSprite = isBillboard;
         }
 
+        public void SetBillboardSprite(Sprite sprite)
+        {
+            billboardSprite = sprite;
+            isBillboardSprite = sprite != null;
+        }
+
         #endregion
     }
 }
