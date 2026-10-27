@@ -34,17 +34,27 @@ namespace Gameplay.Combat
         {
             GameEventManager.AddListener<EntityDamagedEvent>(OnEntityDamaged);
             GameEventManager.AddListener<EntityHealedEvent>(OnEntityHealed);
+            GameEventManager.AddListener<Domain.Combat.SneakAttackTriggeredEvent>(OnSneakAttack);
         }
 
         private void OnDisable()
         {
             GameEventManager.RemoveListener<EntityDamagedEvent>(OnEntityDamaged);
             GameEventManager.RemoveListener<EntityHealedEvent>(OnEntityHealed);
+            GameEventManager.RemoveListener<Domain.Combat.SneakAttackTriggeredEvent>(OnSneakAttack);
         }
 
         #endregion
 
         #region Event Handlers
+
+        private void OnSneakAttack(Domain.Combat.SneakAttackTriggeredEvent evt)
+        {
+            if (evt == null || evt.Target == null || damagePrefab == null) return;
+
+            Vector3 spawnPos = evt.Target.transform.position + spawnOffset + Vector3.up * 0.6f;
+            damagePrefab.Spawn(spawnPos, $"{evt.Multiplier:0.0}x SNEAK CRIT!");
+        }
 
         private void OnEntityDamaged(EntityDamagedEvent evt)
         {

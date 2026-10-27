@@ -370,14 +370,32 @@ namespace Gameplay.UI
         {
             pip.RemoveFromClassList("compass-marker-pip--quest");
             pip.RemoveFromClassList("compass-marker-pip--enemy");
+            pip.RemoveFromClassList("compass-marker-pip--dungeon");
+            pip.RemoveFromClassList("compass-marker-pip--camp");
+            pip.RemoveFromClassList("compass-marker-pip--shrine");
+            pip.RemoveFromClassList("compass-marker-pip--town");
 
-            if (type == CompassPOIType.QuestMarker)
+            switch (type)
             {
-                pip.AddToClassList("compass-marker-pip--quest");
-            }
-            else if (type == CompassPOIType.Enemy)
-            {
-                pip.AddToClassList("compass-marker-pip--enemy");
+                case CompassPOIType.QuestMarker:
+                    pip.AddToClassList("compass-marker-pip--quest");
+                    break;
+                case CompassPOIType.Enemy:
+                    pip.AddToClassList("compass-marker-pip--enemy");
+                    break;
+                case CompassPOIType.Dungeon:
+                case CompassPOIType.Crypt:
+                    pip.AddToClassList("compass-marker-pip--dungeon");
+                    break;
+                case CompassPOIType.BanditCamp:
+                    pip.AddToClassList("compass-marker-pip--camp");
+                    break;
+                case CompassPOIType.Shrine:
+                    pip.AddToClassList("compass-marker-pip--shrine");
+                    break;
+                case CompassPOIType.Town:
+                    pip.AddToClassList("compass-marker-pip--town");
+                    break;
             }
         }
 

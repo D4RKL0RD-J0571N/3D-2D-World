@@ -139,7 +139,7 @@ namespace Gameplay.Entities
         /// <summary>
         /// Applies damage to an attribute, clamping at 0 and triggering death state on Health depletion.
         /// </summary>
-        public void ApplyDamage(string attributeName, int amount)
+        public void ApplyDamage(string attributeName, int amount, GameObject instigator = null, Domain.Combat.DamageType damageType = Domain.Combat.DamageType.Physical)
         {
             if (_attributes.TryGetValue(attributeName, out var attr))
             {
@@ -149,7 +149,13 @@ namespace Gameplay.Entities
                 // is an internal resource cost, not external damage.
                 if (attributeName == "Health")
                 {
-                    GameEventManager.Publish(new EntityDamagedEvent { Target = _actor, Amount = amount });
+                    GameEventManager.Publish(new EntityDamagedEvent 
+                    { 
+                        Target = _actor, 
+                        Amount = amount,
+                        Instigator = instigator,
+                        DamageType = damageType
+                    });
                 }
 
                 if (attr.CurrentValue == 0 && attributeName == "Health" && _stateComponent != null)

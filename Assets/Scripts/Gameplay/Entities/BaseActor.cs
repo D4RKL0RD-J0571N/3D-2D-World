@@ -145,15 +145,38 @@ namespace Gameplay.Entities
 
         /// <summary>
         /// Applies incoming damage to this actor's attributes and executes hit reactions.
-        /// Concrete peer method adhering to direct component composition without forced interfaces.
+        /// Evaluates Skyrim-style sneak attack multipliers if attacker strikes undetected from stealth.
         /// </summary>
         public virtual void TakeDamage(DamageInfo damage)
         {
             EnsureComponentsCached();
 
+            int finalDamage = damage.Amount;
+
+            // Check for Skyrim-style sneak attack multiplier
+            if (damage.Instigator != null && damage.Instigator.CompareTag("Player") && !CompareTag("Player"))
+            {
+                if (Core.ServiceLocator.TryGet<Systems.Skyrim.StealthDetectionService>(out var stealth) &&
+                    stealth.CurrentState == Domain.Skyrim.StealthState.Hidden)
+                {
+                    float multiplier = 3.0f;
+                    finalDamage = Mathf.RoundToInt(damage.Amount * multiplier);
+
+                    Core.GameEventManager.Publish(new Domain.Combat.SneakAttackTriggeredEvent(
+                        damage.Instigator, this, multiplier, finalDamage));
+
+                    if (Core.ServiceLocator.TryGet<Systems.Skyrim.SkillProgressionService>(out var skillProg))
+                    {
+                        skillProg.AwardXP(Domain.Skyrim.SkyrimSkill.Sneak, 15f);
+                    }
+
+                    Debug.Log($"<color=orange>✦ SNEAK ATTACK! Critical {multiplier:0.0}x damage ({finalDamage}) to {name}!</color>");
+                }
+            }
+
             if (_attributeComponent != null)
             {
-                _attributeComponent.ApplyDamage("Health", damage.Amount);
+                _attributeComponent.ApplyDamage("Health", finalDamage, damage.Instigator, damage.Type);
             }
 
             PlayHitReaction(damage);

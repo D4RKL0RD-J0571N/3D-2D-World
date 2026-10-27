@@ -141,6 +141,26 @@
     height: 10px;
 }
 
+.compass-marker-pip--dungeon {
+    background-color: rgba(168, 85, 247, 1);
+    border-radius: 2px;
+}
+
+.compass-marker-pip--camp {
+    background-color: rgba(249, 115, 22, 1);
+    border-radius: 3px;
+}
+
+.compass-marker-pip--shrine {
+    background-color: rgba(251, 191, 36, 1);
+    border-radius: 50%;
+}
+
+.compass-marker-pip--town {
+    background-color: rgba(34, 197, 94, 1);
+    border-radius: 2px;
+}
+
 /* Discovery Banner (Skyrim-style location reveal) */
 .discovery-banner {
     margin-top: 10px;

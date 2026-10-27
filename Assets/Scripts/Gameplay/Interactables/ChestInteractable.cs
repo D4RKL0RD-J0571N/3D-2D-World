@@ -57,14 +57,20 @@ namespace Gameplay.Interactables
 
         #region IInteractable
 
-        public bool CanInteract => !_isOpened && !IsLocked;
+        public bool CanInteract => !_isOpened;
 
         public string InteractionPrompt
         {
             get
             {
-                if (_isOpened)         return "Empty Chest";
-                if (IsLocked)          return $"🔒 Locked Chest  [{_lockDifficulty}]";
+                if (_isOpened) return "Empty Chest";
+                if (IsLocked)
+                {
+                    int currentSkill = GetPlayerLockpickSkill();
+                    int reqSkill = GetRequiredSkillLevel();
+                    string status = currentSkill >= reqSkill ? "Pick Lock" : "Locked (Skill Too Low)";
+                    return $"🔒 {status} [{_lockDifficulty}] (Req: {reqSkill})";
+                }
                 return "Open Chest";
             }
         }
@@ -73,6 +79,56 @@ namespace Gameplay.Interactables
         {
             if (!CanInteract) return;
 
+            if (IsLocked)
+            {
+                AttemptLockpick();
+                return;
+            }
+
+            OpenChest();
+        }
+
+        #endregion
+
+        #region Lockpicking & Opening
+
+        private void AttemptLockpick()
+        {
+            int currentSkill = GetPlayerLockpickSkill();
+            int reqSkill = GetRequiredSkillLevel();
+
+            if (currentSkill >= reqSkill)
+            {
+                _lockDifficulty = LockDifficulty.Unlocked;
+
+                // Award Lockpicking XP based on lock tier
+                if (ServiceLocator.TryGet<Systems.Skyrim.SkillProgressionService>(out var skills))
+                {
+                    float xp = 15f + reqSkill * 0.5f;
+                    skills.AwardXP(Domain.Skyrim.SkyrimSkill.Lockpicking, xp);
+                }
+
+                if (ServiceLocator.TryGet<Systems.Audio.AudioService>(out var audio))
+                {
+                    audio.PlayInteract();
+                }
+
+                Debug.Log($"<color=yellow>✦ Lock picked successfully! [Difficulty: {_lockDifficulty}]</color>");
+                OpenChest();
+            }
+            else
+            {
+                if (ServiceLocator.TryGet<Systems.Audio.AudioService>(out var audio))
+                {
+                    audio.PlayClick();
+                }
+
+                Debug.LogWarning($"[ChestInteractable] Lockpick failed. Skill {currentSkill} < Required {reqSkill}");
+            }
+        }
+
+        private void OpenChest()
+        {
             _isOpened = true;
 
             // Play open animation if an Animator is present
@@ -87,6 +143,24 @@ namespace Gameplay.Interactables
         #region Helpers
 
         private bool IsLocked => _lockDifficulty != LockDifficulty.Unlocked;
+
+        private int GetRequiredSkillLevel() => _lockDifficulty switch
+        {
+            LockDifficulty.Novice     => 15,
+            LockDifficulty.Apprentice => 25,
+            LockDifficulty.Adept      => 50,
+            LockDifficulty.Master     => 75,
+            _                         => 0
+        };
+
+        private int GetPlayerLockpickSkill()
+        {
+            if (ServiceLocator.TryGet<Systems.Skyrim.SkillProgressionService>(out var skills))
+            {
+                return skills.GetSkillLevel(Domain.Skyrim.SkyrimSkill.Lockpicking);
+            }
+            return 15;
+        }
 
         #endregion
     }
