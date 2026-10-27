@@ -16,6 +16,9 @@ namespace Studio.Editor
         private const string BaseDownloadsPath = 
             @"D:\Development\Game Development\Downloads\Assets unity v2\10_2D & Icon & GUI & Decal\03_Icons & UI";
 
+        private const string RootDownloadsPath = 
+            @"D:\Development\Game Development\Downloads";
+
         #endregion
 
         #region Menu Items - Core RPG Assets
@@ -94,6 +97,58 @@ namespace Studio.Editor
 
         #endregion
 
+        #region Menu Items - 3D Worlds, Environment & Magic VFX
+
+        [MenuItem("3D2DWorld/Asset Library/3D & VFX/★ Import POLYGON Fantasy Kingdom (2625 Modular Castle & Props)", false, 20)]
+        public static void ImportPolygonFantasyKingdom()
+        {
+            ImportPackageByRootPath(
+                "2026-03-03-POLYGON Fantasy Kingdom Unity 2022 3 v1.12.3.unitypackage",
+                "POLYGON Fantasy Kingdom (Synty)");
+        }
+
+        [MenuItem("3D2DWorld/Asset Library/3D & VFX/Import Magic Arsenal (600+ Spell Effects & Projectiles)", false, 21)]
+        public static void ImportMagicArsenal()
+        {
+            ImportPackageByRootPath(
+                "2024-12-04-Magic Arsenal v2.71.unitypackage",
+                "Magic Arsenal Spell VFX");
+        }
+
+        [MenuItem("3D2DWorld/Asset Library/3D & VFX/Import Fantasy Forest Environment (Trees, Rocks, Vegetation)", false, 22)]
+        public static void ImportFantasyForest()
+        {
+            ImportPackageByRootPath(
+                "Fantasy Forest Environment v2.4.unitypackage",
+                "Fantasy Forest Environment");
+        }
+
+        [MenuItem("3D2DWorld/Asset Library/3D & VFX/Import Weather Maker (Skyrim Fog, Rain, Snow, Day-Night)", false, 23)]
+        public static void ImportWeatherMaker()
+        {
+            ImportPackageByRootPath(
+                "Weather Maker - Volumetric Clouds and Weather System for Unity v8.0.9 (12 Jul 2026).unitypackage",
+                "Weather Maker Dynamic Sky");
+        }
+
+        [MenuItem("3D2DWorld/Asset Library/3D & VFX/Import Meat & Provisions Pack (Tavern & Camp Food Props)", false, 24)]
+        public static void ImportMeatPack()
+        {
+            ImportPackageByRootPath(
+                "Meat Pack 1.0 (2017).unitypackage",
+                "Meat & Provisions Pack");
+        }
+
+        [MenuItem("3D2DWorld/Asset Library/3D & VFX/Import Northstar Navigation (3D Markers & Beacons)", false, 25)]
+        public static void ImportNorthstarNav()
+        {
+            ImportPackageByRootPath(
+                "Northstar Navigation v1.2.1.unitypackage",
+                "Northstar Navigation System");
+        }
+
+        #endregion
+
         #region Package Import Helper
 
         /// <summary>
@@ -102,7 +157,17 @@ namespace Studio.Editor
         private static void ImportPackageBySubpath(string relativeSubpath, string displayName)
         {
             string fullPath = Path.Combine(BaseDownloadsPath, relativeSubpath);
+            ExecuteImport(fullPath, displayName);
+        }
 
+        private static void ImportPackageByRootPath(string fileName, string displayName)
+        {
+            string fullPath = Path.Combine(RootDownloadsPath, fileName);
+            ExecuteImport(fullPath, displayName);
+        }
+
+        private static void ExecuteImport(string fullPath, string displayName)
+        {
             if (!File.Exists(fullPath))
             {
                 EditorUtility.DisplayDialog(
