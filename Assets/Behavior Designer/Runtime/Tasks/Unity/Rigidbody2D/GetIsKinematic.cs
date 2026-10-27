@@ -31,7 +31,7 @@ namespace BehaviorDesigner.Runtime.Tasks.Unity.UnityRigidbody2D
                 return TaskStatus.Failure;
             }
 
-            storeValue.Value = rigidbody2D.isKinematic;
+            storeValue.Value = rigidbody2D.bodyType == RigidbodyType2D.Kinematic;
 
             return TaskStatus.Success;
         }

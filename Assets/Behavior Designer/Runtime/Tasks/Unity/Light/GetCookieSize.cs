@@ -32,7 +32,7 @@ namespace BehaviorDesigner.Runtime.Tasks.Unity.UnityLight
                 return TaskStatus.Failure;
             }
 
-            storeValue = light.cookieSize;
+            storeValue = light.cookieSize2D.x;
             return TaskStatus.Success;
         }
 

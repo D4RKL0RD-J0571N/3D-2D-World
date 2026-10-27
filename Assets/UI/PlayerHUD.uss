@@ -54,17 +54,8 @@
     border-radius: 12px;
     border-width: 1px;
     border-color: rgba(240, 180, 41, 0.25);
-}
-
-/* Gold top-border accent line */
-.status-panel::before {
-    position: absolute;
-    left: 12px;
-    top: 0;
-    right: 12px;
-    height: 2px;
-    background-color: rgba(240, 180, 41, 0.6);
-    border-radius: 1px;
+    border-top-width: 2px;
+    border-top-color: rgba(240, 180, 41, 0.6);
 }
 
 /* ── Avatar Frame ─────────────────────────────────────── */
@@ -113,11 +104,7 @@
 .stat-row {
     flex-direction: row;
     align-items: center;
-    margin-bottom: 5px;
-}
-
-.stat-row:last-child {
-    margin-bottom: 0;
+    margin-bottom: 4px;
 }
 
 /* Icon pip */

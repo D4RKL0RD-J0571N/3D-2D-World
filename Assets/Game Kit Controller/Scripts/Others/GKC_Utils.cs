@@ -1,4 +1,4 @@
-﻿using UnityEngine;
+using UnityEngine;
 using System.Collections;
 using System.Collections.Generic;
 using System.IO;
@@ -3941,16 +3941,17 @@ public class GKC_Utils : MonoBehaviour
     public static void replacePrefabNameBased (GameObject newPrefab, UnityEngine.Object currentPrefabObject)
     {
 #if UNITY_EDITOR
-        PrefabUtility.ReplacePrefab (newPrefab, currentPrefabObject, ReplacePrefabOptions.ReplaceNameBased);
+        string assetPath = AssetDatabase.GetAssetPath(currentPrefabObject);
+        if (!string.IsNullOrEmpty(assetPath)) {
+            PrefabUtility.SaveAsPrefabAsset(newPrefab, assetPath);
+        }
 #endif
     }
 
     public static void replacePrefabConnectToPrefab (GameObject newPrefab, string prefabFilePath)
     {
 #if UNITY_EDITOR
-        UnityEngine.Object currentPrefabObject = PrefabUtility.CreateEmptyPrefab (prefabFilePath);
-
-        PrefabUtility.ReplacePrefab (newPrefab, currentPrefabObject, ReplacePrefabOptions.ConnectToPrefab);
+        PrefabUtility.SaveAsPrefabAssetAndConnect(newPrefab, prefabFilePath, InteractionMode.AutomatedAction);
 #endif
     }
 

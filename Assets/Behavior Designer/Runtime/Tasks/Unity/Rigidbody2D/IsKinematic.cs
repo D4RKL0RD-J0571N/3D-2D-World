@@ -28,7 +28,7 @@ namespace BehaviorDesigner.Runtime.Tasks.Unity.UnityRigidbody2D
                 return TaskStatus.Failure;
             }
 
-            return rigidbody2D.isKinematic ? TaskStatus.Success : TaskStatus.Failure;
+            return rigidbody2D.bodyType == RigidbodyType2D.Kinematic ? TaskStatus.Success : TaskStatus.Failure;
         }
 
         public override void OnReset()
