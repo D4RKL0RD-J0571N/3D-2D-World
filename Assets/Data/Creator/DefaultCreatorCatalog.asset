@@ -58,3 +58,111 @@ MonoBehaviour:
     placementOffset: {x: 0, y: 0, z: 0}
     defaultScale: {x: 1, y: 1, z: 1}
     gridSnapSize: 1
+  - id: turret_combat
+    displayName: Automated Defense Turret
+    category: 1
+    description: Autonomous defensive sentry turret targeting hostiles.
+    prefab: {fileID: 6351931128759503970, guid: 641bbf9c6dc3bff49b461307ee00cb53, type: 3}
+    icon: {fileID: 0}
+    placementOffset: {x: 0, y: 0, z: 0}
+    defaultScale: {x: 1, y: 1, z: 1}
+    gridSnapSize: 1
+  - id: explosive_barrel
+    displayName: Explosive Barrel
+    category: 3
+    description: Volatile explosive barrel that detonates on impact or weapon damage.
+    prefab: {fileID: 8415670012617411876, guid: 20fc706c70f88d74e91edcc0479157ec, type: 3}
+    icon: {fileID: 0}
+    placementOffset: {x: 0, y: 0, z: 0}
+    defaultScale: {x: 1, y: 1, z: 1}
+    gridSnapSize: 1
+  - id: jump_pad
+    displayName: Kinetic Jump Pad
+    category: 3
+    description: High impulse kinetic launcher for vertical platforming.
+    prefab: {fileID: 5656359370170275184, guid: 4aa1503b93479dc44928363f72072571, type: 3}
+    icon: {fileID: 0}
+    placementOffset: {x: 0, y: 0, z: 0}
+    defaultScale: {x: 1, y: 1, z: 1}
+    gridSnapSize: 1
+  - id: wooden_crate
+    displayName: Destructible Crate
+    category: 3
+    description: Standard breakable wooden supply crate.
+    prefab: {fileID: 8542713717120759136, guid: 62dcc6177919bcc4f99bcce0ea631923, type: 3}
+    icon: {fileID: 0}
+    placementOffset: {x: 0, y: 0, z: 0}
+    defaultScale: {x: 1, y: 1, z: 1}
+    gridSnapSize: 1
+  - id: lootbox_free
+    displayName: Free Lootbox Cache
+    category: 3
+    description: Interactive reward container for modded maps.
+    prefab: {fileID: 3189549024151206516, guid: e02fc7ec606308e47a9b911ffe99f8ed, type: 3}
+    icon: {fileID: 0}
+    placementOffset: {x: 0, y: 0, z: 0}
+    defaultScale: {x: 1, y: 1, z: 1}
+    gridSnapSize: 1
+  - id: modular_door
+    displayName: Interactive Doorway
+    category: 2
+    description: Trigger-activated functional sliding doorway.
+    prefab: {fileID: 3506158875467835481, guid: 5bfd461630053c74ebb370dba01350a8, type: 3}
+    icon: {fileID: 0}
+    placementOffset: {x: 0, y: 0, z: 0}
+    defaultScale: {x: 1, y: 1, z: 1}
+    gridSnapSize: 1
+  - id: basic_ground
+    displayName: Modular Ground Tile
+    category: 2
+    description: Flat structural surface platform for map design.
+    prefab: {fileID: 1704663233515482388, guid: 8c313f6799efa9f419ac8b753e10384f, type: 3}
+    icon: {fileID: 0}
+    placementOffset: {x: 0, y: 0, z: 0}
+    defaultScale: {x: 1, y: 1, z: 1}
+    gridSnapSize: 1
+  - id: capture_point
+    displayName: Strategic Capture Point
+    category: 2
+    description: Territory control objective zone.
+    prefab: {fileID: 4122813163707525634, guid: 2181fff8ebb793f46aa3740fcd921140, type: 3}
+    icon: {fileID: 0}
+    placementOffset: {x: 0, y: 0, z: 0}
+    defaultScale: {x: 1, y: 1, z: 1}
+    gridSnapSize: 1
+  - id: coin_pickup
+    displayName: Gold Coin Pickup
+    category: 4
+    description: Collectible gold reward currency.
+    prefab: {fileID: 7403018159610325256, guid: 8eb2324d906ba4b479b12c9936d11340, type: 3}
+    icon: {fileID: 0}
+    placementOffset: {x: 0, y: 0, z: 0}
+    defaultScale: {x: 1, y: 1, z: 1}
+    gridSnapSize: 1
+  - id: powerup_item
+    displayName: Generic Powerup
+    category: 4
+    description: Temporary player booster powerup.
+    prefab: {fileID: 7816559251075365534, guid: 416ce2bbb9c951448be76e4af8922ec4, type: 3}
+    icon: {fileID: 0}
+    placementOffset: {x: 0, y: 0, z: 0}
+    defaultScale: {x: 1, y: 1, z: 1}
+    gridSnapSize: 1
+  - id: ammo_pickup
+    displayName: Bullet Ammo Cache
+    category: 4
+    description: Restores firearm ammunition.
+    prefab: {fileID: 4788863507091020778, guid: 231461d17abfcdf439fa0418137c3556, type: 3}
+    icon: {fileID: 0}
+    placementOffset: {x: 0, y: 0, z: 0}
+    defaultScale: {x: 1, y: 1, z: 1}
+    gridSnapSize: 1
+  - id: weapon_pickup
+    displayName: Generic Weapon Pickup
+    category: 0
+    description: Equippable firearm pickup on the ground.
+    prefab: {fileID: 2296131530988553965, guid: 15da3fccf9cbc6b4493c402b62f5ecbf, type: 3}
+    icon: {fileID: 0}
+    placementOffset: {x: 0, y: 0, z: 0}
+    defaultScale: {x: 1, y: 1, z: 1}
+    gridSnapSize: 1

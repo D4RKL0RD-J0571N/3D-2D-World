@@ -54,6 +54,45 @@ namespace Studio.Editor
             AddOrUpdateItem(catalog, "slime_enemy", "Green Slime", CreatorCategory.Combatants, 
                 "Assets/Prefabs/Entities/Slime.prefab", "Basic enemy combatant entity.");
 
+            AddOrUpdateItem(catalog, "turret_combat", "Automated Defense Turret", CreatorCategory.Combatants, 
+                "Assets/Cowsins/Prefabs/DragAndDropExtras/Turret.prefab", "Autonomous defensive sentry turret targeting hostiles.");
+
+            // Props & Interactive Elements
+            AddOrUpdateItem(catalog, "explosive_barrel", "Explosive Barrel", CreatorCategory.Props, 
+                "Assets/Cowsins/Prefabs/DragAndDropExtras/ExplosiveBarrel.prefab", "Volatile explosive barrel that detonates on impact or weapon damage.");
+
+            AddOrUpdateItem(catalog, "jump_pad", "Kinetic Jump Pad", CreatorCategory.Props, 
+                "Assets/Cowsins/Prefabs/DragAndDropExtras/JumpPad.prefab", "High impulse kinetic launcher for vertical platforming.");
+
+            AddOrUpdateItem(catalog, "wooden_crate", "Destructible Crate", CreatorCategory.Props, 
+                "Assets/Cowsins/Prefabs/DragAndDropExtras/NonFracturedCrate_01.prefab", "Standard breakable wooden supply crate.");
+
+            AddOrUpdateItem(catalog, "lootbox_free", "Free Lootbox Cache", CreatorCategory.Props, 
+                "Assets/Cowsins/Prefabs/DragAndDropExtras/Lootbox_Free.prefab", "Interactive reward container for modded maps.");
+
+            // Structures
+            AddOrUpdateItem(catalog, "modular_door", "Interactive Doorway", CreatorCategory.Structures, 
+                "Assets/Cowsins/Prefabs/DragAndDropExtras/Door.prefab", "Trigger-activated functional sliding doorway.");
+
+            AddOrUpdateItem(catalog, "basic_ground", "Modular Ground Tile", CreatorCategory.Structures, 
+                "Assets/Cowsins/Prefabs/DragAndDropExtras/BasicGround.prefab", "Flat structural surface platform for map design.");
+
+            AddOrUpdateItem(catalog, "capture_point", "Strategic Capture Point", CreatorCategory.Structures, 
+                "Assets/Cowsins/Prefabs/DragAndDropExtras/PointToCapture.prefab", "Territory control objective zone.");
+
+            // Items & Pickups
+            AddOrUpdateItem(catalog, "coin_pickup", "Gold Coin Pickup", CreatorCategory.Items, 
+                "Assets/Cowsins/Prefabs/DragAndDropExtras/Coin.prefab", "Collectible gold reward currency.");
+
+            AddOrUpdateItem(catalog, "powerup_item", "Generic Powerup", CreatorCategory.Items, 
+                "Assets/Cowsins/Prefabs/DragAndDropExtras/GenericPowerup.prefab", "Temporary player booster powerup.");
+
+            AddOrUpdateItem(catalog, "ammo_pickup", "Bullet Ammo Cache", CreatorCategory.Items, 
+                "Assets/Cowsins/Prefabs/DragAndDropExtras/Bullet Pickeable.prefab", "Restores firearm ammunition.");
+
+            AddOrUpdateItem(catalog, "weapon_pickup", "Generic Weapon Pickup", CreatorCategory.Weapons, 
+                "Assets/Cowsins/Prefabs/DragAndDropExtras/WeaponPickeableGeneric.prefab", "Equippable firearm pickup on the ground.");
+
             // Weapon prefabs from imported packages if present
             string[] weaponSearch = AssetDatabase.FindAssets("t:Prefab Rifle_WeaponObject");
             if (weaponSearch.Length > 0)

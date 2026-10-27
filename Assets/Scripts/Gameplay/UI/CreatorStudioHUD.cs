@@ -30,7 +30,11 @@ namespace Gameplay.UI
 
         #region Private Fields & State
 
+        public bool IsInputFocused { get; private set; }
+
         private VisualElement _root;
+        private VisualElement _creatorBody;
+        private VisualElement _headerRight;
         private Button _btnToggleMode;
         private Button _btnSaveLevel;
         private Button _btnLoadLevel;
@@ -99,6 +103,18 @@ namespace Gameplay.UI
         {
             if (_uiDocument == null) return;
 
+            _uiDocument.sortingOrder = 80;
+
+            if (_uiDocument.panelSettings == null)
+            {
+                var ps = Resources.Load<PanelSettings>("UI/PanelSettings");
+#if UNITY_EDITOR
+                if (ps == null)
+                    ps = UnityEditor.AssetDatabase.LoadAssetAtPath<PanelSettings>("Assets/UI/PanelSettings.asset");
+#endif
+                if (ps != null) _uiDocument.panelSettings = ps;
+            }
+
             if (_creatorUxml != null)
             {
                 _uiDocument.visualTreeAsset = _creatorUxml;
@@ -117,6 +133,8 @@ namespace Gameplay.UI
         {
             if (_root == null) return;
 
+            _creatorBody = _root.Q<VisualElement>("CreatorStudioBody");
+            _headerRight = _root.Q<VisualElement>("HeaderRight");
             _btnToggleMode = _root.Q<Button>("BtnToggleMode");
             _btnSaveLevel = _root.Q<Button>("BtnSaveLevel");
             _btnLoadLevel = _root.Q<Button>("BtnLoadLevel");
@@ -124,6 +142,13 @@ namespace Gameplay.UI
             _searchField = _root.Q<TextField>("SearchField");
             _paletteGrid = _root.Q<VisualElement>("PaletteItemsGrid");
             _activeItemLabel = _root.Q<Label>("ActiveItemLabel");
+
+            if (_searchField != null)
+            {
+                _searchField.value = string.Empty;
+                _searchField.RegisterCallback<FocusInEvent>(_ => IsInputFocused = true);
+                _searchField.RegisterCallback<FocusOutEvent>(_ => IsInputFocused = false);
+            }
 
             _tabAll = _root.Q<Button>("TabAll");
             _tabWeapons = _root.Q<Button>("TabWeapons");
@@ -270,6 +295,28 @@ namespace Gameplay.UI
 
         private void UpdateModeDisplay(bool isBuildMode)
         {
+            if (_root != null)
+            {
+                if (isBuildMode)
+                {
+                    _root.AddToClassList("creator-studio-root--expanded");
+                }
+                else
+                {
+                    _root.RemoveFromClassList("creator-studio-root--expanded");
+                }
+            }
+
+            if (_creatorBody != null)
+            {
+                _creatorBody.style.display = isBuildMode ? DisplayStyle.Flex : DisplayStyle.None;
+            }
+
+            if (_headerRight != null)
+            {
+                _headerRight.style.display = isBuildMode ? DisplayStyle.Flex : DisplayStyle.None;
+            }
+
             if (_btnToggleMode != null)
             {
                 _btnToggleMode.text = isBuildMode ? "⚔️ PLAY MODE [B]" : "🔨 BUILD MODE [B]";

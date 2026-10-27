@@ -25,6 +25,18 @@ namespace Gameplay.Player
             if (_controller != null)
             {
                 _controller.stepOffset = _stepOffset;
+                _controller.height = _standHeight;
+                _controller.center = new Vector3(0f, _standHeight * 0.5f, 0f);
+            }
+        }
+
+        private void Start()
+        {
+            if (_controller != null)
+            {
+                _controller.stepOffset = _stepOffset;
+                _controller.height = _standHeight;
+                _controller.center = new Vector3(0f, _standHeight * 0.5f, 0f);
             }
         }
 
@@ -57,6 +69,14 @@ namespace Gameplay.Player
         {
             if (_controller == null)
             {
+                return;
+            }
+
+            // Do not process movement while typing into UI text fields
+            var creatorHud = Object.FindFirstObjectByType<Gameplay.UI.CreatorStudioHUD>();
+            if (creatorHud != null && creatorHud.IsInputFocused)
+            {
+                _moveInput = Vector2.zero;
                 return;
             }
 
@@ -140,7 +160,7 @@ namespace Gameplay.Player
             float targetHeight = IsCrouching ? _crouchHeight : _standHeight;
             float targetCameraHeight = IsCrouching ? _cameraCrouchHeight : _cameraStandHeight;
 
-            if (_controller.height != targetHeight)
+            if (Mathf.Abs(_controller.height - targetHeight) > 0.01f || Mathf.Abs(_controller.center.y - (targetHeight * 0.5f)) > 0.01f)
             {
                 _controller.height = targetHeight;
                 _controller.center = new Vector3(0f, targetHeight * 0.5f, 0f);

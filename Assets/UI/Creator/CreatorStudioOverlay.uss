@@ -1,13 +1,26 @@
 .creator-studio-root {
     position: absolute;
+    top: 14px;
+    left: 20px;
+    background-color: rgba(15, 18, 25, 0.90);
+    border-width: 1.5px;
+    border-color: rgba(99, 102, 241, 0.6);
+    border-radius: 10px;
+    padding: 6px 12px;
+    flex-direction: column;
+}
+
+.creator-studio-root--expanded {
+    top: auto;
     bottom: 12px;
     left: 20px;
     right: 20px;
-    background-color: rgba(15, 18, 25, 0.94);
-    border-width: 1.5px;
-    border-color: rgba(99, 102, 241, 0.6);
+    background-color: rgba(15, 18, 25, 0.96);
     border-radius: 12px;
     padding: 12px 16px;
+}
+
+.creator-studio-body {
     flex-direction: column;
 }
 

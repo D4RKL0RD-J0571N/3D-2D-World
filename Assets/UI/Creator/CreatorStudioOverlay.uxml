@@ -1,41 +1,44 @@
 <ui:UXML xmlns:ui="UnityEngine.UIElements" xmlns:uie="UnityEditor.UIElements">
     <ui:VisualElement name="CreatorStudioRoot" class="creator-studio-root">
-        <!-- Top Toolbar -->
+        <!-- Top Toolbar Header -->
         <ui:VisualElement name="CreatorHeader" class="creator-header">
             <ui:VisualElement class="header-left">
                 <ui:Label name="CreatorTitle" text="🛠️ CREATOR STUDIO" class="creator-title" />
                 <ui:Button name="BtnToggleMode" text="🔨 BUILD MODE [B]" class="mode-toggle-btn" />
             </ui:VisualElement>
 
-            <ui:VisualElement class="header-right">
+            <ui:VisualElement name="HeaderRight" class="header-right">
                 <ui:Button name="BtnSaveLevel" text="💾 Save Layout" class="action-btn" />
                 <ui:Button name="BtnLoadLevel" text="📂 Load Layout" class="action-btn" />
                 <ui:Button name="BtnClearAll" text="🗑️ Clear All" class="action-btn action-btn-danger" />
             </ui:VisualElement>
         </ui:VisualElement>
 
-        <!-- Search & Category Filters -->
-        <ui:VisualElement name="CreatorFilterBar" class="creator-filter-bar">
-            <ui:TextField name="SearchField" placeholder-text="Search assets &amp; exhibits..." class="search-field" />
-            <ui:VisualElement class="category-tabs">
-                <ui:Button name="TabAll" text="All" class="category-tab category-tab-active" />
-                <ui:Button name="TabWeapons" text="Weapons" class="category-tab" />
-                <ui:Button name="TabCombatants" text="Combatants" class="category-tab" />
-                <ui:Button name="TabStructures" text="Structures" class="category-tab" />
-                <ui:Button name="TabProps" text="Props" class="category-tab" />
-                <ui:Button name="TabItems" text="Items" class="category-tab" />
+        <!-- Collapsible Body (visible only in Build Mode) -->
+        <ui:VisualElement name="CreatorStudioBody" class="creator-studio-body">
+            <!-- Search & Category Filters -->
+            <ui:VisualElement name="CreatorFilterBar" class="creator-filter-bar">
+                <ui:TextField name="SearchField" placeholder-text="Search assets &amp; exhibits..." class="search-field" />
+                <ui:VisualElement class="category-tabs">
+                    <ui:Button name="TabAll" text="All" class="category-tab category-tab-active" />
+                    <ui:Button name="TabWeapons" text="Weapons" class="category-tab" />
+                    <ui:Button name="TabCombatants" text="Combatants" class="category-tab" />
+                    <ui:Button name="TabStructures" text="Structures" class="category-tab" />
+                    <ui:Button name="TabProps" text="Props" class="category-tab" />
+                    <ui:Button name="TabItems" text="Items" class="category-tab" />
+                </ui:VisualElement>
             </ui:VisualElement>
-        </ui:VisualElement>
 
-        <!-- Palette Items Container -->
-        <ui:ScrollView name="PaletteScrollView" class="palette-scroll-view" mode="Horizontal">
-            <ui:VisualElement name="PaletteItemsGrid" class="palette-grid" />
-        </ui:ScrollView>
+            <!-- Palette Items Container -->
+            <ui:ScrollView name="PaletteScrollView" class="palette-scroll-view" mode="Horizontal">
+                <ui:VisualElement name="PaletteItemsGrid" class="palette-grid" />
+            </ui:ScrollView>
 
-        <!-- Bottom Status & Hints -->
-        <ui:VisualElement name="CreatorFooter" class="creator-footer">
-            <ui:Label name="ActiveItemLabel" text="Selected: None (Click an item to arm placement ghost)" class="active-item-label" />
-            <ui:Label text="[L-Click] Place | [R-Click/Del] Demolish | [R/Q/E] Rotate 45° | [B/F3] Toggle Studio" class="controls-hint-label" />
+            <!-- Bottom Status & Hints -->
+            <ui:VisualElement name="CreatorFooter" class="creator-footer">
+                <ui:Label name="ActiveItemLabel" text="Selected: None (Click an item to arm placement ghost)" class="active-item-label" />
+                <ui:Label text="[L-Click] Place | [R-Hold] Look Around | [Del/X] Demolish | [R/Q/E] Rotate 45° | [B/F3] Toggle Mode" class="controls-hint-label" />
+            </ui:VisualElement>
         </ui:VisualElement>
     </ui:VisualElement>
 </ui:UXML>

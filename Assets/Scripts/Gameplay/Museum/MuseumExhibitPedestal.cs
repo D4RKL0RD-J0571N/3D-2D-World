@@ -21,6 +21,7 @@ namespace Gameplay.Museum
         [Header("Display Hierarchy")]
         [SerializeField] private Transform displaySocket;
         [SerializeField] private float rotationSpeed = 30f;
+        [SerializeField] private bool disablePreviewRotation = false;
 
         [Header("Interaction Radius")]
         [SerializeField] private float triggerRadius = 2.5f;
@@ -58,9 +59,9 @@ namespace Gameplay.Museum
 
         private void Update()
         {
-            if (_spawnedPreviewInstance != null && exhibitDefinition != null && exhibitDefinition.RotateContinuously && !exhibitDefinition.IsBillboardSprite)
+            if (!disablePreviewRotation && _spawnedPreviewInstance != null && exhibitDefinition != null && exhibitDefinition.RotateContinuously && !exhibitDefinition.IsBillboardSprite)
             {
-                _spawnedPreviewInstance.transform.Rotate(Vector3.up, rotationSpeed * Time.deltaTime, Space.Self);
+                _spawnedPreviewInstance.transform.Rotate(Vector3.up, rotationSpeed * Time.deltaTime, Space.World);
             }
         }
 
@@ -69,7 +70,6 @@ namespace Gameplay.Museum
             if (other.CompareTag("Player") || other.GetComponentInParent<Gameplay.Player.Player_Movement>() != null)
             {
                 _isPlayerInRange = true;
-                NotifyCuratorInspection();
             }
         }
 
@@ -78,7 +78,6 @@ namespace Gameplay.Museum
             if (other.CompareTag("Player") || other.GetComponentInParent<Gameplay.Player.Player_Movement>() != null)
             {
                 _isPlayerInRange = false;
-                GameEventManager.Publish(new ExhibitInspectionClosedEvent());
             }
         }
 

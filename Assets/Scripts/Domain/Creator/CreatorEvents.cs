@@ -58,4 +58,21 @@ namespace Domain.Creator
             RemovedObject = removedObject;
         }
     }
+
+    /// <summary>
+    /// Fired when an interactive schematic trigger or zone is activated in a creator level.
+    /// </summary>
+    public class CreatorTriggerFiredEvent : GameEvent
+    {
+        public string SchematicId;
+        public GameObject TriggerObject;
+        public GameObject Activator;
+
+        public CreatorTriggerFiredEvent(string schematicId, GameObject triggerObject, GameObject activator)
+        {
+            SchematicId = schematicId;
+            TriggerObject = triggerObject;
+            Activator = activator;
+        }
+    }
 }

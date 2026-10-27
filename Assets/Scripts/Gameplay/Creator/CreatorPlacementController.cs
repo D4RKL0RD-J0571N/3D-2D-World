@@ -170,7 +170,23 @@ namespace Gameplay.Creator
 
         private void UpdateGhostPosition()
         {
-            if (_ghostInstance == null || _targetCamera == null) return;
+            if (_ghostInstance == null) return;
+
+            if (_targetCamera == null)
+            {
+                _targetCamera = Camera.main;
+                if (_targetCamera == null) return;
+            }
+
+            if (IsPointerOverUI())
+            {
+                _hasValidPlacement = false;
+                if (_ghostInstance.activeSelf)
+                {
+                    _ghostInstance.SetActive(false);
+                }
+                return;
+            }
 
             var mouse = Mouse.current;
             if (mouse == null) return;
@@ -254,17 +270,51 @@ namespace Gameplay.Creator
                 _currentYaw = (_currentYaw - _rotationStep + 360f) % 360f;
             }
 
+            // Don't interact with the world if clicking on UI elements
+            if (IsPointerOverUI()) return;
+
             // Left click to place
             if (mouse.leftButton.wasPressedThisFrame && _hasValidPlacement && _activeItem != null && _activeItem.prefab != null)
             {
                 PlaceCurrentItem();
             }
 
-            // Right click or Delete key to remove/demolish hovered placed object
-            if (mouse.rightButton.wasPressedThisFrame || keyboard.deleteKey.wasPressedThisFrame)
+            // Demolish hovered placed object via Delete, X, Backspace, or Middle Click
+            if (keyboard.deleteKey.wasPressedThisFrame || keyboard.xKey.wasPressedThisFrame || keyboard.backspaceKey.wasPressedThisFrame || mouse.middleButton.wasPressedThisFrame)
             {
                 TryDemolishHoveredObject();
             }
+        }
+
+        private bool IsPointerOverUI()
+        {
+            if (UnityEngine.EventSystems.EventSystem.current != null && UnityEngine.EventSystems.EventSystem.current.IsPointerOverGameObject())
+            {
+                return true;
+            }
+
+            var mouse = Mouse.current;
+            if (mouse != null)
+            {
+                Vector2 mousePos = mouse.position.ReadValue();
+                Vector2 flippedPos = new Vector2(mousePos.x, Screen.height - mousePos.y);
+
+                var hud = Object.FindFirstObjectByType<Gameplay.UI.CreatorStudioHUD>();
+                if (hud != null)
+                {
+                    var uiDoc = hud.GetComponent<UnityEngine.UIElements.UIDocument>();
+                    if (uiDoc != null && uiDoc.rootVisualElement != null && uiDoc.rootVisualElement.panel != null)
+                    {
+                        var picked = uiDoc.rootVisualElement.panel.Pick(flippedPos);
+                        if (picked != null)
+                        {
+                            return true;
+                        }
+                    }
+                }
+            }
+
+            return false;
         }
 
         private void PlaceCurrentItem()
