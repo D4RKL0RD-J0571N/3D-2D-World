@@ -160,6 +160,9 @@ namespace Studio.Editor
                 }
             }
 
+            // 6. Setup Skyrim Compass markers in scene
+            SetupSkyrimMarkers();
+
             AssetDatabase.SaveAssets();
             Debug.Log("[CreatorStudioSetup] Creator Studio setup completed successfully!");
         }
@@ -190,6 +193,46 @@ namespace Studio.Editor
                 existing.category = cat;
                 existing.description = desc;
             }
+        }
+
+        [MenuItem("Tools/3D 2D World/Setup Skyrim Compass Markers in Scene", priority = 101)]
+        public static void SetupSkyrimMarkers()
+        {
+            AddMarkerToObject("Wing_Armory", "Armory Sanctum", Domain.Skyrim.CompassPOIType.Dungeon);
+            AddMarkerToObject("Wing_Bestiary", "Bestiary Lair", Domain.Skyrim.CompassPOIType.BanditCamp);
+            AddMarkerToObject("Wing_Vault", "Treasury Crypt", Domain.Skyrim.CompassPOIType.Crypt);
+            AddMarkerToObject("Wing_Atelier", "Atelier Shrine", Domain.Skyrim.CompassPOIType.Shrine);
+            AddMarkerToObject("CombatTargetDummy", "Training Dummy", Domain.Skyrim.CompassPOIType.Enemy);
+
+            UnityEditor.SceneManagement.EditorSceneManager.MarkSceneDirty(
+                UnityEngine.SceneManagement.SceneManager.GetActiveScene());
+            UnityEditor.SceneManagement.EditorSceneManager.SaveOpenScenes();
+            Debug.Log("[CreatorStudioSetup] Successfully added and saved Skyrim Compass markers in scene.");
+        }
+
+        private static void AddMarkerToObject(string goName, string title, Domain.Skyrim.CompassPOIType poiType)
+        {
+            var go = GameObject.Find(goName);
+            if (go == null) return;
+
+            var marker = go.GetComponent<Gameplay.Skyrim.CompassMarkerComponent>();
+            if (marker == null)
+            {
+                marker = go.AddComponent<Gameplay.Skyrim.CompassMarkerComponent>();
+            }
+
+            var idField = typeof(Gameplay.Skyrim.CompassMarkerComponent).GetField("_markerId", 
+                System.Reflection.BindingFlags.NonPublic | System.Reflection.BindingFlags.Instance);
+            var titleField = typeof(Gameplay.Skyrim.CompassMarkerComponent).GetField("_markerTitle", 
+                System.Reflection.BindingFlags.NonPublic | System.Reflection.BindingFlags.Instance);
+            var typeField = typeof(Gameplay.Skyrim.CompassMarkerComponent).GetField("_markerType", 
+                System.Reflection.BindingFlags.NonPublic | System.Reflection.BindingFlags.Instance);
+
+            idField?.SetValue(marker, goName);
+            titleField?.SetValue(marker, title);
+            typeField?.SetValue(marker, poiType);
+
+            EditorUtility.SetDirty(go);
         }
     }
 }

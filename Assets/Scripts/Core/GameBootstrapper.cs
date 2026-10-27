@@ -84,6 +84,14 @@ namespace Core
             ServiceLocator.Register(new Systems.Creator.CreatorStudioService());
             ServiceLocator.Register(new Systems.Audio.AudioService());
 
+            var compassService = new Systems.Skyrim.CompassService();
+            ServiceLocator.Register(compassService);
+            TrackTickable(compassService);
+
+            var stealthService = new Systems.Skyrim.StealthDetectionService();
+            ServiceLocator.Register(stealthService);
+            TrackTickable(stealthService);
+
             EnsureHUD<Gameplay.UI.HotbarHUD>("HotbarHUD");
             EnsureHUD<Gameplay.UI.PlayerHUD>("PlayerHUD");
             EnsureHUD<Gameplay.UI.WorldMapHUD>("WorldMapHUD");

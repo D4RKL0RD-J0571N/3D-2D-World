@@ -1,19 +1,7 @@
 /* ═══════════════════════════════════════════════════════
-   PLAYER HUD — Designer Overhaul
-   Design Language: Dark Glassmorphic + Fantasy Gold Accents
+   PLAYER HUD — Skyrim Fantasy Overhaul
+   Design Language: Elder Scrolls Dark Glass + Gold Accents
    ═══════════════════════════════════════════════════════ */
-
-/* ── Design Tokens ─────────────────────────────────────── */
-/* bg-deep:     rgba(8, 10, 18, 0.96)   */
-/* bg-panel:    rgba(14, 17, 28, 0.88)  */
-/* bg-glass:    rgba(255, 255, 255, 0.04) */
-/* accent-gold: #f0b429                 */
-/* accent-hp:   #e8453c                 */
-/* accent-sp:   #22c55e                 */
-/* accent-blue: #38bdf8                 */
-/* text-primary: #f1f5f9               */
-/* text-dim:    #64748b                 */
-/* border-subtle: rgba(255,255,255,0.08)*/
 
 /* ── Root ─────────────────────────────────────────────── */
 .player-hud-root {
@@ -29,7 +17,7 @@
     width: 0; height: 0;
 }
 
-/* ── Damage Vignette ──────────────────────────────────── */
+/* ── Fullscreen Damage Vignette ───────────────────────── */
 .damage-vignette {
     position: absolute;
     left: 0; top: 0; right: 0; bottom: 0;
@@ -42,7 +30,146 @@
     background-color: rgba(232, 69, 60, 0.38);
 }
 
-/* ── Status Panel (Top-Left) ──────────────────────────── */
+/* ╔═════════════════════════════════════════════════════╗
+   ║  SKYRIM TOP COMPASS BAR                             ║
+   ╚═════════════════════════════════════════════════════╝ */
+.compass-container {
+    position: absolute;
+    top: 14px;
+    left: 50%;
+    translate: -50% 0;
+    align-items: center;
+    flex-direction: column;
+}
+
+.compass-strip {
+    width: 440px;
+    height: 28px;
+    background-color: rgba(6, 8, 14, 0.88);
+    border-radius: 6px;
+    border-width: 1px;
+    border-color: rgba(240, 180, 41, 0.35);
+    border-top-width: 1.5px;
+    border-top-color: rgba(240, 180, 41, 0.65);
+    overflow: hidden;
+    position: relative;
+    justify-content: center;
+    align-items: center;
+}
+
+/* Center diamond tick / notch pointing down */
+.compass-notch {
+    position: absolute;
+    top: 0;
+    left: 50%;
+    translate: -50% 0;
+    width: 6px;
+    height: 6px;
+    background-color: rgba(240, 180, 41, 1);
+    rotate: 45deg;
+}
+
+/* Tape mask for sliding cardinal directions */
+.compass-tape-mask {
+    width: 100%;
+    height: 100%;
+    overflow: hidden;
+    position: relative;
+    justify-content: center;
+    align-items: center;
+}
+
+.compass-tape {
+    flex-direction: row;
+    align-items: center;
+    position: absolute;
+    height: 100%;
+    transition-property: left;
+    transition-duration: 0.05s;
+}
+
+.compass-cardinal {
+    font-size: 11px;
+    color: rgba(180, 195, 215, 0.7);
+    -unity-font-style: bold;
+    margin: 0 14px;
+    -unity-text-align: middle-center;
+}
+
+.compass-cardinal--primary {
+    color: rgba(240, 180, 41, 0.95);
+    font-size: 12px;
+}
+
+.compass-dot {
+    font-size: 14px;
+    color: rgba(100, 115, 140, 0.5);
+    margin: 0 4px;
+    -unity-text-align: middle-center;
+}
+
+/* Dynamic POI Markers Layer */
+.compass-markers-layer {
+    position: absolute;
+    left: 0; top: 0; right: 0; bottom: 0;
+    overflow: hidden;
+}
+
+.compass-marker-pip {
+    position: absolute;
+    top: 50%;
+    translate: -50% -50%;
+    width: 16px;
+    height: 16px;
+    background-color: rgba(240, 180, 41, 0.9);
+    border-radius: 3px;
+    -unity-text-align: middle-center;
+    font-size: 9px;
+    color: #000000;
+    -unity-font-style: bold;
+}
+
+.compass-marker-pip--quest {
+    background-color: rgba(56, 189, 248, 1);
+    rotate: 45deg;
+}
+
+.compass-marker-pip--enemy {
+    background-color: rgba(239, 68, 68, 1);
+    border-radius: 50%;
+    width: 10px;
+    height: 10px;
+}
+
+/* Discovery Banner (Skyrim-style location reveal) */
+.discovery-banner {
+    margin-top: 10px;
+    padding: 4px 18px;
+    background-color: rgba(8, 10, 18, 0.92);
+    border-radius: 14px;
+    border-width: 1px;
+    border-color: rgba(240, 180, 41, 0.45);
+    opacity: 0;
+    transition-property: opacity;
+    transition-duration: 0.35s;
+}
+
+.discovery-banner--visible {
+    opacity: 1;
+}
+
+.discovery-text {
+    font-size: 13px;
+    color: rgba(240, 180, 41, 1);
+    -unity-font-style: bold;
+    letter-spacing: 2px;
+    text-shadow: 0 2px 4px rgba(0, 0, 0, 0.95);
+    -unity-text-align: middle-center;
+}
+
+/* ╔═════════════════════════════════════════════════════╗
+   ║  STATUS BARS: HEALTH, MAGICKA, STAMINA              ║
+   ╚═════════════════════════════════════════════════════╝ */
 .status-panel {
     position: absolute;
     left: 18px;
@@ -58,7 +185,6 @@
     border-top-color: rgba(240, 180, 41, 0.6);
 }
 
-/* ── Avatar Frame ─────────────────────────────────────── */
 .avatar-frame {
     width: 52px;
     height: 52px;
@@ -94,11 +220,10 @@
     -unity-text-align: middle-center;
 }
 
-/* ── Bars Column ──────────────────────────────────────── */
 .bars-column {
     flex-direction: column;
     justify-content: center;
-    min-width: 200px;
+    min-width: 210px;
 }
 
 .stat-row {
@@ -107,58 +232,56 @@
     margin-bottom: 4px;
 }
 
-/* Icon pip */
 .stat-icon {
-    width: 16px;
-    height: 16px;
-    border-radius: 4px;
+    width: 15px;
+    height: 15px;
+    border-radius: 3px;
     margin-right: 7px;
     flex-shrink: 0;
 }
 
 .stat-icon--hp {
-    background-color: rgba(232, 69, 60, 0.85);
+    background-color: rgba(232, 69, 60, 0.9);
     border-width: 1px;
     border-color: rgba(255, 100, 90, 0.5);
 }
 
+.stat-icon--mp {
+    background-color: rgba(56, 189, 248, 0.9);
+    border-width: 1px;
+    border-color: rgba(125, 211, 252, 0.5);
+}
+
 .stat-icon--sp {
-    background-color: rgba(34, 197, 94, 0.85);
+    background-color: rgba(34, 197, 94, 0.9);
     border-width: 1px;
     border-color: rgba(74, 222, 128, 0.5);
 }
 
-/* Bar Track */
 .stat-track {
     flex-grow: 1;
-    height: 12px;
+    height: 11px;
     background-color: rgba(16, 20, 32, 0.95);
-    border-radius: 6px;
+    border-radius: 5px;
     border-width: 1px;
     border-color: rgba(255, 255, 255, 0.08);
     overflow: hidden;
     position: relative;
 }
 
-/* Bar Fill */
 .stat-fill {
     position: absolute;
     left: 0; top: 0; bottom: 0;
     width: 100%;
-    border-radius: 5px;
+    border-radius: 4px;
     transition-property: width;
     transition-duration: 0.15s;
 }
 
-.stat-fill--hp {
-    background-color: rgb(200, 40, 35);
-}
+.stat-fill--hp { background-color: rgb(200, 40, 35); }
+.stat-fill--mp { background-color: rgb(30, 130, 225); }
+.stat-fill--sp { background-color: rgb(22, 163, 74); }
 
-.stat-fill--sp {
-    background-color: rgb(22, 163, 74);
-}
-
-/* Shine overlay on bar */
 .stat-fill-shine {
     position: absolute;
     left: 0; top: 0; right: 0;
@@ -167,9 +290,8 @@
     border-radius: 5px 5px 0 0;
 }
 
-/* Value text */
 .stat-value {
-    width: 60px;
+    width: 58px;
     font-size: 10px;
     -unity-font-style: bold;
     -unity-text-align: middle-right;
@@ -179,53 +301,15 @@
     flex-shrink: 0;
 }
 
-/* Stamina exhausted state — added to StaminaBar row by C# */
 .status-bar--exhausted {
     border-width: 1px;
     border-color: rgba(232, 69, 60, 0.9);
     background-color: rgba(50, 10, 10, 0.3);
 }
 
-/* hidden-tracker — zero-size invisible element for C# class toggle */
-.hidden-tracker {
-    position: absolute;
-    width: 0; height: 0;
-    display: none;
-}
-
-/* ── Mode Badge (Top-Center) ──────────────────────────── */
-.mode-badge-container {
-    position: absolute;
-    top: 16px;
-    left: 50%;
-    translate: -50% 0;
-    align-items: center;
-}
-
-.mode-badge {
-    flex-direction: row;
-    align-items: center;
-    padding: 5px 12px 5px 8px;
-    background-color: rgba(8, 10, 18, 0.88);
-    border-radius: 20px;
-    border-width: 1px;
-    border-color: rgba(255, 255, 255, 0.12);
-}
-
-.mode-dot {
-    font-size: 10px;
-    color: rgba(34, 197, 94, 1);
-    margin-right: 5px;
-}
-
-.mode-text {
-    font-size: 11px;
-    -unity-font-style: bold;
-    color: rgba(210, 225, 240, 0.9);
-    letter-spacing: 1.5px;
-}
-
-/* ── Crosshair / Reticle ──────────────────────────────── */
+/* ╔═════════════════════════════════════════════════════╗
+   ║  RETICLE & SKYRIM SNEAK EYE                         ║
+   ╚═════════════════════════════════════════════════════╝ */
 .reticle-container {
     position: absolute;
     width: 100%;
@@ -249,7 +333,6 @@
     border-radius: 2px;
 }
 
-/* Four arms of the crosshair */
 .reticle-arm {
     position: absolute;
     background-color: rgba(255, 255, 255, 0.75);
@@ -261,7 +344,66 @@
 .reticle-arm--left   { height: 2px; width: 8px; left: 0;   top: 50%;  translate: 0 -50%; }
 .reticle-arm--right  { height: 2px; width: 8px; right: 0;  top: 50%;  translate: 0 -50%; }
 
-/* ── Interaction Prompt ───────────────────────────────── */
+/* Skyrim Sneak Eye Container */
+.sneak-eye-container {
+    flex-direction: row;
+    align-items: center;
+    justify-content: center;
+    position: absolute;
+    display: none; /* Only flex when crouching */
+}
+
+.sneak-eye-bracket-left {
+    width: 14px;
+    height: 20px;
+    border-left-width: 2px;
+    border-top-width: 1px;
+    border-bottom-width: 1px;
+    border-color: rgba(240, 245, 255, 0.9);
+    border-top-left-radius: 10px;
+    border-bottom-left-radius: 10px;
+    margin-right: 4px;
+    transition-property: width, height;
+    transition-duration: 0.15s;
+}
+
+.sneak-eye-bracket-right {
+    width: 14px;
+    height: 20px;
+    border-right-width: 2px;
+    border-top-width: 1px;
+    border-bottom-width: 1px;
+    border-color: rgba(240, 245, 255, 0.9);
+    border-top-right-radius: 10px;
+    border-bottom-right-radius: 10px;
+    margin-left: 4px;
+    transition-property: width, height;
+    transition-duration: 0.15s;
+}
+
+.sneak-eye-pupil {
+    width: 6px;
+    height: 6px;
+    background-color: rgba(240, 245, 255, 0.95);
+    border-radius: 3px;
+    transition-property: width, height;
+    transition-duration: 0.12s;
+}
+
+.sneak-eye-label {
+    position: absolute;
+    bottom: -18px;
+    font-size: 10px;
+    -unity-font-style: bold;
+    color: rgba(240, 245, 255, 0.85);
+    letter-spacing: 2px;
+    -unity-text-align: middle-center;
+    text-shadow: 0 1px 2px rgba(0, 0, 0, 0.9);
+}
+
+/* ╔═════════════════════════════════════════════════════╗
+   ║  CONTEXTUAL PROMPT & KEY HINTS                      ║
+   ╚═════════════════════════════════════════════════════╝ */
 .prompt-container {
     position: absolute;
     width: 100%;
@@ -306,7 +448,6 @@
     text-shadow: 1px 1px 0 rgba(0, 0, 0, 0.8);
 }
 
-/* ── Key Hints (Bottom-Right) ────────────────────────── */
 .key-hints-container {
     position: absolute;
     bottom: 120px;
