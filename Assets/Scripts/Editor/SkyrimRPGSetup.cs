@@ -1,6 +1,6 @@
-namespace Editor
-{
 #if UNITY_EDITOR
+namespace Studio.Editor
+{
     using System.IO;
     using Domain.Skyrim;
     using UnityEditor;
@@ -62,5 +62,5 @@ namespace Editor
             Debug.Log($"[SkyrimRPGSetup] Validation:\n{report}");
         }
     }
-#endif
 }
+#endif
