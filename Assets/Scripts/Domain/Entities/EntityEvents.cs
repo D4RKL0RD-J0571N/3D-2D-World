@@ -7,6 +7,12 @@ namespace Domain.Entities
     {
         public BaseActor Target;
         public int Amount;
+
+        /// <summary>The GameObject that dealt the damage (can be null for environmental damage).</summary>
+        public UnityEngine.GameObject Instigator;
+
+        /// <summary>Element/type of damage dealt (Physical, Magic, Fire, etc.).</summary>
+        public Domain.Combat.DamageType DamageType;
     }
 
     public class EntityHealedEvent : GameEvent

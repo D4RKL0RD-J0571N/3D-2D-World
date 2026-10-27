@@ -1,5 +1,5 @@
 {
-    "LastUpdatedUtc": "2026-10-26T07:03:56.2344324Z",
+    "LastUpdatedUtc": "2026-10-27T04:28:13.9267322Z",
     "Records": [
         {
             "ExhibitId": "EXH_WPN_02",
@@ -9,9 +9,9 @@
         },
         {
             "ExhibitId": "EXH_WPN_01",
-            "Rating": 0,
-            "Notes": "aaaasdddddw",
-            "EvaluatedAtUtc": "2026-10-26T07:02:55.8779099Z"
+            "Rating": 1,
+            "Notes": "ssssssss",
+            "EvaluatedAtUtc": "2026-10-27T03:53:33.4525196Z"
         },
         {
             "ExhibitId": "EXH_ENM_02",
@@ -34,14 +34,38 @@
         {
             "ExhibitId": "EXH_LOT_03",
             "Rating": 2,
-            "Notes": "Has",
-            "EvaluatedAtUtc": "2026-10-26T07:03:50.3838781Z"
+            "Notes": "aa",
+            "EvaluatedAtUtc": "2026-10-27T01:54:21.3313201Z"
         },
         {
             "ExhibitId": "EXH_LOT_02",
             "Rating": 0,
+            "Notes": "aad",
+            "EvaluatedAtUtc": "2026-10-27T01:54:21.7133529Z"
+        },
+        {
+            "ExhibitId": "EXH_SHD_01",
+            "Rating": 0,
             "Notes": "",
-            "EvaluatedAtUtc": "2026-10-26T07:03:38.6806949Z"
+            "EvaluatedAtUtc": "2026-10-27T01:51:27.4829084Z"
+        },
+        {
+            "ExhibitId": "EXH_BIO_01",
+            "Rating": 0,
+            "Notes": "",
+            "EvaluatedAtUtc": "2026-10-27T01:51:28.1211305Z"
+        },
+        {
+            "ExhibitId": "EXH_LOT_01",
+            "Rating": 0,
+            "Notes": "",
+            "EvaluatedAtUtc": "2026-10-27T01:51:35.7053838Z"
+        },
+        {
+            "ExhibitId": "EXH_WPN_03",
+            "Rating": 2,
+            "Notes": "",
+            "EvaluatedAtUtc": "2026-10-27T03:53:44.7404033Z"
         }
     ]
 }

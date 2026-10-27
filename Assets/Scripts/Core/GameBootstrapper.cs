@@ -92,6 +92,15 @@ namespace Core
             ServiceLocator.Register(stealthService);
             TrackTickable(stealthService);
 
+            // ── Milestone 2: RPG Progression & Factions ──────────────────────────
+            var skillService = new Systems.Skyrim.SkillProgressionService();
+            ServiceLocator.Register(skillService);
+            TrackTickable(skillService);
+
+            ServiceLocator.Register(new Systems.Skyrim.FactionService());
+            ServiceLocator.Register(new Systems.Skyrim.RadiantQuestService());
+            // ─────────────────────────────────────────────────────────────────────
+
             EnsureHUD<Gameplay.UI.HotbarHUD>("HotbarHUD");
             EnsureHUD<Gameplay.UI.PlayerHUD>("PlayerHUD");
             EnsureHUD<Gameplay.UI.WorldMapHUD>("WorldMapHUD");
@@ -99,6 +108,7 @@ namespace Core
             EnsureHUD<Gameplay.UI.CuratorHUD>("CuratorHUD");
             EnsureHUD<Gameplay.UI.CreatorStudioHUD>("CreatorStudioHUD");
             EnsureHUD<Gameplay.Combat.CombatFeedbackBridge>("CombatFeedbackBridge");
+            EnsureHUD<Gameplay.UI.RPGOverlayHUD>("RPGOverlayHUD");
 
             _ = _stateMachine.TransitionToAsync(new Playing());
         }
