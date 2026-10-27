@@ -158,10 +158,10 @@ namespace Gameplay.UI
             _tabItems = _root.Q<Button>("TabItems");
 
             // Event bindings
-            _btnToggleMode?.RegisterCallback<ClickEvent>(_ => _service?.ToggleBuildMode());
-            _btnSaveLevel?.RegisterCallback<ClickEvent>(_ => _service?.SaveLevel("CustomShowroom"));
-            _btnLoadLevel?.RegisterCallback<ClickEvent>(_ => _service?.LoadLevel("CustomShowroom"));
-            _btnClearAll?.RegisterCallback<ClickEvent>(_ => _service?.ClearAllSpawnedObjects());
+            _btnToggleMode?.RegisterCallback<ClickEvent>(_ => { PlayClickSound(); _service?.ToggleBuildMode(); });
+            _btnSaveLevel?.RegisterCallback<ClickEvent>(_ => { PlayClickSound(); _service?.SaveLevel("CustomShowroom"); });
+            _btnLoadLevel?.RegisterCallback<ClickEvent>(_ => { PlayClickSound(); _service?.LoadLevel("CustomShowroom"); });
+            _btnClearAll?.RegisterCallback<ClickEvent>(_ => { PlayClickSound(); _service?.ClearAllSpawnedObjects(); });
 
             _searchField?.RegisterValueChangedCallback(evt =>
             {
@@ -169,12 +169,18 @@ namespace Gameplay.UI
                 RefreshPalette();
             });
 
-            _tabAll?.RegisterCallback<ClickEvent>(_ => SelectCategoryTab(null, _tabAll));
-            _tabWeapons?.RegisterCallback<ClickEvent>(_ => SelectCategoryTab(CreatorCategory.Weapons, _tabWeapons));
-            _tabCombatants?.RegisterCallback<ClickEvent>(_ => SelectCategoryTab(CreatorCategory.Combatants, _tabCombatants));
-            _tabStructures?.RegisterCallback<ClickEvent>(_ => SelectCategoryTab(CreatorCategory.Structures, _tabStructures));
-            _tabProps?.RegisterCallback<ClickEvent>(_ => SelectCategoryTab(CreatorCategory.Props, _tabProps));
-            _tabItems?.RegisterCallback<ClickEvent>(_ => SelectCategoryTab(CreatorCategory.Items, _tabItems));
+            _tabAll?.RegisterCallback<ClickEvent>(_ => { PlayClickSound(); SelectCategoryTab(null, _tabAll); });
+            _tabWeapons?.RegisterCallback<ClickEvent>(_ => { PlayClickSound(); SelectCategoryTab(CreatorCategory.Weapons, _tabWeapons); });
+            _tabCombatants?.RegisterCallback<ClickEvent>(_ => { PlayClickSound(); SelectCategoryTab(CreatorCategory.Combatants, _tabCombatants); });
+            _tabStructures?.RegisterCallback<ClickEvent>(_ => { PlayClickSound(); SelectCategoryTab(CreatorCategory.Structures, _tabStructures); });
+            _tabProps?.RegisterCallback<ClickEvent>(_ => { PlayClickSound(); SelectCategoryTab(CreatorCategory.Props, _tabProps); });
+            _tabItems?.RegisterCallback<ClickEvent>(_ => { PlayClickSound(); SelectCategoryTab(CreatorCategory.Items, _tabItems); });
+        }
+
+        private static void PlayClickSound()
+        {
+            if (ServiceLocator.TryGet<Systems.Audio.AudioService>(out var audio))
+                audio.PlayClick();
         }
 
         #endregion

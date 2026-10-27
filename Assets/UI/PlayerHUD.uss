@@ -1,115 +1,244 @@
+/* ═══════════════════════════════════════════════════════
+   PLAYER HUD — Designer Overhaul
+   Design Language: Dark Glassmorphic + Fantasy Gold Accents
+   ═══════════════════════════════════════════════════════ */
+
+/* ── Design Tokens ─────────────────────────────────────── */
+/* bg-deep:     rgba(8, 10, 18, 0.96)   */
+/* bg-panel:    rgba(14, 17, 28, 0.88)  */
+/* bg-glass:    rgba(255, 255, 255, 0.04) */
+/* accent-gold: #f0b429                 */
+/* accent-hp:   #e8453c                 */
+/* accent-sp:   #22c55e                 */
+/* accent-blue: #38bdf8                 */
+/* text-primary: #f1f5f9               */
+/* text-dim:    #64748b                 */
+/* border-subtle: rgba(255,255,255,0.08)*/
+
+/* ── Root ─────────────────────────────────────────────── */
 .player-hud-root {
     width: 100%;
     height: 100%;
     position: absolute;
-    left: 0;
-    top: 0;
-    right: 0;
-    bottom: 0;
+    left: 0; top: 0; right: 0; bottom: 0;
     pointer-events: none;
 }
 
-/* Fullscreen damage flash */
+.hidden-tracker {
+    display: none;
+    width: 0; height: 0;
+}
+
+/* ── Damage Vignette ──────────────────────────────────── */
 .damage-vignette {
     position: absolute;
-    left: 0;
-    top: 0;
-    right: 0;
-    bottom: 0;
-    background-color: rgba(220, 30, 30, 0);
+    left: 0; top: 0; right: 0; bottom: 0;
+    background-color: rgba(232, 69, 60, 0);
     transition-property: background-color;
-    transition-duration: 0.12s;
-}
-
-.damage-vignette--active {
-    background-color: rgba(220, 30, 30, 0.35);
-}
-
-/* Status Bars Container (Top-Left) */
-.status-container {
-    position: absolute;
-    left: 20px;
-    top: 20px;
-    flex-direction: column;
-    padding: 8px 12px;
-    background-color: rgba(18, 18, 22, 0.85);
-    border-radius: 8px;
-    border-width: 2px;
-    border-color: rgba(50, 50, 60, 0.9);
-}
-
-.status-bar {
-    flex-direction: row;
-    align-items: center;
-    margin-top: 3px;
-    margin-bottom: 3px;
-}
-
-.status-bar__badge {
-    width: 24px;
-    font-size: 11px;
-    -unity-font-style: bold;
-    -unity-text-align: middle-center;
-    margin-right: 6px;
-    color: rgb(240, 240, 240);
-    text-shadow: 1px 1px 0 rgba(0, 0, 0, 0.8);
-}
-
-.status-bar__badge--health {
-    color: rgb(255, 90, 90);
-}
-
-.status-bar__badge--stamina {
-    color: rgb(255, 205, 50);
-}
-
-.status-bar__track {
-    width: 180px;
-    height: 16px;
-    background-color: rgba(28, 28, 34, 0.95);
-    border-radius: 4px;
-    border-width: 1px;
-    border-color: rgba(60, 60, 75, 0.8);
-    overflow: hidden;
-    position: relative;
-    justify-content: center;
-}
-
-.status-bar__fill {
-    position: absolute;
-    left: 0;
-    top: 0;
-    bottom: 0;
-    width: 100%;
-    border-radius: 3px;
-    transition-property: width;
     transition-duration: 0.1s;
 }
 
-.status-bar__fill--health {
-    background-color: rgb(220, 53, 69);
+.damage-vignette--active {
+    background-color: rgba(232, 69, 60, 0.38);
 }
 
-.status-bar__fill--stamina {
-    background-color: rgb(245, 166, 35);
-}
-
-.status-bar--exhausted {
-    border-color: rgb(255, 50, 50);
-    background-color: rgba(80, 20, 20, 0.95);
-}
-
-.status-bar__label {
+/* ── Status Panel (Top-Left) ──────────────────────────── */
+.status-panel {
     position: absolute;
+    left: 18px;
+    top: 18px;
+    flex-direction: row;
+    align-items: center;
+    padding: 10px 16px 10px 10px;
+    background-color: rgba(8, 10, 18, 0.90);
+    border-radius: 12px;
+    border-width: 1px;
+    border-color: rgba(240, 180, 41, 0.25);
+}
+
+/* Gold top-border accent line */
+.status-panel::before {
+    position: absolute;
+    left: 12px;
+    top: 0;
+    right: 12px;
+    height: 2px;
+    background-color: rgba(240, 180, 41, 0.6);
+    border-radius: 1px;
+}
+
+/* ── Avatar Frame ─────────────────────────────────────── */
+.avatar-frame {
+    width: 52px;
+    height: 52px;
+    margin-right: 12px;
+    border-radius: 50%;
+    border-width: 2px;
+    border-color: rgba(240, 180, 41, 0.6);
+    background-color: rgba(30, 35, 50, 0.95);
+    justify-content: center;
+    align-items: center;
+    position: relative;
+    overflow: visible;
+}
+
+.avatar-image {
+    width: 44px;
+    height: 44px;
+    border-radius: 50%;
+    background-color: rgba(40, 50, 70, 0.8);
+}
+
+.avatar-level-badge {
+    position: absolute;
+    bottom: -6px;
+    left: 50%;
+    translate: -50% 0;
+    background-color: rgba(240, 180, 41, 0.95);
+    color: rgba(10, 10, 20, 1);
+    font-size: 9px;
+    -unity-font-style: bold;
+    padding: 1px 5px;
+    border-radius: 4px;
+    -unity-text-align: middle-center;
+}
+
+/* ── Bars Column ──────────────────────────────────────── */
+.bars-column {
+    flex-direction: column;
+    justify-content: center;
+    min-width: 200px;
+}
+
+.stat-row {
+    flex-direction: row;
+    align-items: center;
+    margin-bottom: 5px;
+}
+
+.stat-row:last-child {
+    margin-bottom: 0;
+}
+
+/* Icon pip */
+.stat-icon {
+    width: 16px;
+    height: 16px;
+    border-radius: 4px;
+    margin-right: 7px;
+    flex-shrink: 0;
+}
+
+.stat-icon--hp {
+    background-color: rgba(232, 69, 60, 0.85);
+    border-width: 1px;
+    border-color: rgba(255, 100, 90, 0.5);
+}
+
+.stat-icon--sp {
+    background-color: rgba(34, 197, 94, 0.85);
+    border-width: 1px;
+    border-color: rgba(74, 222, 128, 0.5);
+}
+
+/* Bar Track */
+.stat-track {
+    flex-grow: 1;
+    height: 12px;
+    background-color: rgba(16, 20, 32, 0.95);
+    border-radius: 6px;
+    border-width: 1px;
+    border-color: rgba(255, 255, 255, 0.08);
+    overflow: hidden;
+    position: relative;
+}
+
+/* Bar Fill */
+.stat-fill {
+    position: absolute;
+    left: 0; top: 0; bottom: 0;
     width: 100%;
+    border-radius: 5px;
+    transition-property: width;
+    transition-duration: 0.15s;
+}
+
+.stat-fill--hp {
+    background-color: rgb(200, 40, 35);
+}
+
+.stat-fill--sp {
+    background-color: rgb(22, 163, 74);
+}
+
+/* Shine overlay on bar */
+.stat-fill-shine {
+    position: absolute;
+    left: 0; top: 0; right: 0;
+    height: 4px;
+    background-color: rgba(255, 255, 255, 0.15);
+    border-radius: 5px 5px 0 0;
+}
+
+/* Value text */
+.stat-value {
+    width: 60px;
     font-size: 10px;
     -unity-font-style: bold;
-    -unity-text-align: middle-center;
-    color: rgb(255, 255, 255);
+    -unity-text-align: middle-right;
+    color: rgba(220, 230, 245, 0.85);
     text-shadow: 1px 1px 0 rgba(0, 0, 0, 0.9);
+    margin-left: 7px;
+    flex-shrink: 0;
 }
 
-/* Center Crosshair */
+/* Stamina exhausted state — added to StaminaBar row by C# */
+.status-bar--exhausted {
+    border-width: 1px;
+    border-color: rgba(232, 69, 60, 0.9);
+    background-color: rgba(50, 10, 10, 0.3);
+}
+
+/* hidden-tracker — zero-size invisible element for C# class toggle */
+.hidden-tracker {
+    position: absolute;
+    width: 0; height: 0;
+    display: none;
+}
+
+/* ── Mode Badge (Top-Center) ──────────────────────────── */
+.mode-badge-container {
+    position: absolute;
+    top: 16px;
+    left: 50%;
+    translate: -50% 0;
+    align-items: center;
+}
+
+.mode-badge {
+    flex-direction: row;
+    align-items: center;
+    padding: 5px 12px 5px 8px;
+    background-color: rgba(8, 10, 18, 0.88);
+    border-radius: 20px;
+    border-width: 1px;
+    border-color: rgba(255, 255, 255, 0.12);
+}
+
+.mode-dot {
+    font-size: 10px;
+    color: rgba(34, 197, 94, 1);
+    margin-right: 5px;
+}
+
+.mode-text {
+    font-size: 11px;
+    -unity-font-style: bold;
+    color: rgba(210, 225, 240, 0.9);
+    letter-spacing: 1.5px;
+}
+
+/* ── Crosshair / Reticle ──────────────────────────────── */
 .reticle-container {
     position: absolute;
     width: 100%;
@@ -118,35 +247,107 @@
     align-items: center;
 }
 
-.reticle-dot {
-    width: 6px;
-    height: 6px;
-    background-color: rgba(255, 255, 255, 0.75);
-    border-radius: 3px;
-    border-width: 1px;
-    border-color: rgba(0, 0, 0, 0.6);
+.reticle-ring {
+    width: 30px;
+    height: 30px;
+    justify-content: center;
+    align-items: center;
+    position: relative;
 }
 
-/* Interaction Prompt Container */
+.reticle-dot {
+    width: 4px;
+    height: 4px;
+    background-color: rgba(255, 255, 255, 0.9);
+    border-radius: 2px;
+}
+
+/* Four arms of the crosshair */
+.reticle-arm {
+    position: absolute;
+    background-color: rgba(255, 255, 255, 0.75);
+    border-radius: 1px;
+}
+
+.reticle-arm--top    { width: 2px; height: 8px; top: 0;    left: 50%; translate: -50% 0; }
+.reticle-arm--bottom { width: 2px; height: 8px; bottom: 0; left: 50%; translate: -50% 0; }
+.reticle-arm--left   { height: 2px; width: 8px; left: 0;   top: 50%;  translate: 0 -50%; }
+.reticle-arm--right  { height: 2px; width: 8px; right: 0;  top: 50%;  translate: 0 -50%; }
+
+/* ── Interaction Prompt ───────────────────────────────── */
 .prompt-container {
     position: absolute;
     width: 100%;
-    top: 56%;
+    top: 58%;
     align-items: center;
     justify-content: center;
 }
 
 .prompt-badge {
-    padding: 6px 14px;
-    background-color: rgba(18, 18, 24, 0.88);
+    flex-direction: row;
+    align-items: center;
+    padding: 6px 16px 6px 8px;
+    background-color: rgba(8, 10, 18, 0.90);
+    border-radius: 22px;
+    border-width: 1px;
+    border-color: rgba(240, 180, 41, 0.55);
+}
+
+.prompt-key-bubble {
+    width: 24px;
+    height: 24px;
+    background-color: rgba(240, 180, 41, 0.2);
     border-radius: 6px;
-    border-width: 1.5px;
-    border-color: rgba(250, 205, 50, 0.85);
+    border-width: 1px;
+    border-color: rgba(240, 180, 41, 0.7);
+    justify-content: center;
+    align-items: center;
+    margin-right: 10px;
+}
+
+.prompt-key-label {
+    font-size: 12px;
+    -unity-font-style: bold;
+    color: rgba(240, 180, 41, 1);
+    -unity-text-align: middle-center;
 }
 
 .prompt-label {
-    color: rgb(250, 250, 250);
+    color: rgba(240, 245, 255, 0.95);
     font-size: 13px;
     -unity-font-style: bold;
-    text-shadow: 1px 1px 0 rgba(0, 0, 0, 0.85);
+    text-shadow: 1px 1px 0 rgba(0, 0, 0, 0.8);
+}
+
+/* ── Key Hints (Bottom-Right) ────────────────────────── */
+.key-hints-container {
+    position: absolute;
+    bottom: 120px;
+    right: 18px;
+    flex-direction: column;
+    align-items: flex-end;
+}
+
+.key-hint-row {
+    flex-direction: row;
+    align-items: center;
+    margin-bottom: 5px;
+}
+
+.key-pill {
+    font-size: 9px;
+    -unity-font-style: bold;
+    color: rgba(200, 210, 230, 0.85);
+    background-color: rgba(40, 50, 70, 0.8);
+    border-radius: 4px;
+    border-width: 1px;
+    border-color: rgba(255, 255, 255, 0.18);
+    padding: 1px 5px;
+    margin-right: 6px;
+    -unity-text-align: middle-center;
+}
+
+.key-hint-text {
+    font-size: 10px;
+    color: rgba(148, 163, 184, 0.75);
 }

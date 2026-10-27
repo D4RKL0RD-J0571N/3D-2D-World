@@ -72,7 +72,13 @@ namespace Gameplay.Player
                 return;
             }
 
-            // Do not process movement while typing into UI text fields
+            // Do not process movement while typing into UI text fields or when modal is open
+            if (Gameplay.UI.CuratorHUD.IsOpen || Gameplay.UI.WorldMapHUD.IsOpen)
+            {
+                _moveInput = Vector2.zero;
+                return;
+            }
+
             var creatorHud = Object.FindFirstObjectByType<Gameplay.UI.CreatorStudioHUD>();
             if (creatorHud != null && creatorHud.IsInputFocused)
             {

@@ -82,6 +82,7 @@ namespace Core
             ServiceLocator.Register(new Systems.Lab.LabService());
             ServiceLocator.Register(new Systems.Museum.CuratorService());
             ServiceLocator.Register(new Systems.Creator.CreatorStudioService());
+            ServiceLocator.Register(new Systems.Audio.AudioService());
 
             EnsureHUD<Gameplay.UI.HotbarHUD>("HotbarHUD");
             EnsureHUD<Gameplay.UI.PlayerHUD>("PlayerHUD");

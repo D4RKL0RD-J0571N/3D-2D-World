@@ -90,6 +90,7 @@ namespace Gameplay.UI
         {
             if (_uiDocument == null) return;
 
+            _uiDocument.sortingOrder = 10;
             ResolveAssets();
 
             if (_hudUxml != null)

@@ -1,39 +1,100 @@
 <ui:UXML xmlns:ui="UnityEngine.UIElements" xmlns:uie="UnityEditor.UIElements">
     <ui:VisualElement name="PlayerHudRoot" class="player-hud-root" picking-mode="Ignore">
-        <!-- Damage Flash Vignette -->
+
+        <!-- Full-screen Damage Vignette Flash -->
         <ui:VisualElement name="DamageVignette" class="damage-vignette" picking-mode="Ignore" />
 
-        <!-- Status Bars (Top-Left) -->
-        <ui:VisualElement name="StatusContainer" class="status-container" picking-mode="Ignore">
-            <!-- Health Bar -->
-            <ui:VisualElement name="HealthBar" class="status-bar health-bar" picking-mode="Ignore">
-                <ui:Label text="HP" class="status-bar__badge status-bar__badge--health" />
-                <ui:VisualElement name="HealthBarTrack" class="status-bar__track" picking-mode="Ignore">
-                    <ui:VisualElement name="HealthBarFill" class="status-bar__fill status-bar__fill--health" picking-mode="Ignore" />
-                    <ui:Label name="HealthLabel" text="100 / 100" class="status-bar__label" />
-                </ui:VisualElement>
+        <!-- ╔══════════════════════════════╗ -->
+        <!-- ║  TOP-LEFT STATUS PANEL       ║ -->
+        <!-- ╚══════════════════════════════╝ -->
+        <ui:VisualElement name="StatusContainer" class="status-panel" picking-mode="Ignore">
+
+            <!-- Avatar Frame -->
+            <ui:VisualElement class="avatar-frame" picking-mode="Ignore">
+                <ui:VisualElement class="avatar-image" picking-mode="Ignore" />
+                <ui:Label name="PlayerLevelLabel" text="Lv.1" class="avatar-level-badge" />
             </ui:VisualElement>
 
-            <!-- Stamina Bar -->
-            <ui:VisualElement name="StaminaBar" class="status-bar stamina-bar" picking-mode="Ignore">
-                <ui:Label text="SP" class="status-bar__badge status-bar__badge--stamina" />
-                <ui:VisualElement name="StaminaBarTrack" class="status-bar__track" picking-mode="Ignore">
-                    <ui:VisualElement name="StaminaBarFill" class="status-bar__fill status-bar__fill--stamina" picking-mode="Ignore" />
-                    <ui:Label name="StaminaLabel" text="100 / 100" class="status-bar__label" />
+            <!-- Bars Column -->
+            <ui:VisualElement class="bars-column" picking-mode="Ignore">
+
+                <!-- Health Bar -->
+                <ui:VisualElement class="stat-row" picking-mode="Ignore">
+                    <ui:VisualElement class="stat-icon stat-icon--hp" picking-mode="Ignore" />
+                    <ui:VisualElement name="HealthBarTrack" class="stat-track" picking-mode="Ignore">
+                        <ui:VisualElement name="HealthBarFill" class="stat-fill stat-fill--hp" picking-mode="Ignore" />
+                        <ui:VisualElement class="stat-fill-shine" picking-mode="Ignore" />
+                    </ui:VisualElement>
+                    <ui:Label name="HealthLabel" text="100/100" class="stat-value" />
                 </ui:VisualElement>
+
+                <!-- Stamina Bar -->
+                <ui:VisualElement name="StaminaBar" class="stat-row" picking-mode="Ignore">
+                    <ui:VisualElement class="stat-icon stat-icon--sp" picking-mode="Ignore" />
+                    <ui:VisualElement name="StaminaBarTrack" class="stat-track" picking-mode="Ignore">
+                        <ui:VisualElement name="StaminaBarFill" class="stat-fill stat-fill--sp" picking-mode="Ignore" />
+                        <ui:VisualElement class="stat-fill-shine" picking-mode="Ignore" />
+                    </ui:VisualElement>
+                    <ui:Label name="StaminaLabel" text="100/100" class="stat-value" />
+                </ui:VisualElement>
+
             </ui:VisualElement>
         </ui:VisualElement>
 
-        <!-- Center Crosshair Reticle -->
+        <!-- Note: StaminaBar name kept here for C# binding (status bar exhausted class toggle) -->
+
+        <!-- ╔══════════════════════════════╗ -->
+        <!-- ║  TOP-RIGHT — MODE BADGE      ║ -->
+        <!-- ╚══════════════════════════════╝ -->
+        <ui:VisualElement class="mode-badge-container" picking-mode="Ignore">
+            <ui:VisualElement class="mode-badge" picking-mode="Ignore">
+                <ui:Label class="mode-dot" text="●" />
+                <ui:Label name="ModeBadgeLabel" text="EXPLORE" class="mode-text" />
+            </ui:VisualElement>
+        </ui:VisualElement>
+
+        <!-- ╔══════════════════════════════╗ -->
+        <!-- ║  CENTER CROSSHAIR            ║ -->
+        <!-- ╚══════════════════════════════╝ -->
         <ui:VisualElement name="ReticleContainer" class="reticle-container" picking-mode="Ignore">
-            <ui:VisualElement name="ReticleDot" class="reticle-dot" picking-mode="Ignore" />
+            <ui:VisualElement class="reticle-ring" picking-mode="Ignore">
+                <ui:VisualElement name="ReticleDot" class="reticle-dot" picking-mode="Ignore" />
+                <ui:VisualElement class="reticle-arm reticle-arm--top" picking-mode="Ignore" />
+                <ui:VisualElement class="reticle-arm reticle-arm--bottom" picking-mode="Ignore" />
+                <ui:VisualElement class="reticle-arm reticle-arm--left" picking-mode="Ignore" />
+                <ui:VisualElement class="reticle-arm reticle-arm--right" picking-mode="Ignore" />
+            </ui:VisualElement>
         </ui:VisualElement>
 
-        <!-- Contextual Interaction Prompt -->
+        <!-- ╔══════════════════════════════╗ -->
+        <!-- ║  CENTER-LOWER PROMPT         ║ -->
+        <!-- ╚══════════════════════════════╝ -->
         <ui:VisualElement name="PromptContainer" class="prompt-container" picking-mode="Ignore">
             <ui:VisualElement name="PromptBadge" class="prompt-badge" picking-mode="Ignore">
-                <ui:Label name="PromptLabel" text="[E] Interact" class="prompt-label" />
+                <ui:VisualElement class="prompt-key-bubble" picking-mode="Ignore">
+                    <ui:Label text="E" class="prompt-key-label" />
+                </ui:VisualElement>
+                <ui:Label name="PromptLabel" text="Interact" class="prompt-label" />
             </ui:VisualElement>
         </ui:VisualElement>
+
+        <!-- ╔══════════════════════════════╗ -->
+        <!-- ║  BOTTOM-RIGHT — KEY HINTS    ║ -->
+        <!-- ╚══════════════════════════════╝ -->
+        <ui:VisualElement class="key-hints-container" picking-mode="Ignore">
+            <ui:VisualElement class="key-hint-row" picking-mode="Ignore">
+                <ui:Label class="key-pill" text="B" />
+                <ui:Label class="key-hint-text" text="Creator Studio" />
+            </ui:VisualElement>
+            <ui:VisualElement class="key-hint-row" picking-mode="Ignore">
+                <ui:Label class="key-pill" text="F1" />
+                <ui:Label class="key-hint-text" text="Lab Panel" />
+            </ui:VisualElement>
+            <ui:VisualElement class="key-hint-row" picking-mode="Ignore">
+                <ui:Label class="key-pill" text="F2" />
+                <ui:Label class="key-hint-text" text="Curator" />
+            </ui:VisualElement>
+        </ui:VisualElement>
+
     </ui:VisualElement>
 </ui:UXML>

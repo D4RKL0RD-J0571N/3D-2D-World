@@ -39,6 +39,7 @@ namespace Gameplay.UI
         private bool _roomsBuilt;
 
         // State
+        public static bool IsOpen { get; private set; }
         private bool _showWorldMap;
         private bool _showMinimap = true;
         private float _worldMapZoom = 1f;
@@ -114,6 +115,13 @@ namespace Gameplay.UI
             if (_service.IsMapReady && !_roomsBuilt)
                 BuildRoomVisuals();
 
+            var keyboard = UnityEngine.InputSystem.Keyboard.current;
+            if (keyboard != null && keyboard.escapeKey.wasPressedThisFrame && _showWorldMap)
+            {
+                ToggleWorldMap();
+                return;
+            }
+
             if (!_showMinimap && !_showWorldMap)
                 return;
 
@@ -153,12 +161,31 @@ namespace Gameplay.UI
         {
             _minimapContainer.style.display = _showMinimap && !_showWorldMap ? DisplayStyle.Flex : DisplayStyle.None;
             _worldMapContainer.style.display = _showWorldMap ? DisplayStyle.Flex : DisplayStyle.None;
+            IsOpen = _showWorldMap;
+
+            if (_showWorldMap)
+            {
+                UnityEngine.Cursor.lockState = CursorLockMode.None;
+                UnityEngine.Cursor.visible = true;
+            }
+            else if (!CuratorHUD.IsOpen && !LabHUD.IsOpen)
+            {
+                var creatorService = ServiceLocator.Get<Systems.Creator.CreatorStudioService>();
+                bool isBuildMode = creatorService != null && creatorService.IsBuildMode;
+                if (!isBuildMode)
+                {
+                    UnityEngine.Cursor.lockState = CursorLockMode.Locked;
+                    UnityEngine.Cursor.visible = false;
+                }
+            }
         }
 
         private void SetupUIDocument()
         {
             if (_uiDocument == null)
                 return;
+
+            _uiDocument.sortingOrder = 30;
 
             if (_uiDocument.panelSettings == null)
             {
@@ -284,11 +311,19 @@ namespace Gameplay.UI
             _minimapContainer.style.top = anchor.y > 0.5f ? new Length(Mathf.Abs(offset.y)) : StyleKeyword.Auto;
             _minimapContainer.style.bottom = anchor.y <= 0.5f ? new Length(offset.y) : StyleKeyword.Auto;
 
-            _minimapContainer.style.backgroundColor = new Color(0, 0, 0, 0.6f);
-            _minimapContainer.style.borderTopLeftRadius = 8;
-            _minimapContainer.style.borderTopRightRadius = 8;
-            _minimapContainer.style.borderBottomLeftRadius = 8;
-            _minimapContainer.style.borderBottomRightRadius = 8;
+            _minimapContainer.style.backgroundColor = new Color(0.04f, 0.06f, 0.11f, 0.92f);
+            _minimapContainer.style.borderLeftWidth = 1.5f;
+            _minimapContainer.style.borderRightWidth = 1.5f;
+            _minimapContainer.style.borderTopWidth = 1.5f;
+            _minimapContainer.style.borderBottomWidth = 1.5f;
+            _minimapContainer.style.borderLeftColor = new Color(0.22f, 0.74f, 0.97f, 0.35f);
+            _minimapContainer.style.borderRightColor = new Color(0.22f, 0.74f, 0.97f, 0.35f);
+            _minimapContainer.style.borderTopColor = new Color(0.22f, 0.74f, 0.97f, 0.65f);
+            _minimapContainer.style.borderBottomColor = new Color(0.22f, 0.74f, 0.97f, 0.35f);
+            _minimapContainer.style.borderTopLeftRadius = 12;
+            _minimapContainer.style.borderTopRightRadius = 12;
+            _minimapContainer.style.borderBottomLeftRadius = 12;
+            _minimapContainer.style.borderBottomRightRadius = 12;
             _minimapContainer.style.overflow = Overflow.Hidden;
 
             _minimapContent.style.position = Position.Absolute;

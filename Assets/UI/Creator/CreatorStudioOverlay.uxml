@@ -1,44 +1,72 @@
 <ui:UXML xmlns:ui="UnityEngine.UIElements" xmlns:uie="UnityEditor.UIElements">
     <ui:VisualElement name="CreatorStudioRoot" class="creator-studio-root">
-        <!-- Top Toolbar Header -->
-        <ui:VisualElement name="CreatorHeader" class="creator-header">
-            <ui:VisualElement class="header-left">
-                <ui:Label name="CreatorTitle" text="🛠️ CREATOR STUDIO" class="creator-title" />
-                <ui:Button name="BtnToggleMode" text="🔨 BUILD MODE [B]" class="mode-toggle-btn" />
-            </ui:VisualElement>
 
-            <ui:VisualElement name="HeaderRight" class="header-right">
-                <ui:Button name="BtnSaveLevel" text="💾 Save Layout" class="action-btn" />
-                <ui:Button name="BtnLoadLevel" text="📂 Load Layout" class="action-btn" />
-                <ui:Button name="BtnClearAll" text="🗑️ Clear All" class="action-btn action-btn-danger" />
-            </ui:VisualElement>
+        <!-- ═══ COMPACT BADGE (Play Mode) ═══ -->
+        <ui:VisualElement name="CreatorBadge" class="creator-badge">
+            <ui:VisualElement class="creator-badge-icon" />
+            <ui:Label text="CREATOR" class="creator-badge-label" />
+            <ui:Button name="BtnToggleMode" text="BUILD [B]" class="creator-badge-btn" />
         </ui:VisualElement>
 
-        <!-- Collapsible Body (visible only in Build Mode) -->
+        <!-- ═══ EXPANDED DOCK (Build Mode) ═══ -->
         <ui:VisualElement name="CreatorStudioBody" class="creator-studio-body">
-            <!-- Search & Category Filters -->
-            <ui:VisualElement name="CreatorFilterBar" class="creator-filter-bar">
-                <ui:TextField name="SearchField" placeholder-text="Search assets &amp; exhibits..." class="search-field" />
-                <ui:VisualElement class="category-tabs">
-                    <ui:Button name="TabAll" text="All" class="category-tab category-tab-active" />
-                    <ui:Button name="TabWeapons" text="Weapons" class="category-tab" />
-                    <ui:Button name="TabCombatants" text="Combatants" class="category-tab" />
-                    <ui:Button name="TabStructures" text="Structures" class="category-tab" />
-                    <ui:Button name="TabProps" text="Props" class="category-tab" />
-                    <ui:Button name="TabItems" text="Items" class="category-tab" />
+
+            <!-- ── Header Row ── -->
+            <ui:VisualElement name="CreatorHeader" class="creator-header">
+                <ui:VisualElement class="creator-logo-pip" />
+                <ui:Label name="CreatorTitle" text="CREATOR STUDIO" class="creator-title" />
+
+                <ui:VisualElement class="header-spacer" />
+
+                <!-- Mode Toggle -->
+                <ui:Button name="BtnToggleMode" text="🎮 EXIT BUILD [B]" class="mode-toggle-btn" />
+
+                <!-- Quick Actions -->
+                <ui:VisualElement name="HeaderRight" class="header-actions">
+                    <ui:Button name="BtnSaveLevel" class="hdr-btn hdr-btn--save" tooltip="Save Layout">
+                        <ui:Label text="💾" class="hdr-btn-icon" />
+                        <ui:Label text="Save" class="hdr-btn-text" />
+                    </ui:Button>
+                    <ui:Button name="BtnLoadLevel" class="hdr-btn hdr-btn--load" tooltip="Load Layout">
+                        <ui:Label text="📂" class="hdr-btn-icon" />
+                        <ui:Label text="Load" class="hdr-btn-text" />
+                    </ui:Button>
+                    <ui:Button name="BtnClearAll" class="hdr-btn hdr-btn--danger" tooltip="Clear All Placed Objects">
+                        <ui:Label text="🗑" class="hdr-btn-icon" />
+                        <ui:Label text="Clear" class="hdr-btn-text" />
+                    </ui:Button>
                 </ui:VisualElement>
             </ui:VisualElement>
 
-            <!-- Palette Items Container -->
-            <ui:ScrollView name="PaletteScrollView" class="palette-scroll-view" mode="Horizontal">
+            <!-- ── Filter Bar Row ── -->
+            <ui:VisualElement class="filter-bar">
+                <ui:TextField name="SearchField" placeholder-text="🔍  Search items..." class="search-field" />
+                <ui:VisualElement class="tab-row">
+                    <ui:Button name="TabAll"         text="All"         class="cat-tab cat-tab--active" />
+                    <ui:Button name="TabWeapons"     text="Weapons"     class="cat-tab" />
+                    <ui:Button name="TabCombatants"  text="Combatants"  class="cat-tab" />
+                    <ui:Button name="TabStructures"  text="Structures"  class="cat-tab" />
+                    <ui:Button name="TabProps"       text="Props"       class="cat-tab" />
+                    <ui:Button name="TabItems"       text="Items"       class="cat-tab" />
+                </ui:VisualElement>
+            </ui:VisualElement>
+
+            <!-- ── Palette Scroll Area ── -->
+            <ui:ScrollView name="PaletteScrollView" class="palette-scroll" mode="Horizontal">
                 <ui:VisualElement name="PaletteItemsGrid" class="palette-grid" />
             </ui:ScrollView>
 
-            <!-- Bottom Status & Hints -->
-            <ui:VisualElement name="CreatorFooter" class="creator-footer">
-                <ui:Label name="ActiveItemLabel" text="Selected: None (Click an item to arm placement ghost)" class="active-item-label" />
-                <ui:Label text="[L-Click] Place | [R-Hold] Look Around | [Del/X] Demolish | [R/Q/E] Rotate 45° | [B/F3] Toggle Mode" class="controls-hint-label" />
+            <!-- ── Status Footer ── -->
+            <ui:VisualElement class="creator-status-bar">
+                <ui:VisualElement class="status-left">
+                    <ui:VisualElement name="SelectedPip" class="selected-pip" />
+                    <ui:Label name="ActiveItemLabel" text="No item selected — click a card to arm placement" class="active-item-lbl" />
+                </ui:VisualElement>
+                <ui:Label text="[L-Click] Place  ·  [R-Hold] Look  ·  [Del/X] Demolish  ·  [R/Q/E] Rotate 45°" class="hint-lbl" />
             </ui:VisualElement>
+
         </ui:VisualElement>
+        <!-- ═══ End Expanded Dock ═══ -->
+
     </ui:VisualElement>
 </ui:UXML>

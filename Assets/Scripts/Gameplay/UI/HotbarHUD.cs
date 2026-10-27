@@ -61,6 +61,7 @@ namespace Gameplay.UI
         private void SetupUIDocument()
         {
             if (_uiDocument == null) return;
+            _uiDocument.sortingOrder = 20;
             ResolveUxmlAndUss();
             ResolvePanelSettings();
 
@@ -134,6 +135,9 @@ namespace Gameplay.UI
         #region Display
         private void SelectSlot(int slotIndex)
         {
+            if (ServiceLocator.TryGet<Systems.Audio.AudioService>(out var audio))
+                audio.PlayClick();
+
             if (ServiceLocator.TryGet<HotbarService>(out var hotbar))
                 hotbar.SelectSlot(slotIndex);
         }

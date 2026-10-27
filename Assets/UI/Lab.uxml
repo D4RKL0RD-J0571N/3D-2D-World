@@ -1,12 +1,24 @@
 <ui:UXML xmlns:ui="UnityEngine.UIElements" xmlns:uie="UnityEditor.UIElements">
     <ui:VisualElement name="LabRoot" class="lab-root">
+
+        <!-- Header -->
         <ui:VisualElement name="LabHeader" class="lab-header">
-            <ui:Label name="LabTitle" text="LAB" class="lab-title" />
-            <ui:Button name="LabResetAll" text="Reset All" class="lab-button" />
-            <ui:Button name="LabClose" text="×" class="lab-close-button" />
+            <ui:VisualElement class="lab-header-icon" />
+            <ui:Label name="LabTitle" text="LAB PARAMETERS" class="lab-title" />
+            <ui:VisualElement class="lab-header-spacer" />
+            <ui:Button name="LabResetAll" text="Reset All" class="lab-btn lab-btn--reset" />
+            <ui:Button name="LabClose" text="✕" class="lab-btn lab-btn--close" />
         </ui:VisualElement>
+
+        <!-- Scrollable Content -->
         <ui:ScrollView name="LabScrollView" class="lab-scroll">
             <ui:VisualElement name="LabGroupsContainer" class="lab-groups-container" />
         </ui:ScrollView>
+
+        <!-- Status Footer -->
+        <ui:VisualElement class="lab-footer">
+            <ui:Label text="[F1] Toggle  ·  Live parameter tweaking — changes take effect immediately" class="lab-hint" />
+        </ui:VisualElement>
+
     </ui:VisualElement>
 </ui:UXML>

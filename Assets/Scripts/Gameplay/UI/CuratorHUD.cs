@@ -175,11 +175,11 @@ namespace Gameplay.UI
             _btnExport = _root.Q<Button>("BtnExportReport");
             _btnClose = _root.Q<Button>("CuratorClose");
 
-            _btnKeep?.RegisterCallback<ClickEvent>(_ => SetRating(CuratorRating.Keep));
-            _btnRefine?.RegisterCallback<ClickEvent>(_ => SetRating(CuratorRating.Refine));
-            _btnDiscard?.RegisterCallback<ClickEvent>(_ => SetRating(CuratorRating.Discard));
-            _btnExport?.RegisterCallback<ClickEvent>(_ => ExportReport());
-            _btnClose?.RegisterCallback<ClickEvent>(_ => SetVisible(false));
+            _btnKeep?.RegisterCallback<ClickEvent>(_ => { PlayClick(); SetRating(CuratorRating.Keep); });
+            _btnRefine?.RegisterCallback<ClickEvent>(_ => { PlayClick(); SetRating(CuratorRating.Refine); });
+            _btnDiscard?.RegisterCallback<ClickEvent>(_ => { PlayClick(); SetRating(CuratorRating.Discard); });
+            _btnExport?.RegisterCallback<ClickEvent>(_ => { PlayClick(); ExportReport(); });
+            _btnClose?.RegisterCallback<ClickEvent>(_ => { PlayClick(); SetVisible(false); });
 
             _notesField?.RegisterValueChangedCallback(evt =>
             {
@@ -188,6 +188,12 @@ namespace Gameplay.UI
                     GameEventManager.Publish(new ExhibitEvaluatedEvent(_currentExhibit.ExhibitId, _currentRating, evt.newValue));
                 }
             });
+        }
+
+        private static void PlayClick()
+        {
+            if (ServiceLocator.TryGet<Systems.Audio.AudioService>(out var audio))
+                audio.PlayClick();
         }
 
         #endregion
@@ -320,10 +326,15 @@ namespace Gameplay.UI
                 UnityEngine.Cursor.lockState = CursorLockMode.None;
                 UnityEngine.Cursor.visible = true;
             }
-            else
+            else if (!LabHUD.IsOpen && !WorldMapHUD.IsOpen)
             {
-                UnityEngine.Cursor.lockState = CursorLockMode.Locked;
-                UnityEngine.Cursor.visible = false;
+                var creatorService = ServiceLocator.Get<Systems.Creator.CreatorStudioService>();
+                bool isBuildMode = creatorService != null && creatorService.IsBuildMode;
+                if (!isBuildMode)
+                {
+                    UnityEngine.Cursor.lockState = CursorLockMode.Locked;
+                    UnityEngine.Cursor.visible = false;
+                }
             }
         }
 

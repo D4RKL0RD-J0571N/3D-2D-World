@@ -1,205 +1,344 @@
+/* ═══════════════════════════════════════════════════════
+   CREATOR STUDIO OVERLAY — Designer Overhaul
+   Design: Bottom-anchored build dock — purple/indigo theme
+   ═══════════════════════════════════════════════════════ */
+
+/* ── Root ─────────────────────────────────────────────── */
 .creator-studio-root {
     position: absolute;
     top: 14px;
-    left: 20px;
-    background-color: rgba(15, 18, 25, 0.90);
-    border-width: 1.5px;
-    border-color: rgba(99, 102, 241, 0.6);
-    border-radius: 10px;
-    padding: 6px 12px;
+    left: 18px;
     flex-direction: column;
 }
 
+/* Expanded state — full bottom dock */
 .creator-studio-root--expanded {
     top: auto;
-    bottom: 12px;
-    left: 20px;
-    right: 20px;
-    background-color: rgba(15, 18, 25, 0.96);
-    border-radius: 12px;
-    padding: 12px 16px;
+    bottom: 10px;
+    left: 12px;
+    right: 12px;
+    background-color: rgba(8, 10, 18, 0.95);
+    border-width: 1px;
+    border-color: rgba(99, 102, 241, 0.40);
+    border-radius: 14px;
+    padding: 0;
+    overflow: hidden;
 }
 
+/* ── Compact Badge (Play Mode) ────────────────────────── */
+.creator-badge {
+    flex-direction: row;
+    align-items: center;
+    padding: 6px 12px;
+    background-color: rgba(8, 10, 18, 0.88);
+    border-radius: 20px;
+    border-width: 1px;
+    border-color: rgba(99, 102, 241, 0.45);
+}
+
+.creator-badge-icon {
+    width: 14px;
+    height: 14px;
+    background-color: rgba(129, 140, 248, 0.85);
+    border-radius: 4px;
+    margin-right: 7px;
+    flex-shrink: 0;
+}
+
+.creator-badge-label {
+    font-size: 11px;
+    -unity-font-style: bold;
+    color: rgba(199, 210, 254, 0.9);
+    letter-spacing: 1.5px;
+    margin-right: 8px;
+}
+
+.creator-badge-btn {
+    background-color: rgba(79, 70, 229, 0.75);
+    color: rgba(224, 231, 255, 1);
+    border-radius: 10px;
+    border-width: 1px;
+    border-color: rgba(129, 140, 248, 0.55);
+    font-size: 10px;
+    -unity-font-style: bold;
+    padding: 3px 10px;
+}
+
+.creator-badge-btn:hover {
+    background-color: rgba(99, 102, 241, 1);
+}
+
+/* ── Expanded Body ────────────────────────────────────── */
 .creator-studio-body {
     flex-direction: column;
 }
 
+/* ── Header Row ───────────────────────────────────────── */
 .creator-header {
     flex-direction: row;
-    justify-content: space-between;
     align-items: center;
+    padding: 10px 16px;
+    background-color: rgba(14, 16, 30, 0.99);
     border-bottom-width: 1px;
-    border-bottom-color: rgba(255, 255, 255, 0.12);
-    padding-bottom: 8px;
-    margin-bottom: 8px;
+    border-bottom-color: rgba(255, 255, 255, 0.08);
 }
 
-.header-left {
-    flex-direction: row;
-    align-items: center;
-}
-
-.header-right {
-    flex-direction: row;
-    align-items: center;
+.creator-logo-pip {
+    width: 22px;
+    height: 22px;
+    background-color: rgba(99, 102, 241, 0.80);
+    border-radius: 6px;
+    border-width: 1px;
+    border-color: rgba(165, 180, 252, 0.5);
+    margin-right: 10px;
+    flex-shrink: 0;
 }
 
 .creator-title {
-    font-size: 16px;
+    font-size: 14px;
     -unity-font-style: bold;
-    color: #e0e7ff;
-    margin-right: 14px;
+    color: rgba(199, 210, 254, 0.95);
+    letter-spacing: 2px;
 }
+
+.header-spacer { flex-grow: 1; }
 
 .mode-toggle-btn {
     background-color: rgba(79, 70, 229, 0.85);
-    color: #ffffff;
-    border-radius: 6px;
-    padding: 5px 12px;
+    color: rgba(255, 255, 255, 1);
+    border-radius: 7px;
     border-width: 1px;
-    border-color: #818cf8;
-    -unity-font-style: bold;
+    border-color: rgba(129, 140, 248, 0.65);
     font-size: 12px;
+    -unity-font-style: bold;
+    padding: 5px 14px;
+    margin-right: 12px;
 }
 
 .mode-toggle-btn:hover {
     background-color: rgba(99, 102, 241, 1);
+    border-color: rgba(165, 180, 252, 0.85);
 }
 
-.action-btn {
-    background-color: rgba(40, 48, 66, 0.85);
-    color: #cbd5e1;
-    border-radius: 6px;
-    padding: 5px 10px;
-    margin-left: 6px;
-    border-width: 1px;
-    border-color: rgba(255, 255, 255, 0.15);
-    font-size: 11px;
-}
-
-.action-btn:hover {
-    background-color: rgba(55, 65, 81, 1);
-    color: #ffffff;
-}
-
-.action-btn-danger:hover {
-    background-color: rgba(220, 38, 38, 0.8);
-    border-color: #f87171;
-    color: #ffffff;
-}
-
-.creator-filter-bar {
+/* Header action buttons group */
+.header-actions {
     flex-direction: row;
     align-items: center;
-    justify-content: space-between;
-    margin-bottom: 8px;
+}
+
+.hdr-btn {
+    flex-direction: row;
+    align-items: center;
+    padding: 5px 10px;
+    margin-left: 5px;
+    background-color: rgba(28, 35, 55, 0.85);
+    border-radius: 7px;
+    border-width: 1px;
+    border-color: rgba(255, 255, 255, 0.12);
+}
+
+.hdr-btn:hover {
+    background-color: rgba(45, 55, 85, 0.95);
+    border-color: rgba(255, 255, 255, 0.25);
+}
+
+.hdr-btn--danger:hover {
+    background-color: rgba(180, 30, 30, 0.85);
+    border-color: rgba(248, 113, 113, 0.6);
+}
+
+.hdr-btn-icon {
+    font-size: 13px;
+    margin-right: 4px;
+}
+
+.hdr-btn-text {
+    font-size: 11px;
+    color: rgba(203, 213, 225, 0.9);
+    -unity-font-style: bold;
+}
+
+/* ── Filter Bar ───────────────────────────────────────── */
+.filter-bar {
+    flex-direction: row;
+    align-items: center;
+    padding: 8px 16px;
+    background-color: rgba(10, 12, 22, 0.90);
+    border-bottom-width: 1px;
+    border-bottom-color: rgba(255, 255, 255, 0.06);
 }
 
 .search-field {
-    width: 220px;
-    height: 28px;
-    background-color: rgba(24, 28, 40, 0.9);
+    width: 240px;
+    height: 30px;
+    background-color: rgba(20, 25, 45, 0.92);
     border-width: 1px;
-    border-color: rgba(255, 255, 255, 0.18);
-    border-radius: 6px;
-    color: #f1f5f9;
-    padding-left: 6px;
+    border-color: rgba(255, 255, 255, 0.14);
+    border-radius: 8px;
+    color: rgba(241, 245, 249, 1);
+    padding: 0 10px;
+    font-size: 12px;
+    margin-right: 12px;
 }
 
-.category-tabs {
+.search-field:focus {
+    border-color: rgba(129, 140, 248, 0.7);
+}
+
+.tab-row {
     flex-direction: row;
     align-items: center;
 }
 
-.category-tab {
-    background-color: rgba(30, 41, 59, 0.7);
-    color: #94a3b8;
-    border-radius: 6px;
-    padding: 4px 10px;
-    margin-left: 4px;
+.cat-tab {
+    background-color: rgba(24, 30, 52, 0.70);
+    color: rgba(148, 163, 184, 1);
+    border-radius: 7px;
+    padding: 4px 12px;
+    margin-right: 4px;
     border-width: 1px;
     border-color: transparent;
     font-size: 11px;
 }
 
-.category-tab:hover {
-    color: #f8fafc;
-    background-color: rgba(51, 65, 85, 0.8);
+.cat-tab:hover {
+    color: rgba(248, 250, 252, 1);
+    background-color: rgba(51, 65, 85, 0.85);
 }
 
-.category-tab-active {
-    background-color: rgba(99, 102, 241, 0.25);
-    color: #a5b4fc;
-    border-color: #6366f1;
+.cat-tab--active {
+    background-color: rgba(79, 70, 229, 0.25);
+    color: rgba(165, 180, 252, 1);
+    border-color: rgba(99, 102, 241, 0.65);
     -unity-font-style: bold;
 }
 
-.palette-scroll-view {
-    height: 90px;
-    margin-bottom: 6px;
+/* Old class aliases for C# compat */
+.category-tab { }
+.category-tab-active { }
+
+/* ── Palette Scroll & Grid ───────────────────────────── */
+.palette-scroll {
+    height: 100px;
+    padding: 8px 16px;
 }
 
 .palette-grid {
     flex-direction: row;
-    align-items: center;
-    padding: 4px 0;
+    align-items: stretch;
 }
 
+/* ── Palette Cards ────────────────────────────────────── */
 .palette-card {
-    width: 110px;
-    height: 75px;
-    background-color: rgba(26, 32, 48, 0.9);
+    width: 120px;
+    height: 80px;
+    background-color: rgba(18, 22, 40, 0.92);
     border-width: 1px;
-    border-color: rgba(255, 255, 255, 0.12);
-    border-radius: 8px;
+    border-color: rgba(255, 255, 255, 0.10);
+    border-radius: 10px;
     margin-right: 8px;
-    padding: 6px;
+    padding: 8px;
     align-items: center;
     justify-content: center;
+    flex-direction: column;
+    transition-property: border-color, background-color;
+    transition-duration: 0.12s;
 }
 
 .palette-card:hover {
-    background-color: rgba(39, 48, 72, 1);
-    border-color: #818cf8;
+    background-color: rgba(30, 38, 68, 0.98);
+    border-color: rgba(129, 140, 248, 0.6);
 }
 
 .palette-card-active {
-    background-color: rgba(49, 46, 129, 0.8);
-    border-color: #6366f1;
-    border-width: 1.5px;
+    background-color: rgba(49, 46, 129, 0.75);
+    border-color: rgba(99, 102, 241, 0.95);
+    border-width: 2px;
+}
+
+.palette-card-icon {
+    width: 36px;
+    height: 36px;
+    background-color: rgba(40, 50, 80, 0.8);
+    border-radius: 8px;
+    margin-bottom: 6px;
+    -unity-background-scale-mode: scale-to-fit;
 }
 
 .palette-card-title {
     font-size: 11px;
     -unity-font-style: bold;
-    color: #e2e8f0;
+    color: rgba(226, 232, 240, 1);
     -unity-text-align: middle-center;
     white-space: normal;
 }
 
 .palette-card-category {
     font-size: 9px;
-    color: #94a3b8;
+    color: rgba(129, 140, 248, 0.8);
     -unity-text-align: middle-center;
     margin-top: 2px;
+    letter-spacing: 1px;
 }
 
-.creator-footer {
+/* ── Status Bar ───────────────────────────────────────── */
+.creator-status-bar {
     flex-direction: row;
-    justify-content: space-between;
     align-items: center;
+    justify-content: space-between;
+    padding: 6px 16px;
+    background-color: rgba(10, 12, 22, 0.98);
     border-top-width: 1px;
-    border-top-color: rgba(255, 255, 255, 0.08);
-    padding-top: 6px;
+    border-top-color: rgba(255, 255, 255, 0.06);
 }
 
-.active-item-label {
+.status-left {
+    flex-direction: row;
+    align-items: center;
+}
+
+.selected-pip {
+    width: 8px;
+    height: 8px;
+    background-color: rgba(99, 102, 241, 0.8);
+    border-radius: 4px;
+    margin-right: 8px;
+    flex-shrink: 0;
+}
+
+.active-item-lbl {
     font-size: 11px;
-    color: #38bdf8;
+    color: rgba(56, 189, 248, 0.9);
     -unity-font-style: bold;
 }
 
+.hint-lbl {
+    font-size: 10px;
+    color: rgba(71, 85, 105, 1);
+}
+
+/* Old alias names for C# compat — same visuals as new classes */
+.active-item-label {
+    font-size: 11px;
+    color: rgba(56, 189, 248, 0.9);
+    -unity-font-style: bold;
+}
 .controls-hint-label {
     font-size: 10px;
-    color: #94a3b8;
+    color: rgba(71, 85, 105, 1);
+}
+.creator-filter-bar { }
+.creator-footer { }
+.action-btn { }
+.action-btn-danger { }
+.palette-scroll-view { }
+.header-left { }
+.header-right { }
+
+/* CSS class the C# scripts toggle at runtime — MUST match exactly */
+.category-tab-active {
+    background-color: rgba(79, 70, 229, 0.25);
+    color: rgba(165, 180, 252, 1);
+    border-color: rgba(99, 102, 241, 0.65);
+    -unity-font-style: bold;
 }

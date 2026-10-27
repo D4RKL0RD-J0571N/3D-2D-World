@@ -42,8 +42,8 @@ namespace Gameplay.Player
                 return;
             }
 
-            // Pause FPS camera look when the Curator HUD modal is open
-            if (Gameplay.UI.CuratorHUD.IsOpen)
+            // Pause FPS camera look when any modal HUD is open
+            if (Gameplay.UI.CuratorHUD.IsOpen || Gameplay.UI.LabHUD.IsOpen || Gameplay.UI.WorldMapHUD.IsOpen)
             {
                 _lookInput = Vector2.zero;
                 return;
@@ -73,8 +73,9 @@ namespace Gameplay.Player
                 }
                 else
                 {
-                    // In Play Mode: Left click locks cursor, free FPS look
-                    if (mouse.leftButton.wasPressedThisFrame && Cursor.lockState != CursorLockMode.Locked)
+                    // In Play Mode: Left click locks cursor ONLY if no modal HUD is open
+                    bool isModalOpen = Gameplay.UI.CuratorHUD.IsOpen || Gameplay.UI.LabHUD.IsOpen || Gameplay.UI.WorldMapHUD.IsOpen;
+                    if (!isModalOpen && mouse.leftButton.wasPressedThisFrame && Cursor.lockState != CursorLockMode.Locked)
                     {
                         Cursor.lockState = CursorLockMode.Locked;
                         Cursor.visible = false;

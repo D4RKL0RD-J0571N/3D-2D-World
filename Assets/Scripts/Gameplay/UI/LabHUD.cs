@@ -18,6 +18,8 @@ namespace Gameplay.UI
     {
         #region Fields
         private UIDocument _uiDocument;
+        public static bool IsOpen { get; private set; }
+
         private LabService _labService;
         private VisualElement _groupsContainer;
         private bool _isVisible;
@@ -50,6 +52,22 @@ namespace Gameplay.UI
         {
             GameEventManager.RemoveListener<ToggleLabHudEvent>(OnToggleLab);
             GameEventManager.RemoveListener<LabParameterChangedEvent>(OnParamChanged);
+            IsOpen = false;
+        }
+
+        private void Update()
+        {
+            var keyboard = UnityEngine.InputSystem.Keyboard.current;
+            if (keyboard == null) return;
+
+            if (keyboard.f1Key.wasPressedThisFrame)
+            {
+                SetVisible(!_isVisible);
+            }
+            else if (keyboard.escapeKey.wasPressedThisFrame && _isVisible)
+            {
+                SetVisible(false);
+            }
         }
         #endregion
 
@@ -57,6 +75,7 @@ namespace Gameplay.UI
         private void SetupUIDocument()
         {
             if (_uiDocument == null) return;
+            _uiDocument.sortingOrder = 120;
             if (_uiDocument.panelSettings != null) return;
 
             var ps = Resources.Load<PanelSettings>("UI/PanelSettings");
@@ -230,9 +249,26 @@ namespace Gameplay.UI
         private void SetVisible(bool visible)
         {
             _isVisible = visible;
+            IsOpen = _isVisible;
             var root = _uiDocument?.rootVisualElement?.Q<VisualElement>("LabRoot");
             if (root != null)
                 root.style.display = _isVisible ? DisplayStyle.Flex : DisplayStyle.None;
+
+            if (_isVisible)
+            {
+                UnityEngine.Cursor.lockState = CursorLockMode.None;
+                UnityEngine.Cursor.visible = true;
+            }
+            else if (!CuratorHUD.IsOpen && !WorldMapHUD.IsOpen)
+            {
+                var creatorService = ServiceLocator.Get<Systems.Creator.CreatorStudioService>();
+                bool isBuildMode = creatorService != null && creatorService.IsBuildMode;
+                if (!isBuildMode)
+                {
+                    UnityEngine.Cursor.lockState = CursorLockMode.Locked;
+                    UnityEngine.Cursor.visible = false;
+                }
+            }
         }
         #endregion
 
