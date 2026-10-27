@@ -166,3 +166,39 @@ MonoBehaviour:
     placementOffset: {x: 0, y: 0, z: 0}
     defaultScale: {x: 1, y: 1, z: 1}
     gridSnapSize: 1
+  - id: dungeon_chest
+    displayName: Dungeon Loot Chest
+    category: 3
+    description: Lockable loot chest with leveled rewards.
+    prefab: {fileID: 497185271052488909, guid: 1e3387b185330484ea69e264112f9fe2, type: 3}
+    icon: {fileID: 0}
+    placementOffset: {x: 0, y: 0, z: 0}
+    defaultScale: {x: 1, y: 1, z: 1}
+    gridSnapSize: 1
+  - id: dungeon_lever
+    displayName: Iron Dungeon Lever
+    category: 3
+    description: Toggleable mechanism for gates and doors.
+    prefab: {fileID: 3688702732016872647, guid: d5f9b866a06f0a84cbc5d08c9e0c733a, type: 3}
+    icon: {fileID: 0}
+    placementOffset: {x: 0, y: 0, z: 0}
+    defaultScale: {x: 1, y: 1, z: 1}
+    gridSnapSize: 1
+  - id: pressure_plate
+    displayName: Trap Pressure Plate
+    category: 3
+    description: Hidden trigger plate activating connected traps.
+    prefab: {fileID: 1133571374323707959, guid: 2ca0a49584d4af64caf036e3ddeac215, type: 3}
+    icon: {fileID: 0}
+    placementOffset: {x: 0, y: 0, z: 0}
+    defaultScale: {x: 1, y: 1, z: 1}
+    gridSnapSize: 1
+  - id: bounty_board
+    displayName: Radiant Bounty Board
+    category: 3
+    description: Notice board generating procedural radiant bounties.
+    prefab: {fileID: 3259068932757416487, guid: df46c73302db4cb468cb41076122fed6, type: 3}
+    icon: {fileID: 0}
+    placementOffset: {x: 0, y: 0, z: 0}
+    defaultScale: {x: 1, y: 1, z: 1}
+    gridSnapSize: 1
