@@ -1,4 +1,4 @@
-#if UNITY_EDITOR && MEMORYPACK && ARAWN_REMEMBERME
+#if UNITY_EDITOR && MEMORYPACK && ARAWN_REMEMBERME && REMEMBERME_EDITOR_COROUTINES_PRESENT
 using System;
 using System.Collections.Generic;
 using System.Diagnostics;

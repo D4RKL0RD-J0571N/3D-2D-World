@@ -1,4 +1,4 @@
-﻿using System;
+using System;
 using UnityEngine;
 using TMPro;
 #if ENABLE_INPUT_SYSTEM
@@ -112,7 +112,7 @@ namespace CodeMonkey.Toolkit.TTooltip {
 #if ENABLE_INPUT_SYSTEM
             Vector2 mousePosition = Mouse.current.position.value;
 #else
-            Vector2 mousePosition = Mouse.current.position.value;
+            Vector2 mousePosition = Input.mousePosition;
 #endif
             Vector2 anchoredPosition = (mousePosition / canvasRectTransform.localScale.x) + offset;
 
