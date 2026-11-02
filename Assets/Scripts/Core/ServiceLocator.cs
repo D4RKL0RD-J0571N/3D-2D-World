@@ -5,67 +5,102 @@ namespace Core
     using UnityEngine;
 
     /// <summary>
-    /// Global service registry. Provides a single resolution point for shared runtime systems.
+    /// Global service registry supporting both Two-Phase module initialization
+    /// (<see cref="BeginRegistrationPhase"/> / <see cref="CompleteRegistrationAndInitialize"/>)
+    /// and immediate single-phase registration for backward compatibility.
     /// </summary>
-    /// <remarks>
-    /// <para>Use the ServiceLocator for systems consumed by two or more other systems,
-    /// or for globally shared runtime services such as audio, input, save, UI, and state machines.
-    /// For dependencies internal to a single feature, prefer direct references.</para>
-    /// <para>All services are registered and initialized in <see cref="GameBootstrapper"/>.
-    /// Registering a duplicate type logs a warning and overwrites the existing entry after
-    /// shutting it down — this supports scene reloads and editor Play Mode restarts.</para>
-    /// </remarks>
-    /// <example>
-    /// Registering a service:
-    /// <code>
-    /// ServiceLocator.Register(new AudioManager());
-    /// </code>
-    /// Retrieving a service:
-    /// <code>
-    /// var audio = ServiceLocator.Get&lt;AudioManager&gt;();
-    /// audio?.PlayClip(clip);
-    /// </code>
-    /// Optional retrieval without logging an error on miss:
-    /// <code>
-    /// if (ServiceLocator.TryGet&lt;AudioManager&gt;(out var audio))
-    ///     audio.PlayClip(clip);
-    /// </code>
-    /// </example>
     public static class ServiceLocator
     {
+        #region Fields
+
         private static readonly Dictionary<Type, IGameService> _services = new();
+        private static readonly List<IGameService> _pendingInitialization = new();
+        private static readonly HashSet<IGameService> _initializedInstances = new();
+        private static bool _isRegistrationPhase;
+
+        #endregion
+
+        #region Properties
+
+        /// <summary>Returns true if the locator is currently in Phase 1 (Service Registration) prior to Phase 2 initialization.</summary>
+        public static bool IsRegistrationPhase => _isRegistrationPhase;
+
+        #endregion
+
+        #region Two-Phase Lifecycle Control
 
         /// <summary>
-        /// Registers a service of type <typeparamref name="T"/> and calls its
-        /// <see cref="IGameService.Initialize"/> method.
-        /// If a service of the same type is already registered, it is shut down and replaced.
+        /// Enters Phase 1 (Registration Phase). Services registered while this phase is active
+        /// are added to the lookup table immediately, but their <see cref="IGameService.Initialize"/>
+        /// calls are deferred until <see cref="CompleteRegistrationAndInitialize"/> is invoked.
         /// </summary>
-        /// <typeparam name="T">The service type used as the lookup key. Must implement <see cref="IGameService"/>.</typeparam>
-        /// <param name="service">The service instance to register.</param>
+        public static void BeginRegistrationPhase()
+        {
+            _isRegistrationPhase = true;
+            _pendingInitialization.Clear();
+        }
+
+        /// <summary>
+        /// Completes Phase 1 and executes Phase 2: invokes <see cref="IGameService.Initialize"/>
+        /// on all newly registered services in deterministic registration order.
+        /// Guarantees that every service can safely resolve any other registered service inside <c>Initialize()</c>.
+        /// </summary>
+        public static void CompleteRegistrationAndInitialize()
+        {
+            _isRegistrationPhase = false;
+
+            var toInitialize = new List<IGameService>(_pendingInitialization);
+            _pendingInitialization.Clear();
+
+            for (int i = 0; i < toInitialize.Count; i++)
+            {
+                IGameService service = toInitialize[i];
+                if (service != null && _initializedInstances.Add(service))
+                {
+                    service.Initialize();
+                }
+            }
+        }
+
+        #endregion
+
+        #region Registration & Resolution
+
+        /// <summary>
+        /// Registers a service under its type <typeparamref name="T"/>.
+        /// In Two-Phase mode, defers <see cref="IGameService.Initialize"/> to Phase 2;
+        /// in immediate mode, invokes <see cref="IGameService.Initialize"/> immediately (once per unique instance).
+        /// </summary>
         public static void Register<T>(T service) where T : class, IGameService
         {
-            var type = typeof(T);
+            RegisterInternal(typeof(T), service);
+        }
 
-            if (_services.ContainsKey(type))
+        /// <summary>
+        /// Registers a concrete service implementation under both <typeparamref name="TInterface"/> and <typeparamref name="TImpl"/>,
+        /// ensuring <see cref="IGameService.Initialize"/> is invoked only once for the shared instance.
+        /// </summary>
+        public static void Register<TInterface, TImpl>(TImpl service)
+            where TInterface : class, IGameService
+            where TImpl : class, TInterface
+        {
+            RegisterInternal(typeof(TInterface), service);
+            if (typeof(TInterface) != typeof(TImpl))
             {
-                Debug.LogWarning($"[ServiceLocator] {type.Name} already registered. Overwriting.");
-                _services[type].Shutdown();
+                RegisterInternal(typeof(TImpl), service);
             }
-
-            _services[type] = service;
-            service.Initialize();
         }
 
         /// <summary>
         /// Returns the registered service of type <typeparamref name="T"/>.
         /// Logs an error and returns <c>null</c> if the service is not registered.
         /// </summary>
-        /// <typeparam name="T">The service type to retrieve.</typeparam>
-        /// <returns>The registered service instance, or <c>null</c> if not found.</returns>
         public static T Get<T>() where T : class, IGameService
         {
             if (_services.TryGetValue(typeof(T), out var service))
+            {
                 return (T)service;
+            }
 
             Debug.LogError($"[ServiceLocator] Service {typeof(T).Name} not found.");
             return null;
@@ -73,14 +108,8 @@ namespace Core
 
         /// <summary>
         /// Attempts to retrieve the registered service of type <typeparamref name="T"/>
-        /// without logging an error on miss. Use this for optional services.
+        /// without logging an error on miss.
         /// </summary>
-        /// <typeparam name="T">The service type to retrieve.</typeparam>
-        /// <param name="service">
-        /// When this method returns <c>true</c>, contains the registered service instance.
-        /// When <c>false</c>, contains <c>null</c>.
-        /// </param>
-        /// <returns><c>true</c> if the service is registered; otherwise <c>false</c>.</returns>
         public static bool TryGet<T>(out T service) where T : class, IGameService
         {
             if (_services.TryGetValue(typeof(T), out var raw))
@@ -95,10 +124,8 @@ namespace Core
 
         /// <summary>
         /// Unregisters the service of type <typeparamref name="T"/> and calls its
-        /// <see cref="IGameService.Shutdown"/> method.
-        /// Logs a warning and returns silently if the service is not registered.
+        /// <see cref="IGameService.Shutdown"/> method if no other key references the same instance.
         /// </summary>
-        /// <typeparam name="T">The service type to unregister.</typeparam>
         public static void Unregister<T>() where T : class, IGameService
         {
             var type = typeof(T);
@@ -110,19 +137,96 @@ namespace Core
             }
 
             _services.Remove(type);
-            service.Shutdown();
+            _pendingInitialization.Remove(service);
+
+            if (!ContainsInstance(service))
+            {
+                _initializedInstances.Remove(service);
+                service.Shutdown();
+            }
         }
 
         /// <summary>
-        /// Shuts down and removes all registered services.
-        /// Called automatically by <see cref="GameBootstrapper"/> on destroy.
+        /// Shuts down and removes all registered services (invoking <see cref="IGameService.Shutdown"/> once per unique instance in reverse order).
         /// </summary>
         public static void Clear()
         {
+            _isRegistrationPhase = false;
+            _pendingInitialization.Clear();
+
+            var uniqueServices = new List<IGameService>();
+            var visited = new HashSet<IGameService>();
+
             foreach (var service in _services.Values)
-                service.Shutdown();
+            {
+                if (service != null && visited.Add(service))
+                {
+                    uniqueServices.Add(service);
+                }
+            }
+
+            for (int i = uniqueServices.Count - 1; i >= 0; i--)
+            {
+                uniqueServices[i].Shutdown();
+            }
 
             _services.Clear();
+            _initializedInstances.Clear();
         }
+
+        #endregion
+
+        #region Internal Helpers
+
+        private static void RegisterInternal(Type type, IGameService service)
+        {
+            if (service == null)
+            {
+                throw new ArgumentNullException(nameof(service));
+            }
+
+            if (_services.TryGetValue(type, out var existing) && !ReferenceEquals(existing, service))
+            {
+                Debug.LogWarning($"[ServiceLocator] {type.Name} already registered. Overwriting.");
+                _services.Remove(type);
+                if (!ContainsInstance(existing))
+                {
+                    _initializedInstances.Remove(existing);
+                    existing.Shutdown();
+                }
+            }
+
+            _services[type] = service;
+
+            if (_isRegistrationPhase)
+            {
+                if (!_pendingInitialization.Contains(service) && !_initializedInstances.Contains(service))
+                {
+                    _pendingInitialization.Add(service);
+                }
+            }
+            else
+            {
+                if (_initializedInstances.Add(service))
+                {
+                    service.Initialize();
+                }
+            }
+        }
+
+        private static bool ContainsInstance(IGameService instance)
+        {
+            foreach (var registered in _services.Values)
+            {
+                if (ReferenceEquals(registered, instance))
+                {
+                    return true;
+                }
+            }
+
+            return false;
+        }
+
+        #endregion
     }
 }

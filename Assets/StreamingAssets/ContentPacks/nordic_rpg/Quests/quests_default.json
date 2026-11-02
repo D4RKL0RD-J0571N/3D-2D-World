@@ -1,0 +1,46 @@
+[
+  {
+    "ContentId": "nordic_rpg:quest_template/dungeon_cleanse",
+    "DisplayName": "Dungeon Cleanse",
+    "Archetype": "DungeonCleanse",
+    "TitleFormat": "Purge: {0}",
+    "ObjectiveFormat": "Eliminate all threats in {0}",
+    "DefaultRequiredCount": 5,
+    "BaseGoldReward": 100,
+    "GoldPerPlayerLevel": 10,
+    "XPReward": 200
+  },
+  {
+    "ContentId": "nordic_rpg:quest_template/bounty_hunt",
+    "DisplayName": "Bounty Hunt",
+    "Archetype": "BountyHunt",
+    "TitleFormat": "Bounty: Slay the Target in {0}",
+    "ObjectiveFormat": "Slay the target in {0}",
+    "DefaultRequiredCount": 1,
+    "BaseGoldReward": 100,
+    "GoldPerPlayerLevel": 10,
+    "XPReward": 200
+  },
+  {
+    "ContentId": "nordic_rpg:quest_template/relic_recovery",
+    "DisplayName": "Relic Recovery",
+    "Archetype": "RelicRecovery",
+    "TitleFormat": "Relic: Recover the Artifact from {0}",
+    "ObjectiveFormat": "Recover the artifact from {0}",
+    "DefaultRequiredCount": 1,
+    "BaseGoldReward": 100,
+    "GoldPerPlayerLevel": 10,
+    "XPReward": 200
+  },
+  {
+    "ContentId": "nordic_rpg:quest_template/escort_rescue",
+    "DisplayName": "Escort Rescue",
+    "Archetype": "EscortRescue",
+    "TitleFormat": "Rescue: Escort the Survivor from {0}",
+    "ObjectiveFormat": "Escort the survivor to safety",
+    "DefaultRequiredCount": 1,
+    "BaseGoldReward": 100,
+    "GoldPerPlayerLevel": 10,
+    "XPReward": 200
+  }
+]

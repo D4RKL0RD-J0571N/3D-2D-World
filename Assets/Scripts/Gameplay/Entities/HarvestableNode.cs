@@ -1,10 +1,10 @@
 namespace Gameplay.Entities
 {
     using System.Collections;
-    using UnityEngine;
     using Core;
     using Data.Config;
     using Domain.Combat;
+    using UnityEngine;
 
     /// <summary>
     /// Represents non-living gatherable world nodes (trees, rock boulders) that can be
@@ -121,6 +121,11 @@ namespace Gameplay.Entities
             if (_isDepleted) return;
             _isDepleted = true;
 
+            if (_cachedCollider == null)
+            {
+                _cachedCollider = GetComponent<Collider>();
+            }
+
             // Immediately disable collider to prevent any further hits or duplication
             if (_cachedCollider != null)
             {
@@ -129,8 +134,11 @@ namespace Gameplay.Entities
 
             SpawnHarvestDrops();
 
-            // Despawn or shrink
-            StartCoroutine(DepletionRoutine());
+            // Despawn or shrink during PlayMode
+            if (Application.isPlaying && gameObject.activeInHierarchy)
+            {
+                StartCoroutine(DepletionRoutine());
+            }
         }
 
         private void SpawnHarvestDrops()
@@ -180,7 +188,7 @@ namespace Gameplay.Entities
 
         private void PlayHitReaction()
         {
-            if (gameObject.activeInHierarchy)
+            if (Application.isPlaying && gameObject.activeInHierarchy)
             {
                 StartCoroutine(HitShakeRoutine());
             }
@@ -218,7 +226,14 @@ namespace Gameplay.Entities
                 yield return null;
             }
 
-            Destroy(gameObject);
+            if (Application.isPlaying)
+            {
+                Destroy(gameObject);
+            }
+            else
+            {
+                DestroyImmediate(gameObject);
+            }
         }
 
         #endregion

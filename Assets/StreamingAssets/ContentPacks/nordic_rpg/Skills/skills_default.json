@@ -1,0 +1,20 @@
+[
+  { "ContentId": "nordic_rpg:skill/one_handed",   "DisplayName": "One-Handed",   "Category": "Combat",  "StartingLevel": 15, "BaseXP": 50.0, "XPPerLevel": 12.0, "LegacySkill": "OneHanded" },
+  { "ContentId": "nordic_rpg:skill/two_handed",   "DisplayName": "Two-Handed",   "Category": "Combat",  "StartingLevel": 15, "BaseXP": 50.0, "XPPerLevel": 12.0, "LegacySkill": "TwoHanded" },
+  { "ContentId": "nordic_rpg:skill/archery",      "DisplayName": "Archery",      "Category": "Combat",  "StartingLevel": 15, "BaseXP": 50.0, "XPPerLevel": 12.0, "LegacySkill": "Archery" },
+  { "ContentId": "nordic_rpg:skill/sneak",        "DisplayName": "Sneak",        "Category": "Stealth", "StartingLevel": 15, "BaseXP": 50.0, "XPPerLevel": 12.0, "LegacySkill": "Sneak" },
+  { "ContentId": "nordic_rpg:skill/light_armor",  "DisplayName": "Light Armor",  "Category": "Stealth", "StartingLevel": 15, "BaseXP": 50.0, "XPPerLevel": 12.0, "LegacySkill": "LightArmor" },
+  { "ContentId": "nordic_rpg:skill/heavy_armor",  "DisplayName": "Heavy Armor",  "Category": "Combat",  "StartingLevel": 15, "BaseXP": 50.0, "XPPerLevel": 12.0, "LegacySkill": "HeavyArmor" },
+  { "ContentId": "nordic_rpg:skill/destruction",  "DisplayName": "Destruction",  "Category": "Magic",   "StartingLevel": 15, "BaseXP": 50.0, "XPPerLevel": 12.0, "LegacySkill": "Destruction" },
+  { "ContentId": "nordic_rpg:skill/restoration",  "DisplayName": "Restoration",  "Category": "Magic",   "StartingLevel": 15, "BaseXP": 50.0, "XPPerLevel": 12.0, "LegacySkill": "Restoration" },
+  { "ContentId": "nordic_rpg:skill/lockpicking",  "DisplayName": "Lockpicking",  "Category": "Stealth", "StartingLevel": 15, "BaseXP": 50.0, "XPPerLevel": 12.0, "LegacySkill": "Lockpicking" },
+  { "ContentId": "nordic_rpg:skill/block",        "DisplayName": "Block",        "Category": "Combat",  "StartingLevel": 15, "BaseXP": 50.0, "XPPerLevel": 12.0 },
+  { "ContentId": "nordic_rpg:skill/smithing",     "DisplayName": "Smithing",     "Category": "Combat",  "StartingLevel": 15, "BaseXP": 50.0, "XPPerLevel": 12.0 },
+  { "ContentId": "nordic_rpg:skill/alteration",   "DisplayName": "Alteration",   "Category": "Magic",   "StartingLevel": 15, "BaseXP": 50.0, "XPPerLevel": 12.0 },
+  { "ContentId": "nordic_rpg:skill/conjuration",  "DisplayName": "Conjuration",  "Category": "Magic",   "StartingLevel": 15, "BaseXP": 50.0, "XPPerLevel": 12.0 },
+  { "ContentId": "nordic_rpg:skill/illusion",     "DisplayName": "Illusion",     "Category": "Magic",   "StartingLevel": 15, "BaseXP": 50.0, "XPPerLevel": 12.0 },
+  { "ContentId": "nordic_rpg:skill/enchanting",   "DisplayName": "Enchanting",   "Category": "Magic",   "StartingLevel": 15, "BaseXP": 50.0, "XPPerLevel": 12.0 },
+  { "ContentId": "nordic_rpg:skill/alchemy",      "DisplayName": "Alchemy",      "Category": "Stealth", "StartingLevel": 15, "BaseXP": 50.0, "XPPerLevel": 12.0 },
+  { "ContentId": "nordic_rpg:skill/pickpocket",   "DisplayName": "Pickpocket",   "Category": "Stealth", "StartingLevel": 15, "BaseXP": 50.0, "XPPerLevel": 12.0 },
+  { "ContentId": "nordic_rpg:skill/speech",       "DisplayName": "Speech",       "Category": "Stealth", "StartingLevel": 15, "BaseXP": 50.0, "XPPerLevel": 12.0 }
+]

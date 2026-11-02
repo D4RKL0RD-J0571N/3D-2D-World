@@ -54,8 +54,11 @@ namespace Gameplay.World
         private void Awake()
         {
             EnsureGeneratedRoot();
-            _meshingService = new GreedyMeshingService();
-            ServiceLocator.Register(_meshingService);
+            if (!ServiceLocator.TryGet(out _meshingService))
+            {
+                _meshingService = new GreedyMeshingService();
+                ServiceLocator.Register(_meshingService);
+            }
         }
 
         private void OnEnable()

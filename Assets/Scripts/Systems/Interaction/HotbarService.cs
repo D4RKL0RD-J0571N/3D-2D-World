@@ -1,6 +1,7 @@
 namespace Systems.Interaction
 {
     using Core;
+    using Core.Content;
     using Data.Config;
     using Domain.Grid;
     using Domain.Inventory;
@@ -134,8 +135,6 @@ namespace Systems.Interaction
         #region Helpers
         /// <summary>
         /// Populates slots from the BlockRegistry as a fallback palette.
-        /// Each block is wrapped in a transient ItemData-like reference via
-        /// block DisplayName matching for placement resolution.
         /// When using the registry fallback, slots hold null ItemData but
         /// SelectedBlock on BlockPlacementService is set directly from the registry.
         /// </summary>
@@ -144,7 +143,6 @@ namespace Systems.Interaction
             if (_registry == null) return;
 
             _usingRegistryFallback = true;
-            var blocks = _registry.GetAllBlocks();
 
             // Clear item slots — placement goes through SelectedBlock directly
             for (int i = 0; i < SlotCount; i++)
@@ -169,19 +167,60 @@ namespace Systems.Interaction
             }
             else
             {
-                // In inventory mode, resolve block from item display name
+                // In inventory mode, resolve block from explicit DefinitionRef<BlockDefinition> or legacy fallback
                 placement.SelectedBlock = ResolveBlock(_slots[_selectedSlotIndex]);
             }
         }
 
-        private BlockDefinition ResolveBlock(ItemData item)
+        /// <summary>
+        /// Resolves the <see cref="BlockDefinition"/> associated with <paramref name="item"/>.
+        /// Prioritizes explicit <see cref="ItemData.PlaceableBlock"/> (<see cref="Core.Ids.DefinitionRef{T}"/>),
+        /// falling back to legacy <c>DisplayName</c> matching for unmigrated assets.
+        /// </summary>
+        public BlockDefinition ResolveBlock(ItemData item)
         {
-            if (item == null || _registry == null) return null;
-            foreach (var block in _registry.GetAllBlocks())
+            if (item == null) return null;
+
+            // 1. Explicit typed DefinitionRef<BlockDefinition> resolution
+            if (item.PlaceableBlock.IsAssigned)
             {
-                if (block != null && block.DisplayName == item.DisplayName)
-                    return block;
+                if (item.PlaceableBlock.TryResolve(out BlockDefinition resolved))
+                {
+                    return resolved;
+                }
+
+                if (_registry != null)
+                {
+                    foreach (var candidate in _registry.GetAllBlocks())
+                    {
+                        if (candidate != null && candidate.ContentId == item.PlaceableBlock.Id)
+                        {
+                            return candidate;
+                        }
+                    }
+                }
             }
+
+            // 2. Legacy fallback: match by DisplayName in BlockRegistry or IContentService
+            if (_registry != null)
+            {
+                foreach (var block in _registry.GetAllBlocks())
+                {
+                    if (block != null && block.DisplayName == item.DisplayName)
+                        return block;
+                }
+            }
+
+            if (ServiceLocator.TryGet<IContentService>(out var contentService))
+            {
+                var blockRegistry = contentService.GetRegistry<BlockDefinition>();
+                foreach (var block in blockRegistry.GetAll())
+                {
+                    if (block != null && block.DisplayName == item.DisplayName)
+                        return block;
+                }
+            }
+
             return null;
         }
 

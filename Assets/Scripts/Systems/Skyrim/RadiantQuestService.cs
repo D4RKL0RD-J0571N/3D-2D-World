@@ -3,21 +3,30 @@ namespace Systems.Skyrim
     using System;
     using System.Collections.Generic;
     using Core;
+    using Core.Content;
+    using Core.Ids;
     using Domain.Skyrim;
     using UnityEngine;
 
     /// <summary>
     /// Generates and tracks Skyrim-style "radiant" quests procedurally at runtime.
-    /// Quests are objective-driven, compass-pinned, and reward XP and gold on completion.
+    /// Backed by <see cref="ContentRegistry{QuestTemplateDefinition}"/> so mods can register custom quest templates
+    /// while preserving full compatibility with legacy <see cref="QuestType"/> callers.
     /// </summary>
     public class RadiantQuestService : IGameService
     {
         #region Fields
 
         private readonly List<QuestInstance> _activeQuests = new();
-
-        // Running level used to scale rewards (incremented by SkillProgressionService events)
+        private readonly Dictionary<ResourceId, QuestTemplateDefinition> _localTemplates = new();
         private int _playerLevel = 1;
+
+        #endregion
+
+        #region Properties
+
+        /// <summary>Read-only view of currently active quests.</summary>
+        public IReadOnlyList<QuestInstance> ActiveQuests => _activeQuests;
 
         #endregion
 
@@ -25,6 +34,32 @@ namespace Systems.Skyrim
 
         public void Initialize()
         {
+            _activeQuests.Clear();
+            _localTemplates.Clear();
+
+            IContentService content = ServiceLocator.TryGet<IContentService>(out var cs) ? cs : null;
+            ContentRegistry<QuestTemplateDefinition> registry = content?.GetRegistry<QuestTemplateDefinition>();
+
+            IReadOnlyList<QuestTemplateDefinition> defaults = QuestTemplateDefinition.CreateDefaultNordicTemplates();
+            for (int i = 0; i < defaults.Count; i++)
+            {
+                QuestTemplateDefinition def = defaults[i];
+                _localTemplates[def.ContentId] = def;
+
+                if (registry != null && !registry.Contains(def.ContentId) && !registry.IsFrozen)
+                {
+                    registry.Register(def, def.ContentId.Namespace, ContentRegistrationPolicy.OverrideExisting, def.Archetype.ToString());
+                }
+            }
+
+            if (registry != null)
+            {
+                foreach (QuestTemplateDefinition customDef in registry.GetAll())
+                {
+                    _localTemplates[customDef.ContentId] = customDef;
+                }
+            }
+
             GameEventManager.AddListener<PlayerCharacterLeveledUpEvent>(OnPlayerLeveledUp);
         }
 
@@ -32,29 +67,87 @@ namespace Systems.Skyrim
         {
             GameEventManager.RemoveListener<PlayerCharacterLeveledUpEvent>(OnPlayerLeveledUp);
             _activeQuests.Clear();
+            _localTemplates.Clear();
         }
 
         #endregion
 
-        #region Public API
+        #region Public API — ResourceId (Data-Driven)
 
-        /// <summary>Read-only view of currently active quests.</summary>
-        public IReadOnlyList<QuestInstance> ActiveQuests => _activeQuests;
+        /// <summary>Registers a custom or modded <see cref="QuestTemplateDefinition"/>.</summary>
+        public void RegisterTemplate(QuestTemplateDefinition template)
+        {
+            if (template == null || !template.ContentId.IsValid) return;
+
+            _localTemplates[template.ContentId] = template;
+            if (ServiceLocator.TryGet<IContentService>(out var content))
+            {
+                var reg = content.GetRegistry<QuestTemplateDefinition>();
+                if (!reg.IsFrozen)
+                {
+                    reg.Register(template, template.ContentId.Namespace, ContentRegistrationPolicy.OverrideExisting);
+                }
+            }
+        }
 
         /// <summary>
-        /// Procedurally generates a quest of the given type for the specified location.
+        /// Procedurally generates a quest from the <see cref="QuestTemplateDefinition"/> matching <paramref name="templateId"/>.
+        /// </summary>
+        public QuestInstance GenerateQuest(ResourceId templateId, string locationName)
+        {
+            QuestTemplateDefinition template = ResolveTemplate(templateId);
+            if (template != null)
+            {
+                return new QuestInstance
+                {
+                    QuestId = Guid.NewGuid().ToString(),
+                    TemplateId = template.ContentId,
+                    Type = template.Archetype,
+                    LocationName = locationName,
+                    Title = template.FormatTitle(locationName),
+                    BaseGoldReward = template.BaseGoldReward,
+                    GoldPerPlayerLevel = template.GoldPerPlayerLevel,
+                    XPReward = template.XPReward,
+                    Objectives = new List<QuestObjective>
+                    {
+                        new QuestObjective
+                        {
+                            Description = template.FormatObjective(locationName),
+                            RequiredCount = template.DefaultRequiredCount
+                        }
+                    }
+                };
+            }
+
+            return new QuestInstance
+            {
+                QuestId = Guid.NewGuid().ToString(),
+                TemplateId = templateId,
+                Type = QuestType.DungeonCleanse,
+                LocationName = locationName,
+                Title = $"Quest: {locationName}",
+                Objectives = new List<QuestObjective>
+                {
+                    new QuestObjective
+                    {
+                        Description = $"Complete objective in {locationName}",
+                        RequiredCount = 1
+                    }
+                }
+            };
+        }
+
+        #endregion
+
+        #region Public API — Legacy QuestType Enum & Lifecycle
+
+        /// <summary>
+        /// Procedurally generates a quest of the given legacy <see cref="QuestType"/> for the specified location.
         /// </summary>
         public QuestInstance GenerateQuest(QuestType type, string locationName)
         {
-            var quest = new QuestInstance
-            {
-                QuestId      = Guid.NewGuid().ToString(),
-                Type         = type,
-                LocationName = locationName,
-                Title        = BuildTitle(type, locationName),
-                Objectives   = new List<QuestObjective> { BuildObjective(type, locationName) }
-            };
-            return quest;
+            ResourceId templateId = QuestTemplateDefinition.ToResourceId(type);
+            return GenerateQuest(templateId, locationName);
         }
 
         /// <summary>
@@ -83,11 +176,13 @@ namespace Systems.Skyrim
             bool advanced = quest.AdvanceObjective(count);
             if (!advanced) return;
 
-            var updated = quest.Objectives.Find(o => o.IsComplete);
+            var updated = quest.Objectives.Find(o => o.IsComplete) ?? quest.Objectives[0];
             GameEventManager.Publish(new QuestObjectiveUpdatedEvent(quest, updated));
 
             if (quest.AllObjectivesComplete())
+            {
                 CompleteQuest(questId);
+            }
         }
 
         /// <summary>
@@ -99,8 +194,8 @@ namespace Systems.Skyrim
             if (quest == null) return;
 
             quest.IsCompleted = true;
-            int gold = 100 + _playerLevel * 10;
-            int xp   = 200;
+            int gold = quest.BaseGoldReward + _playerLevel * quest.GoldPerPlayerLevel;
+            int xp = quest.XPReward;
 
             GameEventManager.Publish(new QuestCompletedEvent(quest, gold, xp));
             _activeQuests.Remove(quest);
@@ -112,45 +207,28 @@ namespace Systems.Skyrim
 
         #region Helpers
 
-        private string BuildTitle(QuestType type, string location) => type switch
+        private QuestTemplateDefinition ResolveTemplate(ResourceId templateId)
         {
-            QuestType.DungeonCleanse => $"Purge: {location}",
-            QuestType.BountyHunt    => $"Bounty: Slay the Target in {location}",
-            QuestType.RelicRecovery => $"Relic: Recover the Artifact from {location}",
-            QuestType.EscortRescue  => $"Rescue: Escort the Survivor from {location}",
-            _                       => "Unknown Quest"
-        };
+            if (!templateId.IsValid) return null;
 
-        private QuestObjective BuildObjective(QuestType type, string location) => type switch
-        {
-            QuestType.DungeonCleanse => new QuestObjective
+            if (ServiceLocator.TryGet<IContentService>(out var content) &&
+                content.GetRegistry<QuestTemplateDefinition>().TryGet(templateId, out QuestTemplateDefinition def))
             {
-                Description   = $"Eliminate all threats in {location}",
-                RequiredCount = 5
-            },
-            QuestType.BountyHunt => new QuestObjective
+                return def;
+            }
+
+            if (_localTemplates.TryGetValue(templateId, out QuestTemplateDefinition localDef))
             {
-                Description   = $"Slay the target in {location}",
-                RequiredCount = 1
-            },
-            QuestType.RelicRecovery => new QuestObjective
-            {
-                Description   = $"Recover the artifact from {location}",
-                RequiredCount = 1
-            },
-            QuestType.EscortRescue => new QuestObjective
-            {
-                Description   = "Escort the survivor to safety",
-                RequiredCount = 1
-            },
-            _ => new QuestObjective { Description = "Unknown Objective", RequiredCount = 1 }
-        };
+                return localDef;
+            }
+
+            return null;
+        }
 
         private void PinCompassMarker(QuestInstance quest)
         {
             if (!ServiceLocator.TryGet<CompassService>(out var compass)) return;
 
-            // Pin at origin as a placeholder; designers should relocate via CompassMarkerComponent
             var markerData = new CompassMarkerData(
                 id:            quest.QuestId,
                 title:         quest.Title,

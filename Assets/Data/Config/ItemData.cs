@@ -1,5 +1,7 @@
 namespace Data.Config
 {
+    using Core.Ids;
+    using Domain.Grid;
     using UnityEngine;
 
     /// <summary>
@@ -19,5 +21,9 @@ namespace Data.Config
 
         [Header("Presentation")]
         public Sprite Icon;
+
+        [Header("Voxel / Block Placement")]
+        [Tooltip("Typed reference to the BlockDefinition placed when this item is used from the hotbar.")]
+        public DefinitionRef<BlockDefinition> PlaceableBlock;
     }
 }

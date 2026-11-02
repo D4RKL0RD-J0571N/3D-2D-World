@@ -41,7 +41,15 @@ namespace Systems.Audio
 
             if (_audioHost != null)
             {
-                Object.Destroy(_audioHost);
+                if (Application.isPlaying)
+                {
+                    Object.Destroy(_audioHost);
+                }
+                else
+                {
+                    Object.DestroyImmediate(_audioHost);
+                }
+
                 _audioHost = null;
             }
         }
@@ -55,7 +63,11 @@ namespace Systems.Audio
             if (_audioHost == null)
             {
                 _audioHost = new GameObject("[AudioService_Host]");
-                Object.DontDestroyOnLoad(_audioHost);
+                if (Application.isPlaying)
+                {
+                    Object.DontDestroyOnLoad(_audioHost);
+                }
+
                 _uiSource = _audioHost.AddComponent<AudioSource>();
                 _uiSource.playOnAwake = false;
                 _uiSource.spatialBlend = 0f; // Pure 2D for UI sounds

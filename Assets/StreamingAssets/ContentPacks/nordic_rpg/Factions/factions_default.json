@@ -1,0 +1,73 @@
+[
+  {
+    "ContentId": "nordic_rpg:faction/player",
+    "DisplayName": "Player",
+    "LegacyFaction": "Player",
+    "DefaultDispositions": {
+      "nordic_rpg:faction/player": "Friendly",
+      "nordic_rpg:faction/guards": "Neutral",
+      "nordic_rpg:faction/bandits": "Hostile",
+      "nordic_rpg:faction/draugr": "Hostile",
+      "nordic_rpg:faction/beasts": "Hostile",
+      "nordic_rpg:faction/neutral": "Neutral"
+    }
+  },
+  {
+    "ContentId": "nordic_rpg:faction/guards",
+    "DisplayName": "Town Guards",
+    "LegacyFaction": "Guards",
+    "DefaultDispositions": {
+      "nordic_rpg:faction/guards": "Friendly",
+      "nordic_rpg:faction/player": "Neutral",
+      "nordic_rpg:faction/bandits": "Hostile",
+      "nordic_rpg:faction/draugr": "Hostile",
+      "nordic_rpg:faction/beasts": "Hostile"
+    }
+  },
+  {
+    "ContentId": "nordic_rpg:faction/bandits",
+    "DisplayName": "Bandits",
+    "LegacyFaction": "Bandits",
+    "DefaultDispositions": {
+      "nordic_rpg:faction/bandits": "Friendly",
+      "nordic_rpg:faction/player": "Hostile",
+      "nordic_rpg:faction/guards": "Hostile",
+      "nordic_rpg:faction/draugr": "Hostile",
+      "nordic_rpg:faction/beasts": "Hostile"
+    }
+  },
+  {
+    "ContentId": "nordic_rpg:faction/draugr",
+    "DisplayName": "Restless Draugr",
+    "LegacyFaction": "Draugr",
+    "DefaultDispositions": {
+      "nordic_rpg:faction/draugr": "Friendly",
+      "nordic_rpg:faction/player": "Hostile",
+      "nordic_rpg:faction/guards": "Hostile",
+      "nordic_rpg:faction/bandits": "Hostile",
+      "nordic_rpg:faction/beasts": "Hostile"
+    }
+  },
+  {
+    "ContentId": "nordic_rpg:faction/beasts",
+    "DisplayName": "Wild Beasts",
+    "LegacyFaction": "Beasts",
+    "DefaultDispositions": {
+      "nordic_rpg:faction/beasts": "Friendly",
+      "nordic_rpg:faction/player": "Hostile",
+      "nordic_rpg:faction/guards": "Hostile",
+      "nordic_rpg:faction/bandits": "Hostile",
+      "nordic_rpg:faction/draugr": "Hostile"
+    }
+  },
+  {
+    "ContentId": "nordic_rpg:faction/neutral",
+    "DisplayName": "Citizens & Merchants",
+    "LegacyFaction": "Neutral",
+    "DefaultDispositions": {
+      "nordic_rpg:faction/neutral": "Friendly",
+      "nordic_rpg:faction/player": "Neutral",
+      "nordic_rpg:faction/guards": "Friendly"
+    }
+  }
+]

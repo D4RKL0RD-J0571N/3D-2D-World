@@ -3,29 +3,43 @@ namespace Systems.Meshing
     using Core;
     using Domain.Grid;
     using Domain.Meshing;
-    using UnityEngine;
     using Unity.Collections;
     using Unity.Jobs;
     using Unity.Mathematics;
-    using System.Collections.Generic;
-    using System.Linq;
-
+    using UnityEngine;
 
     public sealed class GreedyMeshingService : IGameService
     {
         private GridMeshBuilder _meshBuilder;
         private BlockRegistry _registry;
 
+        public BlockRegistry Registry => _registry;
+
         public void Initialize(BlockRegistry registry)
         {
             _registry = registry;
-            _meshBuilder = new GridMeshBuilder();
+            _meshBuilder ??= new GridMeshBuilder();
         }
 
         public void Initialize()
         {
-            // Usually configuration is injected, but if not we leave it null until provided
-            _meshBuilder = new GridMeshBuilder();
+            _meshBuilder ??= new GridMeshBuilder();
+
+            if (_registry == null)
+            {
+                _registry = Resources.Load<BlockRegistry>("DefaultBlockRegistry");
+#if UNITY_EDITOR
+                if (_registry == null)
+                {
+                    _registry = UnityEditor.AssetDatabase.LoadAssetAtPath<BlockRegistry>(
+                        "Assets/Data/Config/WorldGeneration/BlockRegistry.asset");
+                }
+#endif
+                if (_registry != null)
+                {
+                    _registry.Initialize();
+                }
+            }
         }
 
         public void Shutdown()

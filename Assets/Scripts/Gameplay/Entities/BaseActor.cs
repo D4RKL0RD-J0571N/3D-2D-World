@@ -2,9 +2,12 @@ namespace Gameplay.Entities
 {
     using System.Collections;
     using System.Collections.Generic;
-    using UnityEngine;
+    using Core;
+    using Core.Content;
+    using Core.Ids;
     using Data.Config;
     using Domain.Combat;
+    using UnityEngine;
 
     /// <summary>
     /// Base actor shell coordinating peer components (attributes, stats, states) on an entity.
@@ -59,19 +62,28 @@ namespace Gameplay.Entities
 
         protected virtual void OnEnable()
         {
-            Core.GameEventManager.AddListener<Domain.Persistence.EntityStateLoadedEvent>(OnEntityStateLoaded);
+            GameEventManager.AddListener<Domain.Persistence.EntityStateLoadedEvent>(OnEntityStateLoaded);
+
+            if (!CompareTag("Player") && ServiceLocator.TryGet<Systems.Skyrim.StealthDetectionService>(out var stealth))
+            {
+                stealth.RegisterObserver(transform);
+            }
         }
 
         protected virtual void OnDisable()
         {
-            Core.GameEventManager.RemoveListener<Domain.Persistence.EntityStateLoadedEvent>(OnEntityStateLoaded);
+            GameEventManager.RemoveListener<Domain.Persistence.EntityStateLoadedEvent>(OnEntityStateLoaded);
+
+            if (ServiceLocator.TryGet<Systems.Skyrim.StealthDetectionService>(out var stealth))
+            {
+                stealth.UnregisterObserver(transform);
+            }
         }
 
         private void OnEntityStateLoaded(Domain.Persistence.EntityStateLoadedEvent evt)
         {
             if (evt == null || evt.State == null) return;
 
-            // Check if this event targets this entity (e.g., "Player" or matching InstanceId)
             bool isTarget = (CompareTag("Player") && evt.State.EntityId == "Player") ||
                             (!string.IsNullOrEmpty(evt.State.InstanceId) && evt.State.InstanceId == name);
 
@@ -96,17 +108,29 @@ namespace Gameplay.Entities
 
             if (TryGetComponent<InventoryComponent>(out var inventory) && evt.State.Inventory != null)
             {
-                inventory.RestoreSaveData(evt.State.Inventory, id =>
-                {
-#if UNITY_EDITOR
-                    return UnityEditor.AssetDatabase.LoadAssetAtPath<Data.Config.ItemData>(
-                        $"Assets/Data/Definitions/ItemData/Item_{id.Replace("ITM_", "")}.asset") ??
-                        Resources.Load<Data.Config.ItemData>($"Definitions/ItemData/{id}");
-#else
-                    return Resources.Load<Data.Config.ItemData>($"Definitions/ItemData/{id}");
-#endif
-                });
+                inventory.RestoreSaveData(evt.State.Inventory, ResolveItemDefinition);
             }
+        }
+
+        private static ItemData ResolveItemDefinition(string id)
+        {
+            if (string.IsNullOrWhiteSpace(id)) return null;
+
+            if (ServiceLocator.TryGet<IContentService>(out var content))
+            {
+                if (ResourceId.TryParse(id, out ResourceId canonicalId) &&
+                    content.TryResolve(canonicalId, out ItemData byCanonical))
+                {
+                    return byCanonical;
+                }
+
+                if (content.TryResolveByLegacyAlias(id, out ItemData byAlias))
+                {
+                    return byAlias;
+                }
+            }
+
+            return Resources.Load<ItemData>($"Definitions/ItemData/{id}");
         }
 
         #endregion
@@ -133,7 +157,6 @@ namespace Gameplay.Entities
 
             base.Initialize(blueprint);
 
-            // Direct, lossless initialization of peer components
             EnsureComponentsCached();
             _attributeComponent?.Initialize(this);
             _statsComponent?.Initialize(this);
@@ -145,7 +168,8 @@ namespace Gameplay.Entities
 
         /// <summary>
         /// Applies incoming damage to this actor's attributes and executes hit reactions.
-        /// Evaluates Skyrim-style sneak attack multipliers if attacker strikes undetected from stealth.
+        /// Evaluates sneak attack multipliers if attacker strikes undetected from stealth
+        /// and publishes <see cref="SneakAttackTriggeredEvent"/> for progression/audio listeners.
         /// </summary>
         public virtual void TakeDamage(DamageInfo damage)
         {
@@ -153,22 +177,16 @@ namespace Gameplay.Entities
 
             int finalDamage = damage.Amount;
 
-            // Check for Skyrim-style sneak attack multiplier
             if (damage.Instigator != null && damage.Instigator.CompareTag("Player") && !CompareTag("Player"))
             {
-                if (Core.ServiceLocator.TryGet<Systems.Skyrim.StealthDetectionService>(out var stealth) &&
+                if (ServiceLocator.TryGet<Systems.Skyrim.StealthDetectionService>(out var stealth) &&
                     stealth.CurrentState == Domain.Skyrim.StealthState.Hidden)
                 {
                     float multiplier = 3.0f;
                     finalDamage = Mathf.RoundToInt(damage.Amount * multiplier);
 
-                    Core.GameEventManager.Publish(new Domain.Combat.SneakAttackTriggeredEvent(
+                    GameEventManager.Publish(new SneakAttackTriggeredEvent(
                         damage.Instigator, this, multiplier, finalDamage));
-
-                    if (Core.ServiceLocator.TryGet<Systems.Skyrim.SkillProgressionService>(out var skillProg))
-                    {
-                        skillProg.AwardXP(Domain.Skyrim.SkyrimSkill.Sneak, 15f);
-                    }
 
                     Debug.Log($"<color=orange>✦ SNEAK ATTACK! Critical {multiplier:0.0}x damage ({finalDamage}) to {name}!</color>");
                 }
@@ -184,7 +202,7 @@ namespace Gameplay.Entities
 
         protected virtual void PlayHitReaction(DamageInfo damage)
         {
-            if (gameObject.activeInHierarchy)
+            if (Application.isPlaying && gameObject.activeInHierarchy)
             {
                 StartCoroutine(FlashDamageRoutine());
             }

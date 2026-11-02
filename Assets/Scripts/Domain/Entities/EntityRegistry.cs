@@ -1,9 +1,11 @@
 namespace Domain.Entities
 {
-    using UnityEngine;
     using System.Collections.Generic;
     using System.Linq;
+    using Core;
+    using Core.Content;
     using Data.Config;
+    using UnityEngine;
 
     [CreateAssetMenu(fileName = "EntityRegistry", menuName = "3D2DWorld/Entities/Entity Registry")]
     public sealed class EntityRegistry : ScriptableObject
@@ -11,6 +13,8 @@ namespace Domain.Entities
         [SerializeField] private List<EntityData> _entities = new();
 
         private Dictionary<string, EntityData> _entityMap;
+
+        public IReadOnlyList<EntityData> Entities => _entities;
 
         public void Initialize()
         {
@@ -36,10 +40,28 @@ namespace Domain.Entities
 
         public EntityData GetEntity(string id)
         {
-            if (_entityMap == null) Initialize();
+            if (string.IsNullOrWhiteSpace(id))
+            {
+                return null;
+            }
 
-            _entityMap.TryGetValue(id, out var data);
-            return data;
+            if (_entityMap == null)
+            {
+                Initialize();
+            }
+
+            if (_entityMap.TryGetValue(id, out var data))
+            {
+                return data;
+            }
+
+            if (ServiceLocator.TryGet<IContentService>(out var contentService) &&
+                contentService.TryResolveByLegacyAlias<EntityData>(id, out var bridged))
+            {
+                return bridged;
+            }
+
+            return null;
         }
     }
 }
