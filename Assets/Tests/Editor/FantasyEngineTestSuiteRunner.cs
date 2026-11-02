@@ -25,6 +25,7 @@ namespace Tests.Editor
                 typeof(Domain1_EngineIndependenceTests),
                 typeof(Domain2_ModuleLifecycleTests),
                 typeof(Domain3_ContentRegistryTests),
+                typeof(Domain6_PersistenceAndVoxelCodecTests),
                 typeof(CraftingServiceTests),
                 typeof(HarvestableNodeTests)
             };

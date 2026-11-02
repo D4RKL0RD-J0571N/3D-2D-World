@@ -1,6 +1,10 @@
 namespace Gameplay.Interactables
 {
+    using System;
     using Core;
+    using Core.Ids;
+    using Core.Persistence;
+    using Newtonsoft.Json;
     using UnityEngine;
 
     // ── Difficulty enum ───────────────────────────────────────────────────────
@@ -36,7 +40,7 @@ namespace Gameplay.Interactables
     /// Implements IInteractable so PlayerInteractionController can detect it.
     /// </summary>
     [AddComponentMenu("3D2DWorld/Interactables/Chest")]
-    public class ChestInteractable : MonoBehaviour, IInteractable
+    public class ChestInteractable : MonoBehaviour, IInteractable, ISaveableComponent
     {
         #region Serialized Fields
 
@@ -49,9 +53,23 @@ namespace Gameplay.Interactables
 
         #endregion
 
-        #region State
+        #region State & Properties
 
         private bool _isOpened = false;
+
+        public bool IsLocked => _lockDifficulty != LockDifficulty.Unlocked;
+        public bool IsOpened => _isOpened;
+        public LockDifficulty Difficulty => _lockDifficulty;
+
+        public void ConfigureChest(LockDifficulty difficulty, bool isOpened = false, string[] lootItemIds = null)
+        {
+            _lockDifficulty = difficulty;
+            _isOpened = isOpened;
+            if (lootItemIds != null)
+            {
+                _lootItemIds = lootItemIds;
+            }
+        }
 
         #endregion
 
@@ -142,8 +160,6 @@ namespace Gameplay.Interactables
 
         #region Helpers
 
-        private bool IsLocked => _lockDifficulty != LockDifficulty.Unlocked;
-
         private int GetRequiredSkillLevel() => _lockDifficulty switch
         {
             LockDifficulty.Novice     => 15,
@@ -160,6 +176,46 @@ namespace Gameplay.Interactables
                 return skills.GetSkillLevel(Domain.Skyrim.SkyrimSkill.Lockpicking);
             }
             return 15;
+        }
+
+        #endregion
+
+        #region ISaveableComponent Implementation
+
+        [Serializable]
+        private sealed class ChestSaveDto
+        {
+            public LockDifficulty LockDifficulty;
+            public bool IsOpened;
+            public string[] LootItemIds;
+        }
+
+        public string ComponentSaveKey => "chest";
+
+        public object CaptureComponentState()
+        {
+            return new ChestSaveDto
+            {
+                LockDifficulty = _lockDifficulty,
+                IsOpened = _isOpened,
+                LootItemIds = _lootItemIds
+            };
+        }
+
+        public void RestoreComponentState(string serializedJsonState, IWorldInstanceResolver resolver)
+        {
+            if (string.IsNullOrWhiteSpace(serializedJsonState)) return;
+
+            var settings = FantasyEngineJsonSettings.CreateDefault();
+            var dto = JsonConvert.DeserializeObject<ChestSaveDto>(serializedJsonState, settings);
+            if (dto == null) return;
+
+            _lockDifficulty = dto.LockDifficulty;
+            _isOpened = dto.IsOpened;
+            if (dto.LootItemIds != null)
+            {
+                _lootItemIds = dto.LootItemIds;
+            }
         }
 
         #endregion

@@ -3,6 +3,8 @@ namespace Gameplay.World
     using System;
     using System.Collections.Generic;
     using Core;
+    using Core.Content;
+    using Core.Persistence;
     using Core.Utils;
     using Data.Config;
     using Domain.Grid;
@@ -10,6 +12,7 @@ namespace Gameplay.World
     using Domain.LevelGeneration;
     using Systems.LevelGeneration;
     using Systems.Meshing;
+    using Systems.Persistence;
     using UnityEngine;
 
     [DisallowMultipleComponent]
@@ -65,12 +68,21 @@ namespace Gameplay.World
         {
             GameEventManager.AddListener<LevelGenerationCompletedEvent>(OnLevelGenerationCompleted);
             GameEventManager.AddListener<LevelGenerationFailedEvent>(OnLevelGenerationFailed);
-            GameEventManager.AddListener<Domain.Persistence.GameSaveRequestedEvent>(OnSaveRequested);
             GameEventManager.AddListener<Domain.Persistence.GameDataLoadedEvent>(OnGameLoaded);
+
+            if (ServiceLocator.TryGet<FileSaveService>(out var saveService))
+            {
+                saveService.RegisterVoxelProvider(CaptureVoxelChunks, RestoreVoxelChunks);
+            }
         }
 
         private void Start()
         {
+            if (ServiceLocator.TryGet<FileSaveService>(out var saveService))
+            {
+                saveService.RegisterVoxelProvider(CaptureVoxelChunks, RestoreVoxelChunks);
+            }
+
             if (_generateOnStart)
             {
                 GameEventManager.Publish(new LevelGenerationRequestedEvent
@@ -89,7 +101,6 @@ namespace Gameplay.World
         {
             GameEventManager.RemoveListener<LevelGenerationCompletedEvent>(OnLevelGenerationCompleted);
             GameEventManager.RemoveListener<LevelGenerationFailedEvent>(OnLevelGenerationFailed);
-            GameEventManager.RemoveListener<Domain.Persistence.GameSaveRequestedEvent>(OnSaveRequested);
             GameEventManager.RemoveListener<Domain.Persistence.GameDataLoadedEvent>(OnGameLoaded);
         }
 
@@ -108,74 +119,49 @@ namespace Gameplay.World
             });
         }
 
-        private void OnSaveRequested(Domain.Persistence.GameSaveRequestedEvent evt)
+        public IReadOnlyList<VoxelChunkPayload> CaptureVoxelChunks()
         {
-            if (_currentLayout == null || _generatedGrids.Count == 0)
-                return;
-
-            var roomSaves = new List<Domain.Persistence.RoomSaveData>();
-
-            foreach (var placement in _generatedGrids)
+            var chunks = new List<VoxelChunkPayload>(_generatedGrids.Count);
+            for (int i = 0; i < _generatedGrids.Count; i++)
             {
-                roomSaves.Add(new Domain.Persistence.RoomSaveData
+                GridPlacement placement = _generatedGrids[i];
+                if (placement.Grid != null)
                 {
-                    WorldPosition = placement.WorldPosition,
-                    Size = placement.Grid.Size,
-                    VoxelData = placement.Grid.GetRawData()
+                    chunks.Add(new VoxelChunkPayload(
+                        placement.WorldPosition,
+                        placement.Grid.Size,
+                        placement.Grid.GetRawData()));
+                }
+            }
+            return chunks;
+        }
+
+        public void RestoreVoxelChunks(IReadOnlyList<VoxelChunkPayload> chunks)
+        {
+            if (chunks == null || chunks.Count == 0) return;
+
+            ClearExistingLayout();
+            if (_config != null && _config.BlockRegistry != null)
+            {
+                _meshingService.Initialize(_config.BlockRegistry);
+            }
+
+            for (int i = 0; i < chunks.Count; i++)
+            {
+                VoxelChunkPayload chunk = chunks[i];
+                if (chunk == null || chunk.Voxels == null) continue;
+
+                var roomData = new RoomGridData(chunk.Size.x, chunk.Size.y, chunk.Size.z);
+                ushort[] dest = roomData.GetRawData();
+                Array.Copy(chunk.Voxels, dest, Math.Min(chunk.Voxels.Length, dest.Length));
+
+                _generatedGrids.Add(new GridPlacement
+                {
+                    Grid = roomData,
+                    WorldPosition = chunk.WorldPosition
                 });
-            }
 
-            var player = GameObject.FindWithTag("Player");
-
-            var playerPos = player != null
-                ? player.transform.position
-                : _currentLayout.StartRoom.WorldPosition;
-
-            var playerRot = player != null
-                ? player.transform.rotation
-                : Quaternion.identity;
-
-            var playerSaveData = new Domain.Persistence.EntitySaveData
-            {
-                EntityId = "Player",
-                Position = playerPos,
-                Rotation = playerRot
-            };
-
-            if (player != null &&
-                player.TryGetComponent<Gameplay.Entities.BaseActor>(out var actor))
-            {
-                if (actor.TryGetComponent<Gameplay.Entities.StatsComponent>(out var stats))
-                {
-                    playerSaveData.Level = stats.Level;
-                    playerSaveData.Experience = stats.Experience;
-                }
-
-                if (actor.TryGetComponent<Gameplay.Entities.AttributeComponent>(out var attr))
-                {
-                    var health = attr.GetAttribute("Health");
-
-                    if (health != null)
-                        playerSaveData.CurrentHealth = health.CurrentValue;
-                }
-
-                if (player.TryGetComponent<Gameplay.Entities.InventoryComponent>(out var inventory))
-                {
-                    playerSaveData.Inventory = inventory.GetSaveData();
-                }
-            }
-
-            var saveData = new Domain.Persistence.LevelSaveData
-            {
-                OriginalLayout = _currentLayout,
-                Grids = roomSaves.ToArray(),
-                Entities = Array.Empty<Domain.Persistence.EntitySaveData>(),
-                PlayerState = playerSaveData
-            };
-
-            if (ServiceLocator.TryGet<Systems.Persistence.FileSaveService>(out var saveService))
-            {
-                saveService.WriteData(saveData);
+                _meshingService.GenerateMeshForRoom(roomData, chunk.WorldPosition, _generatedRoot);
             }
         }
 
@@ -726,19 +712,17 @@ namespace Gameplay.World
 
         private void EnsureHarvestDropItems()
         {
-#if UNITY_EDITOR
-            if (_woodItemData == null)
+            if (ServiceLocator.TryGet<IContentService>(out var content))
             {
-                _woodItemData = UnityEditor.AssetDatabase.LoadAssetAtPath<ItemData>(
-                    "Assets/Data/Definitions/ItemData/Item_WoodLog.asset");
+                if (_woodItemData == null)
+                {
+                    content.TryResolveByLegacyAlias("Item_WoodLog", out _woodItemData);
+                }
+                if (_stoneItemData == null)
+                {
+                    content.TryResolveByLegacyAlias("Item_StoneChunk", out _stoneItemData);
+                }
             }
-
-            if (_stoneItemData == null)
-            {
-                _stoneItemData = UnityEditor.AssetDatabase.LoadAssetAtPath<ItemData>(
-                    "Assets/Data/Definitions/ItemData/Item_StoneChunk.asset");
-            }
-#endif
         }
 
         private T SpawnEntity<T>(

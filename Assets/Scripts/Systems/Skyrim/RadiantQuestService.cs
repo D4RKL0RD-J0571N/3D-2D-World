@@ -5,15 +5,17 @@ namespace Systems.Skyrim
     using Core;
     using Core.Content;
     using Core.Ids;
+    using Core.Persistence;
     using Domain.Skyrim;
+    using Newtonsoft.Json;
     using UnityEngine;
 
     /// <summary>
     /// Generates and tracks Skyrim-style "radiant" quests procedurally at runtime.
     /// Backed by <see cref="ContentRegistry{QuestTemplateDefinition}"/> so mods can register custom quest templates
-    /// while preserving full compatibility with legacy <see cref="QuestType"/> callers.
+    /// while preserving full compatibility with legacy <see cref="QuestType"/> callers, and implements <see cref="ISaveableService"/>.
     /// </summary>
-    public class RadiantQuestService : IGameService
+    public class RadiantQuestService : IGameService, ISaveableService
     {
         #region Fields
 
@@ -251,6 +253,52 @@ namespace Systems.Skyrim
         private void OnPlayerLeveledUp(PlayerCharacterLeveledUpEvent evt)
         {
             if (evt != null) _playerLevel = evt.NewLevel;
+        }
+
+        #endregion
+
+        #region ISaveableService Implementation
+
+        [Serializable]
+        private sealed class RadiantQuestSaveDto
+        {
+            public int PlayerLevel = 1;
+            public List<QuestInstance> ActiveQuests = new();
+        }
+
+        public ResourceId SaveStateKey => new("framework", "state/quests");
+        public int CurrentStateSchemaVersion => 1;
+
+        public object CaptureState()
+        {
+            return new RadiantQuestSaveDto
+            {
+                PlayerLevel = _playerLevel,
+                ActiveQuests = new List<QuestInstance>(_activeQuests)
+            };
+        }
+
+        public void RestoreState(string serializedJsonState, int savedSchemaVersion)
+        {
+            if (string.IsNullOrWhiteSpace(serializedJsonState)) return;
+
+            var settings = FantasyEngineJsonSettings.CreateDefault();
+            var dto = JsonConvert.DeserializeObject<RadiantQuestSaveDto>(serializedJsonState, settings);
+            if (dto == null) return;
+
+            _playerLevel = Mathf.Max(1, dto.PlayerLevel);
+            _activeQuests.Clear();
+
+            if (dto.ActiveQuests != null)
+            {
+                for (int i = 0; i < dto.ActiveQuests.Count; i++)
+                {
+                    if (dto.ActiveQuests[i] != null)
+                    {
+                        _activeQuests.Add(dto.ActiveQuests[i]);
+                    }
+                }
+            }
         }
 
         #endregion

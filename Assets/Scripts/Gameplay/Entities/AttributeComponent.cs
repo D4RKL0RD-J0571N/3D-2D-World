@@ -1,17 +1,22 @@
 namespace Gameplay.Entities
 {
+    using System;
     using System.Collections.Generic;
     using UnityEngine;
     using Domain.Entities;
     using Core;
+    using Core.Ids;
+    using Core.Persistence;
+    using Newtonsoft.Json;
 
     /// <summary>
     /// Manages runtime attributes (Health, Stamina, Mana) for an actor,
     /// handling lossless sub-step float regeneration, damage, and healing.
+    /// Implements <see cref="ISaveableComponent"/> for deterministic persistence.
     /// </summary>
     [AddComponentMenu("3D2DWorld/Entities/Attribute Component")]
     [RequireComponent(typeof(BaseActor))]
-    public class AttributeComponent : MonoBehaviour
+    public class AttributeComponent : MonoBehaviour, ISaveableComponent
     {
         #region Fields
 
@@ -174,6 +179,74 @@ namespace Gameplay.Entities
             {
                 attr.CurrentValue = Mathf.Min(attr.MaximumValue, attr.CurrentValue + amount);
                 GameEventManager.Publish(new EntityHealedEvent { Target = _actor, Amount = amount });
+            }
+        }
+
+        #endregion
+
+        #region ISaveableComponent Implementation
+
+        [Serializable]
+        private sealed class AttributeSaveDto
+        {
+            public List<AttributeRecord> Attributes = new();
+        }
+
+        [Serializable]
+        private sealed class AttributeRecord
+        {
+            public string Name;
+            public int CurrentValue;
+            public int MaximumValue;
+        }
+
+        public string ComponentSaveKey => "attributes";
+
+        public object CaptureComponentState()
+        {
+            var dto = new AttributeSaveDto();
+            foreach (var kvp in _attributes)
+            {
+                dto.Attributes.Add(new AttributeRecord
+                {
+                    Name = kvp.Key,
+                    CurrentValue = kvp.Value.CurrentValue,
+                    MaximumValue = kvp.Value.MaximumValue
+                });
+            }
+            return dto;
+        }
+
+        public void RestoreComponentState(string serializedJsonState, IWorldInstanceResolver resolver)
+        {
+            if (string.IsNullOrWhiteSpace(serializedJsonState)) return;
+
+            var settings = FantasyEngineJsonSettings.CreateDefault();
+            var dto = JsonConvert.DeserializeObject<AttributeSaveDto>(serializedJsonState, settings);
+            if (dto?.Attributes == null) return;
+
+            for (int i = 0; i < dto.Attributes.Count; i++)
+            {
+                AttributeRecord rec = dto.Attributes[i];
+                if (string.IsNullOrWhiteSpace(rec.Name)) continue;
+
+                if (!_attributes.TryGetValue(rec.Name, out BaseAttribute attr))
+                {
+                    int maxVal = rec.MaximumValue > 0 ? rec.MaximumValue : 100;
+                    attr = new BaseAttribute
+                    {
+                        AttributeName = rec.Name,
+                        MaximumValue = maxVal,
+                        CurrentValue = maxVal
+                    };
+                    _attributes[rec.Name] = attr;
+                }
+
+                if (rec.MaximumValue > 0)
+                {
+                    attr.MaximumValue = rec.MaximumValue;
+                }
+                attr.CurrentValue = Mathf.Clamp(rec.CurrentValue, 0, attr.MaximumValue);
             }
         }
 

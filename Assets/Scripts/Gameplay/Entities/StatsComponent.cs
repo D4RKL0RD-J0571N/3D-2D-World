@@ -1,15 +1,20 @@
 namespace Gameplay.Entities
 {
+    using System;
     using UnityEngine;
     using Domain.Entities;
     using Core;
+    using Core.Ids;
+    using Core.Persistence;
+    using Newtonsoft.Json;
 
     /// <summary>
     /// Manages an actor's experience, leveling, perk progression, and XP curve calculations.
+    /// Implements <see cref="ISaveableComponent"/> for deterministic persistence.
     /// </summary>
     [AddComponentMenu("3D2DWorld/Entities/Stats Component")]
     [RequireComponent(typeof(BaseActor))]
-    public class StatsComponent : MonoBehaviour
+    public class StatsComponent : MonoBehaviour, ISaveableComponent
     {
         #region Fields
 
@@ -122,6 +127,41 @@ namespace Gameplay.Entities
         public int GetLevelFromTotalXp(float totalXp)
         {
             return Mathf.FloorToInt(-2.5f + Mathf.Sqrt(8 * totalXp + 1225) / 10);
+        }
+
+        #endregion
+
+        #region ISaveableComponent Implementation
+
+        [Serializable]
+        private sealed class StatsSaveDto
+        {
+            public int Level = 1;
+            public float Experience;
+            public int PerkPoints;
+        }
+
+        public string ComponentSaveKey => "stats";
+
+        public object CaptureComponentState() => new StatsSaveDto
+        {
+            Level = _level,
+            Experience = _experience,
+            PerkPoints = _perkPoints
+        };
+
+        public void RestoreComponentState(string serializedJsonState, IWorldInstanceResolver resolver)
+        {
+            if (string.IsNullOrWhiteSpace(serializedJsonState)) return;
+
+            var settings = FantasyEngineJsonSettings.CreateDefault();
+            var dto = JsonConvert.DeserializeObject<StatsSaveDto>(serializedJsonState, settings);
+            if (dto == null) return;
+
+            _level = Mathf.Max(1, dto.Level);
+            _experience = Mathf.Max(0f, dto.Experience);
+            _perkPoints = Mathf.Max(0, dto.PerkPoints);
+            CheckLevelUpEligibility();
         }
 
         #endregion

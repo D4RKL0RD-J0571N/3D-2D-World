@@ -1,18 +1,21 @@
 namespace Systems.Skyrim
 {
+    using System;
     using System.Collections.Generic;
     using Core;
     using Core.Content;
     using Core.Ids;
+    using Core.Persistence;
     using Domain.Skyrim;
+    using Newtonsoft.Json;
     using UnityEngine;
 
     /// <summary>
     /// Manages faction relationships, reputation standings, and bounties at runtime.
     /// Backed by <see cref="ContentRegistry{FactionDefinition}"/> so mods can register new factions
-    /// without altering the legacy <see cref="FactionType"/> enum.
+    /// without altering the legacy <see cref="FactionType"/> enum, and implements <see cref="ISaveableService"/>.
     /// </summary>
-    public class FactionService : IGameService
+    public class FactionService : IGameService, ISaveableService
     {
         #region Constants
 
@@ -233,6 +236,100 @@ namespace Systems.Skyrim
                     if (!_dispositions.ContainsKey((def.ContentId, targetId)))
                     {
                         _dispositions[(def.ContentId, targetId)] = kvp.Value;
+                    }
+                }
+            }
+        }
+
+        #endregion
+
+        #region ISaveableService Implementation
+
+        [Serializable]
+        private sealed class FactionSaveDto
+        {
+            public Dictionary<string, int> Reputation = new(StringComparer.Ordinal);
+            public Dictionary<string, int> Bounties = new(StringComparer.Ordinal);
+            public List<DispositionSaveEntry> Dispositions = new();
+        }
+
+        [Serializable]
+        private sealed class DispositionSaveEntry
+        {
+            public string FromId;
+            public string ToId;
+            public FactionDisposition Disposition;
+        }
+
+        public ResourceId SaveStateKey => new("framework", "state/factions");
+        public int CurrentStateSchemaVersion => 1;
+
+        public object CaptureState()
+        {
+            var dto = new FactionSaveDto();
+
+            foreach (var kvp in _playerReputation)
+            {
+                dto.Reputation[kvp.Key.Value] = kvp.Value;
+            }
+
+            foreach (var kvp in _playerBounties)
+            {
+                dto.Bounties[kvp.Key.Value] = kvp.Value;
+            }
+
+            foreach (var kvp in _dispositions)
+            {
+                dto.Dispositions.Add(new DispositionSaveEntry
+                {
+                    FromId = kvp.Key.Item1.Value,
+                    ToId = kvp.Key.Item2.Value,
+                    Disposition = kvp.Value
+                });
+            }
+
+            return dto;
+        }
+
+        public void RestoreState(string serializedJsonState, int savedSchemaVersion)
+        {
+            if (string.IsNullOrWhiteSpace(serializedJsonState)) return;
+
+            var settings = FantasyEngineJsonSettings.CreateDefault();
+            var dto = JsonConvert.DeserializeObject<FactionSaveDto>(serializedJsonState, settings);
+            if (dto == null) return;
+
+            if (dto.Reputation != null)
+            {
+                foreach (var kvp in dto.Reputation)
+                {
+                    if (ResourceId.TryParse(kvp.Key, out ResourceId facId))
+                    {
+                        _playerReputation[facId] = kvp.Value;
+                    }
+                }
+            }
+
+            if (dto.Bounties != null)
+            {
+                foreach (var kvp in dto.Bounties)
+                {
+                    if (ResourceId.TryParse(kvp.Key, out ResourceId facId))
+                    {
+                        _playerBounties[facId] = kvp.Value;
+                    }
+                }
+            }
+
+            if (dto.Dispositions != null)
+            {
+                for (int i = 0; i < dto.Dispositions.Count; i++)
+                {
+                    DispositionSaveEntry entry = dto.Dispositions[i];
+                    if (ResourceId.TryParse(entry.FromId, out ResourceId fromId) &&
+                        ResourceId.TryParse(entry.ToId, out ResourceId toId))
+                    {
+                        _dispositions[(fromId, toId)] = entry.Disposition;
                     }
                 }
             }

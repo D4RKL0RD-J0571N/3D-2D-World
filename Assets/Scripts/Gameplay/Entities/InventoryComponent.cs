@@ -1,23 +1,29 @@
 namespace Gameplay.Entities
 {
+    using System;
     using System.Collections.Generic;
     using UnityEngine;
     using Data.Config;
     using Domain.Inventory;
     using Core;
+    using Core.Content;
+    using Core.Ids;
+    using Core.Persistence;
+    using Newtonsoft.Json;
 
     /// <summary>
     /// Component managing an entity's item storage, stacking, additions, and removals.
-    /// Publishes <see cref="InventoryChangedEvent"/> upon any modification.
+    /// Publishes <see cref="InventoryChangedEvent"/> upon any modification and implements <see cref="ISaveableComponent"/>.
     /// </summary>
     [AddComponentMenu("3D2DWorld/Entities/Inventory Component")]
     [DisallowMultipleComponent]
-    public class InventoryComponent : MonoBehaviour
+    public class InventoryComponent : MonoBehaviour, ISaveableComponent
     {
         #region Fields
 
         [SerializeField] private int _capacity = 20;
         [SerializeField] private List<InventorySlot> _slots = new List<InventorySlot>();
+        private readonly List<UnknownContentPlaceholder> _unresolvedSlots = new();
 
         #endregion
 
@@ -25,6 +31,9 @@ namespace Gameplay.Entities
 
         public int Capacity => _capacity;
         public IReadOnlyList<InventorySlot> Slots => _slots;
+
+        /// <summary>Tombstone records for items from uninstalled mods preserved during save load (<c>SAV-05</c>).</summary>
+        public IReadOnlyList<UnknownContentPlaceholder> UnresolvedSlots => _unresolvedSlots;
 
         #endregion
 
@@ -207,6 +216,120 @@ namespace Gameplay.Entities
                 else
                 {
                     Debug.LogWarning($"[InventoryComponent] Could not resolve Item ID {savedSlot.ItemId} during restore!");
+                }
+            }
+        }
+
+        #endregion
+
+        #region ISaveableComponent Implementation
+
+        [Serializable]
+        private sealed class InventorySaveDto
+        {
+            public List<SavedSlotRecord> Slots = new();
+        }
+
+        [Serializable]
+        private sealed class SavedSlotRecord
+        {
+            public string ContentId;
+            public string LegacyId;
+            public int Count;
+        }
+
+        public string ComponentSaveKey => "inventory";
+
+        public object CaptureComponentState()
+        {
+            var dto = new InventorySaveDto();
+            for (int i = 0; i < _slots.Count; i++)
+            {
+                InventorySlot slot = _slots[i];
+                if (slot != null && slot.Item != null && slot.Count > 0)
+                {
+                    dto.Slots.Add(new SavedSlotRecord
+                    {
+                        ContentId = slot.Item.ContentId.Value,
+                        LegacyId = slot.Item.Id,
+                        Count = slot.Count
+                    });
+                }
+            }
+
+            // Preserve any unresolved mod item tombstones across re-saves!
+            for (int i = 0; i < _unresolvedSlots.Count; i++)
+            {
+                UnknownContentPlaceholder unresolved = _unresolvedSlots[i];
+                if (unresolved != null && unresolved.MissingId.IsValid && unresolved.Count > 0)
+                {
+                    dto.Slots.Add(new SavedSlotRecord
+                    {
+                        ContentId = unresolved.MissingId.Value,
+                        LegacyId = unresolved.MissingId.Value,
+                        Count = unresolved.Count
+                    });
+                }
+            }
+
+            return dto;
+        }
+
+        public void RestoreComponentState(string serializedJsonState, IWorldInstanceResolver resolver)
+        {
+            _slots.Clear();
+            _unresolvedSlots.Clear();
+            if (string.IsNullOrWhiteSpace(serializedJsonState)) return;
+
+            var settings = FantasyEngineJsonSettings.CreateDefault();
+            var dto = JsonConvert.DeserializeObject<InventorySaveDto>(serializedJsonState, settings);
+            if (dto?.Slots == null) return;
+
+            IContentService content = ServiceLocator.TryGet<IContentService>(out var cs) ? cs : null;
+            InstanceGuid ownerGuid = TryGetComponent<PersistentEntityComponent>(out var pec) ? pec.InstanceId : InstanceGuid.Empty;
+
+            for (int i = 0; i < dto.Slots.Count; i++)
+            {
+                SavedSlotRecord saved = dto.Slots[i];
+                if (saved == null || saved.Count <= 0) continue;
+
+                ItemData resolvedItem = null;
+                if (content != null)
+                {
+                    if (!string.IsNullOrWhiteSpace(saved.ContentId) &&
+                        ResourceId.TryParse(saved.ContentId, out ResourceId cid) &&
+                        content.TryResolve(cid, out ItemData byCid))
+                    {
+                        resolvedItem = byCid;
+                    }
+                    else if (!string.IsNullOrWhiteSpace(saved.LegacyId) &&
+                             content.TryResolveByLegacyAlias(saved.LegacyId, out ItemData byAlias))
+                    {
+                        resolvedItem = byAlias;
+                    }
+                }
+
+                if (resolvedItem != null)
+                {
+                    _slots.Add(new InventorySlot(resolvedItem, saved.Count));
+                }
+                else
+                {
+                    ResourceId missingId = ResourceId.TryParse(saved.ContentId, out ResourceId parsedCid)
+                        ? parsedCid
+                        : ResourceId.FromLegacyId("unknown_mod", "item", saved.LegacyId ?? "unknown");
+
+                    var placeholder = new UnknownContentPlaceholder
+                    {
+                        Category = "inventory_item",
+                        MissingId = missingId,
+                        OwnerGuid = ownerGuid,
+                        Count = saved.Count,
+                        RawPayloadJson = JsonConvert.SerializeObject(saved, settings)
+                    };
+
+                    _unresolvedSlots.Add(placeholder);
+                    resolver?.RecordUnknownContentPlaceholder(placeholder);
                 }
             }
         }

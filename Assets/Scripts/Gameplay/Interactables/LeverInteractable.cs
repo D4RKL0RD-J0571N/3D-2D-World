@@ -1,6 +1,10 @@
 namespace Gameplay.Interactables
 {
+    using System;
     using Core;
+    using Core.Ids;
+    using Core.Persistence;
+    using Newtonsoft.Json;
     using UnityEngine;
 
     // ── Event ─────────────────────────────────────────────────────────────────
@@ -24,7 +28,7 @@ namespace Gameplay.Interactables
     /// A lever or pull-chain that toggles one or more linked GameObjects (gates, portcullises, etc.).
     /// </summary>
     [AddComponentMenu("3D2DWorld/Interactables/Lever")]
-    public class LeverInteractable : MonoBehaviour, IInteractable
+    public class LeverInteractable : MonoBehaviour, IInteractable, ISaveableComponent
     {
         #region Serialized Fields
 
@@ -34,9 +38,17 @@ namespace Gameplay.Interactables
 
         #endregion
 
-        #region State
+        #region State & Properties
 
         private bool _isActivated = false;
+
+        public bool IsActivated => _isActivated;
+
+        public void SetActivated(bool activated)
+        {
+            _isActivated = activated;
+            ToggleLinkedObjects();
+        }
 
         #endregion
 
@@ -68,6 +80,32 @@ namespace Gameplay.Interactables
             foreach (var obj in _linkedObjects)
             {
                 if (obj != null) obj.SetActive(_isActivated);
+            }
+        }
+
+        #endregion
+
+        #region ISaveableComponent Implementation
+
+        [Serializable]
+        private sealed class LeverSaveDto
+        {
+            public bool IsActivated;
+        }
+
+        public string ComponentSaveKey => "lever";
+
+        public object CaptureComponentState() => new LeverSaveDto { IsActivated = _isActivated };
+
+        public void RestoreComponentState(string serializedJsonState, IWorldInstanceResolver resolver)
+        {
+            if (string.IsNullOrWhiteSpace(serializedJsonState)) return;
+
+            var settings = FantasyEngineJsonSettings.CreateDefault();
+            var dto = JsonConvert.DeserializeObject<LeverSaveDto>(serializedJsonState, settings);
+            if (dto != null)
+            {
+                SetActivated(dto.IsActivated);
             }
         }
 

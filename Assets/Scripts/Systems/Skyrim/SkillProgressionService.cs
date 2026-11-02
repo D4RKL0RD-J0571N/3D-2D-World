@@ -1,20 +1,23 @@
 namespace Systems.Skyrim
 {
+    using System;
     using System.Collections.Generic;
     using Core;
     using Core.Content;
     using Core.Ids;
+    using Core.Persistence;
     using Domain.Combat;
     using Domain.Entities;
     using Domain.Skyrim;
+    using Newtonsoft.Json;
     using UnityEngine;
 
     /// <summary>
     /// "Learn by doing" skill progression service backed by <see cref="ContentRegistry{SkillDefinition}"/>.
     /// Supports both data-driven <see cref="ResourceId"/> skills (including custom mod skills)
-    /// and legacy <see cref="SkyrimSkill"/> enum calls.
+    /// and legacy <see cref="SkyrimSkill"/> enum calls, and implements <see cref="ISaveableService"/>.
     /// </summary>
-    public class SkillProgressionService : IGameService, ITickable
+    public class SkillProgressionService : IGameService, ITickable, ISaveableService
     {
         #region Constants
 
@@ -341,6 +344,76 @@ namespace Systems.Skyrim
             _characterLevel = newLevel;
 
             GameEventManager.Publish(new PlayerCharacterLeveledUpEvent(newLevel, _perkPointsTotal));
+        }
+
+        #endregion
+
+        #region ISaveableService Implementation
+
+        [Serializable]
+        private sealed class SkillProgressionSaveDto
+        {
+            public int CharacterLevel = 1;
+            public int PerkPointsTotal;
+            public List<SkillSaveEntry> Skills = new();
+        }
+
+        [Serializable]
+        private sealed class SkillSaveEntry
+        {
+            public string SkillId;
+            public int Level;
+            public float XP;
+            public int StartingLevel = 15;
+        }
+
+        public ResourceId SaveStateKey => new("framework", "state/progression");
+        public int CurrentStateSchemaVersion => 1;
+
+        public object CaptureState()
+        {
+            var dto = new SkillProgressionSaveDto
+            {
+                CharacterLevel = _characterLevel,
+                PerkPointsTotal = _perkPointsTotal
+            };
+
+            foreach (var kvp in _skillsById)
+            {
+                dto.Skills.Add(new SkillSaveEntry
+                {
+                    SkillId = kvp.Key.Value,
+                    Level = kvp.Value.Level,
+                    XP = kvp.Value.XP,
+                    StartingLevel = kvp.Value.StartingLevel
+                });
+            }
+
+            return dto;
+        }
+
+        public void RestoreState(string serializedJsonState, int savedSchemaVersion)
+        {
+            if (string.IsNullOrWhiteSpace(serializedJsonState)) return;
+
+            var settings = FantasyEngineJsonSettings.CreateDefault();
+            var dto = JsonConvert.DeserializeObject<SkillProgressionSaveDto>(serializedJsonState, settings);
+            if (dto == null) return;
+
+            if (dto.Skills != null)
+            {
+                for (int i = 0; i < dto.Skills.Count; i++)
+                {
+                    SkillSaveEntry entry = dto.Skills[i];
+                    if (ResourceId.TryParse(entry.SkillId, out ResourceId skillId))
+                    {
+                        RestoreSkillState(skillId, entry.Level, entry.XP);
+                    }
+                }
+            }
+
+            _characterLevel = dto.CharacterLevel > 0 ? dto.CharacterLevel : ComputeCharacterLevel();
+            _perkPointsTotal = dto.PerkPointsTotal;
         }
 
         #endregion
