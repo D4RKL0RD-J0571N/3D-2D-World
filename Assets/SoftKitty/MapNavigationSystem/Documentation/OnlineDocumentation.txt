@@ -1,5 +1,0 @@
-Please view our online documentation at : 
-https://www.soft-kitty.com/docs/master-map-navigation/overview
-
-Feel free to post your question and suggestion at:
-https://github.com/blakeseow-cloud/Soft-Kitty-Documentation/discussions

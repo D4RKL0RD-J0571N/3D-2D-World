@@ -55,6 +55,16 @@ namespace Gameplay.Skyrim
 
         #endregion
 
+        #region Public API
+
+        public void Configure(string title, CompassPOIType type)
+        {
+            _markerTitle = title;
+            _markerType = type;
+        }
+
+        #endregion
+
         #region Registration
 
         private void RegisterMarker()

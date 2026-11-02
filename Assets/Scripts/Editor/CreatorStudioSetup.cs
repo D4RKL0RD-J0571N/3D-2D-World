@@ -1,6 +1,7 @@
 #if UNITY_EDITOR
 namespace Studio.Editor
 {
+    using System;
     using System.IO;
     using Domain.Creator;
     using Gameplay.Creator;
@@ -10,7 +11,7 @@ namespace Studio.Editor
     using UnityEngine.UIElements;
 
     /// <summary>
-    /// Automated setup tool for the In-Game Creator Studio assets, catalog, and HUD prefabs.
+    /// Automated setup tool for the In-Game Creator Studio assets, Synty fantasy catalog (<c>ADR-008</c>), and HUD prefabs.
     /// Accessible via Tools > 3D 2D World > Setup Creator Studio.
     /// </summary>
     public static class CreatorStudioSetup
@@ -19,92 +20,12 @@ namespace Studio.Editor
         public static void Setup()
         {
             AssetDatabase.Refresh();
-
-            // 1. Ensure Data/Creator directory exists
-            string catalogDir = "Assets/Data/Creator";
-            if (!AssetDatabase.IsValidFolder("Assets/Data"))
-            {
-                AssetDatabase.CreateFolder("Assets", "Data");
-            }
-            if (!AssetDatabase.IsValidFolder(catalogDir))
-            {
-                AssetDatabase.CreateFolder("Assets/Data", "Creator");
-            }
-
-            // 2. Create or find CreatorCatalog.asset
-            string catalogPath = $"{catalogDir}/DefaultCreatorCatalog.asset";
-            CreatorCatalogSO catalog = AssetDatabase.LoadAssetAtPath<CreatorCatalogSO>(catalogPath);
-            if (catalog == null)
-            {
-                catalog = ScriptableObject.CreateInstance<CreatorCatalogSO>();
-                AssetDatabase.CreateAsset(catalog, catalogPath);
-                Debug.Log($"[CreatorStudioSetup] Created new CreatorCatalog at {catalogPath}");
-            }
-
-            // 3. Register standard prefabs into catalog
-            AddOrUpdateItem(catalog, "target_dummy", "Target Combat Dummy", CreatorCategory.Combatants, 
-                "Assets/Prefabs/Museum/TargetDummy.prefab", "Interactive training dummy with procedural wobble and health regen.");
-
-            AddOrUpdateItem(catalog, "museum_pedestal", "Showroom Pedestal", CreatorCategory.Props, 
-                "Assets/Prefabs/Museum/MuseumPedestal.prefab", "Classic white museum exhibit pedestal.");
-
-            AddOrUpdateItem(catalog, "cube_block", "Standard 1m Block", CreatorCategory.Structures, 
-                "Assets/Prefabs/Cube.prefab", "1x1x1 modular building block for voxel/structural prototyping.");
-
-            AddOrUpdateItem(catalog, "slime_enemy", "Green Slime", CreatorCategory.Combatants, 
-                "Assets/Prefabs/Entities/Slime.prefab", "Basic enemy combatant entity.");
-
-            AddOrUpdateItem(catalog, "turret_combat", "Automated Defense Turret", CreatorCategory.Combatants, 
-                "Assets/Cowsins/Prefabs/DragAndDropExtras/Turret.prefab", "Autonomous defensive sentry turret targeting hostiles.");
-
-            // Props & Interactive Elements
-            AddOrUpdateItem(catalog, "explosive_barrel", "Explosive Barrel", CreatorCategory.Props, 
-                "Assets/Cowsins/Prefabs/DragAndDropExtras/ExplosiveBarrel.prefab", "Volatile explosive barrel that detonates on impact or weapon damage.");
-
-            AddOrUpdateItem(catalog, "jump_pad", "Kinetic Jump Pad", CreatorCategory.Props, 
-                "Assets/Cowsins/Prefabs/DragAndDropExtras/JumpPad.prefab", "High impulse kinetic launcher for vertical platforming.");
-
-            AddOrUpdateItem(catalog, "wooden_crate", "Destructible Crate", CreatorCategory.Props, 
-                "Assets/Cowsins/Prefabs/DragAndDropExtras/NonFracturedCrate_01.prefab", "Standard breakable wooden supply crate.");
-
-            AddOrUpdateItem(catalog, "lootbox_free", "Free Lootbox Cache", CreatorCategory.Props, 
-                "Assets/Cowsins/Prefabs/DragAndDropExtras/Lootbox_Free.prefab", "Interactive reward container for modded maps.");
-
-            // Structures
-            AddOrUpdateItem(catalog, "modular_door", "Interactive Doorway", CreatorCategory.Structures, 
-                "Assets/Cowsins/Prefabs/DragAndDropExtras/Door.prefab", "Trigger-activated functional sliding doorway.");
-
-            AddOrUpdateItem(catalog, "basic_ground", "Modular Ground Tile", CreatorCategory.Structures, 
-                "Assets/Cowsins/Prefabs/DragAndDropExtras/BasicGround.prefab", "Flat structural surface platform for map design.");
-
-            AddOrUpdateItem(catalog, "capture_point", "Strategic Capture Point", CreatorCategory.Structures, 
-                "Assets/Cowsins/Prefabs/DragAndDropExtras/PointToCapture.prefab", "Territory control objective zone.");
-
-            // Items & Pickups
-            AddOrUpdateItem(catalog, "coin_pickup", "Gold Coin Pickup", CreatorCategory.Items, 
-                "Assets/Cowsins/Prefabs/DragAndDropExtras/Coin.prefab", "Collectible gold reward currency.");
-
-            AddOrUpdateItem(catalog, "powerup_item", "Generic Powerup", CreatorCategory.Items, 
-                "Assets/Cowsins/Prefabs/DragAndDropExtras/GenericPowerup.prefab", "Temporary player booster powerup.");
-
-            AddOrUpdateItem(catalog, "ammo_pickup", "Bullet Ammo Cache", CreatorCategory.Items, 
-                "Assets/Cowsins/Prefabs/DragAndDropExtras/Bullet Pickeable.prefab", "Restores firearm ammunition.");
-
-            AddOrUpdateItem(catalog, "weapon_pickup", "Generic Weapon Pickup", CreatorCategory.Weapons, 
-                "Assets/Cowsins/Prefabs/DragAndDropExtras/WeaponPickeableGeneric.prefab", "Equippable firearm pickup on the ground.");
-
-            // Weapon prefabs from imported packages if present
-            string[] weaponSearch = AssetDatabase.FindAssets("t:Prefab Rifle_WeaponObject");
-            if (weaponSearch.Length > 0)
-            {
-                string path = AssetDatabase.GUIDToAssetPath(weaponSearch[0]);
-                AddOrUpdateItem(catalog, "rifle_weapon", "Combat Assault Rifle", CreatorCategory.Weapons, path, "Rapid fire combat assault rifle.");
-            }
-
-            EditorUtility.SetDirty(catalog);
-            AssetDatabase.SaveAssets();
+            PopulateDefaultCatalog();
 
             // 4. Create CreatorStudioHUD Prefab
+            string catalogPath = "Assets/Data/Creator/DefaultCreatorCatalog.asset";
+            CreatorCatalogSO catalog = AssetDatabase.LoadAssetAtPath<CreatorCatalogSO>(catalogPath);
+
             string uiDir = "Assets/Prefabs/UI";
             if (!AssetDatabase.IsValidFolder(uiDir))
             {
@@ -119,7 +40,6 @@ namespace Studio.Editor
                 var uiDoc = hudGo.AddComponent<UIDocument>();
                 var hudComp = hudGo.AddComponent<CreatorStudioHUD>();
 
-                // Assign UXML and USS
                 var uxml = AssetDatabase.LoadAssetAtPath<VisualTreeAsset>("Assets/UI/Creator/CreatorStudioOverlay.uxml");
                 var uss = AssetDatabase.LoadAssetAtPath<StyleSheet>("Assets/UI/Creator/CreatorStudioOverlay.uss");
 
@@ -130,7 +50,6 @@ namespace Studio.Editor
                 so.FindProperty("_catalog").objectReferenceValue = catalog;
                 so.ApplyModifiedPropertiesWithoutUndo();
 
-                // Panel settings
                 var panelSettings = AssetDatabase.LoadAssetAtPath<PanelSettings>("Assets/UI/PanelSettings.asset");
                 if (panelSettings != null)
                 {
@@ -139,7 +58,7 @@ namespace Studio.Editor
                 uiDoc.visualTreeAsset = uxml;
 
                 PrefabUtility.SaveAsPrefabAsset(hudGo, hudPrefabPath);
-                Object.DestroyImmediate(hudGo);
+                UnityEngine.Object.DestroyImmediate(hudGo);
                 Debug.Log($"[CreatorStudioSetup] Created CreatorStudioHUD prefab at {hudPrefabPath}");
             }
 
@@ -151,11 +70,10 @@ namespace Studio.Editor
                 var placementComp = playerPrefab.GetComponent<CreatorPlacementController>();
                 if (placementComp == null)
                 {
-                    // Add via PrefabUtility
                     var instance = (GameObject)PrefabUtility.InstantiatePrefab(playerPrefab);
                     instance.AddComponent<CreatorPlacementController>();
                     PrefabUtility.SaveAsPrefabAssetAndConnect(instance, playerPrefabPath, InteractionMode.AutomatedAction);
-                    Object.DestroyImmediate(instance);
+                    UnityEngine.Object.DestroyImmediate(instance);
                     Debug.Log($"[CreatorStudioSetup] Added CreatorPlacementController to {playerPrefabPath}");
                 }
             }
@@ -167,10 +85,120 @@ namespace Studio.Editor
             Debug.Log("[CreatorStudioSetup] Creator Studio setup completed successfully!");
         }
 
+        /// <summary>
+        /// Populates <c>Assets/Data/Creator/DefaultCreatorCatalog.asset</c> with core and Synty
+        /// <c>POLYGON Fantasy Kingdom</c> prefabs, purging any legacy <c>Cowsins</c> or <c>SoftKitty</c> entries (<c>ADR-008</c>).
+        /// </summary>
+        public static CreatorCatalogSO PopulateDefaultCatalog()
+        {
+            string catalogDir = "Assets/Data/Creator";
+            if (!AssetDatabase.IsValidFolder("Assets/Data"))
+            {
+                AssetDatabase.CreateFolder("Assets", "Data");
+            }
+            if (!AssetDatabase.IsValidFolder(catalogDir))
+            {
+                AssetDatabase.CreateFolder("Assets/Data", "Creator");
+            }
+
+            string catalogPath = $"{catalogDir}/DefaultCreatorCatalog.asset";
+            CreatorCatalogSO catalog = AssetDatabase.LoadAssetAtPath<CreatorCatalogSO>(catalogPath);
+            if (catalog == null)
+            {
+                catalog = ScriptableObject.CreateInstance<CreatorCatalogSO>();
+                AssetDatabase.CreateAsset(catalog, catalogPath);
+                Debug.Log($"[CreatorStudioSetup] Created new CreatorCatalog at {catalogPath}");
+            }
+
+            // Purge any null or legacy Cowsins/SoftKitty items before populating
+            catalog.RemoveWhere(item =>
+            {
+                if (item == null || item.prefab == null) return true;
+                string path = AssetDatabase.GetAssetPath(item.prefab);
+                return string.IsNullOrEmpty(path) ||
+                       path.StartsWith("Assets/Cowsins/", StringComparison.OrdinalIgnoreCase) ||
+                       path.StartsWith("Assets/SoftKitty/", StringComparison.OrdinalIgnoreCase);
+            });
+
+            // 1. Core Proving Grounds Prefabs
+            AddOrUpdateItem(catalog, "target_dummy", "Target Combat Dummy", CreatorCategory.Combatants,
+                "Assets/Prefabs/Museum/TargetDummy.prefab", "Interactive training dummy with procedural wobble and health regen.");
+
+            AddOrUpdateItem(catalog, "museum_pedestal", "Showroom Pedestal", CreatorCategory.Props,
+                "Assets/Prefabs/Museum/MuseumPedestal.prefab", "Classic white museum exhibit pedestal.");
+
+            AddOrUpdateItem(catalog, "cube_block", "Standard 1m Block", CreatorCategory.Structures,
+                "Assets/Prefabs/Cube.prefab", "1x1x1 modular building block for voxel/structural prototyping.");
+
+            AddOrUpdateItem(catalog, "slime_enemy", "Green Slime", CreatorCategory.Combatants,
+                "Assets/Prefabs/Entities/Slime.prefab", "Basic enemy combatant entity.");
+
+            // 2. Synty POLYGON Fantasy Kingdom Prefabs (Replacing all legacy FPS Cowsins prefabs per ADR-008)
+            AddOrUpdateItem(catalog, "turret_combat", "Mounted Defense Ballista", CreatorCategory.Combatants,
+                "Assets/Synty/PolygonFantasyKingdom/Prefabs/SiegeEngines/SM_Wep_Ballista_Mounted_01.prefab",
+                "Heavy siege ballista for castle rampart defense.");
+
+            AddOrUpdateItem(catalog, "explosive_barrel", "Alchemical Powder Barrel", CreatorCategory.Props,
+                "Assets/Synty/PolygonFantasyKingdom/Prefabs/Props/SM_Prop_Barrel_01.prefab",
+                "Wooden storage barrel for dungeon corridors and cellars.");
+
+            AddOrUpdateItem(catalog, "jump_pad", "Iron Camp Brazier", CreatorCategory.Props,
+                "Assets/Synty/PolygonFantasyKingdom/Prefabs/Props/BattleGround/SM_Prop_Camp_Brazier_01.prefab",
+                "Forged iron brazier providing warmth and dungeon illumination.");
+
+            AddOrUpdateItem(catalog, "wooden_crate", "Reinforced Supply Crate", CreatorCategory.Props,
+                "Assets/Synty/PolygonFantasyKingdom/Prefabs/Props/SM_Prop_Crate_Wood_01.prefab",
+                "Standard wooden merchant crate for dungeon storage rooms.");
+
+            AddOrUpdateItem(catalog, "lootbox_free", "Ironbound Treasure Chest", CreatorCategory.Props,
+                "Assets/Synty/PolygonFantasyKingdom/Prefabs/Props/Furniture/SM_Prop_Chest_01.prefab",
+                "Lockable dungeon treasure chest for rewarding exploration.");
+
+            AddOrUpdateItem(catalog, "modular_door", "Timber Wall Doorway", CreatorCategory.Structures,
+                "Assets/Synty/PolygonFantasyKingdom/Prefabs/Buildings/House/SM_Bld_House_Wall_Door_01.prefab",
+                "Modular fantasy doorway wall section.");
+
+            AddOrUpdateItem(catalog, "basic_ground", "Stone Flagstone Floor", CreatorCategory.Structures,
+                "Assets/Synty/PolygonFantasyKingdom/Prefabs/Buildings/House/SM_Bld_House_Floor_Stone_01.prefab",
+                "Modular cut-stone floor tile for dungeons and keeps.");
+
+            AddOrUpdateItem(catalog, "capture_point", "Warlord Battle Banner", CreatorCategory.Structures,
+                "Assets/Synty/PolygonFantasyKingdom/Prefabs/Props/Banners/SM_Prop_Battle_Banner_01.prefab",
+                "Heraldic faction standard marking territory control.");
+
+            AddOrUpdateItem(catalog, "coin_pickup", "Ancient Spell Tome", CreatorCategory.Items,
+                "Assets/Synty/PolygonFantasyKingdom/Prefabs/Items/SM_Item_Book_01.prefab",
+                "Leather-bound arcane tome containing forgotten lore.");
+
+            AddOrUpdateItem(catalog, "powerup_item", "Alchemist Retort Stand", CreatorCategory.Items,
+                "Assets/Synty/PolygonFantasyKingdom/Prefabs/Props/SM_Prop_Alchemy_Stand_01.prefab",
+                "Alchemical brewing apparatus for potions and elixirs.");
+
+            AddOrUpdateItem(catalog, "ammo_pickup", "Fletcher Arrow Barrel", CreatorCategory.Items,
+                "Assets/Synty/PolygonFantasyKingdom/Prefabs/Props/SM_Prop_Barrel_Arrows_01.prefab",
+                "Quiver cache stocked with bodkin arrows.");
+
+            AddOrUpdateItem(catalog, "weapon_pickup", "Forged Broadsword Display", CreatorCategory.Weapons,
+                "Assets/Synty/PolygonFantasyKingdom/Prefabs/Props/SM_Prop_Forge_Sword_01.prefab",
+                "Tempered steel broadsword fresh from the blacksmith's anvil.");
+
+            AddOrUpdateItem(catalog, "hunter_longbow", "Ashwood Hunter Longbow", CreatorCategory.Weapons,
+                "Assets/Synty/PolygonFantasyKingdom/Prefabs/Weapons/SM_Prop_Bow_01.prefab",
+                "Balanced ashwood longbow for ranged marksmen.");
+
+            EditorUtility.SetDirty(catalog);
+            AssetDatabase.SaveAssets();
+            return catalog;
+        }
+
         private static void AddOrUpdateItem(CreatorCatalogSO catalog, string id, string name, CreatorCategory cat, string prefabPath, string desc)
         {
             var prefab = AssetDatabase.LoadAssetAtPath<GameObject>(prefabPath);
-            if (prefab == null) return;
+            if (prefab == null)
+            {
+                Debug.LogWarning($"[CreatorStudioSetup] Prefab not found at '{prefabPath}' for item '{id}'.");
+                return;
+            }
 
             var existing = catalog.GetItemById(id);
             if (existing == null)
@@ -198,41 +226,25 @@ namespace Studio.Editor
         [MenuItem("Tools/3D 2D World/Setup Skyrim Compass Markers in Scene", priority = 101)]
         public static void SetupSkyrimMarkers()
         {
-            AddMarkerToObject("Wing_Armory", "Armory Sanctum", Domain.Skyrim.CompassPOIType.Dungeon);
-            AddMarkerToObject("Wing_Bestiary", "Bestiary Lair", Domain.Skyrim.CompassPOIType.BanditCamp);
-            AddMarkerToObject("Wing_Vault", "Treasury Crypt", Domain.Skyrim.CompassPOIType.Crypt);
-            AddMarkerToObject("Wing_Atelier", "Atelier Shrine", Domain.Skyrim.CompassPOIType.Shrine);
-            AddMarkerToObject("CombatTargetDummy", "Training Dummy", Domain.Skyrim.CompassPOIType.Enemy);
+            CreateMarkerIfMissing("Bounty Board", new Vector3(0f, 1.5f, 12f), Domain.Skyrim.CompassPOIType.QuestMarker);
+            CreateMarkerIfMissing("Blacksmith Forge", new Vector3(-15f, 1.5f, 8f), Domain.Skyrim.CompassPOIType.Town);
+            CreateMarkerIfMissing("Bandit Outpost", new Vector3(28f, 1.5f, 35f), Domain.Skyrim.CompassPOIType.BanditCamp);
+            CreateMarkerIfMissing("Ancient Crypt", new Vector3(-32f, 1.5f, -24f), Domain.Skyrim.CompassPOIType.Crypt);
+            CreateMarkerIfMissing("Town Guard Captain", new Vector3(8f, 1.5f, -10f), Domain.Skyrim.CompassPOIType.Shrine);
 
-            UnityEditor.SceneManagement.EditorSceneManager.MarkSceneDirty(
-                UnityEngine.SceneManagement.SceneManager.GetActiveScene());
-            UnityEditor.SceneManagement.EditorSceneManager.SaveOpenScenes();
-            Debug.Log("[CreatorStudioSetup] Successfully added and saved Skyrim Compass markers in scene.");
+            Debug.Log("[CreatorStudioSetup] Skyrim Compass Markers placed in scene.");
         }
 
-        private static void AddMarkerToObject(string goName, string title, Domain.Skyrim.CompassPOIType poiType)
+        private static void CreateMarkerIfMissing(string title, Vector3 pos, Domain.Skyrim.CompassPOIType type)
         {
-            var go = GameObject.Find(goName);
-            if (go == null) return;
+            string objName = $"[POI] {title}";
+            if (GameObject.Find(objName) != null) return;
 
-            var marker = go.GetComponent<Gameplay.Skyrim.CompassMarkerComponent>();
-            if (marker == null)
-            {
-                marker = go.AddComponent<Gameplay.Skyrim.CompassMarkerComponent>();
-            }
-
-            var idField = typeof(Gameplay.Skyrim.CompassMarkerComponent).GetField("_markerId", 
-                System.Reflection.BindingFlags.NonPublic | System.Reflection.BindingFlags.Instance);
-            var titleField = typeof(Gameplay.Skyrim.CompassMarkerComponent).GetField("_markerTitle", 
-                System.Reflection.BindingFlags.NonPublic | System.Reflection.BindingFlags.Instance);
-            var typeField = typeof(Gameplay.Skyrim.CompassMarkerComponent).GetField("_markerType", 
-                System.Reflection.BindingFlags.NonPublic | System.Reflection.BindingFlags.Instance);
-
-            idField?.SetValue(marker, goName);
-            titleField?.SetValue(marker, title);
-            typeField?.SetValue(marker, poiType);
-
-            EditorUtility.SetDirty(go);
+            var go = new GameObject(objName);
+            go.transform.position = pos;
+            var marker = go.AddComponent<Gameplay.Skyrim.CompassMarkerComponent>();
+            marker.Configure(title, type);
+            Undo.RegisterCreatedObjectUndo(go, "Create Compass Marker");
         }
     }
 }

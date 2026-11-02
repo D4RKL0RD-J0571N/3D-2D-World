@@ -5,6 +5,7 @@ namespace Gameplay.Interactables
     using Core.Ids;
     using Core.Persistence;
     using Newtonsoft.Json;
+    using Systems.Creator;
     using UnityEngine;
 
     // ── Difficulty enum ───────────────────────────────────────────────────────
@@ -36,11 +37,11 @@ namespace Gameplay.Interactables
     // ── Component ─────────────────────────────────────────────────────────────
 
     /// <summary>
-    /// Dungeon chest that holds loot and optionally requires lockpicking.
-    /// Implements IInteractable so PlayerInteractionController can detect it.
+    /// Dungeon chest that holds loot, optionally requires lockpicking, and supports
+    /// <see cref="ILinkReceiver"/> / <see cref="EditorPlacedEntityTag"/> wiring.
     /// </summary>
     [AddComponentMenu("3D2DWorld/Interactables/Chest")]
-    public class ChestInteractable : MonoBehaviour, IInteractable, ISaveableComponent
+    public class ChestInteractable : MonoBehaviour, IInteractable, ISaveableComponent, ILinkReceiver
     {
         #region Serialized Fields
 
@@ -108,6 +109,31 @@ namespace Gameplay.Interactables
 
         #endregion
 
+        #region ILinkReceiver Implementation
+
+        public void ExecuteLinkAction(string actionName, GameObject sourceObject = null)
+        {
+            if (string.Equals(actionName, "Unlock", StringComparison.OrdinalIgnoreCase))
+            {
+                _lockDifficulty = LockDifficulty.Unlocked;
+            }
+            else if (string.Equals(actionName, "Lock", StringComparison.OrdinalIgnoreCase))
+            {
+                if (_lockDifficulty == LockDifficulty.Unlocked)
+                {
+                    _lockDifficulty = LockDifficulty.Novice;
+                }
+            }
+            else if (string.Equals(actionName, "Open", StringComparison.OrdinalIgnoreCase) ||
+                     string.Equals(actionName, "Activate", StringComparison.OrdinalIgnoreCase))
+            {
+                _lockDifficulty = LockDifficulty.Unlocked;
+                OpenChest();
+            }
+        }
+
+        #endregion
+
         #region Lockpicking & Opening
 
         private void AttemptLockpick()
@@ -150,10 +176,19 @@ namespace Gameplay.Interactables
             _isOpened = true;
 
             // Play open animation if an Animator is present
-            GetComponent<Animator>()?.SetTrigger("Open");
+            if (TryGetComponent<Animator>(out var anim) && anim != null && anim.runtimeAnimatorController != null)
+            {
+                anim.SetTrigger("Open");
+            }
 
             Debug.Log($"[ChestInteractable] {name} opened. Loot: {string.Join(", ", _lootItemIds)}");
             GameEventManager.Publish(new ChestOpenedEvent(this, _lootItemIds));
+
+            var editorTag = GetComponent<EditorPlacedEntityTag>();
+            if (editorTag != null)
+            {
+                editorTag.TriggerOutputPort("OnOpened");
+            }
         }
 
         #endregion

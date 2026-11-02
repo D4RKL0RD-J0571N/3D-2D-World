@@ -22,6 +22,9 @@ MonoBehaviour:
     placementOffset: {x: 0, y: 0, z: 0}
     defaultScale: {x: 1, y: 1, z: 1}
     gridSnapSize: 1
+    _contentId:
+      _value: 
+    _sourceModId: nordic_rpg
   - id: museum_pedestal
     displayName: Showroom Pedestal
     category: 3
@@ -31,6 +34,9 @@ MonoBehaviour:
     placementOffset: {x: 0, y: 0, z: 0}
     defaultScale: {x: 1, y: 1, z: 1}
     gridSnapSize: 1
+    _contentId:
+      _value: 
+    _sourceModId: nordic_rpg
   - id: cube_block
     displayName: Standard 1m Block
     category: 2
@@ -40,6 +46,9 @@ MonoBehaviour:
     placementOffset: {x: 0, y: 0, z: 0}
     defaultScale: {x: 1, y: 1, z: 1}
     gridSnapSize: 1
+    _contentId:
+      _value: 
+    _sourceModId: nordic_rpg
   - id: slime_enemy
     displayName: Green Slime
     category: 1
@@ -49,123 +58,9 @@ MonoBehaviour:
     placementOffset: {x: 0, y: 0, z: 0}
     defaultScale: {x: 1, y: 1, z: 1}
     gridSnapSize: 1
-  - id: rifle_weapon
-    displayName: Combat Assault Rifle
-    category: 0
-    description: Rapid fire combat assault rifle.
-    prefab: {fileID: 4366474878721369579, guid: 5ca5d64a3d7b321408787460766590cd, type: 3}
-    icon: {fileID: 0}
-    placementOffset: {x: 0, y: 0, z: 0}
-    defaultScale: {x: 1, y: 1, z: 1}
-    gridSnapSize: 1
-  - id: turret_combat
-    displayName: Automated Defense Turret
-    category: 1
-    description: Autonomous defensive sentry turret targeting hostiles.
-    prefab: {fileID: 6351931128759503970, guid: 641bbf9c6dc3bff49b461307ee00cb53, type: 3}
-    icon: {fileID: 0}
-    placementOffset: {x: 0, y: 0, z: 0}
-    defaultScale: {x: 1, y: 1, z: 1}
-    gridSnapSize: 1
-  - id: explosive_barrel
-    displayName: Explosive Barrel
-    category: 3
-    description: Volatile explosive barrel that detonates on impact or weapon damage.
-    prefab: {fileID: 8415670012617411876, guid: 20fc706c70f88d74e91edcc0479157ec, type: 3}
-    icon: {fileID: 0}
-    placementOffset: {x: 0, y: 0, z: 0}
-    defaultScale: {x: 1, y: 1, z: 1}
-    gridSnapSize: 1
-  - id: jump_pad
-    displayName: Kinetic Jump Pad
-    category: 3
-    description: High impulse kinetic launcher for vertical platforming.
-    prefab: {fileID: 5656359370170275184, guid: 4aa1503b93479dc44928363f72072571, type: 3}
-    icon: {fileID: 0}
-    placementOffset: {x: 0, y: 0, z: 0}
-    defaultScale: {x: 1, y: 1, z: 1}
-    gridSnapSize: 1
-  - id: wooden_crate
-    displayName: Destructible Crate
-    category: 3
-    description: Standard breakable wooden supply crate.
-    prefab: {fileID: 8542713717120759136, guid: 62dcc6177919bcc4f99bcce0ea631923, type: 3}
-    icon: {fileID: 0}
-    placementOffset: {x: 0, y: 0, z: 0}
-    defaultScale: {x: 1, y: 1, z: 1}
-    gridSnapSize: 1
-  - id: lootbox_free
-    displayName: Free Lootbox Cache
-    category: 3
-    description: Interactive reward container for modded maps.
-    prefab: {fileID: 3189549024151206516, guid: e02fc7ec606308e47a9b911ffe99f8ed, type: 3}
-    icon: {fileID: 0}
-    placementOffset: {x: 0, y: 0, z: 0}
-    defaultScale: {x: 1, y: 1, z: 1}
-    gridSnapSize: 1
-  - id: modular_door
-    displayName: Interactive Doorway
-    category: 2
-    description: Trigger-activated functional sliding doorway.
-    prefab: {fileID: 3506158875467835481, guid: 5bfd461630053c74ebb370dba01350a8, type: 3}
-    icon: {fileID: 0}
-    placementOffset: {x: 0, y: 0, z: 0}
-    defaultScale: {x: 1, y: 1, z: 1}
-    gridSnapSize: 1
-  - id: basic_ground
-    displayName: Modular Ground Tile
-    category: 2
-    description: Flat structural surface platform for map design.
-    prefab: {fileID: 1704663233515482388, guid: 8c313f6799efa9f419ac8b753e10384f, type: 3}
-    icon: {fileID: 0}
-    placementOffset: {x: 0, y: 0, z: 0}
-    defaultScale: {x: 1, y: 1, z: 1}
-    gridSnapSize: 1
-  - id: capture_point
-    displayName: Strategic Capture Point
-    category: 2
-    description: Territory control objective zone.
-    prefab: {fileID: 4122813163707525634, guid: 2181fff8ebb793f46aa3740fcd921140, type: 3}
-    icon: {fileID: 0}
-    placementOffset: {x: 0, y: 0, z: 0}
-    defaultScale: {x: 1, y: 1, z: 1}
-    gridSnapSize: 1
-  - id: coin_pickup
-    displayName: Gold Coin Pickup
-    category: 4
-    description: Collectible gold reward currency.
-    prefab: {fileID: 7403018159610325256, guid: 8eb2324d906ba4b479b12c9936d11340, type: 3}
-    icon: {fileID: 0}
-    placementOffset: {x: 0, y: 0, z: 0}
-    defaultScale: {x: 1, y: 1, z: 1}
-    gridSnapSize: 1
-  - id: powerup_item
-    displayName: Generic Powerup
-    category: 4
-    description: Temporary player booster powerup.
-    prefab: {fileID: 7816559251075365534, guid: 416ce2bbb9c951448be76e4af8922ec4, type: 3}
-    icon: {fileID: 0}
-    placementOffset: {x: 0, y: 0, z: 0}
-    defaultScale: {x: 1, y: 1, z: 1}
-    gridSnapSize: 1
-  - id: ammo_pickup
-    displayName: Bullet Ammo Cache
-    category: 4
-    description: Restores firearm ammunition.
-    prefab: {fileID: 4788863507091020778, guid: 231461d17abfcdf439fa0418137c3556, type: 3}
-    icon: {fileID: 0}
-    placementOffset: {x: 0, y: 0, z: 0}
-    defaultScale: {x: 1, y: 1, z: 1}
-    gridSnapSize: 1
-  - id: weapon_pickup
-    displayName: Generic Weapon Pickup
-    category: 0
-    description: Equippable firearm pickup on the ground.
-    prefab: {fileID: 2296131530988553965, guid: 15da3fccf9cbc6b4493c402b62f5ecbf, type: 3}
-    icon: {fileID: 0}
-    placementOffset: {x: 0, y: 0, z: 0}
-    defaultScale: {x: 1, y: 1, z: 1}
-    gridSnapSize: 1
+    _contentId:
+      _value: 
+    _sourceModId: nordic_rpg
   - id: dungeon_chest
     displayName: Dungeon Loot Chest
     category: 3
@@ -175,6 +70,9 @@ MonoBehaviour:
     placementOffset: {x: 0, y: 0, z: 0}
     defaultScale: {x: 1, y: 1, z: 1}
     gridSnapSize: 1
+    _contentId:
+      _value: 
+    _sourceModId: nordic_rpg
   - id: dungeon_lever
     displayName: Iron Dungeon Lever
     category: 3
@@ -184,6 +82,9 @@ MonoBehaviour:
     placementOffset: {x: 0, y: 0, z: 0}
     defaultScale: {x: 1, y: 1, z: 1}
     gridSnapSize: 1
+    _contentId:
+      _value: 
+    _sourceModId: nordic_rpg
   - id: pressure_plate
     displayName: Trap Pressure Plate
     category: 3
@@ -193,6 +94,9 @@ MonoBehaviour:
     placementOffset: {x: 0, y: 0, z: 0}
     defaultScale: {x: 1, y: 1, z: 1}
     gridSnapSize: 1
+    _contentId:
+      _value: 
+    _sourceModId: nordic_rpg
   - id: bounty_board
     displayName: Radiant Bounty Board
     category: 3
@@ -202,3 +106,162 @@ MonoBehaviour:
     placementOffset: {x: 0, y: 0, z: 0}
     defaultScale: {x: 1, y: 1, z: 1}
     gridSnapSize: 1
+    _contentId:
+      _value: 
+    _sourceModId: nordic_rpg
+  - id: turret_combat
+    displayName: Mounted Defense Ballista
+    category: 1
+    description: Heavy siege ballista for castle rampart defense.
+    prefab: {fileID: 1389711316614572, guid: fa45baf3a225cbe42b9b9cd43829e3ee, type: 3}
+    icon: {fileID: 0}
+    placementOffset: {x: 0, y: 0, z: 0}
+    defaultScale: {x: 1, y: 1, z: 1}
+    gridSnapSize: 1
+    _contentId:
+      _value: 
+    _sourceModId: nordic_rpg
+  - id: explosive_barrel
+    displayName: Alchemical Powder Barrel
+    category: 3
+    description: Wooden storage barrel for dungeon corridors and cellars.
+    prefab: {fileID: 1894982720226970, guid: b26e035715d763f409a7e837ae204dab, type: 3}
+    icon: {fileID: 0}
+    placementOffset: {x: 0, y: 0, z: 0}
+    defaultScale: {x: 1, y: 1, z: 1}
+    gridSnapSize: 1
+    _contentId:
+      _value: 
+    _sourceModId: nordic_rpg
+  - id: jump_pad
+    displayName: Iron Camp Brazier
+    category: 3
+    description: Forged iron brazier providing warmth and dungeon illumination.
+    prefab: {fileID: 1092251644890200, guid: 29fd7b3d4b3dabe4388eac10c6617909, type: 3}
+    icon: {fileID: 0}
+    placementOffset: {x: 0, y: 0, z: 0}
+    defaultScale: {x: 1, y: 1, z: 1}
+    gridSnapSize: 1
+    _contentId:
+      _value: 
+    _sourceModId: nordic_rpg
+  - id: wooden_crate
+    displayName: Reinforced Supply Crate
+    category: 3
+    description: Standard wooden merchant crate for dungeon storage rooms.
+    prefab: {fileID: 1719569932363254, guid: 2f8e08a414723f3478184919435f67c0, type: 3}
+    icon: {fileID: 0}
+    placementOffset: {x: 0, y: 0, z: 0}
+    defaultScale: {x: 1, y: 1, z: 1}
+    gridSnapSize: 1
+    _contentId:
+      _value: 
+    _sourceModId: nordic_rpg
+  - id: lootbox_free
+    displayName: Ironbound Treasure Chest
+    category: 3
+    description: Lockable dungeon treasure chest for rewarding exploration.
+    prefab: {fileID: 1110624181899732, guid: e686bc0bb2dee5e4982d84f14142bb79, type: 3}
+    icon: {fileID: 0}
+    placementOffset: {x: 0, y: 0, z: 0}
+    defaultScale: {x: 1, y: 1, z: 1}
+    gridSnapSize: 1
+    _contentId:
+      _value: 
+    _sourceModId: nordic_rpg
+  - id: modular_door
+    displayName: Timber Wall Doorway
+    category: 2
+    description: Modular fantasy doorway wall section.
+    prefab: {fileID: 1252223868853454, guid: cf78b8bf36ea4054ca05e622c8dc2c75, type: 3}
+    icon: {fileID: 0}
+    placementOffset: {x: 0, y: 0, z: 0}
+    defaultScale: {x: 1, y: 1, z: 1}
+    gridSnapSize: 1
+    _contentId:
+      _value: 
+    _sourceModId: nordic_rpg
+  - id: basic_ground
+    displayName: Stone Flagstone Floor
+    category: 2
+    description: Modular cut-stone floor tile for dungeons and keeps.
+    prefab: {fileID: 1054909547808452, guid: 453939d3b95bcc548a2f9dcadf22126f, type: 3}
+    icon: {fileID: 0}
+    placementOffset: {x: 0, y: 0, z: 0}
+    defaultScale: {x: 1, y: 1, z: 1}
+    gridSnapSize: 1
+    _contentId:
+      _value: 
+    _sourceModId: nordic_rpg
+  - id: capture_point
+    displayName: Warlord Battle Banner
+    category: 2
+    description: Heraldic faction standard marking territory control.
+    prefab: {fileID: 1003196782519748, guid: f893351fa0c095a49839ad3fd4c320fb, type: 3}
+    icon: {fileID: 0}
+    placementOffset: {x: 0, y: 0, z: 0}
+    defaultScale: {x: 1, y: 1, z: 1}
+    gridSnapSize: 1
+    _contentId:
+      _value: 
+    _sourceModId: nordic_rpg
+  - id: coin_pickup
+    displayName: Ancient Spell Tome
+    category: 4
+    description: Leather-bound arcane tome containing forgotten lore.
+    prefab: {fileID: 1598537368095318, guid: d83a561ccce08624fb9894513f738bc2, type: 3}
+    icon: {fileID: 0}
+    placementOffset: {x: 0, y: 0, z: 0}
+    defaultScale: {x: 1, y: 1, z: 1}
+    gridSnapSize: 1
+    _contentId:
+      _value: 
+    _sourceModId: nordic_rpg
+  - id: powerup_item
+    displayName: Alchemist Retort Stand
+    category: 4
+    description: Alchemical brewing apparatus for potions and elixirs.
+    prefab: {fileID: 1357024195717468, guid: cd8a0887eec6fb848b7a2b238a74d253, type: 3}
+    icon: {fileID: 0}
+    placementOffset: {x: 0, y: 0, z: 0}
+    defaultScale: {x: 1, y: 1, z: 1}
+    gridSnapSize: 1
+    _contentId:
+      _value: 
+    _sourceModId: nordic_rpg
+  - id: ammo_pickup
+    displayName: Fletcher Arrow Barrel
+    category: 4
+    description: Quiver cache stocked with bodkin arrows.
+    prefab: {fileID: 1179169510983948, guid: bc72ab628c0e69243ba6d91b4db64d46, type: 3}
+    icon: {fileID: 0}
+    placementOffset: {x: 0, y: 0, z: 0}
+    defaultScale: {x: 1, y: 1, z: 1}
+    gridSnapSize: 1
+    _contentId:
+      _value: 
+    _sourceModId: nordic_rpg
+  - id: weapon_pickup
+    displayName: Forged Broadsword Display
+    category: 0
+    description: Tempered steel broadsword fresh from the blacksmith's anvil.
+    prefab: {fileID: 1297688571895036, guid: 1cb1458030a4f8d41970117440bd4456, type: 3}
+    icon: {fileID: 0}
+    placementOffset: {x: 0, y: 0, z: 0}
+    defaultScale: {x: 1, y: 1, z: 1}
+    gridSnapSize: 1
+    _contentId:
+      _value: 
+    _sourceModId: nordic_rpg
+  - id: hunter_longbow
+    displayName: Ashwood Hunter Longbow
+    category: 0
+    description: Balanced ashwood longbow for ranged marksmen.
+    prefab: {fileID: 1836698891882270, guid: 999de633b0a5f0848b10c37d407a9d10, type: 3}
+    icon: {fileID: 0}
+    placementOffset: {x: 0, y: 0, z: 0}
+    defaultScale: {x: 1, y: 1, z: 1}
+    gridSnapSize: 1
+    _contentId:
+      _value: 
+    _sourceModId: nordic_rpg

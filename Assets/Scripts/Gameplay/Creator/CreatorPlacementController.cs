@@ -2,13 +2,15 @@ namespace Gameplay.Creator
 {
     using System.Linq;
     using Core;
+    using Core.Ids;
     using Domain.Creator;
     using Systems.Creator;
     using UnityEngine;
     using UnityEngine.InputSystem;
 
     /// <summary>
-    /// Handles 3D ghost preview, mouse raycasting, grid snapping, and object placement/demolition in Build Mode.
+    /// Handles 3D ghost preview, mouse raycasting, grid snapping, Undo/Redo hotkeys, and
+    /// <see cref="InstanceGuid"/>-backed object placement/demolition in Build Mode (<c>ARCH-05</c>).
     /// </summary>
     [AddComponentMenu("3D 2D World/Creator/Placement Controller")]
     public class CreatorPlacementController : MonoBehaviour
@@ -51,7 +53,7 @@ namespace Gameplay.Creator
 
         private void Start()
         {
-            _creatorService = ServiceLocator.Get<CreatorStudioService>();
+            ServiceLocator.TryGet(out _creatorService);
         }
 
         private void OnEnable()
@@ -118,7 +120,6 @@ namespace Gameplay.Creator
             _ghostInstance = Instantiate(item.prefab);
             _ghostInstance.name = "[GHOST] " + item.displayName;
 
-            // Strip functional colliders, audio sources, scripts to prevent unwanted execution
             var colliders = _ghostInstance.GetComponentsInChildren<Collider>();
             foreach (var col in colliders)
             {
@@ -137,7 +138,6 @@ namespace Gameplay.Creator
                 anim.enabled = false;
             }
 
-            // Apply ghost material if provided
             if (_ghostMaterial != null)
             {
                 var renderers = _ghostInstance.GetComponentsInChildren<Renderer>();
@@ -159,7 +159,14 @@ namespace Gameplay.Creator
         {
             if (_ghostInstance != null)
             {
-                Destroy(_ghostInstance);
+                if (Application.isPlaying)
+                {
+                    Destroy(_ghostInstance);
+                }
+                else
+                {
+                    DestroyImmediate(_ghostInstance);
+                }
                 _ghostInstance = null;
             }
         }
@@ -237,20 +244,16 @@ namespace Gameplay.Creator
 
         #endregion
 
-        #region Placement Input
+        #region Placement Input & Undo/Redo Hotkeys
 
         private void HandleGlobalHotkeys()
         {
             var keyboard = Keyboard.current;
             if (keyboard == null) return;
 
-            // Toggle Build Mode via B or F3
             if (keyboard.bKey.wasPressedThisFrame || keyboard.f3Key.wasPressedThisFrame)
             {
-                if (_creatorService != null)
-                {
-                    _creatorService.ToggleBuildMode();
-                }
+                _creatorService?.ToggleBuildMode();
             }
         }
 
@@ -259,6 +262,19 @@ namespace Gameplay.Creator
             var keyboard = Keyboard.current;
             var mouse = Mouse.current;
             if (keyboard == null || mouse == null) return;
+
+            // Undo (Ctrl+Z) / Redo (Ctrl+Y)
+            bool ctrlHeld = keyboard.leftCtrlKey.isPressed || keyboard.rightCtrlKey.isPressed;
+            if (ctrlHeld && keyboard.zKey.wasPressedThisFrame)
+            {
+                _creatorService?.CommandHistory.Undo();
+                return;
+            }
+            if (ctrlHeld && keyboard.yKey.wasPressedThisFrame)
+            {
+                _creatorService?.CommandHistory.Redo();
+                return;
+            }
 
             // Rotation controls (R, Q, E)
             if (keyboard.rKey.wasPressedThisFrame || keyboard.eKey.wasPressedThisFrame)
@@ -270,17 +286,17 @@ namespace Gameplay.Creator
                 _currentYaw = (_currentYaw - _rotationStep + 360f) % 360f;
             }
 
-            // Don't interact with the world if clicking on UI elements
             if (IsPointerOverUI()) return;
 
-            // Left click to place
+            // Left click to place via PlaceObjectCommand
             if (mouse.leftButton.wasPressedThisFrame && _hasValidPlacement && _activeItem != null && _activeItem.prefab != null)
             {
                 PlaceCurrentItem();
             }
 
             // Demolish hovered placed object via Delete, X, Backspace, or Middle Click
-            if (keyboard.deleteKey.wasPressedThisFrame || keyboard.xKey.wasPressedThisFrame || keyboard.backspaceKey.wasPressedThisFrame || mouse.middleButton.wasPressedThisFrame)
+            if (keyboard.deleteKey.wasPressedThisFrame || keyboard.xKey.wasPressedThisFrame ||
+                keyboard.backspaceKey.wasPressedThisFrame || mouse.middleButton.wasPressedThisFrame)
             {
                 TryDemolishHoveredObject();
             }
@@ -288,7 +304,8 @@ namespace Gameplay.Creator
 
         private bool IsPointerOverUI()
         {
-            if (UnityEngine.EventSystems.EventSystem.current != null && UnityEngine.EventSystems.EventSystem.current.IsPointerOverGameObject())
+            if (UnityEngine.EventSystems.EventSystem.current != null &&
+                UnityEngine.EventSystems.EventSystem.current.IsPointerOverGameObject())
             {
                 return true;
             }
@@ -319,29 +336,42 @@ namespace Gameplay.Creator
 
         private void PlaceCurrentItem()
         {
-            var rotation = Quaternion.Euler(0f, _currentYaw, 0f);
-            var spawned = Instantiate(_activeItem.prefab, _currentPlacementPoint, rotation);
-            spawned.name = $"{_activeItem.displayName}_{spawned.GetInstanceID()}";
+            if (_creatorService == null || _activeItem == null) return;
 
-            _creatorService?.RegisterSpawnedObject(spawned, _activeItem.id);
-            Debug.Log($"[CreatorPlacementController] Placed {_activeItem.displayName} at {_currentPlacementPoint}");
+            Quaternion rotation = Quaternion.Euler(0f, _currentYaw, 0f);
+            Vector3 scale = _activeItem.defaultScale.sqrMagnitude > 0.001f ? _activeItem.defaultScale : Vector3.one;
+
+            var placeCmd = new PlaceObjectCommand(_creatorService, _activeItem.id, _currentPlacementPoint, rotation, scale);
+            _creatorService.CommandHistory.ExecuteCommand(placeCmd);
+
+            Debug.Log($"[CreatorPlacementController] Placed {_activeItem.displayName} ({placeCmd.InstanceId}) at {_currentPlacementPoint}");
         }
 
         private void TryDemolishHoveredObject()
         {
+            if (_creatorService == null || _targetCamera == null || Mouse.current == null) return;
+
             Vector2 mousePos = Mouse.current.position.ReadValue();
             Ray ray = _targetCamera.ScreenPointToRay(mousePos);
 
             if (Physics.Raycast(ray, out RaycastHit hit, _maxRayDistance))
             {
-                // Find root placed object
+                var placedTag = hit.collider.GetComponentInParent<EditorPlacedEntityTag>();
+                if (placedTag != null && !placedTag.InstanceId.IsEmpty)
+                {
+                    var deleteCmd = new DeleteObjectCommand(_creatorService, placedTag.InstanceId);
+                    _creatorService.CommandHistory.ExecuteCommand(deleteCmd);
+                    Debug.Log($"[CreatorPlacementController] Demolished placed object ({placedTag.InstanceId})");
+                    return;
+                }
+
                 GameObject target = hit.collider.gameObject;
-                while (target.transform.parent != null && !target.CompareTag("Untagged"))
+                while (target.transform.parent != null && !_creatorService.SpawnedObjects.Contains(target))
                 {
                     target = target.transform.parent.gameObject;
                 }
 
-                if (_creatorService != null && _creatorService.SpawnedObjects.Contains(target))
+                if (_creatorService.SpawnedObjects.Contains(target))
                 {
                     _creatorService.UnregisterSpawnedObject(target);
                     Destroy(target);

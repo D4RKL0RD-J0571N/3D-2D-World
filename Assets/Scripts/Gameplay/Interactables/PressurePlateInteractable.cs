@@ -1,7 +1,9 @@
 namespace Gameplay.Interactables
 {
+    using System;
     using System.Collections;
     using Core;
+    using Systems.Creator;
     using UnityEngine;
 
     // ── Event ─────────────────────────────────────────────────────────────────
@@ -16,13 +18,12 @@ namespace Gameplay.Interactables
     // ── Component ─────────────────────────────────────────────────────────────
 
     /// <summary>
-    /// Pressure plate that activates traps when the player walks over it.
-    /// Does NOT implement IInteractable — triggered by physics, not key press.
-    /// Requires a Collider set to Is Trigger on the same GameObject.
+    /// Pressure plate that activates traps and <see cref="Domain.Creator.CrossObjectLink"/> receivers
+    /// when the player walks over it or when triggered via <see cref="ILinkReceiver"/>.
     /// </summary>
     [AddComponentMenu("3D2DWorld/Interactables/Pressure Plate")]
     [RequireComponent(typeof(Collider))]
-    public class PressurePlateInteractable : MonoBehaviour
+    public class PressurePlateInteractable : MonoBehaviour, ILinkReceiver
     {
         #region Serialized Fields
 
@@ -36,9 +37,11 @@ namespace Gameplay.Interactables
 
         #endregion
 
-        #region State
+        #region State & Properties
 
         private bool _isTriggered = false;
+
+        public bool IsTriggered => _isTriggered;
 
         #endregion
 
@@ -46,7 +49,6 @@ namespace Gameplay.Interactables
 
         private void Awake()
         {
-            // Ensure the collider is flagged as trigger
             var col = GetComponent<Collider>();
             if (col != null) col.isTrigger = true;
         }
@@ -55,17 +57,55 @@ namespace Gameplay.Interactables
         {
             if (_isTriggered || !other.CompareTag("Player")) return;
 
-            _isTriggered = true;
-            ActivateTraps();
-            GameEventManager.Publish(new PressurePlateTriggeredEvent(this));
-            StartCoroutine(ResetCoroutine());
-
-            Debug.Log($"[PressurePlate] {name} triggered by player.");
+            TriggerPlate();
+            if (Application.isPlaying)
+            {
+                StartCoroutine(ResetCoroutine());
+            }
         }
 
         #endregion
 
-        #region Trap Logic
+        #region Trigger & ILinkReceiver Logic
+
+        public void TriggerPlate()
+        {
+            _isTriggered = true;
+            ActivateTraps();
+            GameEventManager.Publish(new PressurePlateTriggeredEvent(this));
+
+            var editorTag = GetComponent<EditorPlacedEntityTag>();
+            if (editorTag != null)
+            {
+                editorTag.TriggerOutputPort("OnSteppedOn");
+            }
+
+            Debug.Log($"[PressurePlate] {name} triggered.");
+        }
+
+        public void ResetPlate()
+        {
+            DeactivateTraps();
+            _isTriggered = false;
+        }
+
+        public void ExecuteLinkAction(string actionName, GameObject sourceObject = null)
+        {
+            if (string.Equals(actionName, "Reset", StringComparison.OrdinalIgnoreCase) ||
+                string.Equals(actionName, "Deactivate", StringComparison.OrdinalIgnoreCase))
+            {
+                ResetPlate();
+            }
+            else if (string.Equals(actionName, "Toggle", StringComparison.OrdinalIgnoreCase))
+            {
+                if (_isTriggered) ResetPlate();
+                else TriggerPlate();
+            }
+            else
+            {
+                TriggerPlate();
+            }
+        }
 
         private void ActivateTraps()
         {
@@ -90,8 +130,7 @@ namespace Gameplay.Interactables
         private IEnumerator ResetCoroutine()
         {
             yield return new WaitForSeconds(_resetDelay);
-            DeactivateTraps();
-            _isTriggered = false;
+            ResetPlate();
         }
 
         #endregion

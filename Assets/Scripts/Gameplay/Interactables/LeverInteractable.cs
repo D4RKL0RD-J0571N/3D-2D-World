@@ -5,6 +5,7 @@ namespace Gameplay.Interactables
     using Core.Ids;
     using Core.Persistence;
     using Newtonsoft.Json;
+    using Systems.Creator;
     using UnityEngine;
 
     // ── Event ─────────────────────────────────────────────────────────────────
@@ -25,10 +26,11 @@ namespace Gameplay.Interactables
     // ── Component ─────────────────────────────────────────────────────────────
 
     /// <summary>
-    /// A lever or pull-chain that toggles one or more linked GameObjects (gates, portcullises, etc.).
+    /// A lever or pull-chain that toggles one or more linked GameObjects (gates, portcullises, etc.)
+    /// and dispatches <see cref="Domain.Creator.CrossObjectLink"/> triggers (<c>OnLeverPulled</c>, <c>OnActivated</c>).
     /// </summary>
     [AddComponentMenu("3D2DWorld/Interactables/Lever")]
-    public class LeverInteractable : MonoBehaviour, IInteractable, ISaveableComponent
+    public class LeverInteractable : MonoBehaviour, IInteractable, ISaveableComponent, ILinkReceiver
     {
         #region Serialized Fields
 
@@ -50,6 +52,15 @@ namespace Gameplay.Interactables
             ToggleLinkedObjects();
         }
 
+        /// <summary>
+        /// Programmatically pulls/toggles the lever and fires both <see cref="LeverToggledEvent"/>
+        /// and any wired <see cref="EditorPlacedEntityTag"/> output ports (<c>"OnLeverPulled"</c>).
+        /// </summary>
+        public void PullLever()
+        {
+            OnInteract(null);
+        }
+
         #endregion
 
         #region IInteractable
@@ -63,10 +74,41 @@ namespace Gameplay.Interactables
             _isActivated = !_isActivated;
 
             ToggleLinkedObjects();
-            GetComponent<Animator>()?.SetTrigger("Toggle");
+            if (TryGetComponent<Animator>(out var anim) && anim != null && anim.runtimeAnimatorController != null)
+            {
+                anim.SetTrigger("Toggle");
+            }
             GameEventManager.Publish(new LeverToggledEvent(this, _isActivated));
 
+            var editorTag = GetComponent<EditorPlacedEntityTag>();
+            if (editorTag != null)
+            {
+                editorTag.TriggerOutputPort("OnLeverPulled");
+            }
+
             Debug.Log($"[LeverInteractable] {name} toggled → {(_isActivated ? "ON" : "OFF")}");
+        }
+
+        #endregion
+
+        #region ILinkReceiver Implementation
+
+        public void ExecuteLinkAction(string actionName, GameObject sourceObject = null)
+        {
+            if (string.Equals(actionName, "Toggle", StringComparison.OrdinalIgnoreCase))
+            {
+                SetActivated(!_isActivated);
+            }
+            else if (string.Equals(actionName, "Deactivate", StringComparison.OrdinalIgnoreCase) ||
+                     string.Equals(actionName, "Close", StringComparison.OrdinalIgnoreCase) ||
+                     string.Equals(actionName, "Reset", StringComparison.OrdinalIgnoreCase))
+            {
+                SetActivated(false);
+            }
+            else
+            {
+                SetActivated(true);
+            }
         }
 
         #endregion

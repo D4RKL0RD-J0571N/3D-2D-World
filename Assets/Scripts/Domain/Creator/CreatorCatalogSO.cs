@@ -1,5 +1,6 @@
 namespace Domain.Creator
 {
+    using System;
     using System.Collections.Generic;
     using UnityEngine;
 
@@ -41,6 +42,17 @@ namespace Domain.Creator
             {
                 items.Add(item);
             }
+        }
+
+        public void ClearItems()
+        {
+            items.Clear();
+        }
+
+        public int RemoveWhere(Predicate<CreatorItemDefinition> match)
+        {
+            if (match == null) return 0;
+            return items.RemoveAll(match);
         }
 
         #endregion
