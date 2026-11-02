@@ -254,7 +254,7 @@ namespace Core.Assets
             }
 
             string relativePath = assetId.Path.Replace('/', Path.DirectorySeparatorChar);
-            string[] candidateExtensions = { "", ".png", ".jpg", ".jpeg" };
+            string[] candidateExtensions = { "", ".png", ".jpg", ".jpeg", ".glb", ".gltf" };
 
             for (int i = dirs.Count - 1; i >= 0; i--)
             {
@@ -278,6 +278,19 @@ namespace Core.Assets
             loadedAsset = null;
             if (!TryResolveExternalFilePath(assetId, out string filePath))
             {
+                return false;
+            }
+
+            string ext = Path.GetExtension(filePath).ToLowerInvariant();
+            if (ext == ".glb" || ext == ".gltf")
+            {
+                if (GltfAssetMountSource.TryLoadGltfAsset(assetId, filePath, out loadedAsset, out string gltfErr))
+                {
+                    _externalCache[(assetId, typeof(T))] = loadedAsset;
+                    return true;
+                }
+
+                ReportMissingAsset(assetId, typeof(T), gltfErr ?? $"Failed to load glTF/GLB asset '{filePath}'.");
                 return false;
             }
 

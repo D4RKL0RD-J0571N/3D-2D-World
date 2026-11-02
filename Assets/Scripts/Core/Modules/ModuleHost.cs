@@ -6,6 +6,7 @@ namespace Core.Modules
     using Core.Assets;
     using Core.Content;
     using Core.Diagnostics;
+    using Core.Modding;
     using Core.Scheduling;
 
     /// <summary>
@@ -38,6 +39,7 @@ namespace Core.Modules
         private DiagnosticService _diagnostics;
         private ContentService _contentService;
         private AssetProviderService _assetProvider;
+        private ModManagerService _modManager;
         private TickScheduler _tickScheduler;
 
         #endregion
@@ -52,6 +54,7 @@ namespace Core.Modules
         public IDiagnosticService Diagnostics => _diagnostics;
         public IContentService Content => _contentService;
         public IAssetProvider Assets => _assetProvider;
+        public IModManagerService ModManager => _modManager;
         public TickScheduler Scheduler => _tickScheduler;
 
         #endregion
@@ -166,6 +169,9 @@ namespace Core.Modules
                 _assetProvider = new AssetProviderService();
                 ServiceLocator.Register<IAssetProvider, AssetProviderService>(_assetProvider);
 
+                _modManager = new ModManagerService(registerDefaultRoots: hydrateProjectAssets);
+                ServiceLocator.Register<IModManagerService, ModManagerService>(_modManager);
+
                 _tickScheduler = new TickScheduler();
                 ServiceLocator.Register(_tickScheduler);
 
@@ -190,6 +196,11 @@ namespace Core.Modules
                 {
                     IEngineModule module = _sortedModules[i];
                     module.Initialize(_contexts[module.Descriptor.ModuleId]);
+                }
+
+                if (hydrateProjectAssets)
+                {
+                    _modManager.ActivateProfile();
                 }
 
                 // 4. Phase 3 — Activation

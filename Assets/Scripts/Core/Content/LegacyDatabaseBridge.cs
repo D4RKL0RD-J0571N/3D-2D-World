@@ -194,7 +194,7 @@ namespace Core.Content
 #endif
         }
 
-        private static void EnsureBlockSecondaryIndex(IContentService contentService)
+        public static void EnsureBlockSecondaryIndex(IContentService contentService)
         {
             var blockRegistry = contentService.GetRegistry<BlockDefinition>();
             blockRegistry.RegisterSecondaryIndex<ushort>(BlockRuntimeIdIndex, b => b.RuntimeId);

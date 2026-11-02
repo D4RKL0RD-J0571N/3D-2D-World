@@ -5,6 +5,7 @@ namespace Systems.Creator
     using System.IO;
     using Core;
     using Core.Ids;
+    using Core.Modding;
     using Core.Persistence;
     using Domain.Creator;
     using Newtonsoft.Json;
@@ -530,6 +531,70 @@ namespace Systems.Creator
                 Debug.LogError($"[CreatorStudioService] Error loading level: {ex.Message}");
                 return false;
             }
+        }
+
+        /// <summary>
+        /// Exports an authored <see cref="CreatorLevelData"/> world (or captures the currently spawned objects)
+        /// as a standalone Mod Package (<c>mod.json</c> + <c>Worlds/&lt;world&gt;.json</c>) under <c>Mods/&lt;modId&gt;/</c>.
+        /// </summary>
+        public string ExportModPackage(
+            string modId,
+            CreatorLevelData worldData = null,
+            string displayName = null,
+            string author = "Player",
+            string version = "1.0.0",
+            string customModsRootDirectory = null)
+        {
+            if (!ModManifest.IsValidModId(modId))
+            {
+                throw new ArgumentException($"Invalid modId '{modId}'. Must match lowercase '^[a-z0-9_]+$'.", nameof(modId));
+            }
+
+            CreatorLevelData effectiveWorld = worldData ?? CaptureLevelData($"{modId}_world");
+            string modsRoot = !string.IsNullOrWhiteSpace(customModsRootDirectory)
+                ? customModsRootDirectory
+                : Path.Combine(Application.persistentDataPath, "Mods");
+
+            string modRoot = Path.Combine(modsRoot, modId);
+            string worldsDir = Path.Combine(modRoot, "Worlds");
+            string defsDir = Path.Combine(modRoot, "Data", "Definitions");
+            string patchesDir = Path.Combine(modRoot, "Data", "Patches");
+            string assetsDir = Path.Combine(modRoot, "Assets");
+
+            Directory.CreateDirectory(worldsDir);
+            Directory.CreateDirectory(defsDir);
+            Directory.CreateDirectory(patchesDir);
+            Directory.CreateDirectory(assetsDir);
+
+            var manifest = new ModManifest
+            {
+                ModId = modId,
+                DisplayName = string.IsNullOrWhiteSpace(displayName) ? modId : displayName,
+                Author = string.IsNullOrWhiteSpace(author) ? "Player" : author,
+                Version = string.IsNullOrWhiteSpace(version) ? "1.0.0" : version,
+                Description = $"Exported from In-Game Creator Studio ({effectiveWorld.placedObjects?.Count ?? 0} placed objects).",
+                EngineVersion = ">=0.5.0 <2.0.0",
+                Tier = ModTier.WorldAndAssetMod,
+                ConflictPolicy = ModConflictPolicy.MergePatch,
+                Dependencies = new List<ModDependencySpec>
+                {
+                    new ModDependencySpec
+                    {
+                        ModId = ResourceId.DefaultNamespace,
+                        VersionRange = ">=1.0.0",
+                        Optional = false
+                    }
+                }
+            };
+
+            string manifestPath = Path.Combine(modRoot, "mod.json");
+            File.WriteAllText(manifestPath, JsonConvert.SerializeObject(manifest, Formatting.Indented));
+
+            string safeWorldFileName = string.IsNullOrWhiteSpace(effectiveWorld.levelName) ? "world" : effectiveWorld.levelName;
+            string worldFilePath = Path.Combine(worldsDir, $"{safeWorldFileName}.json");
+            File.WriteAllText(worldFilePath, JsonConvert.SerializeObject(effectiveWorld, FantasyEngineJsonSettings.CreateDefault()));
+
+            return modRoot;
         }
 
         #endregion

@@ -14,10 +14,12 @@ namespace Data.Config
         public override string CategoryPrefix => "ITM";
 
         [Header("Item Properties")]
+        public float Damage = 0.0f;
         public float Weight = 1.0f;
         public int Value = 10;
         public bool IsStackable = true;
         public int MaxStackSize = 99;
+        public string Description = string.Empty;
 
         [Header("Presentation")]
         public Sprite Icon;
