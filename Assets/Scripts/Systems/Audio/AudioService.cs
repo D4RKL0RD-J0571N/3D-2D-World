@@ -173,11 +173,21 @@ namespace Systems.Audio
             }
         }
 
-        private void Play2D(AudioClip clip, float volume = 1f)
+        /// <summary>Plays a 2D sound effect through the main audio source.</summary>
+        public void Play2D(AudioClip clip, float volume = 1f)
         {
             if (clip != null && _uiSource != null)
             {
                 _uiSource.PlayOneShot(clip, volume);
+            }
+        }
+
+        /// <summary>Plays a 3D positioned sound effect at the given world point.</summary>
+        public void Play3D(AudioClip clip, Vector3 worldPos, float volume = 1f)
+        {
+            if (clip != null)
+            {
+                AudioSource.PlayClipAtPoint(clip, worldPos, volume);
             }
         }
 

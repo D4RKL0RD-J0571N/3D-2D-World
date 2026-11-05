@@ -43,6 +43,13 @@ namespace Gameplay.Entities
             {
                 Initialize(_actor);
             }
+            else if (_attributes.Count == 0)
+            {
+                // Fallback default RPG attributes for autonomous scene actors
+                RegisterAttribute(new BaseAttribute { AttributeName = "Health", MaximumValue = 100, CurrentValue = 100, RegenerationRate = 1f });
+                RegisterAttribute(new BaseAttribute { AttributeName = "Stamina", MaximumValue = 100, CurrentValue = 100, RegenerationRate = 5f });
+                RegisterAttribute(new BaseAttribute { AttributeName = "Magicka", MaximumValue = 100, CurrentValue = 100, RegenerationRate = 5f });
+            }
         }
 
         private void Update()
@@ -199,6 +206,9 @@ namespace Gameplay.Entities
                 GameEventManager.Publish(new EntityHealedEvent { Target = _actor, Amount = amount });
             }
         }
+
+        /// <summary>Convenience alias for ApplyHealing.</summary>
+        public void Heal(string attributeName, int amount) => ApplyHealing(attributeName, amount);
 
         #endregion
 

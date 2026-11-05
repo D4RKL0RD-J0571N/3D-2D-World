@@ -30,6 +30,7 @@ namespace Tests.Editor
                 typeof(Domain6_PersistenceAndVoxelCodecTests),
                 typeof(Domain7_ProvingGroundsRegressionTests),
                 typeof(Domain8_CoreGameplayLoopTests),
+                typeof(Domain9_CombatAndMagicTests),
                 typeof(CraftingServiceTests),
                 typeof(HarvestableNodeTests)
             };

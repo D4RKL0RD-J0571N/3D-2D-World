@@ -215,6 +215,7 @@ namespace Gameplay.Combat
             if (distToTarget > _detectionRange * 1.8f)
             {
                 _currentState = EnemyAIState.Idle;
+                Debug.Log($"<color=cyan>[EnemyCombatAI] {name}: 'Must have been the wind.'</color>");
                 return;
             }
 

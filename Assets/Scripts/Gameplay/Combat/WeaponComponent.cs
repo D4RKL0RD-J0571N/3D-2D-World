@@ -8,8 +8,8 @@ namespace Gameplay.Combat
     using Gameplay.Player;
 
     /// <summary>
-    /// Coordinates melee attack execution, stamina consumption, and collision detection.
-    /// Operates via direct peer-component coordination and event subscriptions.
+    /// Coordinates melee attack execution, stamina consumption, procedural weapon viewmodel swing,
+    /// audio whoosh/impact feedback, and blood/hit particle instantiation.
     /// </summary>
     [AddComponentMenu("3D2DWorld/Combat/Weapon Component")]
     [RequireComponent(typeof(BaseActor))]
@@ -21,7 +21,7 @@ namespace Gameplay.Combat
         [SerializeField] private float _attackRange = 2.5f;
         [SerializeField] private float _attackRadius = 0.6f;
         [SerializeField] private int _damageAmount = 25;
-        [SerializeField] private float _attackCooldown = 0.4f;
+        [SerializeField] private float _attackCooldown = 0.45f;
 
         [Header("Stamina Costs")]
         [SerializeField] private int _staminaCost = 20;
@@ -29,6 +29,17 @@ namespace Gameplay.Combat
 
         [Header("Targeting")]
         [SerializeField] private LayerMask _hitMask = ~0;
+
+        [Header("Visuals & Viewmodel")]
+        [SerializeField] private Transform _weaponVisualTransform;
+        [SerializeField] private Vector3 _restPosition = new Vector3(0.35f, -0.3f, 0.6f);
+        [SerializeField] private Vector3 _restRotation = new Vector3(15f, -10f, 5f);
+
+        [Header("Audio & VFX")]
+        [SerializeField] private AudioClip[] _swingClips;
+        [SerializeField] private AudioClip _hitFleshClip;
+        [SerializeField] private AudioClip _hitMetalClip;
+        [SerializeField] private GameObject _hitVfxPrefab;
 
         private BaseActor _actor;
         private AttributeComponent _attributeComponent;
@@ -62,6 +73,12 @@ namespace Gameplay.Combat
             }
         }
 
+        public Transform WeaponVisualTransform
+        {
+            get => _weaponVisualTransform;
+            set => _weaponVisualTransform = value;
+        }
+
         #endregion
 
         #region Unity Lifecycle
@@ -70,11 +87,13 @@ namespace Gameplay.Combat
         {
             _actor = GetComponent<BaseActor>();
             _attributeComponent = GetComponent<AttributeComponent>();
+            EnsureAssetsLoaded();
         }
 
         private void Start()
         {
             ResolveCamera();
+            InitializeWeaponVisualTransform();
         }
 
         private void Update()
@@ -94,11 +113,13 @@ namespace Gameplay.Combat
         private void OnDisable()
         {
             GameEventManager.RemoveListener<PlayerInteractPrimaryInputEvent>(OnPrimaryInteract);
+            StopAllCoroutines();
+            _isAttacking = false;
         }
 
         #endregion
 
-        #region Camera Resolution
+        #region Camera & Visual Resolution
 
         private void ResolveCamera()
         {
@@ -109,6 +130,15 @@ namespace Gameplay.Combat
                 {
                     _cachedCamera = UnityEngine.Camera.main;
                 }
+            }
+        }
+
+        private void InitializeWeaponVisualTransform()
+        {
+            if (_weaponVisualTransform != null)
+            {
+                _weaponVisualTransform.localPosition = _restPosition;
+                _weaponVisualTransform.localRotation = Quaternion.Euler(_restRotation);
             }
         }
 
@@ -131,7 +161,6 @@ namespace Gameplay.Combat
         /// <summary>
         /// Attempts to execute a melee swing if cooldown and stamina requirements are met.
         /// </summary>
-        /// <returns>True if the attack was executed, false otherwise.</returns>
         public bool TryExecuteAttack()
         {
             if (!CanAttack)
@@ -156,6 +185,7 @@ namespace Gameplay.Combat
             _lastAttackTime = Time.time;
 
             ConsumeStamina();
+            PlaySwingFeedback();
             DetectAndDamageTargets();
             StartCoroutine(AttackRoutine());
         }
@@ -168,25 +198,26 @@ namespace Gameplay.Combat
             }
         }
 
+        private void PlaySwingFeedback()
+        {
+            if (_swingClips != null && _swingClips.Length > 0)
+            {
+                int index = Random.Range(0, _swingClips.Length);
+                if (_swingClips[index] != null && ServiceLocator.TryGet<Systems.Audio.AudioService>(out var audio))
+                {
+                    audio.Play2D(_swingClips[index], 0.7f);
+                }
+            }
+        }
+
         private void DetectAndDamageTargets()
         {
             ResolveCamera();
 
-            Vector3 origin = _cachedCamera != null
-                ? _cachedCamera.transform.position
-                : transform.position + Vector3.up * 1.5f;
+            Vector3 origin = _cachedCamera != null ? _cachedCamera.transform.position : transform.position + Vector3.up * 1.5f;
+            Vector3 direction = _cachedCamera != null ? _cachedCamera.transform.forward : transform.forward;
 
-            Vector3 direction = _cachedCamera != null
-                ? _cachedCamera.transform.forward
-                : transform.forward;
-
-            RaycastHit[] hits = Physics.SphereCastAll(
-                origin,
-                _attackRadius,
-                direction,
-                _attackRange,
-                _hitMask,
-                QueryTriggerInteraction.Ignore);
+            RaycastHit[] hits = Physics.SphereCastAll(origin, _attackRadius, direction, _attackRange, _hitMask, QueryTriggerInteraction.Ignore);
 
             BaseActor closestTarget = null;
             HarvestableNode closestHarvestable = null;
@@ -196,11 +227,7 @@ namespace Gameplay.Combat
             for (int i = 0; i < hits.Length; i++)
             {
                 var hit = hits[i];
-                if (hit.collider == null) continue;
-
-                // Ignore self and child colliders
-                if (hit.collider.transform.root == transform.root)
-                    continue;
+                if (hit.collider == null || hit.collider.transform.root == transform.root) continue;
 
                 var targetActor = hit.collider.GetComponentInParent<BaseActor>();
                 if (targetActor != null && targetActor != _actor)
@@ -216,43 +243,123 @@ namespace Gameplay.Combat
                 }
 
                 var harvestable = hit.collider.GetComponentInParent<HarvestableNode>();
-                if (harvestable != null && !harvestable.IsDepleted)
+                if (harvestable != null && !harvestable.IsDepleted && hit.distance < minDistance)
                 {
-                    if (hit.distance < minDistance)
-                    {
-                        minDistance = hit.distance;
-                        closestHarvestable = harvestable;
-                        closestTarget = null;
-                        closestHit = hit;
-                    }
+                    minDistance = hit.distance;
+                    closestHarvestable = harvestable;
+                    closestTarget = null;
+                    closestHit = hit;
                 }
             }
 
-            if (closestTarget != null || closestHarvestable != null)
-            {
-                var damageInfo = new DamageInfo(
-                    _damageAmount,
-                    DamageType.Physical,
-                    gameObject,
-                    closestHit.point,
-                    closestHit.normal);
+            ApplyDamageAndFeedback(closestTarget, closestHarvestable, closestHit);
+        }
 
-                if (closestTarget != null)
-                {
-                    closestTarget.TakeDamage(damageInfo);
-                }
-                else if (closestHarvestable != null)
-                {
-                    closestHarvestable.TakeDamage(damageInfo);
-                }
+        private void ApplyDamageAndFeedback(BaseActor targetActor, HarvestableNode harvestable, RaycastHit hit)
+        {
+            if (targetActor == null && harvestable == null) return;
+
+            var damageInfo = new DamageInfo(_damageAmount, DamageType.Physical, gameObject, hit.point, hit.normal);
+
+            if (targetActor != null)
+            {
+                targetActor.TakeDamage(damageInfo);
+                PlayHitFeedback(true, hit.point, hit.normal);
+            }
+            else if (harvestable != null)
+            {
+                harvestable.TakeDamage(damageInfo);
+                PlayHitFeedback(false, hit.point, hit.normal);
+            }
+        }
+
+        private void PlayHitFeedback(bool isActor, Vector3 hitPoint, Vector3 hitNormal)
+        {
+            var audio = ServiceLocator.Get<Systems.Audio.AudioService>();
+            if (audio != null)
+            {
+                AudioClip clip = isActor ? _hitFleshClip : _hitMetalClip;
+                if (clip != null) audio.Play3D(clip, hitPoint, 0.9f);
+            }
+
+            if (isActor && _hitVfxPrefab != null)
+            {
+                Quaternion rot = hitNormal != Vector3.zero ? Quaternion.LookRotation(hitNormal) : Quaternion.identity;
+                GameObject vfx = Instantiate(_hitVfxPrefab, hitPoint, rot);
+                Destroy(vfx, 2.5f);
             }
         }
 
         private IEnumerator AttackRoutine()
         {
             _isAttacking = true;
-            yield return new WaitForSeconds(_attackCooldown);
+
+            float elapsed = 0f;
+            float duration = _attackCooldown;
+            Vector3 slashPos = _restPosition + new Vector3(-0.25f, -0.15f, 0.1f);
+            Quaternion slashRot = Quaternion.Euler(_restRotation + new Vector3(45f, -30f, 35f));
+            Quaternion startRot = Quaternion.Euler(_restRotation);
+
+            while (elapsed < duration)
+            {
+                elapsed += Time.deltaTime;
+                float t = elapsed / duration;
+
+                if (_weaponVisualTransform != null)
+                {
+                    if (t < 0.35f)
+                    {
+                        float forwardT = t / 0.35f;
+                        _weaponVisualTransform.localPosition = Vector3.Lerp(_restPosition, slashPos, forwardT);
+                        _weaponVisualTransform.localRotation = Quaternion.Slerp(startRot, slashRot, forwardT);
+                    }
+                    else
+                    {
+                        float recoverT = (t - 0.35f) / 0.65f;
+                        _weaponVisualTransform.localPosition = Vector3.Lerp(slashPos, _restPosition, recoverT);
+                        _weaponVisualTransform.localRotation = Quaternion.Slerp(slashRot, startRot, recoverT);
+                    }
+                }
+
+                yield return null;
+            }
+
+            InitializeWeaponVisualTransform();
             _isAttacking = false;
+        }
+
+        #endregion
+
+        #region Asset Initialization
+
+        private void EnsureAssetsLoaded()
+        {
+#if UNITY_EDITOR
+            if (_swingClips == null || _swingClips.Length == 0)
+            {
+                _swingClips = new AudioClip[]
+                {
+                    UnityEditor.AssetDatabase.LoadAssetAtPath<AudioClip>("Assets/Feel/FeelDemos/Barbarians/Sounds/FeelBarbariansAttack1.wav"),
+                    UnityEditor.AssetDatabase.LoadAssetAtPath<AudioClip>("Assets/Feel/FeelDemos/Barbarians/Sounds/FeelBarbariansAttack2.wav"),
+                    UnityEditor.AssetDatabase.LoadAssetAtPath<AudioClip>("Assets/Feel/FeelDemos/Barbarians/Sounds/FeelBarbariansAttack3.wav")
+                };
+            }
+
+            if (_hitFleshClip == null)
+            {
+                _hitFleshClip = UnityEditor.AssetDatabase.LoadAssetAtPath<AudioClip>("Assets/Feel/FeelDemos/Barbarians/Sounds/FeelBarbarianHit.wav");
+            }
+
+            if (_hitMetalClip == null)
+            {
+                _hitMetalClip = UnityEditor.AssetDatabase.LoadAssetAtPath<AudioClip>("Assets/Feel/NiceVibrations/HapticSamples/Impacts/ImpactMetal1.wav");
+            }
+
+            if (_hitVfxPrefab == null)
+            {
+                _hitVfxPrefab = UnityEditor.AssetDatabase.LoadAssetAtPath<GameObject>("Assets/DamageNumbersPro/Demo/Prefabs/3D/Blood Spread.prefab");
+            }
+#endif
         }
 
         #endregion
