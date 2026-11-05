@@ -63,11 +63,13 @@ namespace Systems.Skyrim
             }
 
             GameEventManager.AddListener<PlayerCharacterLeveledUpEvent>(OnPlayerLeveledUp);
+            GameEventManager.AddListener<Domain.Entities.EntityDiedEvent>(OnEntityDied);
         }
 
         public void Shutdown()
         {
             GameEventManager.RemoveListener<PlayerCharacterLeveledUpEvent>(OnPlayerLeveledUp);
+            GameEventManager.RemoveListener<Domain.Entities.EntityDiedEvent>(OnEntityDied);
             _activeQuests.Clear();
             _localTemplates.Clear();
         }
@@ -199,6 +201,11 @@ namespace Systems.Skyrim
             int gold = quest.BaseGoldReward + _playerLevel * quest.GoldPerPlayerLevel;
             int xp = quest.XPReward;
 
+            if (ServiceLocator.TryGet<CompassService>(out var compass))
+            {
+                compass.UnregisterMarker(quest.QuestId);
+            }
+
             GameEventManager.Publish(new QuestCompletedEvent(quest, gold, xp));
             _activeQuests.Remove(quest);
 
@@ -231,14 +238,36 @@ namespace Systems.Skyrim
         {
             if (!ServiceLocator.TryGet<CompassService>(out var compass)) return;
 
+            Vector3 worldPos = ResolveLocationPosition(quest.LocationName);
+
             var markerData = new CompassMarkerData(
                 id:            quest.QuestId,
                 title:         quest.Title,
                 type:          CompassPOIType.QuestMarker,
-                worldPosition: Vector3.zero,
+                worldPosition: worldPos,
                 maxDistance:   500f);
 
             compass.RegisterMarker(markerData);
+        }
+
+        private Vector3 ResolveLocationPosition(string locationName)
+        {
+            if (string.IsNullOrEmpty(locationName)) return Vector3.zero;
+
+            var markers = UnityEngine.Object.FindObjectsByType<Gameplay.Skyrim.CompassMarkerComponent>(FindObjectsSortMode.None);
+            for (int i = 0; i < markers.Length; i++)
+            {
+                var m = markers[i];
+                if (m != null && (m.name.Contains(locationName) || (m.MarkerTitle != null && m.MarkerTitle.Contains(locationName))))
+                {
+                    return m.transform.position;
+                }
+            }
+
+            var locObj = GameObject.Find(locationName);
+            if (locObj != null) return locObj.transform.position;
+
+            return Vector3.zero;
         }
 
         private QuestInstance FindQuest(string questId)
@@ -253,6 +282,26 @@ namespace Systems.Skyrim
         private void OnPlayerLeveledUp(PlayerCharacterLeveledUpEvent evt)
         {
             if (evt != null) _playerLevel = evt.NewLevel;
+        }
+
+        private void OnEntityDied(Domain.Entities.EntityDiedEvent evt)
+        {
+            if (evt == null || evt.Victim == null) return;
+
+            bool killedByPlayer = evt.Killer != null && evt.Killer.CompareTag("Player");
+            if (!killedByPlayer) return;
+
+            for (int i = _activeQuests.Count - 1; i >= 0; i--)
+            {
+                var quest = _activeQuests[i];
+                if (quest == null || quest.IsCompleted) continue;
+
+                if (quest.Type == QuestType.BountyHunt || quest.Type == QuestType.DungeonCleanse)
+                {
+                    AdvanceQuest(quest.QuestId, 1);
+                    break;
+                }
+            }
         }
 
         #endregion

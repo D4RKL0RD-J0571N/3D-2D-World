@@ -102,6 +102,7 @@ namespace Systems.Skyrim
             GameEventManager.AddListener<EntityDamagedEvent>(OnEntityDamaged);
             GameEventManager.AddListener<StealthStateChangedEvent>(OnStealthStateChanged);
             GameEventManager.AddListener<SneakAttackTriggeredEvent>(OnSneakAttackTriggered);
+            GameEventManager.AddListener<QuestCompletedEvent>(OnQuestCompleted);
         }
 
         public void Shutdown()
@@ -109,6 +110,7 @@ namespace Systems.Skyrim
             GameEventManager.RemoveListener<EntityDamagedEvent>(OnEntityDamaged);
             GameEventManager.RemoveListener<StealthStateChangedEvent>(OnStealthStateChanged);
             GameEventManager.RemoveListener<SneakAttackTriggeredEvent>(OnSneakAttackTriggered);
+            GameEventManager.RemoveListener<QuestCompletedEvent>(OnQuestCompleted);
         }
 
         #endregion
@@ -262,6 +264,12 @@ namespace Systems.Skyrim
         {
             if (evt == null) return;
             AwardXP(SneakSkillId, 15f);
+        }
+
+        private void OnQuestCompleted(QuestCompletedEvent evt)
+        {
+            if (evt == null) return;
+            AwardXP(OneHandedSkillId, evt.XPReward);
         }
 
         #endregion

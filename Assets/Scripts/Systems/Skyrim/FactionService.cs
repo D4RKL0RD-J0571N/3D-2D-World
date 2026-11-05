@@ -80,10 +80,13 @@ namespace Systems.Skyrim
                     ApplyFactionDefinition(customDef);
                 }
             }
+
+            GameEventManager.AddListener<QuestCompletedEvent>(OnQuestCompleted);
         }
 
         public void Shutdown()
         {
+            GameEventManager.RemoveListener<QuestCompletedEvent>(OnQuestCompleted);
             _dispositions.Clear();
             _playerReputation.Clear();
             _playerBounties.Clear();
@@ -239,6 +242,12 @@ namespace Systems.Skyrim
                     }
                 }
             }
+        }
+
+        private void OnQuestCompleted(QuestCompletedEvent evt)
+        {
+            if (evt == null) return;
+            ModifyReputation(GuardsFactionId, 15);
         }
 
         #endregion

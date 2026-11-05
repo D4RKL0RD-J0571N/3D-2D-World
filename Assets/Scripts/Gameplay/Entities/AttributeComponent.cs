@@ -24,6 +24,7 @@ namespace Gameplay.Entities
         private StateComponent _stateComponent;
         private readonly Dictionary<string, BaseAttribute> _attributes = new Dictionary<string, BaseAttribute>();
         private readonly Dictionary<string, float> _regenAccumulators = new Dictionary<string, float>();
+        private bool _isDead;
 
         #endregion
 
@@ -61,6 +62,7 @@ namespace Gameplay.Entities
         {
             _attributes.Clear();
             _regenAccumulators.Clear();
+            _isDead = false;
 
             if (actor == null || actor.ActorBlueprint == null) return;
 
@@ -154,6 +156,8 @@ namespace Gameplay.Entities
                 // is an internal resource cost, not external damage.
                 if (attributeName == "Health")
                 {
+                    if (_actor == null) _actor = GetComponent<BaseActor>();
+
                     GameEventManager.Publish(new EntityDamagedEvent 
                     { 
                         Target = _actor, 
@@ -161,11 +165,21 @@ namespace Gameplay.Entities
                         Instigator = instigator,
                         DamageType = damageType
                     });
-                }
 
-                if (attr.CurrentValue == 0 && attributeName == "Health" && _stateComponent != null)
-                {
-                    _stateComponent.SetState(ActorState.Death);
+                    if (attr.CurrentValue == 0 && !_isDead)
+                    {
+                        _isDead = true;
+                        if (_stateComponent != null)
+                        {
+                            _stateComponent.SetState(ActorState.Death);
+                        }
+
+                        GameEventManager.Publish(new EntityDiedEvent
+                        {
+                            Victim = _actor,
+                            Killer = instigator
+                        });
+                    }
                 }
             }
         }
@@ -178,6 +192,10 @@ namespace Gameplay.Entities
             if (_attributes.TryGetValue(attributeName, out var attr))
             {
                 attr.CurrentValue = Mathf.Min(attr.MaximumValue, attr.CurrentValue + amount);
+                if (attributeName == "Health" && attr.CurrentValue > 0)
+                {
+                    _isDead = false;
+                }
                 GameEventManager.Publish(new EntityHealedEvent { Target = _actor, Amount = amount });
             }
         }

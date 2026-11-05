@@ -142,6 +142,19 @@ namespace Systems.Audio
             Play2D(_interactClip, 0.7f);
         }
 
+        /// <summary>Plays loot pickup audio feedback.</summary>
+        public void PlayLoot()
+        {
+            if (_lootClip != null)
+            {
+                Play2D(_lootClip, 0.75f);
+            }
+            else
+            {
+                PlayInteract();
+            }
+        }
+
         /// <summary>Plays 3D placement audio at the given world point.</summary>
         public void PlayPlace(Vector3 worldPos)
         {

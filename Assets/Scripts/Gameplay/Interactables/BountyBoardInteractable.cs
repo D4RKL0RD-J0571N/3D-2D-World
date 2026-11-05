@@ -19,6 +19,7 @@ namespace Gameplay.Interactables
         [Header("Board Configuration")]
         [Tooltip("Available dungeon/ruin locations to generate radiant bounties for.")]
         [SerializeField] private string[] _targetLocations = {
+            "Draugr Crypt Sanctum",
             "Bleak Falls Crypt",
             "Shadowfen Ruins",
             "Whispering Caverns",

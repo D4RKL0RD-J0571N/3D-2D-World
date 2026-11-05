@@ -2,6 +2,7 @@
 namespace Studio.Editor
 {
     using Domain.Skyrim;
+    using Gameplay.Combat;
     using Gameplay.Entities;
     using Gameplay.Interactables;
     using Gameplay.Museum;
@@ -215,9 +216,15 @@ namespace Studio.Editor
             if (anvilPrefab != null)
             {
                 var anvil = (GameObject)PrefabUtility.InstantiatePrefab(anvilPrefab);
+                PrefabUtility.UnpackPrefabInstance(anvil, PrefabUnpackMode.Completely, InteractionMode.AutomatedAction);
                 anvil.name = "Prop_Blacksmith_Anvil";
                 anvil.transform.parent = envRoot.transform;
                 anvil.transform.position = new Vector3(6.5f, 0f, 1f);
+
+                if (anvil.GetComponent<CraftingStationInteractable>() == null)
+                {
+                    anvil.AddComponent<CraftingStationInteractable>();
+                }
             }
 
             // Forge Fire FX
@@ -422,6 +429,7 @@ namespace Studio.Editor
             if (prefab != null)
             {
                 character = (GameObject)PrefabUtility.InstantiatePrefab(prefab);
+                PrefabUtility.UnpackPrefabInstance(character, PrefabUnpackMode.Completely, InteractionMode.AutomatedAction);
             }
             else
             {
@@ -449,9 +457,22 @@ namespace Studio.Editor
             var faction = character.GetComponent<FactionComponent>() ?? character.AddComponent<FactionComponent>();
             faction.SetFaction(factionType);
 
-            if (isEnemy && character.GetComponent<BaseActor>() == null)
+            if (isEnemy)
             {
-                character.AddComponent<BaseActor>();
+                if (character.GetComponent<BaseActor>() == null)
+                {
+                    character.AddComponent<BaseActor>();
+                }
+
+                if (character.GetComponent<AttributeComponent>() == null)
+                {
+                    character.AddComponent<AttributeComponent>();
+                }
+
+                if (character.GetComponent<EnemyCombatAI>() == null)
+                {
+                    character.AddComponent<EnemyCombatAI>();
+                }
             }
         }
 

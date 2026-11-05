@@ -57,6 +57,9 @@ namespace Gameplay.Skyrim
 
         #region Public API
 
+        public string MarkerTitle => _markerTitle;
+        public string MarkerId => _markerId;
+
         public void Configure(string title, CompassPOIType type)
         {
             _markerTitle = title;

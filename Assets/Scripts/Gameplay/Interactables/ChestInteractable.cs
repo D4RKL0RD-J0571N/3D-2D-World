@@ -2,6 +2,7 @@ namespace Gameplay.Interactables
 {
     using System;
     using Core;
+    using Core.Content;
     using Core.Ids;
     using Core.Persistence;
     using Newtonsoft.Json;
@@ -100,11 +101,11 @@ namespace Gameplay.Interactables
 
             if (IsLocked)
             {
-                AttemptLockpick();
+                AttemptLockpick(interactor);
                 return;
             }
 
-            OpenChest();
+            OpenChest(interactor);
         }
 
         #endregion
@@ -128,7 +129,7 @@ namespace Gameplay.Interactables
                      string.Equals(actionName, "Activate", StringComparison.OrdinalIgnoreCase))
             {
                 _lockDifficulty = LockDifficulty.Unlocked;
-                OpenChest();
+                OpenChest(null);
             }
         }
 
@@ -136,7 +137,7 @@ namespace Gameplay.Interactables
 
         #region Lockpicking & Opening
 
-        private void AttemptLockpick()
+        private void AttemptLockpick(Entities.BaseActor interactor = null)
         {
             int currentSkill = GetPlayerLockpickSkill();
             int reqSkill = GetRequiredSkillLevel();
@@ -158,7 +159,7 @@ namespace Gameplay.Interactables
                 }
 
                 Debug.Log($"<color=yellow>✦ Lock picked successfully! [Difficulty: {_lockDifficulty}]</color>");
-                OpenChest();
+                OpenChest(interactor);
             }
             else
             {
@@ -171,7 +172,7 @@ namespace Gameplay.Interactables
             }
         }
 
-        private void OpenChest()
+        private void OpenChest(Entities.BaseActor interactor = null)
         {
             _isOpened = true;
 
@@ -181,6 +182,11 @@ namespace Gameplay.Interactables
                 anim.SetTrigger("Open");
             }
 
+            if (interactor != null && interactor.TryGetComponent<Entities.InventoryComponent>(out var inventory))
+            {
+                DistributeLoot(inventory);
+            }
+
             Debug.Log($"[ChestInteractable] {name} opened. Loot: {string.Join(", ", _lootItemIds)}");
             GameEventManager.Publish(new ChestOpenedEvent(this, _lootItemIds));
 
@@ -188,6 +194,41 @@ namespace Gameplay.Interactables
             if (editorTag != null)
             {
                 editorTag.TriggerOutputPort("OnOpened");
+            }
+        }
+
+        private void DistributeLoot(Entities.InventoryComponent inventory)
+        {
+            if (_lootItemIds == null || _lootItemIds.Length == 0 || inventory == null) return;
+
+            IContentService contentService = ServiceLocator.TryGet<IContentService>(out var cs) ? cs : null;
+            var itemRegistry = contentService?.GetRegistry<Data.Config.ItemData>();
+
+            for (int i = 0; i < _lootItemIds.Length; i++)
+            {
+                string itemId = _lootItemIds[i];
+                if (string.IsNullOrWhiteSpace(itemId)) continue;
+
+                Data.Config.ItemData item = null;
+                if (itemRegistry != null)
+                {
+                    itemRegistry.TryGetByLegacyAlias(itemId, out item);
+                }
+
+                if (item == null)
+                {
+                    item = Resources.Load<Data.Config.ItemData>($"Items/{itemId}");
+                }
+
+                if (item != null)
+                {
+                    inventory.AddItem(item, 1);
+                }
+            }
+
+            if (ServiceLocator.TryGet<Systems.Audio.AudioService>(out var audio))
+            {
+                audio.PlayLoot();
             }
         }
 

@@ -32,4 +32,16 @@ namespace Domain.Entities
         public BaseActor Target;
         public int NewLevel;
     }
+
+    /// <summary>
+    /// Published when an entity's Health attribute is depleted to zero.
+    /// </summary>
+    public class EntityDiedEvent : GameEvent
+    {
+        /// <summary>The actor that perished.</summary>
+        public BaseActor Victim;
+
+        /// <summary>The GameObject that dealt the fatal blow (can be null).</summary>
+        public UnityEngine.GameObject Killer;
+    }
 }
