@@ -28,6 +28,7 @@ namespace Tests.Editor
                 typeof(Domain4_ModLoaderAndPatchTests),
                 typeof(Domain5_InGameEditorTests),
                 typeof(Domain6_PersistenceAndVoxelCodecTests),
+                typeof(Domain7_ProvingGroundsRegressionTests),
                 typeof(CraftingServiceTests),
                 typeof(HarvestableNodeTests)
             };
