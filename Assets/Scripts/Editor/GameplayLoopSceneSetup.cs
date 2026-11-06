@@ -54,6 +54,7 @@ namespace Studio.Editor
             SetupImmersiveCitizens();
             SetupQASmokeCheatRoom();
             SetupSkyUIAndConsoleHUDs();
+            WorldBeautificationSetup.Apply();
 
             EditorSceneManager.MarkSceneDirty(scene);
             EditorSceneManager.SaveScene(scene);
@@ -279,12 +280,12 @@ namespace Studio.Editor
             var altRoot = GameObject.Find("Zone_Alternate_Start_Prison");
             if (altRoot != null) Object.DestroyImmediate(altRoot);
             altRoot = new GameObject("Zone_Alternate_Start_Prison");
-            altRoot.transform.position = new Vector3(0f, 0f, -16f);
+            altRoot.transform.position = new Vector3(-18f, 0f, -15f);
 
             var maraPrefab = AssetDatabase.LoadAssetAtPath<GameObject>(StatueMaraPrefabPath);
             if (maraPrefab != null)
             {
-                var mara = Object.Instantiate(maraPrefab, new Vector3(0f, 0f, -12f), Quaternion.Euler(0f, 180f, 0f), altRoot.transform);
+                var mara = Object.Instantiate(maraPrefab, new Vector3(-18f, 0f, -13f), Quaternion.Euler(0f, 180f, 0f), altRoot.transform);
                 mara.name = "Statue_Of_Mara";
                 SafeUnpackPrefabInstance(mara);
                 mara.GetOrAddComponent<BoxCollider>();
@@ -294,7 +295,7 @@ namespace Studio.Editor
             var bedPrefab = AssetDatabase.LoadAssetAtPath<GameObject>(BedPrefabPath);
             if (bedPrefab != null)
             {
-                var bed = Object.Instantiate(bedPrefab, new Vector3(2.5f, 0f, -14f), Quaternion.Euler(0f, 90f, 0f), altRoot.transform);
+                var bed = Object.Instantiate(bedPrefab, new Vector3(-16f, 0f, -15f), Quaternion.Euler(0f, 90f, 0f), altRoot.transform);
                 bed.name = "Prison_Bed";
                 SafeUnpackPrefabInstance(bed);
                 bed.GetOrAddComponent<BoxCollider>();
@@ -304,7 +305,7 @@ namespace Studio.Editor
             var chestPrefab = AssetDatabase.LoadAssetAtPath<GameObject>(ChestPrefabPath);
             if (chestPrefab != null)
             {
-                var chest = Object.Instantiate(chestPrefab, new Vector3(-2.5f, 0f, -14f), Quaternion.Euler(0f, 90f, 0f), altRoot.transform);
+                var chest = Object.Instantiate(chestPrefab, new Vector3(-20f, 0f, -15f), Quaternion.Euler(0f, 90f, 0f), altRoot.transform);
                 chest.name = "Starter_Prison_Chest";
                 SafeUnpackPrefabInstance(chest);
                 chest.GetOrAddComponent<BoxCollider>();

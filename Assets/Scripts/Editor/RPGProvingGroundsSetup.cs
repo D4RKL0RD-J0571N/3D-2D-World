@@ -85,6 +85,7 @@ namespace Studio.Editor
             SetupCombatTrainingYard();
             SetupFactionNPCs();
             SetupCompassPOIMarkers();
+            WorldBeautificationSetup.Apply();
 
             EditorSceneManager.MarkSceneDirty(scene);
             EditorSceneManager.SaveScene(scene);
@@ -101,7 +102,8 @@ namespace Studio.Editor
                 "BountyBoard_Hub", "Chest_Novice_Courtyard", "Chest_Adept_Bank",
                 "SecurityGate_Barricade", "Lever_SecurityGate", "Trap_PressurePlate_Alley",
                 "TrainingDummy_Yard", "Ground_Cobblestone", "Courtyard_Plane",
-                "Terrain_Base_Grass_Plane", "Ground_Landscape_Terrain"
+                "Terrain_Base_Grass_Plane", "Ground_Landscape_Terrain",
+                "Beautification_Root", "PostProcess_Volume", "Main Camera", "Hero_Vista_Camera"
             };
 
             foreach (var name in legacyNames)
@@ -110,6 +112,14 @@ namespace Studio.Editor
                 if (go != null)
                 {
                     Object.DestroyImmediate(go);
+                }
+            }
+
+            foreach (var rootGo in UnityEngine.SceneManagement.SceneManager.GetActiveScene().GetRootGameObjects())
+            {
+                if (rootGo.name == "Sphere" || rootGo.GetComponent<Gameplay.Magic.SpellProjectile>() != null)
+                {
+                    Object.DestroyImmediate(rootGo);
                 }
             }
         }
