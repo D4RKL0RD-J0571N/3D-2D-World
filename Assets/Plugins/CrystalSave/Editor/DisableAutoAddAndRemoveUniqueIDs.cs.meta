@@ -1,9 +1,0 @@
-fileFormatVersion: 2
-guid: 57aaa65a97094474b8a57411c65e78ab
-AssetOrigin:
-  serializedVersion: 1
-  productId: 319719
-  packageName: Crystal Save Professional | Save System & Save Migration
-  packageVersion: 1.8.74
-  assetPath: Assets/Plugins/CrystalSave/Editor/DisableAutoAddAndRemoveUniqueIDs.cs
-  uploadId: 975986

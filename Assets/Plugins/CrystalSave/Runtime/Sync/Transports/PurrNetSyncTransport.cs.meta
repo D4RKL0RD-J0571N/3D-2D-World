@@ -1,9 +1,0 @@
-fileFormatVersion: 2
-guid: 2d01fe20418d6d024ba8baec42b8529d
-AssetOrigin:
-  serializedVersion: 1
-  productId: 319719
-  packageName: Crystal Save Professional | Save System & Save Migration
-  packageVersion: 1.8.74
-  assetPath: Assets/Plugins/CrystalSave/Runtime/Sync/Transports/PurrNetSyncTransport.cs
-  uploadId: 975986

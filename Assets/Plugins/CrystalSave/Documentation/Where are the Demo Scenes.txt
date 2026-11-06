@@ -1,1 +1,0 @@
-The Demo Scenes are located here: Assets\Plugins\CrystalSave\Modules\Unity\Demos\Scenes

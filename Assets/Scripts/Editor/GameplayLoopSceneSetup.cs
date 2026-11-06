@@ -5,11 +5,13 @@ namespace Studio.Editor
     using Gameplay.Entities;
     using Gameplay.Interactables;
     using Gameplay.Magic;
+    using Gameplay.Player;
     using Gameplay.Skyrim;
     using Gameplay.UI;
     using UnityEditor;
     using UnityEditor.SceneManagement;
     using UnityEngine;
+    using UnityEngine.Rendering.Universal;
     using UnityEngine.SceneManagement;
 
     /// <summary>
@@ -68,13 +70,10 @@ namespace Studio.Editor
             var player = GameObject.FindWithTag("Player");
             if (player == null) return;
 
-            SafeUnpackPrefabInstance(player);
-
             var weapon = player.GetOrAddComponent<WeaponComponent>();
             var magic = player.GetOrAddComponent<PlayerMagicController>();
             player.GetOrAddComponent<PlatterWallClip>();
 
-            // Setup Viewmodel Sword on Camera Pivot
             var cameraPivot = player.transform.Find("Camera Pivot");
             if (cameraPivot != null && cameraPivot.Find("Viewmodel_Sword") == null)
             {
@@ -86,6 +85,28 @@ namespace Studio.Editor
                     swordInst.transform.localPosition = new Vector3(0.35f, -0.3f, 0.6f);
                     swordInst.transform.localRotation = Quaternion.Euler(15f, -10f, 5f);
                     weapon.WeaponVisualTransform = swordInst.transform;
+                }
+            }
+
+            var playerCam = player.GetComponentInChildren<Camera>(true);
+            if (playerCam != null)
+            {
+                playerCam.gameObject.SetActive(true);
+                playerCam.tag = "MainCamera";
+                playerCam.clearFlags = CameraClearFlags.Skybox;
+                playerCam.farClipPlane = 500f;
+                playerCam.GetUniversalAdditionalCameraData().renderPostProcessing = true;
+
+                var interaction = player.GetComponent<PlayerInteractionController>();
+                if (interaction != null)
+                {
+                    var so = new SerializedObject(interaction);
+                    var camProp = so.FindProperty("_playerCamera");
+                    if (camProp != null)
+                    {
+                        camProp.objectReferenceValue = playerCam;
+                        so.ApplyModifiedProperties();
+                    }
                 }
             }
 

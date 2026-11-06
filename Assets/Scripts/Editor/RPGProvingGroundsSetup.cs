@@ -10,6 +10,7 @@ namespace Studio.Editor
     using UnityEditor;
     using UnityEditor.SceneManagement;
     using UnityEngine;
+    using UnityEngine.Rendering.Universal;
 
     /// <summary>
     /// Automated setup tool that populates the RPGProvingGrounds scene with
@@ -164,32 +165,111 @@ namespace Studio.Editor
 
         private static void EnsurePlayer()
         {
-            var existingPlayer = GameObject.FindWithTag("Player");
-            if (existingPlayer != null)
+            var player = GameObject.FindWithTag("Player");
+            if (player == null)
             {
-                existingPlayer.transform.position = new Vector3(0f, 0.1f, 0f);
-                return;
+                var playerPrefab = AssetDatabase.LoadAssetAtPath<GameObject>(PlayerPrefabPath);
+                if (playerPrefab != null)
+                {
+                    player = (GameObject)PrefabUtility.InstantiatePrefab(playerPrefab);
+                    player.name = "Player";
+                }
+                else
+                {
+                    player = new GameObject("Player");
+                    player.tag = "Player";
+                }
             }
 
-            var playerPrefab = AssetDatabase.LoadAssetAtPath<GameObject>(PlayerPrefabPath);
-            if (playerPrefab != null)
+            player.transform.position = new Vector3(0f, 0.1f, 0f);
+            EnsurePlayerCamera(player);
+        }
+
+        private static void EnsurePlayerCamera(GameObject player)
+        {
+            var cameraPivot = player.transform.Find("Camera Pivot");
+            if (cameraPivot == null)
             {
-                var playerInstance = (GameObject)PrefabUtility.InstantiatePrefab(playerPrefab);
-                playerInstance.name = "Player";
-                playerInstance.transform.position = new Vector3(0f, 0.1f, 0f);
-                Debug.Log("[RPGProvingGroundsSetup] Spawned Player at courtyard center.");
+                var pivotGo = new GameObject("Camera Pivot");
+                pivotGo.transform.SetParent(player.transform, false);
+                pivotGo.transform.localPosition = new Vector3(0f, 1.6f, 0f);
+                cameraPivot = pivotGo.transform;
             }
+
+            var cam = player.GetComponentInChildren<Camera>(true);
+            GameObject camGo;
+            if (cam == null)
+            {
+                camGo = new GameObject("PlayerCamera");
+                camGo.transform.SetParent(cameraPivot, false);
+                cam = camGo.AddComponent<Camera>();
+                camGo.AddComponent<AudioListener>();
+            }
+            else
+            {
+                camGo = cam.gameObject;
+                camGo.name = "PlayerCamera";
+                camGo.transform.SetParent(cameraPivot, false);
+            }
+
+            camGo.SetActive(true);
+            cam.tag = "MainCamera";
+            cam.clearFlags = CameraClearFlags.Skybox;
+            cam.nearClipPlane = 0.3f;
+            cam.farClipPlane = 500f;
+            cam.fieldOfView = 65f;
+            cam.GetUniversalAdditionalCameraData().renderPostProcessing = true;
+
+            var rig = cameraPivot.GetComponent<Gameplay.Player.Player_CameraRig>();
+            if (rig != null)
+            {
+                var soRig = new SerializedObject(rig);
+                var prop = soRig.FindProperty("_camera");
+                if (prop != null)
+                {
+                    prop.objectReferenceValue = cam;
+                    soRig.ApplyModifiedProperties();
+                }
+            }
+
+            var interact = player.GetComponent<Gameplay.Player.PlayerInteractionController>();
+            if (interact != null)
+            {
+                var soInt = new SerializedObject(interact);
+                var prop = soInt.FindProperty("_playerCamera");
+                if (prop != null)
+                {
+                    prop.objectReferenceValue = cam;
+                    soInt.ApplyModifiedProperties();
+                }
+            }
+
+            var magic = player.GetComponent<Gameplay.Magic.PlayerMagicController>();
+            if (magic != null)
+            {
+                magic.EnsureInitialized();
+            }
+
+            EditorUtility.SetDirty(player);
+            Debug.Log("<color=green>✦ PlayerCamera successfully wired to Camera Pivot and all controllers!</color>");
         }
 
         private static void DisableStandaloneCameras()
         {
-            var cameras = Object.FindObjectsByType<Camera>(FindObjectsSortMode.None);
+            var player = GameObject.FindWithTag("Player");
+            var cameras = Object.FindObjectsByType<Camera>(FindObjectsInactive.Include, FindObjectsSortMode.None);
             foreach (var cam in cameras)
             {
-                if (cam.gameObject.CompareTag("Player") || cam.transform.root.CompareTag("Player"))
+                if (player != null && (cam.gameObject == player || cam.transform.IsChildOf(player.transform)))
+                {
+                    cam.gameObject.SetActive(true);
+                    continue;
+                }
+
+                if (cam.gameObject.name == "Hero_Vista_Camera")
                     continue;
 
-                if (cam.name.Contains("Main Camera") || cam.name.Contains("Camera"))
+                if (cam.transform.parent == null)
                 {
                     cam.gameObject.SetActive(false);
                 }
