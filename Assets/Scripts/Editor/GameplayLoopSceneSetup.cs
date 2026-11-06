@@ -27,6 +27,12 @@ namespace Studio.Editor
         private const string HayCartPrefabPath = "Assets/Synty/PolygonFantasyKingdom/Prefabs/Props/SM_Prop_Hay_Cart_01.prefab";
         private const string BucketPrefabPath = "Assets/Synty/PolygonFantasyKingdom/Prefabs/Props/SM_Prop_Parchment_Bucket_01.prefab";
         private const string DishModelPath = "Assets/Synty/PolygonFantasyKingdom/Models/SM_Item_Dish_01.fbx";
+        private const string StatueMaraPrefabPath = "Assets/Synty/PolygonFantasyKingdom/Prefabs/Props/SM_Prop_Statue_Angel_01.prefab";
+        private const string BedPrefabPath = "Assets/Synty/PolygonFantasyKingdom/Prefabs/Props/Furniture/SM_Prop_Bed_01.prefab";
+        private const string AlchemyWorkbenchPrefabPath = "Assets/Synty/PolygonFantasyKingdom/Prefabs/Props/Furniture/SM_Prop_Workbench_Alchemy_01_Preset.prefab";
+        private const string ChestPrefabPath = "Assets/Synty/PolygonFantasyKingdom/Prefabs/Props/Furniture/SM_Prop_Chest_01.prefab";
+        private const string ChestWeaponPrefabPath = "Assets/Synty/PolygonFantasyKingdom/Prefabs/Props/Furniture/SM_Prop_Chest_02.prefab";
+        private const string ChestPotionPrefabPath = "Assets/Synty/PolygonFantasyKingdom/Prefabs/Props/Furniture/SM_Prop_Chest_03.prefab";
 
         [MenuItem("3D2DWorld/Setup Proving Grounds Gameplay Loop", false, 100)]
         public static void SetupGameplayLoop()
@@ -43,6 +49,11 @@ namespace Studio.Editor
             SetupNPCInteractions();
             SetupBanditArcherAndSpawner();
             SetupSkyrimGlitchesAndProps();
+            SetupAlternateStartPrison();
+            SetupAlchemyWorkbench();
+            SetupImmersiveCitizens();
+            SetupQASmokeCheatRoom();
+            SetupSkyUIAndConsoleHUDs();
 
             EditorSceneManager.MarkSceneDirty(scene);
             EditorSceneManager.SaveScene(scene);
@@ -253,6 +264,118 @@ namespace Studio.Editor
                 rb.mass = 1f;
                 EditorUtility.SetDirty(platter);
             }
+        }
+
+        #endregion
+
+        #region Alternate Start & Immersion
+
+        private static void SetupAlternateStartPrison()
+        {
+            var altRoot = GameObject.Find("Zone_Alternate_Start_Prison");
+            if (altRoot != null) Object.DestroyImmediate(altRoot);
+            altRoot = new GameObject("Zone_Alternate_Start_Prison");
+            altRoot.transform.position = new Vector3(0f, 0f, -16f);
+
+            var maraPrefab = AssetDatabase.LoadAssetAtPath<GameObject>(StatueMaraPrefabPath);
+            if (maraPrefab != null)
+            {
+                var mara = Object.Instantiate(maraPrefab, new Vector3(0f, 0f, -12f), Quaternion.Euler(0f, 180f, 0f), altRoot.transform);
+                mara.name = "Statue_Of_Mara";
+                SafeUnpackPrefabInstance(mara);
+                mara.GetOrAddComponent<BoxCollider>();
+                mara.GetOrAddComponent<StatueOfMaraInteractable>();
+            }
+
+            var bedPrefab = AssetDatabase.LoadAssetAtPath<GameObject>(BedPrefabPath);
+            if (bedPrefab != null)
+            {
+                var bed = Object.Instantiate(bedPrefab, new Vector3(2.5f, 0f, -14f), Quaternion.Euler(0f, 90f, 0f), altRoot.transform);
+                bed.name = "Prison_Bed";
+                SafeUnpackPrefabInstance(bed);
+                bed.GetOrAddComponent<BoxCollider>();
+                bed.GetOrAddComponent<PrisonBedInteractable>();
+            }
+
+            var chestPrefab = AssetDatabase.LoadAssetAtPath<GameObject>(ChestPrefabPath);
+            if (chestPrefab != null)
+            {
+                var chest = Object.Instantiate(chestPrefab, new Vector3(-2.5f, 0f, -14f), Quaternion.Euler(0f, 90f, 0f), altRoot.transform);
+                chest.name = "Starter_Prison_Chest";
+                SafeUnpackPrefabInstance(chest);
+                chest.GetOrAddComponent<BoxCollider>();
+            }
+        }
+
+        private static void SetupAlchemyWorkbench()
+        {
+            var existingTable = GameObject.Find("Workbench_Alchemy_Lab");
+            if (existingTable != null) Object.DestroyImmediate(existingTable);
+
+            var envRoot = GameObject.Find("Environment_Root") ?? new GameObject("Environment_Root");
+            var alchemyPrefab = AssetDatabase.LoadAssetAtPath<GameObject>(AlchemyWorkbenchPrefabPath);
+            if (alchemyPrefab != null)
+            {
+                var table = Object.Instantiate(alchemyPrefab, new Vector3(4f, 0f, 8f), Quaternion.Euler(0f, -45f, 0f), envRoot.transform);
+                table.name = "Workbench_Alchemy_Lab";
+                SafeUnpackPrefabInstance(table);
+                table.GetOrAddComponent<BoxCollider>();
+                var station = table.GetOrAddComponent<CraftingStationInteractable>();
+                station.SetStationName("Alchemy Lab");
+            }
+        }
+
+        private static void SetupImmersiveCitizens()
+        {
+            var smith = GameObject.Find("Artisan_Blacksmith");
+            if (smith != null)
+            {
+                smith.GetOrAddComponent<ImmersiveCitizenAI>();
+                EditorUtility.SetDirty(smith);
+            }
+
+            var guard = GameObject.Find("Guard_Whiterun_Soldier");
+            if (guard != null)
+            {
+                guard.GetOrAddComponent<ImmersiveCitizenAI>();
+                EditorUtility.SetDirty(guard);
+            }
+        }
+
+        private static void SetupQASmokeCheatRoom()
+        {
+            var qaRoot = GameObject.Find("Zone_QASmoke_Room");
+            if (qaRoot != null) Object.DestroyImmediate(qaRoot);
+            qaRoot = new GameObject("Zone_QASmoke_Room");
+            qaRoot.transform.position = new Vector3(-15f, 0f, -15f);
+
+            var chestWepPrefab = AssetDatabase.LoadAssetAtPath<GameObject>(ChestWeaponPrefabPath);
+            if (chestWepPrefab != null)
+            {
+                var chest = Object.Instantiate(chestWepPrefab, new Vector3(-13f, 0f, -15f), Quaternion.Euler(0f, 90f, 0f), qaRoot.transform);
+                chest.name = "Cheat_Chest_All_Weapons";
+                SafeUnpackPrefabInstance(chest);
+                chest.GetOrAddComponent<BoxCollider>();
+            }
+
+            var chestPotPrefab = AssetDatabase.LoadAssetAtPath<GameObject>(ChestPotionPrefabPath);
+            if (chestPotPrefab != null)
+            {
+                var chest = Object.Instantiate(chestPotPrefab, new Vector3(-17f, 0f, -15f), Quaternion.Euler(0f, -90f, 0f), qaRoot.transform);
+                chest.name = "Cheat_Chest_All_Potions_Restoration";
+                SafeUnpackPrefabInstance(chest);
+                chest.GetOrAddComponent<BoxCollider>();
+            }
+        }
+
+        private static void SetupSkyUIAndConsoleHUDs()
+        {
+            var bootstrapper = GameObject.Find("GameBootstrapper") ?? new GameObject("GameBootstrapper");
+            bootstrapper.GetOrAddComponent<CommandConsoleHUD>();
+            bootstrapper.GetOrAddComponent<SkyUIActiveEffectsHUD>();
+            bootstrapper.GetOrAddComponent<SkyUIInventoryMenu>();
+            bootstrapper.GetOrAddComponent<MCMMenu>();
+            EditorUtility.SetDirty(bootstrapper);
         }
 
         #endregion

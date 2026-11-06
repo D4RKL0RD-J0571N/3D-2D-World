@@ -29,6 +29,14 @@ namespace Gameplay.Interactables
 
         public string InteractionPrompt => $"🔨 Use {_stationName} (Craft)";
 
+        public string StationName
+        {
+            get => _stationName;
+            set => _stationName = value;
+        }
+
+        public void SetStationName(string name) => _stationName = name;
+
         #endregion
 
         #region Unity Lifecycle

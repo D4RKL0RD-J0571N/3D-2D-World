@@ -71,8 +71,11 @@ namespace Gameplay.Magic
                 if (_isCasting || _activeSpell == null) return false;
                 if (Time.time < _lastCastTime + _activeSpell.Cooldown) return false;
 
-                var magicka = _attributes?.GetAttribute("Magicka") ?? _attributes?.GetAttribute("Mana");
-                if (magicka == null || magicka.CurrentValue < _activeSpell.MagickaCost) return false;
+                if (!Systems.Console.GodModeState.IsGodModeActive)
+                {
+                    var magicka = _attributes?.GetAttribute("Magicka") ?? _attributes?.GetAttribute("Mana");
+                    if (magicka == null || magicka.CurrentValue < _activeSpell.MagickaCost) return false;
+                }
 
                 return true;
             }
@@ -162,12 +165,15 @@ namespace Gameplay.Magic
 
             if (_activeSpell == null) return false;
 
-            var magicka = _attributes?.GetAttribute("Magicka") ?? _attributes?.GetAttribute("Mana");
-            if (magicka == null || magicka.CurrentValue < _activeSpell.MagickaCost)
+            if (!Systems.Console.GodModeState.IsGodModeActive)
             {
-                PlayFizzleFeedback();
-                GameEventManager.Publish(new PlayerMagickaExhaustedEvent());
-                return false;
+                var magicka = _attributes?.GetAttribute("Magicka") ?? _attributes?.GetAttribute("Mana");
+                if (magicka == null || magicka.CurrentValue < _activeSpell.MagickaCost)
+                {
+                    PlayFizzleFeedback();
+                    GameEventManager.Publish(new PlayerMagickaExhaustedEvent());
+                    return false;
+                }
             }
 
             if (Time.time < _lastCastTime + _activeSpell.Cooldown)
@@ -180,7 +186,10 @@ namespace Gameplay.Magic
         private void ExecuteCast()
         {
             _lastCastTime = Time.time;
-            _attributes.ApplyDamage("Magicka", _activeSpell.MagickaCost);
+            if (!Systems.Console.GodModeState.IsGodModeActive)
+            {
+                _attributes.ApplyDamage("Magicka", _activeSpell.MagickaCost);
+            }
             GameEventManager.Publish(new SpellCastEvent(gameObject, _activeSpell));
 
             if (_activeSpell.School == SpellSchool.Destruction)
@@ -225,6 +234,11 @@ namespace Gameplay.Magic
 
             int healAmount = _activeSpell.Power;
             _attributes.Heal("Health", healAmount);
+
+            if (ServiceLocator.TryGet<Systems.Skyrim.SkillProgressionService>(out var prog))
+            {
+                prog.AwardXP(Systems.Skyrim.SkillProgressionService.RestorationSkillId, 12f);
+            }
 
             if (_healingAuraPrefab != null)
             {

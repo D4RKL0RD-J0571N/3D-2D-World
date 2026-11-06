@@ -173,6 +173,11 @@ namespace Gameplay.Entities
         /// </summary>
         public virtual void TakeDamage(DamageInfo damage)
         {
+            if (CompareTag("Player") && Systems.Console.GodModeState.IsGodModeActive)
+            {
+                return;
+            }
+
             EnsureComponentsCached();
 
             int finalDamage = damage.Amount;

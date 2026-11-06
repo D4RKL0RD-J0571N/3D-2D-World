@@ -58,6 +58,9 @@ namespace Gameplay.Combat
                 if (_isAttacking || Time.time < _lastAttackTime + _attackCooldown)
                     return false;
 
+                if (Systems.Console.GodModeState.IsGodModeActive)
+                    return true;
+
                 var creatorService = ServiceLocator.Get<Systems.Creator.CreatorStudioService>();
                 if (creatorService != null && creatorService.IsBuildMode)
                     return false;
@@ -192,7 +195,7 @@ namespace Gameplay.Combat
 
         private void ConsumeStamina()
         {
-            if (_attributeComponent != null)
+            if (!Systems.Console.GodModeState.IsGodModeActive && _attributeComponent != null)
             {
                 _attributeComponent.ApplyDamage("Stamina", _staminaCost);
             }

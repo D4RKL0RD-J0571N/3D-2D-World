@@ -31,6 +31,7 @@ namespace Tests.Editor
                 typeof(Domain7_ProvingGroundsRegressionTests),
                 typeof(Domain8_CoreGameplayLoopTests),
                 typeof(Domain9_CombatAndMagicTests),
+                typeof(Domain10_ModdedSkyrimAndConsoleTests),
                 typeof(CraftingServiceTests),
                 typeof(HarvestableNodeTests)
             };

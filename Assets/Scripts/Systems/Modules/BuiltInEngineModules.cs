@@ -238,6 +238,7 @@ namespace Systems.Modules
             context.RegisterTickable(compassService, TickGroup.UI);
 
             context.RegisterService(new RadiantQuestService());
+            context.RegisterService(new Gameplay.Skyrim.AlternateStartService());
         }
     }
 
@@ -298,6 +299,11 @@ namespace Systems.Modules
             EnsureHUD<Gameplay.UI.CreatorStudioHUD>("CreatorStudioHUD");
             EnsureHUD<Gameplay.Combat.CombatFeedbackBridge>("CombatFeedbackBridge");
             EnsureHUD<Gameplay.UI.RPGOverlayHUD>("RPGOverlayHUD");
+            EnsureHUD<Gameplay.UI.CommandConsoleHUD>("CommandConsoleHUD");
+            EnsureHUD<Gameplay.UI.SkyUIActiveEffectsHUD>("SkyUIActiveEffectsHUD");
+            EnsureHUD<Gameplay.UI.SkyUIInventoryMenu>("SkyUIInventoryMenu");
+            EnsureHUD<Gameplay.UI.MCMMenu>("MCMMenu");
+            EnsureHUD<Gameplay.UI.DialogueHUD>("DialogueHUD");
         }
 
         private static void EnsureHUD<T>(string goName) where T : Component

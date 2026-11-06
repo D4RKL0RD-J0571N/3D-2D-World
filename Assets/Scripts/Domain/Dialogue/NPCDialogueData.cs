@@ -14,6 +14,15 @@ namespace Domain.Dialogue
         [TextArea(2, 4)]
         public string ResponseText;
         public string NextNodeId;
+
+        public DialogueTopic() { }
+
+        public DialogueTopic(string promptText, string responseText, string nextNodeId = "")
+        {
+            PromptText = promptText;
+            ResponseText = responseText;
+            NextNodeId = nextNodeId;
+        }
     }
 
     /// <summary>
