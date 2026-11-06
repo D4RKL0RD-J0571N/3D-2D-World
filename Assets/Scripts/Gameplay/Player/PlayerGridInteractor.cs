@@ -97,8 +97,36 @@ namespace Gameplay.Player
         {
             if (_interactionService == null || _mainCamera == null) return;
 
+            // When primary click (left mouse) is used, check if combat takes precedence
+            if (mouseButton == 0)
+            {
+                // Check if aiming at an actor / entity
+                Ray centerRay = InteractionPhysicsUtils.GetCenterRay(_mainCamera, new Vector2(0.5f, 0.5f));
+                if (Physics.Raycast(centerRay, out RaycastHit entityHit, _interactionRange, _interactionMask, QueryTriggerInteraction.Ignore))
+                {
+                    if (entityHit.collider != null && entityHit.collider.GetComponentInParent<Gameplay.Entities.BaseActor>() != null)
+                    {
+                        // Aiming at an actor; combat takes priority over voxel mining
+                        return;
+                    }
+                }
+
+                // If player has an active weapon component, weapon combat takes precedence over mining
+                var weapon = GetComponentInParent<Gameplay.Combat.WeaponComponent>();
+                if (weapon != null && weapon.enabled)
+                {
+                    return;
+                }
+            }
+
             if (TryGetGridHit(out var gridHit, out var rayHit))
             {
+                // Extra guard if grid hit happens to belong to an actor
+                if (rayHit.collider != null && rayHit.collider.GetComponentInParent<Gameplay.Entities.BaseActor>() != null)
+                {
+                    return;
+                }
+
                 GameEventManager.Publish(new GridBlockClickedEvent { HitInfo = gridHit, MouseButton = mouseButton });
             }
         }

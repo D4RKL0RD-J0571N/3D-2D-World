@@ -1,0 +1,33 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!114 &11400000
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 2e5f72b96ef25df42a61f47a162b0171, type: 3}
+  m_Name: ForestClearing
+  m_EditorClassIdentifier: Assembly-CSharp::Domain.LevelGeneration.RoomArchetype
+  ArchetypeId: ForestClearing
+  DisplayName: Forest Clearing
+  HasCeiling: 0
+  HasWaterFeature: 0
+  WaterDepth: 2
+  WaterBlock: {fileID: 0}
+  ElevationMode: 4
+  ElevationStepHeight: 1
+  CustomFloorBlock: {fileID: 11400000, guid: 8521a0f9b3ec48a49ba84050ec19b48f, type: 2}
+  CustomWallBlock: {fileID: 0}
+  CustomCeilingBlock: {fileID: 0}
+  StepBlock: {fileID: 0}
+  ThemePalette: {fileID: 11400000, guid: 81ca4288b20141f488f57297e51c8a1e, type: 2}
+  HasPillars: 0
+  PillarThickness: 1
+  PillarInset: 3
+  MaxEnemySpawns: 2
+  MaxChestSpawns: 1
+  AllowNpcSpawn: 1

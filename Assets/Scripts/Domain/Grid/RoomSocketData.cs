@@ -11,7 +11,9 @@ namespace Domain.Grid
         NpcSpawn,
         Chest,
         Interactable,
-        PropLight
+        PropLight,
+        PropFoliage,
+        PropResource
     }
 
     [Serializable]

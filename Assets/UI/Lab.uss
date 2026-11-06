@@ -1,0 +1,158 @@
+/* ═══════════════════════════════════════════════════════
+   LAB PANEL — Designer Overhaul
+   Design: Left-side dev tool panel, teal/emerald accent
+   ═══════════════════════════════════════════════════════ */
+
+.lab-root {
+    position: absolute;
+    left: 20px;
+    top: 50%;
+    translate: 0 -50%;
+    width: 320px;
+    max-height: 80%;
+    background-color: rgba(8, 12, 22, 0.96);
+    border-width: 1px;
+    border-color: rgba(20, 184, 166, 0.30);
+    border-radius: 14px;
+    overflow: hidden;
+    flex-direction: column;
+}
+
+/* ── Header ── */
+.lab-header {
+    flex-direction: row;
+    align-items: center;
+    padding: 11px 14px;
+    background-color: rgba(10, 18, 30, 0.99);
+    border-bottom-width: 1px;
+    border-bottom-color: rgba(20, 184, 166, 0.20);
+}
+
+.lab-header-icon {
+    width: 18px;
+    height: 18px;
+    background-color: rgba(20, 184, 166, 0.25);
+    border-radius: 5px;
+    border-width: 1px;
+    border-color: rgba(20, 184, 166, 0.6);
+    margin-right: 9px;
+    flex-shrink: 0;
+}
+
+.lab-title {
+    font-size: 12px;
+    color: rgba(20, 184, 166, 1);
+    -unity-font-style: bold;
+    letter-spacing: 2px;
+    flex-grow: 1;
+}
+
+.lab-header-spacer { flex-grow: 1; }
+
+.lab-btn {
+    height: 26px;
+    border-radius: 6px;
+    border-width: 1px;
+    font-size: 10px;
+    -unity-font-style: bold;
+    padding: 0 10px;
+    margin-left: 5px;
+}
+
+.lab-btn--reset {
+    background-color: rgba(20, 70, 60, 0.65);
+    border-color: rgba(20, 184, 166, 0.4);
+    color: rgba(94, 234, 212, 1);
+}
+
+.lab-btn--reset:hover {
+    background-color: rgba(15, 118, 110, 0.85);
+}
+
+.lab-btn--close {
+    width: 26px;
+    padding: 0;
+    -unity-text-align: middle-center;
+    background-color: rgba(80, 20, 20, 0.5);
+    border-color: rgba(200, 60, 60, 0.3);
+    color: rgba(255, 140, 140, 1);
+    font-size: 13px;
+}
+
+.lab-btn--close:hover {
+    background-color: rgba(185, 30, 30, 0.9);
+}
+
+/* ── Scroll Area ── */
+.lab-scroll {
+    flex-grow: 1;
+}
+
+.lab-groups-container {
+    padding: 10px 14px;
+    flex-direction: column;
+}
+
+/* ── Group (injected by LabHUD.cs) ── */
+.lab-group {
+    margin-bottom: 14px;
+}
+
+.lab-group-label {
+    font-size: 10px;
+    color: rgba(20, 184, 166, 0.85);
+    -unity-font-style: bold;
+    letter-spacing: 1.5px;
+    margin-bottom: 6px;
+    padding-bottom: 4px;
+    border-bottom-width: 1px;
+    border-bottom-color: rgba(255, 255, 255, 0.08);
+}
+
+/* ── Parameter Row ── */
+.lab-param-row {
+    flex-direction: row;
+    align-items: center;
+    margin-bottom: 7px;
+}
+
+.lab-param-label {
+    width: 120px;
+    font-size: 11px;
+    color: rgba(148, 163, 184, 1);
+    flex-shrink: 0;
+}
+
+.lab-param-slider {
+    flex-grow: 1;
+    margin-right: 8px;
+}
+
+.lab-param-value {
+    width: 48px;
+    font-size: 10px;
+    -unity-font-style: bold;
+    color: rgba(240, 245, 255, 0.9);
+    -unity-text-align: middle-right;
+}
+
+.lab-param-toggle {
+    flex-grow: 1;
+}
+
+/* ── Footer ── */
+.lab-footer {
+    padding: 8px 14px;
+    background-color: rgba(8, 12, 22, 0.98);
+    border-top-width: 1px;
+    border-top-color: rgba(255, 255, 255, 0.06);
+}
+
+.lab-hint {
+    font-size: 10px;
+    color: rgba(51, 65, 85, 1);
+}
+
+/* Old alias for C# compat */
+.lab-button { }
+.lab-close-button { }

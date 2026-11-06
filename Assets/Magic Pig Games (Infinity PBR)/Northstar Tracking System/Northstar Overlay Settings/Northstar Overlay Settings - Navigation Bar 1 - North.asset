@@ -1,0 +1,408 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!114 &11400000
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: e711456c66be341df9c47884b194088b, type: 3}
+  m_Name: Northstar Overlay Settings - Navigation Bar 1 - North
+  m_EditorClassIdentifier: 
+  iconOffset: {x: 0, y: 0, z: 0}
+  type: Default
+  enableScreenOverlay: 0
+  enableEdgeOverlay: 0
+  enableCompassBar: 1
+  screenSprite: {fileID: 21300000, guid: 8f2b7b88a50f74c2e8f5f81f09c02309, type: 3}
+  screenSpriteColor: {r: 1, g: 1, b: 1, a: 1}
+  screenDistanceMin: 0
+  screenDistanceMax: 200
+  screenSpriteSize: 100
+  screenSpriteSizeUseCurve: 0
+  screenSpriteSizeCurve:
+    serializedVersion: 2
+    m_Curve:
+    - serializedVersion: 3
+      time: 0
+      value: 1
+      inSlope: 0.00781431
+      outSlope: 0.00781431
+      tangentMode: 0
+      weightedMode: 0
+      inWeight: 0
+      outWeight: 0.59540385
+    - serializedVersion: 3
+      time: 0.09976333
+      value: 1
+      inSlope: 0
+      outSlope: 0
+      tangentMode: 65
+      weightedMode: 0
+      inWeight: 0.33333334
+      outWeight: 0.040644724
+    - serializedVersion: 3
+      time: 0.9000722
+      value: 1
+      inSlope: -0
+      outSlope: -0.118095145
+      tangentMode: 5
+      weightedMode: 0
+      inWeight: 0.33333334
+      outWeight: 0.67255193
+    - serializedVersion: 3
+      time: 1
+      value: 0
+      inSlope: 0.0651132
+      outSlope: 0.0651132
+      tangentMode: 0
+      weightedMode: 0
+      inWeight: 0.535828
+      outWeight: 0
+    m_PreInfinity: 2
+    m_PostInfinity: 2
+    m_RotationOrder: 4
+  screenSpriteOpacity: 0.75
+  screenSpriteOpacityUseCurve: 0
+  screenSpriteOpacityCurve:
+    serializedVersion: 2
+    m_Curve:
+    - serializedVersion: 3
+      time: 0
+      value: 0
+      inSlope: 6.284585
+      outSlope: 6.284585
+      tangentMode: 0
+      weightedMode: 0
+      inWeight: 0
+      outWeight: 0.033333335
+    - serializedVersion: 3
+      time: 0.042338658
+      value: 1
+      inSlope: 1.9293745
+      outSlope: 0
+      tangentMode: 65
+      weightedMode: 0
+      inWeight: 0.7785711
+      outWeight: 0.2766812
+    - serializedVersion: 3
+      time: 0.70012456
+      value: 1
+      inSlope: -0
+      outSlope: -0.102492355
+      tangentMode: 5
+      weightedMode: 0
+      inWeight: 0.33333334
+      outWeight: 0.33333334
+    - serializedVersion: 3
+      time: 1
+      value: 0
+      inSlope: -1
+      outSlope: -1
+      tangentMode: 0
+      weightedMode: 0
+      inWeight: 0
+      outWeight: 0
+    m_PreInfinity: 2
+    m_PostInfinity: 2
+    m_RotationOrder: 4
+  arrowSprite: {fileID: 21300000, guid: b6ddc84e9bd664b9d8ec8719213d5889, type: 3}
+  arrowSize: 30
+  arrowSizeInitial: 10
+  offset: 20
+  iconOffsetFromArrow: 50
+  edgeSprite: {fileID: 21300000, guid: 8f2b7b88a50f74c2e8f5f81f09c02309, type: 3}
+  edgeSpriteColor: {r: 1, g: 1, b: 1, a: 1}
+  arrowColor: {r: 1, g: 1, b: 1, a: 1}
+  arrowColorInitial: {r: 1, g: 1, b: 1, a: 1}
+  edgeDistanceMin: 0
+  edgeDistanceMax: 200
+  rotateArrow: 1
+  edgeSpriteSize: 50
+  edgeSpriteSizeUseCurve: 1
+  edgeSpriteSizeCurve:
+    serializedVersion: 2
+    m_Curve:
+    - serializedVersion: 3
+      time: 0
+      value: 1
+      inSlope: 0.00781431
+      outSlope: 0.00781431
+      tangentMode: 0
+      weightedMode: 0
+      inWeight: 0
+      outWeight: 0.59540385
+    - serializedVersion: 3
+      time: 0.09976333
+      value: 1
+      inSlope: 0
+      outSlope: 0
+      tangentMode: 65
+      weightedMode: 0
+      inWeight: 0.33333334
+      outWeight: 0.040644724
+    - serializedVersion: 3
+      time: 0.9000722
+      value: 1
+      inSlope: -0
+      outSlope: -0.118095145
+      tangentMode: 5
+      weightedMode: 0
+      inWeight: 0.33333334
+      outWeight: 0.67255193
+    - serializedVersion: 3
+      time: 1
+      value: 0
+      inSlope: 0.0651132
+      outSlope: 0.0651132
+      tangentMode: 0
+      weightedMode: 0
+      inWeight: 0.535828
+      outWeight: 0
+    m_PreInfinity: 2
+    m_PostInfinity: 2
+    m_RotationOrder: 4
+  edgeSizeByDistance: 0
+  edgeOpacityByDistance: 0
+  arrowSizeUseCurve: 1
+  arrowSizeCurve:
+    serializedVersion: 2
+    m_Curve:
+    - serializedVersion: 3
+      time: 0
+      value: 1
+      inSlope: 0.00781431
+      outSlope: 0.00781431
+      tangentMode: 0
+      weightedMode: 0
+      inWeight: 0
+      outWeight: 0.59540385
+    - serializedVersion: 3
+      time: 0.09976333
+      value: 1
+      inSlope: 0
+      outSlope: 0
+      tangentMode: 65
+      weightedMode: 0
+      inWeight: 0.33333334
+      outWeight: 0.040644724
+    - serializedVersion: 3
+      time: 0.9000722
+      value: 1
+      inSlope: -0
+      outSlope: -0.118095145
+      tangentMode: 5
+      weightedMode: 0
+      inWeight: 0.33333334
+      outWeight: 0.67255193
+    - serializedVersion: 3
+      time: 1
+      value: 0
+      inSlope: 0.0651132
+      outSlope: 0.0651132
+      tangentMode: 0
+      weightedMode: 0
+      inWeight: 0.535828
+      outWeight: 0
+    m_PreInfinity: 2
+    m_PostInfinity: 2
+    m_RotationOrder: 4
+  arrowSizeByDistance: 0
+  arrowOpacityByDistance: 0
+  arrowOpacityUseCurve: 1
+  arrowOpacityCurve:
+    serializedVersion: 2
+    m_Curve:
+    - serializedVersion: 3
+      time: 0
+      value: 0
+      inSlope: 6.284585
+      outSlope: 6.284585
+      tangentMode: 0
+      weightedMode: 0
+      inWeight: 0
+      outWeight: 0.033333335
+    - serializedVersion: 3
+      time: 0.042338658
+      value: 1
+      inSlope: 1.9293745
+      outSlope: 0
+      tangentMode: 65
+      weightedMode: 0
+      inWeight: 0.7785711
+      outWeight: 0.2766812
+    - serializedVersion: 3
+      time: 0.70012456
+      value: 1
+      inSlope: -0
+      outSlope: -0.102492355
+      tangentMode: 5
+      weightedMode: 0
+      inWeight: 0.33333334
+      outWeight: 0.33333334
+    - serializedVersion: 3
+      time: 1
+      value: 0
+      inSlope: -1
+      outSlope: -1
+      tangentMode: 0
+      weightedMode: 0
+      inWeight: 0
+      outWeight: 0
+    m_PreInfinity: 2
+    m_PostInfinity: 2
+    m_RotationOrder: 4
+  edgeSpriteOpacity: 1
+  edgeSpriteOpacityUseCurve: 1
+  edgeSpriteOpacityCurve:
+    serializedVersion: 2
+    m_Curve:
+    - serializedVersion: 3
+      time: 0
+      value: 0
+      inSlope: 6.284585
+      outSlope: 6.284585
+      tangentMode: 0
+      weightedMode: 0
+      inWeight: 0
+      outWeight: 0.033333335
+    - serializedVersion: 3
+      time: 0.042338658
+      value: 1
+      inSlope: 1.9293745
+      outSlope: 0
+      tangentMode: 65
+      weightedMode: 0
+      inWeight: 0.7785711
+      outWeight: 0.2766812
+    - serializedVersion: 3
+      time: 0.70012456
+      value: 1
+      inSlope: -0
+      outSlope: -0.102492355
+      tangentMode: 5
+      weightedMode: 0
+      inWeight: 0.33333334
+      outWeight: 0.33333334
+    - serializedVersion: 3
+      time: 1
+      value: 0
+      inSlope: -1
+      outSlope: -1
+      tangentMode: 0
+      weightedMode: 0
+      inWeight: 0
+      outWeight: 0
+    m_PreInfinity: 2
+    m_PostInfinity: 2
+    m_RotationOrder: 4
+  arrowOpacity: 1
+  arrowOpacityInitial: 0
+  overrideYPosition: 1
+  xPosition: 0
+  yPosition: -2
+  moveWithRotation: 0
+  compassBarSprite: {fileID: 21300000, guid: 9243fe1cd7cb14f40a1876f4abb30f83, type: 3}
+  compassBarSpriteColor: {r: 1, g: 1, b: 1, a: 1}
+  compassBarDistanceMin: 0
+  compassBarDistanceMax: 200
+  compassBarSize: 40
+  compassBarSizeByDistance: 0
+  compassBarOpacityByDistance: 0
+  compassBarSizeUseCurve: 0
+  compassBarSizeCurve:
+    serializedVersion: 2
+    m_Curve:
+    - serializedVersion: 3
+      time: 0
+      value: 1
+      inSlope: 0.00781431
+      outSlope: 0.00781431
+      tangentMode: 0
+      weightedMode: 0
+      inWeight: 0
+      outWeight: 0.59540385
+    - serializedVersion: 3
+      time: 0.09976333
+      value: 1
+      inSlope: 0
+      outSlope: 0
+      tangentMode: 65
+      weightedMode: 0
+      inWeight: 0.33333334
+      outWeight: 0.040644724
+    - serializedVersion: 3
+      time: 0.9000722
+      value: 1
+      inSlope: -0
+      outSlope: -0.118095145
+      tangentMode: 5
+      weightedMode: 0
+      inWeight: 0.33333334
+      outWeight: 0.67255193
+    - serializedVersion: 3
+      time: 1
+      value: 0
+      inSlope: 0.0651132
+      outSlope: 0.0651132
+      tangentMode: 0
+      weightedMode: 0
+      inWeight: 0.535828
+      outWeight: 0
+    m_PreInfinity: 2
+    m_PostInfinity: 2
+    m_RotationOrder: 4
+  compassBarSpriteOpacity: 1
+  compassBarSpriteOpacityUseCurve: 0
+  compassBarSpriteOpacityCurve:
+    serializedVersion: 2
+    m_Curve:
+    - serializedVersion: 3
+      time: 0
+      value: 0
+      inSlope: 6.284585
+      outSlope: 6.284585
+      tangentMode: 0
+      weightedMode: 0
+      inWeight: 0
+      outWeight: 0.033333335
+    - serializedVersion: 3
+      time: 0.042338658
+      value: 1
+      inSlope: 1.9293745
+      outSlope: 0
+      tangentMode: 65
+      weightedMode: 0
+      inWeight: 0.7785711
+      outWeight: 0.2766812
+    - serializedVersion: 3
+      time: 0.70012456
+      value: 1
+      inSlope: -0
+      outSlope: -0.102492355
+      tangentMode: 5
+      weightedMode: 0
+      inWeight: 0.33333334
+      outWeight: 0.33333334
+    - serializedVersion: 3
+      time: 1
+      value: 0
+      inSlope: -1
+      outSlope: -1
+      tangentMode: 0
+      weightedMode: 0
+      inWeight: 0
+      outWeight: 0
+    m_PreInfinity: 2
+    m_PostInfinity: 2
+    m_RotationOrder: 4
+  fadeAtEdges: 0
+  clampPositionAtEdges: 0
+  showArrowWhenOffBar: 0
+  compassBarArrowSprite: {fileID: 0}
+  compassBarArrowSpriteColor: {r: 1, g: 1, b: 1, a: 1}
+  compassBarArrowSize: 30
+  compassBarArrowOpacity: 1

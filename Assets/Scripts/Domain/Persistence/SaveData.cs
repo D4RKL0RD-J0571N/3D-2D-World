@@ -12,6 +12,13 @@ namespace Domain.Persistence
     }
 
     [Serializable]
+    public class InventorySlotSaveData
+    {
+        public string ItemId;
+        public int Count;
+    }
+
+    [Serializable]
     public class EntitySaveData
     {
         public string EntityId;
@@ -22,6 +29,7 @@ namespace Domain.Persistence
         public int CurrentHealth;
         public int Level;
         public float Experience;
+        public InventorySlotSaveData[] Inventory;
     }
 
     [Serializable]

@@ -25,6 +25,18 @@ namespace Gameplay.Player
             if (_controller != null)
             {
                 _controller.stepOffset = _stepOffset;
+                _controller.height = _standHeight;
+                _controller.center = new Vector3(0f, _standHeight * 0.5f, 0f);
+            }
+        }
+
+        private void Start()
+        {
+            if (_controller != null)
+            {
+                _controller.stepOffset = _stepOffset;
+                _controller.height = _standHeight;
+                _controller.center = new Vector3(0f, _standHeight * 0.5f, 0f);
             }
         }
 
@@ -58,6 +70,48 @@ namespace Gameplay.Player
             if (_controller == null)
             {
                 return;
+            }
+
+            // Do not process movement while typing into UI text fields or when modal is open
+            if (Gameplay.UI.CuratorHUD.IsOpen || Gameplay.UI.WorldMapHUD.IsOpen)
+            {
+                _moveInput = Vector2.zero;
+                return;
+            }
+
+            var creatorHud = Object.FindFirstObjectByType<Gameplay.UI.CreatorStudioHUD>();
+            if (creatorHud != null && creatorHud.IsInputFocused)
+            {
+                _moveInput = Vector2.zero;
+                return;
+            }
+
+            // Direct Keyboard Input System reading (guarantees movement in all scenes)
+            var keyboard = UnityEngine.InputSystem.Keyboard.current;
+            if (keyboard != null)
+            {
+                float kx = 0f;
+                float ky = 0f;
+                if (keyboard.wKey.isPressed || keyboard.upArrowKey.isPressed) ky += 1f;
+                if (keyboard.sKey.isPressed || keyboard.downArrowKey.isPressed) ky -= 1f;
+                if (keyboard.aKey.isPressed || keyboard.leftArrowKey.isPressed) kx -= 1f;
+                if (keyboard.dKey.isPressed || keyboard.rightArrowKey.isPressed) kx += 1f;
+
+                if (kx != 0f || ky != 0f)
+                {
+                    _moveInput = new Vector2(kx, ky).normalized;
+                }
+                else
+                {
+                    _moveInput = Vector2.zero;
+                }
+
+                if (keyboard.leftShiftKey.isPressed) _runHeld = true;
+                else _runHeld = false;
+
+                if (keyboard.spaceKey.wasPressedThisFrame) _jumpQueued = true;
+                if (keyboard.leftCtrlKey.isPressed) _crouchHeld = true;
+                else _crouchHeld = false;
             }
 
             IsCrouching = _crouchHeld;
@@ -112,7 +166,7 @@ namespace Gameplay.Player
             float targetHeight = IsCrouching ? _crouchHeight : _standHeight;
             float targetCameraHeight = IsCrouching ? _cameraCrouchHeight : _cameraStandHeight;
 
-            if (_controller.height != targetHeight)
+            if (Mathf.Abs(_controller.height - targetHeight) > 0.01f || Mathf.Abs(_controller.center.y - (targetHeight * 0.5f)) > 0.01f)
             {
                 _controller.height = targetHeight;
                 _controller.center = new Vector3(0f, targetHeight * 0.5f, 0f);

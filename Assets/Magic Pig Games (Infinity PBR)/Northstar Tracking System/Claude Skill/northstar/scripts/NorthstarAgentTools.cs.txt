@@ -1,0 +1,247 @@
+// NorthstarAgentTools — reusable editor helper for AI-driven Northstar authoring.
+//
+// HOW TO USE
+//   Install once: write this file to the user's project at
+//       Assets/Editor/NorthstarAgentTools.cs   (drop the ".txt" extension)
+//   then let Unity recompile (AssetDatabase.Refresh). After that, any
+//   Unity-MCP CommandScript can call NorthstarAgentTools.* directly, e.g.:
+//
+//       internal class CommandScript : IRunCommand {
+//         public void Execute(ExecutionResult result) {
+//           NorthstarAgentSkill.NorthstarAgentTools.AddOverlay(UnityEngine.Camera.main);
+//           NorthstarAgentSkill.NorthstarAgentTools.AddCompass("Compass 1",
+//               UnityEngine.GameObject.Find("Player")?.transform);
+//           var enemy = UnityEngine.GameObject.Find("Enemy");
+//           NorthstarAgentSkill.NorthstarAgentTools.TrackOnOverlay(enemy, "Enemy",
+//               settings: null, customScreenIcon: "Northstar Icon Distance");
+//           NorthstarAgentSkill.NorthstarAgentTools.TrackOnCompassRadar(enemy, "Enemy");
+//           NorthstarAgentSkill.NorthstarAgentTools.Finish();
+//           NorthstarAgentSkill.NorthstarAgentTools.Verify();
+//           result.Log("Northstar wired.");
+//         }
+//       }
+//
+//   It lives in an Editor folder so it can call the editor-only APIs
+//   (AssetDatabase, PrefabUtility, Resources.Load). If you can't install a file,
+//   the same calls work inlined inside a CommandScript — these are thin wrappers
+//   over public Northstar APIs and Unity editor calls.
+
+#if UNITY_EDITOR
+using UnityEngine;
+using UnityEditor;
+using MagicPigGames.Northstar;
+using static MagicPigGames.Northstar.GlobalNorthstarSettings;   // TrackingType
+
+namespace NorthstarAgentSkill
+{
+    public static class NorthstarAgentTools
+    {
+        // Where new settings assets are written.
+        public const string SettingsRoot = "Assets/Northstar";
+
+        // ----------------------------------------------------------- Displays
+
+        /// <summary>
+        /// Add the Northstar Screen Overlay master (screen + edge + nav-bar host) if
+        /// none exists, and set its required targetCamera. Returns the NorthstarOverlay.
+        /// </summary>
+        public static NorthstarOverlay AddOverlay(Camera targetCamera = null,
+            string prefabName = "Northstar Screen Overlay")
+        {
+            var overlay = Object.FindObjectOfType<NorthstarOverlay>();
+            if (overlay == null)
+            {
+                var go = Instantiate(prefabName, "Add Northstar Overlay");
+                overlay = go != null ? go.GetComponent<NorthstarOverlay>() : null;
+            }
+            if (overlay != null && overlay.targetCamera == null)
+                overlay.targetCamera = targetCamera != null ? targetCamera : Camera.main;
+            if (overlay != null) EditorUtility.SetDirty(overlay);
+            return overlay;
+        }
+
+        /// <summary>Add a Compass (only one Compass/Radar allowed) and set its player.</summary>
+        public static NorthstarSystem AddCompass(string prefabName = "Compass 1", Transform player = null)
+            => AddCompassOrRadar(prefabName, player);
+
+        /// <summary>Add a Radar (only one Compass/Radar allowed) and set its player.</summary>
+        public static NorthstarSystem AddRadar(string prefabName = "Radar 1", Transform player = null)
+            => AddCompassOrRadar(prefabName, player);
+
+        private static NorthstarSystem AddCompassOrRadar(string prefabName, Transform player)
+        {
+            var existing = Object.FindObjectOfType<NorthstarSystem>();
+            if (existing != null)
+            {
+                Debug.LogWarning("[Northstar] A Compass/Radar already exists — only one allowed.");
+                return existing;
+            }
+            var go = Instantiate(prefabName, "Add " + prefabName);
+            var system = go != null ? go.GetComponent<NorthstarSystem>() : null;
+            if (system != null)
+            {
+                if (player != null) system.player = player;
+                EditorUtility.SetDirty(system);
+                if (system.player == null)
+                    Debug.LogWarning("[Northstar] Compass/Radar added — SET ITS player FIELD (not auto-assigned).");
+            }
+            return system;
+        }
+
+        /// <summary>Add a Navigation Bar under the overlay (only one allowed).</summary>
+        public static NavigationBar AddNavigationBar(string prefabName = "Navigation Bar 1")
+        {
+            var overlay = Object.FindObjectOfType<NorthstarOverlay>();
+            if (overlay == null) { Debug.LogWarning("[Northstar] Add the overlay first."); return null; }
+            if (Object.FindObjectOfType<NavigationBar>() != null)
+            { Debug.LogWarning("[Northstar] A Navigation Bar already exists — only one allowed."); return null; }
+
+            var go = Instantiate(prefabName, "Add Navigation Bar");
+            if (go == null) return null;
+            go.transform.SetParent(overlay.transform, false);
+            var nav = go.GetComponent<NavigationBar>();
+            overlay.SetNavigationBar(nav);
+            overlay.enableNavigationBar = true;
+            EditorUtility.SetDirty(overlay);
+            return nav;
+        }
+
+        // --------------------------------------------------------- Tracking
+
+        /// <summary>
+        /// Make a GameObject appear on the screen / edge / navigation-bar overlay.
+        /// Optionally assign per-target overlaySettings (asset path) and a custom
+        /// screen-icon prefab BY NAME (e.g. "Northstar Icon Distance"). Icon prefabs
+        /// live outside Resources, so they're located via AssetDatabase, not Resources.Load.
+        /// </summary>
+        public static TrackedTargetOverlay TrackOnOverlay(GameObject go, string targetType = "Default",
+            string settings = null, string customScreenIcon = null, Vector3? iconOffset = null, int layerOrder = 0)
+        {
+            if (go == null) { Debug.LogWarning("[Northstar] TrackOnOverlay: null GameObject."); return null; }
+            var t = go.GetComponent<TrackedTargetOverlay>() ?? go.AddComponent<TrackedTargetOverlay>();
+            t.targetType = targetType;
+            t.layerOrder = layerOrder;
+            if (iconOffset.HasValue) t.iconOffset = iconOffset.Value;
+            if (!string.IsNullOrEmpty(settings))
+                t.overlaySettings = AssetDatabase.LoadAssetAtPath<NorthstarOverlaySettings>(settings);
+            if (!string.IsNullOrEmpty(customScreenIcon))
+                t.customScreenIcon = LoadPrefabByName(customScreenIcon);
+            EditorUtility.SetDirty(go);
+            return t;
+        }
+
+        /// <summary>
+        /// Make a GameObject appear on the compass / radar. trackedObjectPrefab is a
+        /// CompassIcon prefab name (located via AssetDatabase, not Resources).
+        /// </summary>
+        public static TrackedTargetCompassRadar TrackOnCompassRadar(GameObject go, string targetType = "Default",
+            TrackingType trackingType = TrackingType.RelativePoint, string trackedObjectPrefab = null)
+        {
+            if (go == null) { Debug.LogWarning("[Northstar] TrackOnCompassRadar: null GameObject."); return null; }
+            var t = go.GetComponent<TrackedTargetCompassRadar>() ?? go.AddComponent<TrackedTargetCompassRadar>();
+            t.trackingType = trackingType;
+            t.targetType = targetType;
+            if (!string.IsNullOrEmpty(trackedObjectPrefab))
+                t.trackedObjectPrefab = LoadPrefabByName(trackedObjectPrefab);
+            EditorUtility.SetDirty(go);
+            return t;
+        }
+
+        // --------------------------------------------------------- Settings
+
+        /// <summary>
+        /// Create a NorthstarOverlaySettings asset (the per-"type" visual config).
+        /// Pass a sprite asset path and/or color to set the screen icon look.
+        /// Returns the created (or existing) asset. Does NOT call Finish().
+        /// </summary>
+        public static NorthstarOverlaySettings CreateOverlaySettings(string name, string type = "Default",
+            string screenSpritePath = null, Color? screenColor = null)
+        {
+            if (!AssetDatabase.IsValidFolder(SettingsRoot))
+                AssetDatabase.CreateFolder("Assets", "Northstar");
+            var path = $"{SettingsRoot}/{name}.asset";
+            var existing = AssetDatabase.LoadAssetAtPath<NorthstarOverlaySettings>(path);
+            if (existing != null) return existing;
+
+            var s = ScriptableObject.CreateInstance<NorthstarOverlaySettings>();
+            s.type = type;
+            if (!string.IsNullOrEmpty(screenSpritePath))
+                s.screenSprite = AssetDatabase.LoadAssetAtPath<Sprite>(screenSpritePath);
+            if (screenColor.HasValue) s.screenSpriteColor = screenColor.Value;
+            AssetDatabase.CreateAsset(s, path);
+            return s;
+        }
+
+        // --------------------------------------------------------- Lifecycle
+
+        /// <summary>Save + refresh. Call once after a batch of creates/edits.</summary>
+        public static void Finish()
+        {
+            AssetDatabase.SaveAssets();
+            AssetDatabase.Refresh();
+        }
+
+        // ----------------------------------------------------------- Verify
+
+        /// <summary>Log the wired state so you can confirm setup before Play.</summary>
+        public static void Verify()
+        {
+            var overlay = Object.FindObjectOfType<NorthstarOverlay>();
+            var system  = Object.FindObjectOfType<NorthstarSystem>();
+            var nav     = Object.FindObjectOfType<NavigationBar>();
+
+            Log("NorthstarOverlay", overlay,
+                overlay == null ? "" : $"targetCamera={(overlay.targetCamera ? overlay.targetCamera.name : "NULL — set it!")}");
+            Log("Compass/Radar", system,
+                system == null ? "" : $"player={(system.player ? system.player.name : "NULL — set it!")}");
+            Log("NavigationBar", nav, "");
+
+            foreach (var t in Object.FindObjectsOfType<TrackedTargetOverlay>())
+                Debug.Log($"[Northstar] tracked (overlay): {t.name}  type={t.targetType}");
+            foreach (var t in Object.FindObjectsOfType<TrackedTargetCompassRadar>())
+                Debug.Log($"[Northstar] tracked (compass/radar): {t.name}  type={t.targetType}");
+        }
+
+        private static void Log(string what, Object obj, string extra)
+        {
+            if (obj == null) Debug.LogWarning($"[Northstar] MISSING: {what}");
+            else Debug.Log($"[Northstar] OK {what}: {obj.name}  {extra}");
+        }
+
+        // ----------------------------------------------------------- Internals
+
+        private static GameObject Instantiate(string prefabName, string undoLabel)
+        {
+            var prefab = LoadPrefabByName(prefabName);   // display prefabs live in Resources; this still works
+            if (prefab == null)
+            {
+                Debug.LogError($"[Northstar] No prefab named '{prefabName}' found (Resources or AssetDatabase).");
+                return null;
+            }
+            var go = (GameObject)PrefabUtility.InstantiatePrefab(prefab);
+            Undo.RegisterCreatedObjectUndo(go, undoLabel);
+            return go;
+        }
+
+        /// <summary>
+        /// Resolve a prefab by name. Tries Resources.Load first (compass / radar /
+        /// nav-bar / overlay display prefabs live in a Resources folder), then falls
+        /// back to AssetDatabase by name (icon prefabs like "Northstar Icon Distance"
+        /// live outside Resources). Returns null if nothing matches.
+        /// </summary>
+        private static GameObject LoadPrefabByName(string prefabName)
+        {
+            var fromResources = Resources.Load<GameObject>(prefabName);
+            if (fromResources != null) return fromResources;
+
+            foreach (var guid in AssetDatabase.FindAssets($"\"{prefabName}\" t:Prefab"))
+            {
+                var path = AssetDatabase.GUIDToAssetPath(guid);
+                if (System.IO.Path.GetFileNameWithoutExtension(path) == prefabName)
+                    return AssetDatabase.LoadAssetAtPath<GameObject>(path);
+            }
+            return null;
+        }
+    }
+}
+#endif

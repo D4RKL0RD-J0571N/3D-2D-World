@@ -1,9 +1,31 @@
 ﻿<Solution>
-  <Project Path="Unity.Pipeline.csproj" />
-  <Project Path="Unity.Pipeline.Editor.csproj" />
-  <Project Path="Assembly-CSharp.csproj" />
+  <Project Path="GameCreator.Runtime.Core.csproj" />
   <Project Path="Unity.Pipeline.Tests.Editor.csproj" />
-  <Project Path="Unity.Pipeline.Tests.Runtime.csproj" />
+  <Project Path="Assembly-CSharp.csproj" />
+  <Project Path="GameCreator.Editor.Core.csproj" />
+  <Project Path="MoreMountains.Tools.csproj" />
+  <Project Path="Unity.Pipeline.csproj" />
+  <Project Path="CodeMonkeyToolkit.csproj" />
+  <Project Path="MagicPigGames.Northstar.Demo.csproj" />
+  <Project Path="Unity.Pipeline.Editor.csproj" />
+  <Project Path="MoreMountains.Tools.Editor.csproj" />
+  <Project Path="GameCreator.Tests.Core.csproj" />
+  <Project Path="DamageNumbersPro.csproj" />
+  <Project Path="MagicPigGames.Northstar.Editor.csproj" />
   <Project Path="Assembly-CSharp-Editor.csproj" />
+  <Project Path="Lofelt.NiceVibrations.csproj" />
+  <Project Path="DOTween.Modules.csproj" />
+  <Project Path="Unity.Pipeline.Tests.Runtime.csproj" />
+  <Project Path="Lofelt.NiceVibrations.Demo.csproj" />
+  <Project Path="Lofelt.NiceVibrations.Editor.csproj" />
+  <Project Path="MagicPigGames.Shared.Editor.csproj" />
+  <Project Path="FBXEditor.Editor.csproj" />
+  <Project Path="AllIn1SpriteShaderAssembly.csproj" />
+  <Project Path="DOTweenPro.EditorScripts.csproj" />
+  <Project Path="MagicPigGames.Northstar.csproj" />
+  <Project Path="DOTweenPro.Scripts.csproj" />
+  <Project Path="MagicPigGames.Shared.csproj" />
+  <Project Path="Sirenix.OdinInspector.Modules.UnityMathematics.csproj" />
   <Project Path="Unity.Pipeline.CodeGen.csproj" />
+  <Project Path="CodeMonkeyToolkitEditor.csproj" />
 </Solution>

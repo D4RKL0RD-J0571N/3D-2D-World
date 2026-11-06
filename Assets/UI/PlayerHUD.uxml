@@ -1,0 +1,152 @@
+<ui:UXML xmlns:ui="UnityEngine.UIElements" xmlns:uie="UnityEditor.UIElements">
+    <ui:VisualElement name="PlayerHudRoot" class="player-hud-root" picking-mode="Ignore">
+
+        <!-- Full-screen Damage Vignette Flash -->
+        <ui:VisualElement name="DamageVignette" class="damage-vignette" picking-mode="Ignore" />
+
+        <!-- ╔══════════════════════════════════════════╗ -->
+        <!-- ║  SKYRIM TOP COMPASS & DISCOVERY BANNER   ║ -->
+        <!-- ╚══════════════════════════════════════════╝ -->
+        <ui:VisualElement name="CompassContainer" class="compass-container" picking-mode="Ignore">
+            <ui:VisualElement class="compass-strip" picking-mode="Ignore">
+                <!-- Center Needle / Notch -->
+                <ui:VisualElement name="CompassCenterNotch" class="compass-notch" picking-mode="Ignore" />
+
+                <!-- Cardinal Tape Mask -->
+                <ui:VisualElement name="CompassTapeMask" class="compass-tape-mask" picking-mode="Ignore">
+                    <ui:VisualElement name="CompassTape" class="compass-tape" picking-mode="Ignore">
+                        <ui:Label text="N" class="compass-cardinal compass-cardinal--primary" />
+                        <ui:Label text="·" class="compass-dot" />
+                        <ui:Label text="NE" class="compass-cardinal" />
+                        <ui:Label text="·" class="compass-dot" />
+                        <ui:Label text="E" class="compass-cardinal compass-cardinal--primary" />
+                        <ui:Label text="·" class="compass-dot" />
+                        <ui:Label text="SE" class="compass-cardinal" />
+                        <ui:Label text="·" class="compass-dot" />
+                        <ui:Label text="S" class="compass-cardinal compass-cardinal--primary" />
+                        <ui:Label text="·" class="compass-dot" />
+                        <ui:Label text="SW" class="compass-cardinal" />
+                        <ui:Label text="·" class="compass-dot" />
+                        <ui:Label text="W" class="compass-cardinal compass-cardinal--primary" />
+                        <ui:Label text="·" class="compass-dot" />
+                        <ui:Label text="NW" class="compass-cardinal" />
+                        <ui:Label text="·" class="compass-dot" />
+                        <ui:Label text="N" class="compass-cardinal compass-cardinal--primary" />
+                    </ui:VisualElement>
+                </ui:VisualElement>
+
+                <!-- Dynamic Markers Layer -->
+                <ui:VisualElement name="CompassMarkersLayer" class="compass-markers-layer" picking-mode="Ignore" />
+            </ui:VisualElement>
+
+            <!-- Discovery Banner (Skyrim-style: '✦ BLEAK FALLS CRYPT DISCOVERED ✦') -->
+            <ui:VisualElement name="DiscoveryBanner" class="discovery-banner" picking-mode="Ignore">
+                <ui:Label name="DiscoveryText" text="" class="discovery-text" />
+            </ui:VisualElement>
+        </ui:VisualElement>
+
+        <!-- ╔══════════════════════════════════════════╗ -->
+        <!-- ║  TOP-LEFT STATUS PANEL: HP, MP, SP       ║ -->
+        <!-- ╚══════════════════════════════════════════╝ -->
+        <ui:VisualElement name="StatusContainer" class="status-panel" picking-mode="Ignore">
+
+            <!-- Avatar Frame -->
+            <ui:VisualElement class="avatar-frame" picking-mode="Ignore">
+                <ui:VisualElement class="avatar-image" picking-mode="Ignore" />
+                <ui:Label name="PlayerLevelLabel" text="Lv.1" class="avatar-level-badge" />
+            </ui:VisualElement>
+
+            <!-- Bars Column -->
+            <ui:VisualElement class="bars-column" picking-mode="Ignore">
+
+                <!-- Health Bar (Red) -->
+                <ui:VisualElement class="stat-row" picking-mode="Ignore">
+                    <ui:VisualElement class="stat-icon stat-icon--hp" picking-mode="Ignore" />
+                    <ui:VisualElement name="HealthBarTrack" class="stat-track" picking-mode="Ignore">
+                        <ui:VisualElement name="HealthBarFill" class="stat-fill stat-fill--hp" picking-mode="Ignore" />
+                        <ui:VisualElement class="stat-fill-shine" picking-mode="Ignore" />
+                    </ui:VisualElement>
+                    <ui:Label name="HealthLabel" text="100/100" class="stat-value" />
+                </ui:VisualElement>
+
+                <!-- Magicka Bar (Azure Blue) -->
+                <ui:VisualElement name="MagickaBar" class="stat-row" picking-mode="Ignore">
+                    <ui:VisualElement class="stat-icon stat-icon--mp" picking-mode="Ignore" />
+                    <ui:VisualElement name="MagickaBarTrack" class="stat-track" picking-mode="Ignore">
+                        <ui:VisualElement name="MagickaBarFill" class="stat-fill stat-fill--mp" picking-mode="Ignore" />
+                        <ui:VisualElement class="stat-fill-shine" picking-mode="Ignore" />
+                    </ui:VisualElement>
+                    <ui:Label name="MagickaLabel" text="100/100" class="stat-value" />
+                </ui:VisualElement>
+
+                <!-- Stamina Bar (Green) -->
+                <ui:VisualElement name="StaminaBar" class="stat-row" picking-mode="Ignore">
+                    <ui:VisualElement class="stat-icon stat-icon--sp" picking-mode="Ignore" />
+                    <ui:VisualElement name="StaminaBarTrack" class="stat-track" picking-mode="Ignore">
+                        <ui:VisualElement name="StaminaBarFill" class="stat-fill stat-fill--sp" picking-mode="Ignore" />
+                        <ui:VisualElement class="stat-fill-shine" picking-mode="Ignore" />
+                    </ui:VisualElement>
+                    <ui:Label name="StaminaLabel" text="100/100" class="stat-value" />
+                </ui:VisualElement>
+
+            </ui:VisualElement>
+        </ui:VisualElement>
+
+        <!-- ╔══════════════════════════════════════════╗ -->
+        <!-- ║  CENTER RETICLE & SKYRIM SNEAK EYE       ║ -->
+        <!-- ╚══════════════════════════════════════════╝ -->
+        <ui:VisualElement name="ReticleContainer" class="reticle-container" picking-mode="Ignore">
+            <!-- Normal Crosshair -->
+            <ui:VisualElement name="StandardReticle" class="reticle-ring" picking-mode="Ignore">
+                <ui:VisualElement name="ReticleDot" class="reticle-dot" picking-mode="Ignore" />
+                <ui:VisualElement class="reticle-arm reticle-arm--top" picking-mode="Ignore" />
+                <ui:VisualElement class="reticle-arm reticle-arm--bottom" picking-mode="Ignore" />
+                <ui:VisualElement class="reticle-arm reticle-arm--left" picking-mode="Ignore" />
+                <ui:VisualElement class="reticle-arm reticle-arm--right" picking-mode="Ignore" />
+            </ui:VisualElement>
+
+            <!-- Skyrim Sneak Eye -->
+            <ui:VisualElement name="SneakEyeContainer" class="sneak-eye-container" picking-mode="Ignore">
+                <ui:VisualElement class="sneak-eye-bracket-left" picking-mode="Ignore" />
+                <ui:VisualElement name="SneakEyePupil" class="sneak-eye-pupil" picking-mode="Ignore" />
+                <ui:VisualElement class="sneak-eye-bracket-right" picking-mode="Ignore" />
+                <ui:Label name="SneakEyeStatus" text="HIDDEN" class="sneak-eye-label" />
+            </ui:VisualElement>
+        </ui:VisualElement>
+
+        <!-- ╔══════════════════════════════════════════╗ -->
+        <!-- ║  CENTER-LOWER CONTEXTUAL PROMPT          ║ -->
+        <!-- ╚══════════════════════════════════════════╝ -->
+        <ui:VisualElement name="PromptContainer" class="prompt-container" picking-mode="Ignore">
+            <ui:VisualElement name="PromptBadge" class="prompt-badge" picking-mode="Ignore">
+                <ui:VisualElement class="prompt-key-bubble" picking-mode="Ignore">
+                    <ui:Label text="E" class="prompt-key-label" />
+                </ui:VisualElement>
+                <ui:Label name="PromptLabel" text="Take Iron Sword" class="prompt-label" />
+            </ui:VisualElement>
+        </ui:VisualElement>
+
+        <!-- ╔══════════════════════════════════════════╗ -->
+        <!-- ║  BOTTOM-RIGHT KEY HINTS                  ║ -->
+        <!-- ╚══════════════════════════════════════════╝ -->
+        <ui:VisualElement class="key-hints-container" picking-mode="Ignore">
+            <ui:VisualElement class="key-hint-row" picking-mode="Ignore">
+                <ui:Label class="key-pill" text="Ctrl" />
+                <ui:Label class="key-hint-text" text="Sneak" />
+            </ui:VisualElement>
+            <ui:VisualElement class="key-hint-row" picking-mode="Ignore">
+                <ui:Label class="key-pill" text="B" />
+                <ui:Label class="key-hint-text" text="Creation Kit" />
+            </ui:VisualElement>
+            <ui:VisualElement class="key-hint-row" picking-mode="Ignore">
+                <ui:Label class="key-pill" text="F1" />
+                <ui:Label class="key-hint-text" text="Lab" />
+            </ui:VisualElement>
+            <ui:VisualElement class="key-hint-row" picking-mode="Ignore">
+                <ui:Label class="key-pill" text="F2" />
+                <ui:Label class="key-hint-text" text="Curator" />
+            </ui:VisualElement>
+        </ui:VisualElement>
+
+    </ui:VisualElement>
+</ui:UXML>

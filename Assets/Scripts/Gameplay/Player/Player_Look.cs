@@ -42,6 +42,53 @@ namespace Gameplay.Player
                 return;
             }
 
+            // Pause FPS camera look when any modal HUD is open
+            if (Gameplay.UI.CuratorHUD.IsOpen || Gameplay.UI.LabHUD.IsOpen || Gameplay.UI.WorldMapHUD.IsOpen)
+            {
+                _lookInput = Vector2.zero;
+                return;
+            }
+
+            var creatorService = ServiceLocator.Get<Systems.Creator.CreatorStudioService>();
+            bool isBuildMode = creatorService != null && creatorService.IsBuildMode;
+
+            var mouse = UnityEngine.InputSystem.Mouse.current;
+            if (mouse != null)
+            {
+                if (isBuildMode)
+                {
+                    // In Build Mode: Hold Right Mouse Button to pan/look around
+                    if (mouse.rightButton.isPressed)
+                    {
+                        Vector2 delta = mouse.delta.ReadValue();
+                        if (delta != Vector2.zero)
+                        {
+                            _lookInput = delta;
+                        }
+                    }
+                    else
+                    {
+                        _lookInput = Vector2.zero;
+                    }
+                }
+                else
+                {
+                    // In Play Mode: Left click locks cursor ONLY if no modal HUD is open
+                    bool isModalOpen = Gameplay.UI.CuratorHUD.IsOpen || Gameplay.UI.LabHUD.IsOpen || Gameplay.UI.WorldMapHUD.IsOpen;
+                    if (!isModalOpen && mouse.leftButton.wasPressedThisFrame && Cursor.lockState != CursorLockMode.Locked)
+                    {
+                        Cursor.lockState = CursorLockMode.Locked;
+                        Cursor.visible = false;
+                    }
+
+                    Vector2 delta = mouse.delta.ReadValue();
+                    if (delta != Vector2.zero)
+                    {
+                        _lookInput = delta;
+                    }
+                }
+            }
+
             Vector2 lookDelta = _lookInput;
             _lookInput = Vector2.zero;
 

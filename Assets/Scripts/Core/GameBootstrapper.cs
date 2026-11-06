@@ -1,21 +1,37 @@
 namespace Core
 {
+    using Core.Modules;
     using UnityEngine;
-    using Systems.Input;
-    using Systems.LevelGeneration;
-    using Domain.Entities.StateMachine;
 
     /// <summary>
-    /// Global entry point for the game. Attached to a persistent GameObject in the bootstrap scene.
-    /// Responsible for initializing the <see cref="ServiceLocator"/> and all <see cref="IGameService"/> instances,
-    /// and for driving the per-frame tick on services that implement <see cref="ITickable"/>.
+    /// Global entry point for the Fantasy Engine. Attached to a persistent GameObject in the bootstrap scene.
+    /// Delegates module discovery, topological dependency sorting, two-phase service initialization,
+    /// and deterministic per-frame ticking to <see cref="ModuleHost"/>.
+    /// Contains zero compile-time or runtime references to specific RPG/Skyrim gameplay implementations.
     /// </summary>
     [DefaultExecutionOrder(-100)]
     public class GameBootstrapper : MonoBehaviour
     {
+        #region Singleton & Inspector Fields
+
         public static GameBootstrapper Instance { get; private set; }
 
-        private GameStateMachine _stateMachine;
+        [Header("Engine Bootstrap Configuration")]
+        [Tooltip("Optional profile controlling which engine modules load. If null, all discovered built-in modules load.")]
+        [SerializeField]
+        private EngineBootstrapProfile _bootstrapProfile;
+
+        #endregion
+
+        #region Runtime State
+
+        private ModuleHost _moduleHost;
+
+        public ModuleHost Host => _moduleHost;
+
+        #endregion
+
+        #region Unity Lifecycle
 
         private void Awake()
         {
@@ -27,12 +43,12 @@ namespace Core
 
             Instance = this;
             DontDestroyOnLoad(gameObject);
-            InitializeServices();
+            InitializeEngine();
         }
 
         private void Update()
         {
-            _stateMachine?.Tick(Time.deltaTime);
+            _moduleHost?.Tick(Time.deltaTime);
         }
 
         private void OnDestroy()
@@ -42,36 +58,24 @@ namespace Core
                 return;
             }
 
-            ServiceLocator.Clear();
-            GameEventManager.Clear();
+            _moduleHost?.Shutdown();
+            _moduleHost = null;
             Instance = null;
         }
 
-        private void InitializeServices()
+        #endregion
+
+        #region Initialization
+
+        private void InitializeEngine()
         {
             GameEventManager.Clear();
 
-            _stateMachine = new GameStateMachine();
-            ServiceLocator.Register(_stateMachine);
-
-            ServiceLocator.Register(new InputManager());
-            ServiceLocator.Register(new Systems.Pooling.PoolingManager());
-            ServiceLocator.Register(new Systems.Scheduler.AreaSchedulerService());
-            ServiceLocator.Register(new LevelGenerationService());
-            ServiceLocator.Register(new Systems.Interaction.GridInteractionService());
-            ServiceLocator.Register(new Systems.Interaction.HotbarService());
-            ServiceLocator.Register(new Systems.Interaction.BlockPlacementService());
-            ServiceLocator.Register(new Systems.Persistence.FileSaveService());
-
-            ServiceLocator.Register(new Systems.Player.PlayerSpawnService()); // Also making sure the spawn service is registered!
-
-            if (Object.FindFirstObjectByType<Gameplay.UI.HotbarHUD>() == null)
-            {
-                var hudGo = new GameObject("HotbarHUD");
-                hudGo.AddComponent<Gameplay.UI.HotbarHUD>();
-            }
-
-            _ = _stateMachine.TransitionToAsync(new Playing());
+            _moduleHost = new ModuleHost();
+            _moduleHost.DiscoverAndAddModules(_bootstrapProfile);
+            _moduleHost.Boot(hydrateProjectAssets: true);
         }
+
+        #endregion
     }
 }

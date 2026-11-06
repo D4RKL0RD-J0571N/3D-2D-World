@@ -1,0 +1,437 @@
+#if UNITY_EDITOR
+namespace Studio.Editor
+{
+    using Gameplay.Combat;
+    using Gameplay.Entities;
+    using Gameplay.Interactables;
+    using Gameplay.Magic;
+    using Gameplay.Player;
+    using Gameplay.Skyrim;
+    using Gameplay.UI;
+    using UnityEditor;
+    using UnityEditor.SceneManagement;
+    using UnityEngine;
+    using UnityEngine.Rendering.Universal;
+    using UnityEngine.SceneManagement;
+
+    /// <summary>
+    /// Editor utility to configure and persist the full Proving Grounds gameplay loop:
+    /// Player weapons & viewmodel, Destruction & Restoration magic, Bandit Archers & Spawners,
+    /// NPC dialogue interactions, and iconic Skyrim glitches (Space Program, Killer Cart, Bucket-Head).
+    /// </summary>
+    public static class GameplayLoopSceneSetup
+    {
+        private const string ScenePath = "Assets/Scenes/RPGProvingGrounds.unity";
+        private const string SwordPrefabPath = "Assets/Synty/PolygonFantasyKingdom/Prefabs/Weapons/SM_Wep_Sword_01.prefab";
+        private const string BowPrefabPath = "Assets/Synty/PolygonFantasyKingdom/Prefabs/Weapons/SM_Prop_Bow_01.prefab";
+        private const string QuiverPrefabPath = "Assets/Synty/PolygonFantasyKingdom/Prefabs/Weapons/SM_Prop_Quiver_01.prefab";
+        private const string ArcherCharPrefabPath = "Assets/Synty/PolygonFantasyKingdom/Prefabs/Characters/SM_Chr_Soldier_Male_01.prefab";
+        private const string HayCartPrefabPath = "Assets/Synty/PolygonFantasyKingdom/Prefabs/Props/SM_Prop_Hay_Cart_01.prefab";
+        private const string BucketPrefabPath = "Assets/Synty/PolygonFantasyKingdom/Prefabs/Props/SM_Prop_Parchment_Bucket_01.prefab";
+        private const string DishModelPath = "Assets/Synty/PolygonFantasyKingdom/Models/SM_Item_Dish_01.fbx";
+        private const string StatueMaraPrefabPath = "Assets/Synty/PolygonFantasyKingdom/Prefabs/Props/SM_Prop_Statue_Angel_01.prefab";
+        private const string BedPrefabPath = "Assets/Synty/PolygonFantasyKingdom/Prefabs/Props/Furniture/SM_Prop_Bed_01.prefab";
+        private const string AlchemyWorkbenchPrefabPath = "Assets/Synty/PolygonFantasyKingdom/Prefabs/Props/Furniture/SM_Prop_Workbench_Alchemy_01_Preset.prefab";
+        private const string ChestPrefabPath = "Assets/Synty/PolygonFantasyKingdom/Prefabs/Props/Furniture/SM_Prop_Chest_01.prefab";
+        private const string ChestWeaponPrefabPath = "Assets/Synty/PolygonFantasyKingdom/Prefabs/Props/Furniture/SM_Prop_Chest_02.prefab";
+        private const string ChestPotionPrefabPath = "Assets/Synty/PolygonFantasyKingdom/Prefabs/Props/Furniture/SM_Prop_Chest_03.prefab";
+
+        [MenuItem("3D2DWorld/Setup Proving Grounds Gameplay Loop", false, 100)]
+        public static void SetupGameplayLoop()
+        {
+            Scene scene = SceneManager.GetActiveScene();
+            if (scene.name != "RPGProvingGrounds")
+            {
+                scene = EditorSceneManager.OpenScene(ScenePath);
+            }
+
+            SetupPlayerCombatAndMagic();
+            SetupDraugrBoss();
+            SetupBlacksmithAnvil();
+            SetupNPCInteractions();
+            SetupBanditArcherAndSpawner();
+            SetupSkyrimGlitchesAndProps();
+            SetupAlternateStartPrison();
+            SetupAlchemyWorkbench();
+            SetupImmersiveCitizens();
+            SetupQASmokeCheatRoom();
+            SetupSkyUIAndConsoleHUDs();
+            WorldBeautificationSetup.Apply();
+
+            EditorSceneManager.MarkSceneDirty(scene);
+            EditorSceneManager.SaveScene(scene);
+            Debug.Log("<color=green>✦ All 4 Systems & Skyrim Glitches successfully configured and scene saved!</color>");
+        }
+
+        #region Player Combat & Magic
+
+        private static void SetupPlayerCombatAndMagic()
+        {
+            var player = GameObject.FindWithTag("Player");
+            if (player == null) return;
+
+            var weapon = player.GetOrAddComponent<WeaponComponent>();
+            var magic = player.GetOrAddComponent<PlayerMagicController>();
+            player.GetOrAddComponent<PlatterWallClip>();
+
+            var cameraPivot = player.transform.Find("Camera Pivot");
+            if (cameraPivot != null && cameraPivot.Find("Viewmodel_Sword") == null)
+            {
+                var swordPrefab = AssetDatabase.LoadAssetAtPath<GameObject>(SwordPrefabPath);
+                if (swordPrefab != null)
+                {
+                    var swordInst = Object.Instantiate(swordPrefab, cameraPivot);
+                    swordInst.name = "Viewmodel_Sword";
+                    swordInst.transform.localPosition = new Vector3(0.35f, -0.3f, 0.6f);
+                    swordInst.transform.localRotation = Quaternion.Euler(15f, -10f, 5f);
+                    weapon.WeaponVisualTransform = swordInst.transform;
+                }
+            }
+
+            var playerCam = player.GetComponentInChildren<Camera>(true);
+            if (playerCam != null)
+            {
+                playerCam.gameObject.SetActive(true);
+                playerCam.tag = "MainCamera";
+                playerCam.clearFlags = CameraClearFlags.Skybox;
+                playerCam.farClipPlane = 500f;
+                playerCam.GetUniversalAdditionalCameraData().renderPostProcessing = true;
+
+                var interaction = player.GetComponent<PlayerInteractionController>();
+                if (interaction != null)
+                {
+                    var so = new SerializedObject(interaction);
+                    var camProp = so.FindProperty("_playerCamera");
+                    if (camProp != null)
+                    {
+                        camProp.objectReferenceValue = playerCam;
+                        so.ApplyModifiedProperties();
+                    }
+                }
+            }
+
+            magic.EnsureInitialized();
+            EditorUtility.SetDirty(player);
+        }
+
+        #endregion
+
+        #region Boss & Crafting
+
+        private static void SetupDraugrBoss()
+        {
+            var draugr = GameObject.Find("Draugr_Wight_Boss");
+            if (draugr == null) return;
+
+            SafeUnpackPrefabInstance(draugr);
+            if (!draugr.TryGetComponent<AttributeComponent>(out _)) draugr.AddComponent<AttributeComponent>();
+            if (!draugr.TryGetComponent<EnemyCombatAI>(out _)) draugr.AddComponent<EnemyCombatAI>();
+
+            EditorUtility.SetDirty(draugr);
+        }
+
+        private static void SetupBlacksmithAnvil()
+        {
+            var anvil = GameObject.Find("Prop_Blacksmith_Anvil");
+            if (anvil == null) return;
+
+            SafeUnpackPrefabInstance(anvil);
+            if (!anvil.TryGetComponent<CraftingStationInteractable>(out _)) anvil.AddComponent<CraftingStationInteractable>();
+
+            EditorUtility.SetDirty(anvil);
+        }
+
+        #endregion
+
+        #region NPC Dialogue
+
+        private static void SetupNPCInteractions()
+        {
+            var guard = GameObject.Find("Guard_Whiterun_Soldier");
+            if (guard != null)
+            {
+                SafeUnpackPrefabInstance(guard);
+                guard.GetOrAddComponent<NPCInteractionComponent>();
+                guard.GetOrAddComponent<BucketHeadStealthExploit>();
+                EditorUtility.SetDirty(guard);
+            }
+
+            var smith = GameObject.Find("Artisan_Blacksmith");
+            if (smith != null)
+            {
+                SafeUnpackPrefabInstance(smith);
+                smith.GetOrAddComponent<NPCInteractionComponent>();
+                EditorUtility.SetDirty(smith);
+            }
+        }
+
+        #endregion
+
+        #region Archer & Spawner
+
+        private static void SetupBanditArcherAndSpawner()
+        {
+            var npcsRoot = GameObject.Find("NPCs_Root") ?? new GameObject("NPCs_Root");
+            var existingArcher = GameObject.Find("Bandit_Skeleton_Archer");
+            if (existingArcher != null) Object.DestroyImmediate(existingArcher);
+            var existingSpawner = GameObject.Find("Encounter_Enemy_Spawner");
+            if (existingSpawner != null) Object.DestroyImmediate(existingSpawner);
+
+            var charPrefab = AssetDatabase.LoadAssetAtPath<GameObject>(ArcherCharPrefabPath);
+            if (charPrefab == null) return;
+
+            var archer = Object.Instantiate(charPrefab, new Vector3(4f, 0f, 18f), Quaternion.Euler(0f, 180f, 0f), npcsRoot.transform);
+            archer.name = "Bandit_Skeleton_Archer";
+            SafeUnpackPrefabInstance(archer);
+
+            archer.GetOrAddComponent<BaseActor>();
+            archer.GetOrAddComponent<AttributeComponent>();
+            archer.GetOrAddComponent<RangedCombatAI>();
+
+            AttachBowAndQuiver(archer.transform);
+
+            // Add Enemy Spawner in crypt courtyard
+            var spawnerGo = new GameObject("Encounter_Enemy_Spawner");
+            spawnerGo.transform.parent = npcsRoot.transform;
+            spawnerGo.transform.position = new Vector3(0f, 0f, 22f);
+            var spawner = spawnerGo.AddComponent<EnemySpawner>();
+            spawner.EnemyPrefab = archer;
+            spawner.MaxActiveEnemies = 2;
+
+            EditorUtility.SetDirty(archer);
+            EditorUtility.SetDirty(spawnerGo);
+        }
+
+        private static void AttachBowAndQuiver(Transform archerTransform)
+        {
+            var bowPrefab = AssetDatabase.LoadAssetAtPath<GameObject>(BowPrefabPath);
+            if (bowPrefab != null)
+            {
+                var bow = Object.Instantiate(bowPrefab, archerTransform);
+                bow.name = "SM_Prop_Bow_01";
+                bow.transform.localPosition = new Vector3(-0.25f, 0.9f, 0.3f);
+                bow.transform.localRotation = Quaternion.Euler(0f, -90f, 0f);
+            }
+
+            var quiverPrefab = AssetDatabase.LoadAssetAtPath<GameObject>(QuiverPrefabPath);
+            if (quiverPrefab != null)
+            {
+                var quiver = Object.Instantiate(quiverPrefab, archerTransform);
+                quiver.name = "SM_Prop_Quiver_01";
+                quiver.transform.localPosition = new Vector3(0.1f, 1.1f, -0.2f);
+                quiver.transform.localRotation = Quaternion.Euler(20f, 0f, 0f);
+            }
+        }
+
+        #endregion
+
+        #region Glitches & Props
+
+        private static void SetupSkyrimGlitchesAndProps()
+        {
+            var envRoot = GameObject.Find("Environment_Root") ?? new GameObject("Environment_Root");
+            SetupSpaceProgramAndCart(envRoot);
+            SetupBucketAndPlatter(envRoot);
+        }
+
+        private static void SetupSpaceProgramAndCart(GameObject envRoot)
+        {
+            var bootstrapper = GameObject.Find("GameBootstrapper");
+            if (bootstrapper != null)
+            {
+                bootstrapper.GetOrAddComponent<SkyrimSpaceProgram>();
+                bootstrapper.GetOrAddComponent<DialogueHUD>();
+                EditorUtility.SetDirty(bootstrapper);
+            }
+
+            var existingCart = GameObject.Find("Killer_Hay_Cart");
+            if (existingCart != null) Object.DestroyImmediate(existingCart);
+            var cartPrefab = AssetDatabase.LoadAssetAtPath<GameObject>(HayCartPrefabPath);
+            if (cartPrefab != null)
+            {
+                var cart = Object.Instantiate(cartPrefab, new Vector3(5f, 0.1f, 3f), Quaternion.Euler(0f, 35f, 0f), envRoot.transform);
+                cart.name = "Killer_Hay_Cart";
+                SafeUnpackPrefabInstance(cart);
+                cart.GetOrAddComponent<BoxCollider>();
+                var rb = cart.GetOrAddComponent<Rigidbody>();
+                rb.mass = 45f;
+                cart.GetOrAddComponent<PhysicsClatterHazard>();
+                EditorUtility.SetDirty(cart);
+            }
+        }
+
+        private static void SetupBucketAndPlatter(GameObject envRoot)
+        {
+            var existingBucket = GameObject.Find("Exploit_Bucket");
+            if (existingBucket != null) Object.DestroyImmediate(existingBucket);
+            var bucketPrefab = AssetDatabase.LoadAssetAtPath<GameObject>(BucketPrefabPath);
+            if (bucketPrefab != null)
+            {
+                var bucket = Object.Instantiate(bucketPrefab, new Vector3(-2f, 0.8f, 1.2f), Quaternion.identity, envRoot.transform);
+                bucket.name = "Exploit_Bucket";
+                SafeUnpackPrefabInstance(bucket);
+                var col = bucket.GetOrAddComponent<MeshCollider>();
+                col.convex = true;
+                var rb = bucket.GetOrAddComponent<Rigidbody>();
+                rb.mass = 2f;
+                EditorUtility.SetDirty(bucket);
+            }
+
+            var existingPlatter = GameObject.Find("Speedrun_Platter");
+            if (existingPlatter != null) Object.DestroyImmediate(existingPlatter);
+            var dishFbx = AssetDatabase.LoadAssetAtPath<GameObject>(DishModelPath);
+            if (dishFbx != null)
+            {
+                var platter = Object.Instantiate(dishFbx, new Vector3(1f, 0.8f, 1.2f), Quaternion.Euler(0f, 45f, 0f), envRoot.transform);
+                platter.name = "Speedrun_Platter";
+                SafeUnpackPrefabInstance(platter);
+                platter.GetOrAddComponent<BoxCollider>();
+                var rb = platter.GetOrAddComponent<Rigidbody>();
+                rb.mass = 1f;
+                EditorUtility.SetDirty(platter);
+            }
+        }
+
+        #endregion
+
+        #region Alternate Start & Immersion
+
+        private static void SetupAlternateStartPrison()
+        {
+            var altRoot = GameObject.Find("Zone_Alternate_Start_Prison");
+            if (altRoot != null) Object.DestroyImmediate(altRoot);
+            altRoot = new GameObject("Zone_Alternate_Start_Prison");
+            altRoot.transform.position = new Vector3(-18f, 0f, -15f);
+
+            var maraPrefab = AssetDatabase.LoadAssetAtPath<GameObject>(StatueMaraPrefabPath);
+            if (maraPrefab != null)
+            {
+                var mara = Object.Instantiate(maraPrefab, new Vector3(-18f, 0f, -13f), Quaternion.Euler(0f, 180f, 0f), altRoot.transform);
+                mara.name = "Statue_Of_Mara";
+                SafeUnpackPrefabInstance(mara);
+                mara.GetOrAddComponent<BoxCollider>();
+                mara.GetOrAddComponent<StatueOfMaraInteractable>();
+            }
+
+            var bedPrefab = AssetDatabase.LoadAssetAtPath<GameObject>(BedPrefabPath);
+            if (bedPrefab != null)
+            {
+                var bed = Object.Instantiate(bedPrefab, new Vector3(-16f, 0f, -15f), Quaternion.Euler(0f, 90f, 0f), altRoot.transform);
+                bed.name = "Prison_Bed";
+                SafeUnpackPrefabInstance(bed);
+                bed.GetOrAddComponent<BoxCollider>();
+                bed.GetOrAddComponent<PrisonBedInteractable>();
+            }
+
+            var chestPrefab = AssetDatabase.LoadAssetAtPath<GameObject>(ChestPrefabPath);
+            if (chestPrefab != null)
+            {
+                var chest = Object.Instantiate(chestPrefab, new Vector3(-20f, 0f, -15f), Quaternion.Euler(0f, 90f, 0f), altRoot.transform);
+                chest.name = "Starter_Prison_Chest";
+                SafeUnpackPrefabInstance(chest);
+                chest.GetOrAddComponent<BoxCollider>();
+            }
+        }
+
+        private static void SetupAlchemyWorkbench()
+        {
+            var existingTable = GameObject.Find("Workbench_Alchemy_Lab");
+            if (existingTable != null) Object.DestroyImmediate(existingTable);
+
+            var envRoot = GameObject.Find("Environment_Root") ?? new GameObject("Environment_Root");
+            var alchemyPrefab = AssetDatabase.LoadAssetAtPath<GameObject>(AlchemyWorkbenchPrefabPath);
+            if (alchemyPrefab != null)
+            {
+                var table = Object.Instantiate(alchemyPrefab, new Vector3(4f, 0f, 8f), Quaternion.Euler(0f, -45f, 0f), envRoot.transform);
+                table.name = "Workbench_Alchemy_Lab";
+                SafeUnpackPrefabInstance(table);
+                table.GetOrAddComponent<BoxCollider>();
+                var station = table.GetOrAddComponent<CraftingStationInteractable>();
+                station.SetStationName("Alchemy Lab");
+            }
+        }
+
+        private static void SetupImmersiveCitizens()
+        {
+            var smith = GameObject.Find("Artisan_Blacksmith");
+            if (smith != null)
+            {
+                smith.GetOrAddComponent<ImmersiveCitizenAI>();
+                EditorUtility.SetDirty(smith);
+            }
+
+            var guard = GameObject.Find("Guard_Whiterun_Soldier");
+            if (guard != null)
+            {
+                guard.GetOrAddComponent<ImmersiveCitizenAI>();
+                EditorUtility.SetDirty(guard);
+            }
+        }
+
+        private static void SetupQASmokeCheatRoom()
+        {
+            var qaRoot = GameObject.Find("Zone_QASmoke_Room");
+            if (qaRoot != null) Object.DestroyImmediate(qaRoot);
+            qaRoot = new GameObject("Zone_QASmoke_Room");
+            qaRoot.transform.position = new Vector3(-15f, 0f, -15f);
+
+            var chestWepPrefab = AssetDatabase.LoadAssetAtPath<GameObject>(ChestWeaponPrefabPath);
+            if (chestWepPrefab != null)
+            {
+                var chest = Object.Instantiate(chestWepPrefab, new Vector3(-13f, 0f, -15f), Quaternion.Euler(0f, 90f, 0f), qaRoot.transform);
+                chest.name = "Cheat_Chest_All_Weapons";
+                SafeUnpackPrefabInstance(chest);
+                chest.GetOrAddComponent<BoxCollider>();
+            }
+
+            var chestPotPrefab = AssetDatabase.LoadAssetAtPath<GameObject>(ChestPotionPrefabPath);
+            if (chestPotPrefab != null)
+            {
+                var chest = Object.Instantiate(chestPotPrefab, new Vector3(-17f, 0f, -15f), Quaternion.Euler(0f, -90f, 0f), qaRoot.transform);
+                chest.name = "Cheat_Chest_All_Potions_Restoration";
+                SafeUnpackPrefabInstance(chest);
+                chest.GetOrAddComponent<BoxCollider>();
+            }
+        }
+
+        private static void SetupSkyUIAndConsoleHUDs()
+        {
+            var bootstrapper = GameObject.Find("GameBootstrapper") ?? new GameObject("GameBootstrapper");
+            bootstrapper.GetOrAddComponent<CommandConsoleHUD>();
+            bootstrapper.GetOrAddComponent<SkyUIActiveEffectsHUD>();
+            bootstrapper.GetOrAddComponent<SkyUIInventoryMenu>();
+            bootstrapper.GetOrAddComponent<MCMMenu>();
+            EditorUtility.SetDirty(bootstrapper);
+        }
+
+        #endregion
+
+        #region Helpers
+
+        private static T GetOrAddComponent<T>(this GameObject go) where T : Component
+        {
+            if (go.TryGetComponent<T>(out var comp)) return comp;
+            return go.AddComponent<T>();
+        }
+
+        private static void SafeUnpackPrefabInstance(GameObject go)
+        {
+            if (go == null) return;
+            try
+            {
+                if (PrefabUtility.IsPartOfPrefabInstance(go))
+                {
+                    var root = PrefabUtility.GetOutermostPrefabInstanceRoot(go) ?? go;
+                    PrefabUtility.UnpackPrefabInstance(root, PrefabUnpackMode.Completely, InteractionMode.AutomatedAction);
+                }
+            }
+            catch (System.Exception ex)
+            {
+                Debug.LogWarning($"[GameplayLoopSceneSetup] SafeUnpack skipped for {go.name}: {ex.Message}");
+            }
+        }
+
+        #endregion
+    }
+}
+#endif

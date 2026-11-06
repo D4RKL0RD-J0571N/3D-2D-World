@@ -13,4 +13,4 @@ MonoBehaviour:
   m_Name: EntityRegistry
   m_EditorClassIdentifier: Assembly-CSharp::Domain.Entities.EntityRegistry
   _entities:
-  - {fileID: 11400000, guid: 0a3f76a3e1b416b4db64a287dedc556b, type: 2}
+  - {fileID: 11400000, guid: 26da22f73450db345a57466a07549598, type: 2}

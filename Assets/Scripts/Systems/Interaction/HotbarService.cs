@@ -1,71 +1,80 @@
 namespace Systems.Interaction
 {
-    using System;
-    using System.Collections.Generic;
     using Core;
+    using Core.Content;
+    using Data.Config;
     using Domain.Grid;
+    using Domain.Inventory;
+    using Gameplay.Entities;
     using UnityEngine;
 
-    public class HotbarStateChangedEvent : GameEvent
+    /// <summary>Published when the hotbar selection or slot contents change.</summary>
+    public sealed class HotbarStateChangedEvent : GameEvent
     {
         public int SelectedSlotIndex;
-        public BlockDefinition SelectedBlock;
-        public BlockDefinition[] Slots;
+        public ItemData SelectedItem;
+        public ItemData[] Slots;
     }
 
     /// <summary>
-    /// Service managing the player's 9-slot block hotbar palette.
-    /// Handles slot switching via keyboard numbers or mouse wheel.
+    /// Service managing the player's 9-slot item quickbar.
+    /// When the player has inventory items, slots reflect those items.
+    /// When inventory is empty, slots fall back to the BlockRegistry palette
+    /// so block placement always works even at game start.
     /// </summary>
     public sealed class HotbarService : IGameService
     {
         public const int SlotCount = 9;
 
-        private readonly BlockDefinition[] _slots = new BlockDefinition[SlotCount];
-        private int _selectedSlotIndex = 0;
+        #region Fields
+        private readonly ItemData[] _slots = new ItemData[SlotCount];
+        private int _selectedSlotIndex;
         private BlockRegistry _registry;
+        private bool _usingRegistryFallback;
+        #endregion
 
+        #region Properties
         public int SelectedSlotIndex => _selectedSlotIndex;
-        public BlockDefinition SelectedBlock => _slots[_selectedSlotIndex];
+        public ItemData SelectedItem  => _slots[_selectedSlotIndex];
+        #endregion
 
+        #region IGameService
         public void Initialize()
         {
             GameEventManager.AddListener<PlayerHotbarSlotSelectedEvent>(OnSlotSelected);
-            GameEventManager.AddListener<Gameplay.World.LevelGenerationCompletedEvent>(OnLevelGenerated);
+            GameEventManager.AddListener<InventoryChangedEvent>(OnInventoryChanged);
         }
 
         public void Shutdown()
         {
             GameEventManager.RemoveListener<PlayerHotbarSlotSelectedEvent>(OnSlotSelected);
-            GameEventManager.RemoveListener<Gameplay.World.LevelGenerationCompletedEvent>(OnLevelGenerated);
+            GameEventManager.RemoveListener<InventoryChangedEvent>(OnInventoryChanged);
         }
+        #endregion
 
+        #region Public API
+        /// <summary>
+        /// Assigns the block registry used for the fallback palette and for
+        /// resolving which block to activate during placement.
+        /// </summary>
         public void SetRegistry(BlockRegistry registry)
         {
             _registry = registry;
-            PopulateFromRegistry();
+            PopulateFromRegistryFallback();
         }
 
-        public BlockDefinition GetBlockAtSlot(int slotIndex)
+        /// <summary>Returns the item in the given slot index, or null if empty.</summary>
+        public ItemData GetItemAtSlot(int slotIndex)
         {
-            if (slotIndex < 0 || slotIndex >= SlotCount)
-                return null;
-
+            if (slotIndex < 0 || slotIndex >= SlotCount) return null;
             return _slots[slotIndex];
         }
 
         public void SelectSlot(int slotIndex)
         {
-            if (slotIndex < 0 || slotIndex >= SlotCount)
-                return;
-
+            if (slotIndex < 0 || slotIndex >= SlotCount) return;
             _selectedSlotIndex = slotIndex;
-
-            if (ServiceLocator.TryGet<BlockPlacementService>(out var placementService))
-            {
-                placementService.SelectedBlock = _slots[_selectedSlotIndex];
-            }
-
+            SyncBlockPlacement();
             NotifyStateChanged();
         }
 
@@ -76,39 +85,143 @@ namespace Systems.Interaction
             SelectSlot(next);
         }
 
+        /// <summary>
+        /// Populates hotbar slots from the player's inventory.
+        /// Falls back to the block registry palette when inventory is empty.
+        /// </summary>
+        public void PopulateFromInventory(InventoryComponent inventory)
+        {
+            if (inventory == null) return;
+
+            var inventorySlots = inventory.Slots;
+            bool hasItems = inventorySlots.Count > 0;
+
+            if (hasItems)
+            {
+                _usingRegistryFallback = false;
+                for (int i = 0; i < SlotCount; i++)
+                    _slots[i] = i < inventorySlots.Count ? inventorySlots[i].Item : null;
+            }
+            else
+            {
+                // Inventory is now empty — revert to block palette
+                PopulateFromRegistryFallback();
+                return;
+            }
+
+            SyncBlockPlacement();
+            NotifyStateChanged();
+        }
+        #endregion
+
+        #region Event Handlers
         private void OnSlotSelected(PlayerHotbarSlotSelectedEvent evt)
         {
             SelectSlot(evt.SlotIndex);
         }
 
-        private void OnLevelGenerated(Gameplay.World.LevelGenerationCompletedEvent evt)
+        private void OnInventoryChanged(InventoryChangedEvent evt)
         {
-            if (_registry == null)
-            {
-                var levelRenderer = UnityEngine.Object.FindFirstObjectByType<Gameplay.World.LevelLayoutRenderer>();
-                if (levelRenderer != null)
-                {
-                    // If registry is accessible through render config
-                }
-            }
-        }
+            if (evt?.Owner == null) return;
+            if (!evt.Owner.CompareTag("Player")) return;
 
-        private void PopulateFromRegistry()
+            var inventory = evt.Owner.GetComponent<InventoryComponent>();
+            if (inventory == null) return;
+
+            PopulateFromInventory(inventory);
+        }
+        #endregion
+
+        #region Helpers
+        /// <summary>
+        /// Populates slots from the BlockRegistry as a fallback palette.
+        /// When using the registry fallback, slots hold null ItemData but
+        /// SelectedBlock on BlockPlacementService is set directly from the registry.
+        /// </summary>
+        private void PopulateFromRegistryFallback()
         {
             if (_registry == null) return;
 
-            var blocks = _registry.GetAllBlocks();
+            _usingRegistryFallback = true;
+
+            // Clear item slots — placement goes through SelectedBlock directly
             for (int i = 0; i < SlotCount; i++)
-            {
-                _slots[i] = i < blocks.Count ? blocks[i] : null;
-            }
+                _slots[i] = null;
 
-            if (ServiceLocator.TryGet<BlockPlacementService>(out var placementService))
-            {
-                placementService.SelectedBlock = _slots[_selectedSlotIndex];
-            }
-
+            // Set the initially selected block
+            SyncBlockPlacement();
             NotifyStateChanged();
+        }
+
+        private void SyncBlockPlacement()
+        {
+            if (!ServiceLocator.TryGet<BlockPlacementService>(out var placement)) return;
+
+            if (_usingRegistryFallback && _registry != null)
+            {
+                // In fallback mode, drive block selection directly from registry index
+                var blocks = _registry.GetAllBlocks();
+                placement.SelectedBlock = _selectedSlotIndex < blocks.Count
+                    ? blocks[_selectedSlotIndex]
+                    : null;
+            }
+            else
+            {
+                // In inventory mode, resolve block from explicit DefinitionRef<BlockDefinition> or legacy fallback
+                placement.SelectedBlock = ResolveBlock(_slots[_selectedSlotIndex]);
+            }
+        }
+
+        /// <summary>
+        /// Resolves the <see cref="BlockDefinition"/> associated with <paramref name="item"/>.
+        /// Prioritizes explicit <see cref="ItemData.PlaceableBlock"/> (<see cref="Core.Ids.DefinitionRef{T}"/>),
+        /// falling back to legacy <c>DisplayName</c> matching for unmigrated assets.
+        /// </summary>
+        public BlockDefinition ResolveBlock(ItemData item)
+        {
+            if (item == null) return null;
+
+            // 1. Explicit typed DefinitionRef<BlockDefinition> resolution
+            if (item.PlaceableBlock.IsAssigned)
+            {
+                if (item.PlaceableBlock.TryResolve(out BlockDefinition resolved))
+                {
+                    return resolved;
+                }
+
+                if (_registry != null)
+                {
+                    foreach (var candidate in _registry.GetAllBlocks())
+                    {
+                        if (candidate != null && candidate.ContentId == item.PlaceableBlock.Id)
+                        {
+                            return candidate;
+                        }
+                    }
+                }
+            }
+
+            // 2. Legacy fallback: match by DisplayName in BlockRegistry or IContentService
+            if (_registry != null)
+            {
+                foreach (var block in _registry.GetAllBlocks())
+                {
+                    if (block != null && block.DisplayName == item.DisplayName)
+                        return block;
+                }
+            }
+
+            if (ServiceLocator.TryGet<IContentService>(out var contentService))
+            {
+                var blockRegistry = contentService.GetRegistry<BlockDefinition>();
+                foreach (var block in blockRegistry.GetAll())
+                {
+                    if (block != null && block.DisplayName == item.DisplayName)
+                        return block;
+                }
+            }
+
+            return null;
         }
 
         private void NotifyStateChanged()
@@ -116,9 +229,10 @@ namespace Systems.Interaction
             GameEventManager.Publish(new HotbarStateChangedEvent
             {
                 SelectedSlotIndex = _selectedSlotIndex,
-                SelectedBlock = _slots[_selectedSlotIndex],
-                Slots = (BlockDefinition[])_slots.Clone()
+                SelectedItem = _slots[_selectedSlotIndex],
+                Slots = (ItemData[])_slots.Clone()
             });
         }
+        #endregion
     }
 }

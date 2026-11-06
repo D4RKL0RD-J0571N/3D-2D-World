@@ -288,13 +288,14 @@ namespace Gameplay.World
         }
 
         /// <summary>
-        /// Scans the room grid to discover valid floor positions for entity, chest, and breakable sockets.
+        /// Scans the room grid to discover valid floor positions for entity, chest, breakable, and foliage sockets.
         /// </summary>
         public static void DiscoverRoomSockets(
             RoomGridData grid,
             Vector3 worldOrigin,
             System.Collections.Generic.List<Domain.Grid.RoomSocket> outSockets,
-            int maxSockets = 5)
+            int maxSockets = 5,
+            bool isOpenSky = false)
         {
             if (grid == null || outSockets == null) return;
 
@@ -312,7 +313,22 @@ namespace Gameplay.World
                             Vector3Int localCoord = new Vector3Int(x, y + 1, z);
                             Vector3 worldPos = worldOrigin + new Vector3(x + 0.5f, y + 1f, z + 0.5f);
 
-                            var socketType = (added == 0) ? Domain.Grid.SocketType.Chest : Domain.Grid.SocketType.EnemySpawn;
+                            Domain.Grid.SocketType socketType;
+                            if (isOpenSky)
+                            {
+                                int mod = added % 3;
+                                socketType = mod switch
+                                {
+                                    0 => Domain.Grid.SocketType.PropFoliage,
+                                    1 => Domain.Grid.SocketType.PropResource,
+                                    _ => Domain.Grid.SocketType.EnemySpawn
+                                };
+                            }
+                            else
+                            {
+                                socketType = (added == 0) ? Domain.Grid.SocketType.Chest : Domain.Grid.SocketType.EnemySpawn;
+                            }
+
                             outSockets.Add(new Domain.Grid.RoomSocket(localCoord, worldPos, socketType, Vector3.forward));
                             added++;
                             break;

@@ -2,32 +2,24 @@ namespace Core
 {
     using System;
     using System.Collections.Generic;
+    using Core.Diagnostics;
+    using UnityEngine;
+
+    /// <summary>
+    /// Scoped event subscription token container. When disposed (e.g., on module or mod shutdown),
+    /// automatically unsubscribes all listeners registered through this scope.
+    /// </summary>
+    public interface IEventScope : IDisposable
+    {
+        void Subscribe<T>(Action<T> listener) where T : GameEvent;
+    }
 
     /// <summary>
     /// Global typed event bus. Decouples systems by letting publishers and subscribers
     /// communicate through strongly-typed <see cref="GameEvent"/> instances without
     /// holding direct references to each other.
+    /// Isolates exceptions per listener so a fault in one handler never aborts event delivery to remaining subscribers.
     /// </summary>
-    /// <remarks>
-    /// <para>All listeners are cleared when <see cref="Clear"/> is called — typically
-    /// on scene unload or application shutdown via <see cref="GameBootstrapper"/>.</para>
-    /// <para>Listeners added during event dispatch are not invoked for the current dispatch
-    /// cycle. Listeners removed during dispatch are safe — the internal list is copied
-    /// before iteration.</para>
-    /// </remarks>
-    /// <example>
-    /// Publishing an event:
-    /// <code>
-    /// GameEventManager.Publish(new PlayerDiedEvent { FinalScore = 100 });
-    /// </code>
-    /// Subscribing and unsubscribing:
-    /// <code>
-    /// GameEventManager.AddListener&lt;PlayerDiedEvent&gt;(OnPlayerDied);
-    /// GameEventManager.RemoveListener&lt;PlayerDiedEvent&gt;(OnPlayerDied);
-    ///
-    /// private void OnPlayerDied(PlayerDiedEvent e) { ... }
-    /// </code>
-    /// </example>
     public static class GameEventManager
     {
         private static readonly Dictionary<Type, List<Delegate>> _eventListeners = new();
@@ -35,25 +27,33 @@ namespace Core
         /// <summary>
         /// Registers a listener for events of type <typeparamref name="T"/>.
         /// </summary>
-        /// <typeparam name="T">The <see cref="GameEvent"/> type to listen for.</typeparam>
-        /// <param name="listener">The callback to invoke when an event of type <typeparamref name="T"/> is published.</param>
         public static void AddListener<T>(Action<T> listener) where T : GameEvent
         {
-            var type = typeof(T);
-            if (!_eventListeners.ContainsKey(type))
-                _eventListeners[type] = new List<Delegate>();
+            if (listener == null) return;
 
-            _eventListeners[type].Add(listener);
+            var type = typeof(T);
+            if (!_eventListeners.TryGetValue(type, out var listeners))
+            {
+                listeners = new List<Delegate>();
+                _eventListeners[type] = listeners;
+            }
+
+            if (!listeners.Contains(listener))
+            {
+                listeners.Add(listener);
+            }
         }
+
+        /// <summary>Alias for <see cref="AddListener{T}"/>.</summary>
+        public static void Subscribe<T>(Action<T> listener) where T : GameEvent => AddListener(listener);
 
         /// <summary>
         /// Unregisters a previously added listener for events of type <typeparamref name="T"/>.
-        /// Safe to call if the listener is not registered — no error is thrown.
         /// </summary>
-        /// <typeparam name="T">The <see cref="GameEvent"/> type to stop listening for.</typeparam>
-        /// <param name="listener">The callback to remove.</param>
         public static void RemoveListener<T>(Action<T> listener) where T : GameEvent
         {
+            if (listener == null) return;
+
             var type = typeof(T);
             if (!_eventListeners.TryGetValue(type, out var listeners))
                 return;
@@ -64,29 +64,91 @@ namespace Core
                 _eventListeners.Remove(type);
         }
 
+        /// <summary>Alias for <see cref="RemoveListener{T}"/>.</summary>
+        public static void Unsubscribe<T>(Action<T> listener) where T : GameEvent => RemoveListener(listener);
+
+        /// <summary>
+        /// Creates a disposable <see cref="IEventScope"/> that tracks subscriptions and automatically unsubscribes them on <c>Dispose()</c>.
+        /// </summary>
+        public static IEventScope CreateScope()
+        {
+            return new EventScope();
+        }
+
         /// <summary>
         /// Publishes an event to all registered listeners of type <typeparamref name="T"/>.
-        /// Listeners are invoked synchronously in the order they were registered.
+        /// Listeners are invoked synchronously in registration order with per-listener exception isolation.
         /// </summary>
-        /// <typeparam name="T">The <see cref="GameEvent"/> type to publish.</typeparam>
         /// <param name="gameEvent">The event instance to deliver to listeners.</param>
-        public static void Publish<T>(T gameEvent) where T : GameEvent
+        /// <param name="logExceptionsToUnityConsole">If false, records caught exceptions to <see cref="IDiagnosticService"/> without calling <c>Debug.LogError</c>.</param>
+        public static void Publish<T>(T gameEvent, bool logExceptionsToUnityConsole = true) where T : GameEvent
         {
+            if (gameEvent == null) return;
+
             var type = typeof(T);
-            if (!_eventListeners.TryGetValue(type, out var listeners))
+            if (!_eventListeners.TryGetValue(type, out var listeners) || listeners.Count == 0)
                 return;
 
-            foreach (var listener in listeners.ToArray())
-                ((Action<T>)listener)?.Invoke(gameEvent);
+            var snapshot = listeners.ToArray();
+            for (int i = 0; i < snapshot.Length; i++)
+            {
+                if (snapshot[i] is not Action<T> typedListener)
+                    continue;
+
+                try
+                {
+                    typedListener.Invoke(gameEvent);
+                }
+                catch (Exception ex)
+                {
+                    if (ServiceLocator.TryGet<IDiagnosticService>(out var diagnostics))
+                    {
+                        diagnostics.RecordException($"GameEventManager.Publish<{type.Name}>", ex, logExceptionsToUnityConsole);
+                    }
+                    else if (logExceptionsToUnityConsole)
+                    {
+                        Debug.LogError($"[GameEventManager] Exception in listener for {type.Name}: {ex}");
+                    }
+                }
+            }
         }
 
         /// <summary>
         /// Removes all registered listeners for all event types.
-        /// Call this on scene unload or application shutdown to prevent stale references.
         /// </summary>
         public static void Clear()
         {
             _eventListeners.Clear();
+        }
+
+        private sealed class EventScope : IEventScope
+        {
+            private readonly List<Action> _unsubscribeActions = new();
+            private bool _isDisposed;
+
+            public void Subscribe<T>(Action<T> listener) where T : GameEvent
+            {
+                if (_isDisposed)
+                {
+                    throw new ObjectDisposedException(nameof(EventScope));
+                }
+
+                AddListener(listener);
+                _unsubscribeActions.Add(() => RemoveListener(listener));
+            }
+
+            public void Dispose()
+            {
+                if (_isDisposed) return;
+                _isDisposed = true;
+
+                for (int i = _unsubscribeActions.Count - 1; i >= 0; i--)
+                {
+                    _unsubscribeActions[i]?.Invoke();
+                }
+
+                _unsubscribeActions.Clear();
+            }
         }
     }
 }

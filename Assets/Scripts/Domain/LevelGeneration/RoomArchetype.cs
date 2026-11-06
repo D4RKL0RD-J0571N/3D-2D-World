@@ -10,7 +10,8 @@ namespace Domain.LevelGeneration
         StandardFlat,      // Standard flat floor
         SunkenPit,         // Perimeter walkway with stairs down to sunken center
         RaisedDais,        // Central raised platform with stairs leading up
-        StaircaseConnector // Vertical transit room connecting different floor levels
+        StaircaseConnector,// Vertical transit room connecting different floor levels
+        OpenSkyGlade       // Outdoor clearing/pond with open sky and natural ground
     }
 
     [CreateAssetMenu(
@@ -22,6 +23,15 @@ namespace Domain.LevelGeneration
         [Header("Identity")]
         public string ArchetypeId = "StandardHall";
         public string DisplayName = "Standard Hall";
+
+        [Header("Ceiling & Sky")]
+        public bool HasCeiling = true;
+
+        [Header("Water Feature")]
+        public bool HasWaterFeature = false;
+        [Range(1, 4)]
+        public int WaterDepth = 2;
+        public BlockDefinition WaterBlock;
 
         [Header("Elevation Profile")]
         public RoomElevationMode ElevationMode = RoomElevationMode.StandardFlat;

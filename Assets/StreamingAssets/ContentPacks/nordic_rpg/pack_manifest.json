@@ -1,0 +1,19 @@
+{
+  "modId": "nordic_rpg",
+  "displayName": "Nordic RPG Base Content Pack",
+  "version": "1.0.0",
+  "engineVersion": ">=1.0.0 <2.0.0",
+  "author": "Fantasy Engine Team",
+  "description": "Default Nordic Action-RPG skills, factions, and radiant quest templates.",
+  "dependencies": [],
+  "loadOrder": {
+    "loadBefore": [],
+    "loadAfter": []
+  },
+  "conflictPolicy": "OverrideExisting",
+  "contentDirectories": {
+    "skills": "Skills",
+    "factions": "Factions",
+    "quests": "Quests"
+  }
+}

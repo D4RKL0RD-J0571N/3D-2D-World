@@ -1,7 +1,7 @@
 namespace Domain.Grid
 {
-    using Data.Config;
     using System.Collections.Generic;
+    using Data.Config;
     using UnityEngine;
 
     public enum BlockRenderType
@@ -36,6 +36,7 @@ namespace Domain.Grid
     {
         [Header("Identity")]
         public ushort RuntimeId;
+
         [Header("Rendering")]
         public BlockRenderType RenderType;
 
@@ -56,21 +57,29 @@ namespace Domain.Grid
         // This allows the EntityData system to categorize these automatically
         public override string CategoryPrefix => "BLCK";
 
-#if UNITY_EDITOR
-
         protected override void OnIdAssigned()
         {
             SynchronizeRuntimeId();
         }
 
-        private void OnValidate()
+        protected override void OnValidate()
         {
+            base.OnValidate();
+
             if (!string.IsNullOrEmpty(Id))
+            {
                 SynchronizeRuntimeId();
+            }
         }
 
-        private void SynchronizeRuntimeId()
+        public void SynchronizeRuntimeId()
         {
+            if (string.IsNullOrEmpty(Id))
+            {
+                RuntimeId = 0;
+                return;
+            }
+
             int underscoreIndex = Id.LastIndexOf('_');
 
             if (underscoreIndex < 0)
@@ -89,7 +98,5 @@ namespace Domain.Grid
 
             RuntimeId = runtimeId;
         }
-
-#endif
     }
 }

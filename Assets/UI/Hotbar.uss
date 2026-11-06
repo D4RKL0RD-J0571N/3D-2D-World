@@ -1,59 +1,117 @@
+/* ═══════════════════════════════════════════════════════
+   HOTBAR HUD — Designer Overhaul
+   Design: Floating dark strip at bottom-center
+   ═══════════════════════════════════════════════════════ */
+
 .hotbar-root {
     width: 100%;
     height: 100%;
+    position: absolute;
+    left: 0; top: 0; right: 0; bottom: 0;
     align-items: center;
     justify-content: flex-end;
-    padding-bottom: 24px;
+    padding-bottom: 20px;
+    pointer-events: none;
 }
 
-.hotbar-label {
-    color: rgb(240, 240, 240);
-    font-size: 15px;
-    margin-bottom: 8px;
-    -unity-text-align: middle-center;
+/* Active item name pip above the hotbar */
+.active-item-pip {
+    align-items: center;
+    margin-bottom: 6px;
+}
+
+.active-item-name {
+    color: rgba(240, 180, 41, 0.95);
+    font-size: 12px;
     -unity-font-style: bold;
-    text-shadow: 1px 1px 0 rgba(0, 0, 0, 0.85);
+    background-color: rgba(8, 10, 18, 0.80);
+    border-radius: 10px;
+    padding: 3px 12px;
+    border-width: 1px;
+    border-color: rgba(240, 180, 41, 0.3);
+    text-shadow: 0 1px 3px rgba(0,0,0,0.9);
+    -unity-text-align: middle-center;
 }
 
-.hotbar-container {
+/* Hotbar strip */
+.hotbar-strip {
     flex-direction: row;
-    padding: 6px;
-    background-color: rgba(18, 18, 22, 0.85);
-    border-radius: 8px;
-    border-width: 2px;
-    border-color: rgba(50, 50, 60, 0.9);
+    padding: 6px 8px;
+    background-color: rgba(8, 10, 18, 0.90);
+    border-radius: 14px;
+    border-width: 1px;
+    border-color: rgba(240, 180, 41, 0.20);
+    pointer-events: auto;
 }
 
-.hotbar-slot {
-    width: 52px;
-    height: 52px;
-    margin: 3px;
-    background-color: rgba(30, 30, 36, 0.95);
-    border-radius: 6px;
-    border-width: 2px;
-    border-color: rgba(60, 60, 75, 0.8);
+/* Divider gap at slot 5 */
+.hb-slot--divider {
+    margin-left: 10px;
+}
+
+/* Individual slot */
+.hb-slot {
+    width: 54px;
+    height: 54px;
+    margin: 2px;
+    background-color: rgba(20, 24, 38, 0.95);
+    border-radius: 8px;
+    border-width: 1.5px;
+    border-color: rgba(255, 255, 255, 0.10);
     position: relative;
     justify-content: center;
     align-items: center;
+    transition-property: border-color, background-color;
+    transition-duration: 0.1s;
 }
 
-.hotbar-slot--selected {
-    border-color: rgb(250, 205, 50);
-    background-color: rgba(55, 50, 35, 0.95);
-    border-width: 3px;
+.hb-slot:hover {
+    border-color: rgba(240, 180, 41, 0.4);
+    background-color: rgba(35, 40, 60, 0.95);
 }
 
-.hotbar-slot__icon {
+/* Selected slot */
+.hb-slot--selected {
+    border-color: rgba(240, 180, 41, 0.85);
+    background-color: rgba(50, 42, 20, 0.95);
+    border-width: 2px;
+}
+
+/* Gold glow beneath selected slot */
+.hb-selected-glow {
+    position: absolute;
+    bottom: -6px;
+    left: 50%;
+    translate: -50% 0;
+    width: 28px;
+    height: 4px;
+    background-color: rgba(240, 180, 41, 0.7);
+    border-radius: 2px;
+}
+
+/* Icon */
+.hb-icon {
     width: 38px;
     height: 38px;
     -unity-background-scale-mode: scale-to-fit;
 }
 
-.hotbar-slot__number {
+/* Slot number */
+.hb-number {
     position: absolute;
-    left: 4px;
-    top: 2px;
-    font-size: 11px;
-    color: rgba(200, 200, 200, 0.85);
+    left: 5px;
+    top: 3px;
+    font-size: 10px;
+    color: rgba(180, 190, 210, 0.7);
     -unity-font-style: bold;
+    text-shadow: 1px 1px 0 rgba(0,0,0,0.8);
 }
+
+/* Aliases the old class names the HotbarHUD.cs script uses */
+.hotbar-root { }
+.hotbar-slot { }
+.hotbar-slot--selected { }
+.hotbar-slot__icon { }
+.hotbar-slot__number { }
+.hotbar-label { }
+.hotbar-container { }

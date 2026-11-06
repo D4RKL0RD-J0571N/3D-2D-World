@@ -96,14 +96,19 @@ The project lives at `D:\Development\Game Development\3D 2D World\` and follows 
 
 ## 4. Known Issues & Gaps (as of 2026-10-15)
 
-1. **`ExitTrigger` placement is unverified** — the component exists and publishes `LevelCompletedEvent`, but no code path instantiates it during generation. Likely placed manually somewhere.
-2. **4 entity events publish but have no subscribers** — `EntityDamagedEvent`, `EntityHealedEvent`, `EntityStateChangedEvent`, `EntityLevelUpEvent`.
-3. **5 new events publish but have no subscribers** — `PlayerHotbarSlotSelectedEvent`, `HotbarStateChangedEvent`, `RoomEnteredEvent`, `RoomExitedEvent`, `AreaTierChangedEvent`.
-4. **`PlayerSpawnRequestedEvent` has no subscriber** — player respawn on death may be unimplemented.
-5. **`ITickable` wiring gap** — services implement `ITickable` but `GameBootstrapper.Update()` only ticks the state machine; no service-level tick loop exists.
-6. **`AreaSchedulerService.Tick` is a no-op** — the scheduling logic relies entirely on event-driven handlers.
-7. **`RoomTrackerTrigger` respawn for save/load** — logic exists in `LevelLayoutRenderer.OnGameLoaded` but not runtime-verified.
-8. **`GameBootstrapper` is a "God Object" for registration** — all services are registered there; may need sub-bootstrappers as the codebase grows.
+### ✅ Fixed
+- **`ExitTrigger` placement** — `LevelLayoutRenderer` now spawns `ExitTrigger` in the exit room during generation and re-spawns it on save/load. Verified in Play mode.
+
+### 🔧 Remaining Gaps (in rough priority order)
+
+1. **Enemy spawning from sockets** — `VoxelStairBuilder.DiscoverRoomSockets` populates `EnemySpawn` sockets per room, but nothing consumes them. `SlimeEntity` AI is complete but never instantiated. This is the highest-impact content gap.
+2. **Combat loop is unclosed** — `AttributeComponent.ApplyDamage` exists and publishes `EntityDamagedEvent`, but there is no damage source (no weapon, no hit detection, no projectile). The player cannot fight back.
+3. **Entity events have zero subscribers** — `EntityDamagedEvent`, `EntityHealedEvent`, `EntityStateChangedEvent`, `EntityLevelUpEvent` publish correctly but no UI, audio, or game-flow system reacts. A health bar would close this loop.
+4. **Area events are inert** — `AreaTierChangedEvent` is published by `AreaSchedulerService` but has no subscriber. `RoomExitedEvent` is defined but never published.
+5. **State machine shells** — `MainMenu`, `GameOver`, `Paused`, `Loading` are real `IGameState` implementations but never entered. Game boots straight into `Playing`.
+6. **`ITickable` wiring gap** — services implement `ITickable` but `GameBootstrapper.Update()` only ticks the state machine; no service-level tick loop exists.
+7. **`PlayerSpawnRequestedEvent` subscriber** — `PlayerSpawnService` exists but its handler isn't wired to the event bus.
+8. **No audio system** — no audio sources, managers, or assets wired.
 9. **Namespace/folder mismatch in StateMachine** — namespace is `Domain.Entities.StateMachine` but folder is `Assets/Scripts/Domain/StateMachine/`; `IGameState.cs` is in namespace `Core`.
 
 ---
@@ -143,4 +148,50 @@ Before making any changes, you should:
 
 **Do not edit scene/prefab YAML files unless you've confirmed via `unity status` that no live Editor is reachable.**
 
-When you're ready to work, ask the user what they'd like you to do, or propose a next step based on the "Known Issues & Gaps" above.
+## 5. Suggested Next Milestones (Content & Polish)
+
+Work in small, player-visible milestones. Do not build frameworks for hypothetical future needs.
+
+### Milestone A — Spawn Enemies (highest impact)
+**What the player notices:** Enemies appear in rooms and move around.
+**Files involved:** `LevelLayoutRenderer.cs`, `SlimeEntity.cs`, `PoolingManager`, `AreaSchedulerService`.
+**Approach:** In `BuildRoomGrid`, after `DiscoverRoomSockets`, iterate `room.Sockets` where `SocketType == EnemySpawn` and spawn a `SlimeEntity` prefab via `PoolingManager` (or `Instantiate` if pooling isn't wired yet). Ensure `SlimeEntity` sleeps when its room goes `Purged` by subscribing to `AreaTierChangedEvent`.
+**Completion criteria:** Enter Play mode, walk into a room, see at least one Slime hopping.
+
+### Milestone B — Close the Combat Loop
+**What the player notices:** They can damage and kill enemies.
+**Files involved:** `PlayerGridInteractor.cs` or a new `WeaponSystem`, `AttributeComponent.cs`, `EntityDamagedEvent`.
+**Approach:** Add a primary-fire raycast or melee sweep from the player. On hit, call `attributeComponent.ApplyDamage(amount)`. `SlimeEntity` already has health via `BaseActor` + `AttributeComponent`.
+**Completion criteria:** Attack a Slime, its health drops, `EntityDamagedEvent` fires, and at 0 HP it dies (disable or destroy).
+
+### Milestone C — Minimal Health HUD
+**What the player notices:** A health bar reflects damage taken.
+**Files involved:** New `Gameplay/UI/HealthHUD.cs`, `EntityDamagedEvent`, `EntityHealedEvent`.
+**Approach:** UI Toolkit or uGUI canvas. Subscribe to `EntityDamagedEvent`/`EntityHealedEvent` when the player is the target. Update a slider. Keep it minimal — one bar, no frames.
+**Completion criteria:** Take damage from a Slime, health bar decreases.
+
+### Milestone D — Main Menu + Boot Flow
+**What the player notices:** A title screen instead of dropping straight into the dungeon.
+**Files involved:** `GameStates.cs`, `GameBootstrapper.cs`, `InputManager.cs`, UI canvas.
+**Approach:** Create a simple UI canvas with "Play" button. Wire `GameBootstrapper` to transition `None → MainMenu` instead of `None → Playing`. On button click, transition `MainMenu → Playing`. Gate gameplay input behind `CurrentStateType == Playing` (infrastructure already exists in `InputManager`).
+**Completion criteria:** Launch game, see title screen, click Play, enter dungeon.
+
+### Milestone E — Audio Feedback
+**What the player notices:** Sounds for footsteps, block breaks, enemy hits.
+**Files involved:** New `Systems/Audio/AudioManager.cs` (ServiceLocator-registered), event subscriptions.
+**Approach:** Minimal `AudioManager` that subscribes to `GridBlockClickedEvent`, `EntityDamagedEvent`, `LevelCompletedEvent`. Play one-shot clips. Use free placeholder SFX.
+**Completion criteria:** Breaking a block and hitting an enemy both make distinct sounds.
+
+---
+
+## 6. Your Job
+
+Before making any changes, you should:
+1. Read the relevant doc files above to understand context.
+2. Read the relevant C# source files.
+3. Verify claims against actual `Publish`/`AddListener` call sites (the docs were audited against code, but always double-check yourself).
+4. When you find discrepancies or make decisions, note them.
+
+**Do not edit scene/prefab YAML files unless you've confirmed via `unity status` that no live Editor is reachable.**
+
+When you're ready to work, ask the user what they'd like you to do, or propose a next step based on the "Suggested Next Milestones" above.

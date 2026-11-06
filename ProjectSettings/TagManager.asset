@@ -3,7 +3,22 @@
 --- !u!78 &1
 TagManager:
   serializedVersion: 3
-  tags: []
+  tags:
+  - device
+  - box
+  - inventory
+  - enemy
+  - vehicle
+  - moving
+  - SurfaceToClimb
+  - sphere
+  - friend
+  - Enemy
+  - Critical
+  - FirePoint
+  - Weapons
+  - Ramp
+  - BodyShot
   layers:
   - Default
   - TransparentFX
@@ -12,22 +27,22 @@ TagManager:
   - Water
   - UI
   - Actors
-  - 
-  - 
-  - 
-  - 
-  - 
-  - 
-  - 
-  - 
-  - 
-  - 
-  - 
-  - 
-  - 
-  - 
-  - 
-  - 
+  - Grid
+  - PlacementGrid
+  - Ground
+  - Weapons
+  - Enemy
+  - Object
+  - Interactable
+  - Grass
+  - Metal
+  - Mud
+  - Wood
+  - UITop
+  - PostProcessing
+  - Effects
+  - Player
+  - Ladder
   - 
   - 
   - 

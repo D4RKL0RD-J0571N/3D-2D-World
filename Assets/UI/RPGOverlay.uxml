@@ -1,0 +1,25 @@
+<ui:UXML xmlns:ui="UnityEngine.UIElements" xmlns:uie="UnityEditor.UIElements">
+    <ui:VisualElement name="RPGOverlayRoot" class="rpg-overlay-root">
+
+        <!-- ─── Character Level Badge (top-right corner) ─── -->
+        <ui:VisualElement name="CharLevelBadge" class="char-level-badge">
+            <ui:Label name="CharLevelLabel" text="Lvl 1" class="char-level-label"/>
+        </ui:VisualElement>
+
+        <!-- ─── Skill Level-Up Toast ─── -->
+        <ui:VisualElement name="SkillToastContainer" class="skill-toast-container">
+            <ui:Label name="SkillToastLabel" text="" class="skill-toast-label"/>
+        </ui:VisualElement>
+
+        <!-- ─── Quest Tracker (right panel) ─── -->
+        <ui:VisualElement name="QuestTracker" class="quest-tracker">
+            <ui:VisualElement name="QuestTrackerHeader" class="quest-tracker-header">
+                <ui:Label text="ACTIVE QUEST" class="quest-tracker-heading"/>
+            </ui:VisualElement>
+            <ui:Label name="QuestTitle"     text="Quest Title"     class="quest-title-label"/>
+            <ui:Label name="QuestObjective" text="Objective text"  class="quest-objective-label"/>
+            <ui:Label name="QuestProgress"  text="0 / 1"           class="quest-progress-label"/>
+        </ui:VisualElement>
+
+    </ui:VisualElement>
+</ui:UXML>

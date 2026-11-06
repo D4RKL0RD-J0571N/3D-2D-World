@@ -84,11 +84,8 @@ namespace Systems.Interaction
 
         private void OnHotbarSlotSelected(PlayerHotbarSlotSelectedEvent evt)
         {
-            if (ServiceLocator.TryGet<HotbarService>(out var hotbar))
-            {
-                SelectedBlock = hotbar.GetBlockAtSlot(evt.SlotIndex);
-                Debug.Log($"[BlockPlacementService] Active block set to: {SelectedBlock?.DisplayName ?? "Air/None"}");
-            }
+            // SelectedBlock is set by HotbarService.SyncBlockPlacement when a slot is selected.
+            Debug.Log($"[BlockPlacementService] Active block set to: {SelectedBlock?.DisplayName ?? "Air/None"}");
         }
     }
 }
