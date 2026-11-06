@@ -35,6 +35,39 @@ namespace Systems.Console
         }
 
         /// <summary>
+        /// Registers a custom delegate command directly.
+        /// </summary>
+        public void Register(string name, Func<string[], string> handler, string description = "", string usage = "")
+        {
+            if (string.IsNullOrWhiteSpace(name) || handler == null) return;
+            RegisterCommand(new DelegateConsoleCommand(name, handler, description, usage));
+        }
+
+        /// <summary>
+        /// Registers all standard built-in Skyrim developer console commands.
+        /// </summary>
+        public void RegisterDefaults()
+        {
+            RegisterCommand(new ToggleGodModeCommand());
+            RegisterCommand(new ToggleCollisionCommand());
+            RegisterCommand(new AddItemCommand());
+            RegisterCommand(new SetActorValueCommand());
+            RegisterCommand(new AdvanceSkillCommand());
+            RegisterCommand(new KillCommand());
+            RegisterCommand(new KillAllCommand());
+            RegisterCommand(new ResurrectCommand());
+            RegisterCommand(new DisableCommand());
+            RegisterCommand(new EnableCommand());
+            RegisterCommand(new SetScaleCommand());
+            RegisterCommand(new UnlockCommand());
+            RegisterCommand(new ToggleAICommand());
+            RegisterCommand(new MoveToPlayerCommand());
+            RegisterCommand(new CenterOnCellCommand());
+            RegisterCommand(new QuitCommand());
+            RegisterCommand(new HelpCommand(this));
+        }
+
+        /// <summary>
         /// Removes a console command by name.
         /// </summary>
         public bool UnregisterCommand(string commandName)
@@ -55,6 +88,16 @@ namespace Systems.Console
         #endregion
 
         #region Execution & Autocomplete
+
+        /// <summary>
+        /// Parses and executes a command line, returning any logged message output.
+        /// </summary>
+        public string Execute(string line)
+        {
+            string output = "";
+            ExecuteLine(line, msg => output = msg);
+            return output;
+        }
 
         /// <summary>
         /// Parses and executes a raw command line string.
@@ -143,5 +186,35 @@ namespace Systems.Console
         }
 
         #endregion
+    }
+
+    /// <summary>
+    /// Lightweight IConsoleCommand implementation that wraps a delegate handler.
+    /// </summary>
+    public class DelegateConsoleCommand : IConsoleCommand
+    {
+        private readonly Func<string[], string> _handler;
+
+        public string Name { get; }
+        public string Description { get; }
+        public string Usage { get; }
+
+        public DelegateConsoleCommand(string name, Func<string[], string> handler, string description = "", string usage = "")
+        {
+            Name = name;
+            _handler = handler;
+            Description = description ?? "";
+            Usage = string.IsNullOrEmpty(usage) ? name : usage;
+        }
+
+        public bool Execute(string[] args, Action<string> print)
+        {
+            string result = _handler?.Invoke(args);
+            if (!string.IsNullOrEmpty(result))
+            {
+                print?.Invoke(result);
+            }
+            return true;
+        }
     }
 }

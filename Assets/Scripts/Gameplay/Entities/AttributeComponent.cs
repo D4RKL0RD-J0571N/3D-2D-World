@@ -45,10 +45,7 @@ namespace Gameplay.Entities
             }
             else if (_attributes.Count == 0)
             {
-                // Fallback default RPG attributes for autonomous scene actors
-                RegisterAttribute(new BaseAttribute { AttributeName = "Health", MaximumValue = 100, CurrentValue = 100, RegenerationRate = 1f });
-                RegisterAttribute(new BaseAttribute { AttributeName = "Stamina", MaximumValue = 100, CurrentValue = 100, RegenerationRate = 5f });
-                RegisterAttribute(new BaseAttribute { AttributeName = "Magicka", MaximumValue = 100, CurrentValue = 100, RegenerationRate = 5f });
+                EnsureDefaultAttributes();
             }
         }
 
@@ -131,6 +128,37 @@ namespace Gameplay.Entities
 
         #region Public API
 
+        public float CurrentHealth
+        {
+            get
+            {
+                EnsureDefaultAttributes();
+                return GetAttribute("Health")?.CurrentValue ?? 0f;
+            }
+        }
+
+        public float MaxHealth
+        {
+            get
+            {
+                EnsureDefaultAttributes();
+                return GetAttribute("Health")?.MaximumValue ?? 0f;
+            }
+        }
+
+        /// <summary>
+        /// Ensures default RPG attributes exist on this component if not hydrated.
+        /// </summary>
+        public void EnsureDefaultAttributes()
+        {
+            if (_attributes.Count == 0)
+            {
+                RegisterAttribute(new BaseAttribute { AttributeName = "Health", MaximumValue = 100, CurrentValue = 100, RegenerationRate = 1f });
+                RegisterAttribute(new BaseAttribute { AttributeName = "Stamina", MaximumValue = 100, CurrentValue = 100, RegenerationRate = 5f });
+                RegisterAttribute(new BaseAttribute { AttributeName = "Magicka", MaximumValue = 100, CurrentValue = 100, RegenerationRate = 5f });
+            }
+        }
+
         /// <summary>
         /// Registers or replaces an attribute dynamically at runtime.
         /// </summary>
@@ -146,6 +174,7 @@ namespace Gameplay.Entities
         /// </summary>
         public BaseAttribute GetAttribute(string name)
         {
+            EnsureDefaultAttributes();
             _attributes.TryGetValue(name, out var attr);
             return attr;
         }
@@ -155,6 +184,7 @@ namespace Gameplay.Entities
         /// </summary>
         public void ApplyDamage(string attributeName, int amount, GameObject instigator = null, Domain.Combat.DamageType damageType = Domain.Combat.DamageType.Physical)
         {
+            EnsureDefaultAttributes();
             if (_attributes.TryGetValue(attributeName, out var attr))
             {
                 attr.CurrentValue = Mathf.Max(0, attr.CurrentValue - amount);
@@ -196,6 +226,7 @@ namespace Gameplay.Entities
         /// </summary>
         public void ApplyHealing(string attributeName, int amount)
         {
+            EnsureDefaultAttributes();
             if (_attributes.TryGetValue(attributeName, out var attr))
             {
                 attr.CurrentValue = Mathf.Min(attr.MaximumValue, attr.CurrentValue + amount);

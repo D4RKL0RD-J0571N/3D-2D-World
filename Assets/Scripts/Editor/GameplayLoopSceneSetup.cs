@@ -71,7 +71,7 @@ namespace Studio.Editor
 
             var weapon = player.GetOrAddComponent<WeaponComponent>();
             var magic = player.GetOrAddComponent<PlayerMagicController>();
-            var wallClip = player.GetOrAddComponent<PlatterWallClip>();
+            player.GetOrAddComponent<PlatterWallClip>();
 
             // Setup Viewmodel Sword on Camera Pivot
             var cameraPivot = player.transform.Find("Camera Pivot");
@@ -208,8 +208,12 @@ namespace Studio.Editor
         private static void SetupSkyrimGlitchesAndProps()
         {
             var envRoot = GameObject.Find("Environment_Root") ?? new GameObject("Environment_Root");
+            SetupSpaceProgramAndCart(envRoot);
+            SetupBucketAndPlatter(envRoot);
+        }
 
-            // Skyrim Space Program and Dialogue HUD on GameBootstrapper
+        private static void SetupSpaceProgramAndCart(GameObject envRoot)
+        {
             var bootstrapper = GameObject.Find("GameBootstrapper");
             if (bootstrapper != null)
             {
@@ -218,7 +222,6 @@ namespace Studio.Editor
                 EditorUtility.SetDirty(bootstrapper);
             }
 
-            // Killer Cart
             var existingCart = GameObject.Find("Killer_Hay_Cart");
             if (existingCart != null) Object.DestroyImmediate(existingCart);
             var cartPrefab = AssetDatabase.LoadAssetAtPath<GameObject>(HayCartPrefabPath);
@@ -233,8 +236,10 @@ namespace Studio.Editor
                 cart.GetOrAddComponent<PhysicsClatterHazard>();
                 EditorUtility.SetDirty(cart);
             }
+        }
 
-            // Bucket for Head Exploit
+        private static void SetupBucketAndPlatter(GameObject envRoot)
+        {
             var existingBucket = GameObject.Find("Exploit_Bucket");
             if (existingBucket != null) Object.DestroyImmediate(existingBucket);
             var bucketPrefab = AssetDatabase.LoadAssetAtPath<GameObject>(BucketPrefabPath);
@@ -250,7 +255,6 @@ namespace Studio.Editor
                 EditorUtility.SetDirty(bucket);
             }
 
-            // Platter for Wall Clip
             var existingPlatter = GameObject.Find("Speedrun_Platter");
             if (existingPlatter != null) Object.DestroyImmediate(existingPlatter);
             var dishFbx = AssetDatabase.LoadAssetAtPath<GameObject>(DishModelPath);

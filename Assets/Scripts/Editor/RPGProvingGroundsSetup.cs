@@ -13,8 +13,8 @@ namespace Studio.Editor
 
     /// <summary>
     /// Automated setup tool that populates the RPGProvingGrounds scene with
-    /// POLYGON Fantasy Kingdom medieval assets, GameBootstrapper, Player rig,
-    /// interactive chests, levers, bounty boards, faction NPCs, and 360 compass POI markers.
+    /// a continuous Nordic environment, cohesive landscape terrain, stone roads,
+    /// natural pine forests, mountain cliffs, medieval village buildings, and gameplay interactables.
     /// </summary>
     public static class RPGProvingGroundsSetup
     {
@@ -22,6 +22,20 @@ namespace Studio.Editor
         private const string PlayerPrefabPath = "Assets/Prefabs/Entities/Player.prefab";
 
         #region Asset Paths
+        private const string GrassMaterialPath = "Assets/Synty/PolygonFantasyKingdom/Materials/Ground/Grass_01.mat";
+        private const string Path01Prefab = "Assets/Synty/PolygonFantasyKingdom/Prefabs/Environments/SM_Env_Path_01.prefab";
+        private const string Path02Prefab = "Assets/Synty/PolygonFantasyKingdom/Prefabs/Environments/SM_Env_Path_02.prefab";
+        private const string FountainPrefab = "Assets/Synty/PolygonFantasyKingdom/Prefabs/Environments/SM_Env_Fountain_01.prefab";
+        private const string PineCluster01Prefab = "Assets/Synty/PolygonFantasyKingdom/Prefabs/Environments/SM_Env_Tree_Pine_Cluster_01.prefab";
+        private const string PineCluster02Prefab = "Assets/Synty/PolygonFantasyKingdom/Prefabs/Environments/SM_Env_Tree_Pine_Cluster_02.prefab";
+        private const string LargeTreePrefab = "Assets/Synty/PolygonFantasyKingdom/Prefabs/Environments/SM_Env_Tree_Large_01.prefab";
+        private const string RockCliff01Prefab = "Assets/Synty/PolygonFantasyKingdom/Prefabs/Environments/SM_Env_Rock_Cliff_01.prefab";
+        private const string RockCliff02Prefab = "Assets/Synty/PolygonFantasyKingdom/Prefabs/Environments/SM_Env_Rock_Cliff_02.prefab";
+        private const string StoneWallPrefab = "Assets/Synty/PolygonFantasyKingdom/Prefabs/Environments/SM_Env_StoneWall_01.prefab";
+        private const string StoneWallPillarPrefab = "Assets/Synty/PolygonFantasyKingdom/Prefabs/Environments/SM_Env_StoneWall_Pillar_01.prefab";
+        private const string TorchPrefab = "Assets/Synty/PolygonFantasyKingdom/Prefabs/Props/SM_Prop_Torch_01.prefab";
+        private const string BarrelStackPrefab = "Assets/Synty/PolygonFantasyKingdom/Prefabs/Props/SM_Prop_Barrel_Stack_01.prefab";
+        private const string CrateStackPrefab = "Assets/Synty/PolygonFantasyKingdom/Prefabs/Props/SM_Prop_Crate_Stack_01.prefab";
         private const string QuestBoardPrefab = "Assets/Synty/PolygonFantasyKingdom/Prefabs/Props/SM_Prop_Quest_Board_01_Posters_01.prefab";
         private const string Chest01Prefab = "Assets/Synty/PolygonFantasyKingdom/Prefabs/Props/Furniture/SM_Prop_Chest_01.prefab";
         private const string Chest02Prefab = "Assets/Synty/PolygonFantasyKingdom/Prefabs/Props/Furniture/SM_Prop_Chest_02.prefab";
@@ -36,7 +50,6 @@ namespace Studio.Editor
         private const string BanditNpcPrefab = "Assets/Synty/PolygonFantasyKingdom/Prefabs/Characters/SM_Chr_Headsman_01.prefab";
         private const string AnvilPrefab = "Assets/Synty/PolygonFantasyKingdom/Prefabs/Props/SM_Prop_Anvil_01.prefab";
         private const string FireFXPrefab = "Assets/Synty/PolygonGeneric/Prefabs/FX/FX_Fire_01.prefab";
-        private const string CobblestoneFloorPrefab = "Assets/Synty/PolygonGeneric/Prefabs/Base/SM_Bld_Base_Floor_Combined_01.prefab";
         private const string LeverPrefab = "Assets/Prefabs/Interactables/DungeonLever.prefab";
         private const string TrapPlatePrefab = "Assets/Prefabs/Interactables/PressurePlate.prefab";
         private const string TargetDummyPrefab = "Assets/Prefabs/Museum/TargetDummy.prefab";
@@ -52,7 +65,7 @@ namespace Studio.Editor
                 return;
             }
 
-            Debug.Log("[RPGProvingGroundsSetup] Building Skyrim Proving Grounds with POLYGON Fantasy Kingdom assets...");
+            Debug.Log("[RPGProvingGroundsSetup] Overhauling Skyrim Proving Grounds with continuous landscape...");
 
             CleanLegacyObjects();
             EnsureLightingAndSky();
@@ -60,8 +73,11 @@ namespace Studio.Editor
             EnsurePlayer();
             DisableStandaloneCameras();
 
-            SetupCobblestoneCourtyard();
+            SetupSolidGroundAndLandscape();
+            SetupConnectedPathways();
+            SetupTownSquare();
             SetupMedievalBuildings();
+            SetupNaturalPerimeterForestAndCliffs();
             SetupBountyNoticeBoard();
             SetupDungeonChests();
             SetupCastleGateAndLever();
@@ -72,7 +88,7 @@ namespace Studio.Editor
 
             EditorSceneManager.MarkSceneDirty(scene);
             EditorSceneManager.SaveScene(scene);
-            Debug.Log("<color=green>✦ Skyrim Fantasy Proving Grounds successfully built and saved!</color>");
+            Debug.Log("<color=green>✦ Skyrim Fantasy Proving Grounds successfully rebuilt with continuous ground!</color>");
         }
 
         #region Setup Implementation
@@ -84,7 +100,8 @@ namespace Studio.Editor
                 "Demo", "SA_Building", "Zombie_Hostile_Alley", "Survivor_Sheriff_Guard",
                 "BountyBoard_Hub", "Chest_Novice_Courtyard", "Chest_Adept_Bank",
                 "SecurityGate_Barricade", "Lever_SecurityGate", "Trap_PressurePlate_Alley",
-                "TrainingDummy_Yard", "Ground_Cobblestone"
+                "TrainingDummy_Yard", "Ground_Cobblestone", "Courtyard_Plane",
+                "Terrain_Base_Grass_Plane", "Ground_Landscape_Terrain"
             };
 
             foreach (var name in legacyNames)
@@ -99,17 +116,30 @@ namespace Studio.Editor
 
         private static void EnsureLightingAndSky()
         {
-            var sun = GameObject.Find("Directional Light");
-            if (sun == null)
+            var sunGo = GameObject.Find("Directional Light");
+            if (sunGo == null)
             {
-                var lightGo = new GameObject("Directional Light");
-                var light = lightGo.AddComponent<Light>();
+                sunGo = new GameObject("Directional Light");
+                var light = sunGo.AddComponent<Light>();
                 light.type = LightType.Directional;
-                light.intensity = 1.2f;
-                light.color = new Color(1f, 0.95f, 0.88f);
-                lightGo.transform.rotation = Quaternion.Euler(50f, -30f, 0f);
             }
-            RenderSettings.ambientIntensity = 1f;
+
+            var dirLight = sunGo.GetComponent<Light>();
+            dirLight.intensity = 1.25f;
+            dirLight.color = new Color(1f, 0.95f, 0.88f);
+            sunGo.transform.rotation = Quaternion.Euler(50f, -35f, 0f);
+
+            // Nordic Mountain Atmospheric Fog
+            RenderSettings.fog = true;
+            RenderSettings.fogMode = FogMode.ExponentialSquared;
+            RenderSettings.fogDensity = 0.012f;
+            RenderSettings.fogColor = new Color(0.70f, 0.77f, 0.83f);
+
+            // Ambient Trilight for Skyrim sky/ground contrast
+            RenderSettings.ambientMode = UnityEngine.Rendering.AmbientMode.Trilight;
+            RenderSettings.ambientSkyColor = new Color(0.55f, 0.65f, 0.75f);
+            RenderSettings.ambientEquatorColor = new Color(0.38f, 0.42f, 0.45f);
+            RenderSettings.ambientGroundColor = new Color(0.22f, 0.28f, 0.22f);
         }
 
         private static void EnsureBootstrapper()
@@ -156,58 +186,117 @@ namespace Studio.Editor
             }
         }
 
-        private static void SetupCobblestoneCourtyard()
+        private static void SetupSolidGroundAndLandscape()
         {
-            var floorPrefab = AssetDatabase.LoadAssetAtPath<GameObject>(CobblestoneFloorPrefab);
-            var envRoot = new GameObject("Environment_Root");
+            var envRoot = GetOrCreateRoot("Environment_Root");
 
-            if (floorPrefab != null)
+            // 120m x 120m continuous terrain plane with Grass_01
+            var terrainObj = GameObject.CreatePrimitive(PrimitiveType.Plane);
+            terrainObj.name = "Ground_Landscape_Terrain";
+            terrainObj.transform.parent = envRoot.transform;
+            terrainObj.transform.position = new Vector3(0f, -0.02f, 5f);
+            terrainObj.transform.localScale = new Vector3(12f, 1f, 12f);
+
+            var grassMat = AssetDatabase.LoadAssetAtPath<Material>(GrassMaterialPath);
+            if (grassMat != null)
             {
-                // Create 6x6 floor grid (each tile is ~4x4m)
-                for (int x = -3; x <= 3; x++)
-                {
-                    for (int z = -3; z <= 3; z++)
-                    {
-                        var tile = (GameObject)PrefabUtility.InstantiatePrefab(floorPrefab);
-                        tile.name = $"Floor_{x}_{z}";
-                        tile.transform.parent = envRoot.transform;
-                        tile.transform.position = new Vector3(x * 4f, 0f, z * 4f);
-                    }
-                }
+                var rend = terrainObj.GetComponent<Renderer>();
+                if (rend != null) rend.sharedMaterial = grassMat;
             }
-            else
+
+            // Ensure solid ground collision
+            var meshCol = terrainObj.GetComponent<MeshCollider>();
+            if (meshCol != null) Object.DestroyImmediate(meshCol);
+
+            var col = terrainObj.AddComponent<BoxCollider>();
+            col.size = new Vector3(10f, 0.5f, 10f);
+            col.center = new Vector3(0f, -0.25f, 0f);
+        }
+
+        private static void SetupConnectedPathways()
+        {
+            var envRoot = GetOrCreateRoot("Environment_Root");
+            var roadRoot = new GameObject("RoadNetwork_Root");
+            roadRoot.transform.parent = envRoot.transform;
+
+            var path01 = AssetDatabase.LoadAssetAtPath<GameObject>(Path01Prefab);
+            var path02 = AssetDatabase.LoadAssetAtPath<GameObject>(Path02Prefab) ?? path01;
+            if (path01 == null) return;
+
+            // Main North-South Street from South entrance to Castle Gate
+            for (float z = -20f; z <= 24f; z += 3.5f)
             {
-                // Fallback plane
-                var plane = GameObject.CreatePrimitive(PrimitiveType.Plane);
-                plane.name = "Courtyard_Plane";
-                plane.transform.parent = envRoot.transform;
-                plane.transform.localScale = new Vector3(4f, 1f, 4f);
+                var prefab = ((int)z % 2 == 0) ? path01 : path02;
+                var segment = (GameObject)PrefabUtility.InstantiatePrefab(prefab);
+                segment.name = $"Path_NS_{z:0}";
+                segment.transform.parent = roadRoot.transform;
+                segment.transform.position = new Vector3(0f, 0.01f, z);
+                segment.transform.rotation = Quaternion.identity;
             }
+
+            // East-West Thoroughfare connecting Sleeping Giant Inn to Blacksmith's Forge
+            for (float x = -8.5f; x <= 8.5f; x += 3.5f)
+            {
+                var segment = (GameObject)PrefabUtility.InstantiatePrefab(path01);
+                segment.name = $"Path_EW_{x:0}";
+                segment.transform.parent = roadRoot.transform;
+                segment.transform.position = new Vector3(x, 0.01f, 2f);
+                segment.transform.rotation = Quaternion.Euler(0f, 90f, 0f);
+            }
+        }
+
+        private static void SetupTownSquare()
+        {
+            var envRoot = GetOrCreateRoot("Environment_Root");
+            var squareRoot = new GameObject("TownSquare_Root");
+            squareRoot.transform.parent = envRoot.transform;
+
+            // Centerpiece Stone Fountain
+            var fountainPrefab = AssetDatabase.LoadAssetAtPath<GameObject>(FountainPrefab);
+            if (fountainPrefab != null)
+            {
+                var fountain = (GameObject)PrefabUtility.InstantiatePrefab(fountainPrefab);
+                fountain.name = "Fountain_Town_Center";
+                fountain.transform.parent = squareRoot.transform;
+                fountain.transform.position = new Vector3(0f, 0f, -3f);
+            }
+
+            // Warm Village Torches
+            SpawnTorch("Torch_Inn_Entrance", new Vector3(-7.5f, 0f, 2f), squareRoot.transform);
+            SpawnTorch("Torch_Forge_Entrance", new Vector3(7.5f, 0f, 2f), squareRoot.transform);
+            SpawnTorch("Torch_Fountain_West", new Vector3(-2.8f, 0f, -3f), squareRoot.transform);
+            SpawnTorch("Torch_Fountain_East", new Vector3(2.8f, 0f, -3f), squareRoot.transform);
+            SpawnTorch("Torch_Gate_West", new Vector3(-3f, 0f, 14.5f), squareRoot.transform);
+            SpawnTorch("Torch_Gate_East", new Vector3(3f, 0f, 14.5f), squareRoot.transform);
+
+            // Village Crate & Barrel clutter
+            SpawnPrefab(BarrelStackPrefab, "BarrelStack_Village_Inn", new Vector3(-6.5f, 0f, 4.5f), Quaternion.identity, squareRoot.transform);
+            SpawnPrefab(CrateStackPrefab, "CrateStack_Blacksmith", new Vector3(7f, 0f, -1.5f), Quaternion.Euler(0f, 30f, 0f), squareRoot.transform);
         }
 
         private static void SetupMedievalBuildings()
         {
-            var envRoot = GameObject.Find("Environment_Root") ?? new GameObject("Environment_Root");
+            var envRoot = GetOrCreateRoot("Environment_Root");
 
-            // Blacksmith Forge on East
+            // Blacksmith Forge on East - seated flush with ground
             var blacksmithPrefab = AssetDatabase.LoadAssetAtPath<GameObject>(BlacksmithBuildingPrefab);
             if (blacksmithPrefab != null)
             {
                 var blacksmith = (GameObject)PrefabUtility.InstantiatePrefab(blacksmithPrefab);
                 blacksmith.name = "Building_Blacksmith_Forge";
                 blacksmith.transform.parent = envRoot.transform;
-                blacksmith.transform.position = new Vector3(10f, 0f, 2f);
+                blacksmith.transform.position = new Vector3(9.5f, 0f, 2f);
                 blacksmith.transform.rotation = Quaternion.Euler(0f, -90f, 0f);
             }
 
-            // Village Inn / House on West
+            // Village Inn / Sleeping Giant on West - seated flush with ground
             var housePrefab = AssetDatabase.LoadAssetAtPath<GameObject>(VillageHousePrefab);
             if (housePrefab != null)
             {
                 var house = (GameObject)PrefabUtility.InstantiatePrefab(housePrefab);
                 house.name = "Building_Village_Inn";
                 house.transform.parent = envRoot.transform;
-                house.transform.position = new Vector3(-10f, 0f, 2f);
+                house.transform.position = new Vector3(-9.5f, 0f, 2f);
                 house.transform.rotation = Quaternion.Euler(0f, 90f, 0f);
             }
 
@@ -236,6 +325,38 @@ namespace Studio.Editor
                 fire.transform.parent = envRoot.transform;
                 fire.transform.position = new Vector3(8.5f, 0.5f, 1.5f);
             }
+        }
+
+        private static void SetupNaturalPerimeterForestAndCliffs()
+        {
+            var envRoot = GetOrCreateRoot("Environment_Root");
+            var perimeterRoot = new GameObject("Perimeter_Root");
+            perimeterRoot.transform.parent = envRoot.transform;
+
+            // North Mountain Cliffs framing Castle Wall & Crypt
+            SpawnScaledPrefab(RockCliff01Prefab, "Cliff_North_West", new Vector3(-15f, 0f, 18f), Quaternion.Euler(0f, 25f, 0f), 1.3f, perimeterRoot.transform);
+            SpawnScaledPrefab(RockCliff02Prefab, "Cliff_North_East", new Vector3(15f, 0f, 18f), Quaternion.Euler(0f, -25f, 0f), 1.3f, perimeterRoot.transform);
+            SpawnScaledPrefab(RockCliff01Prefab, "Cliff_Crypt_Backdrop", new Vector3(0f, 0f, 32f), Quaternion.Euler(0f, 180f, 0f), 1.6f, perimeterRoot.transform);
+
+            // West Mountain Ridge & Dense Pine Forest
+            SpawnScaledPrefab(RockCliff02Prefab, "Cliff_West_Ridge", new Vector3(-22f, 0f, 2f), Quaternion.Euler(0f, 90f, 0f), 1.4f, perimeterRoot.transform);
+            SpawnScaledPrefab(PineCluster01Prefab, "Pine_Forest_West_01", new Vector3(-18f, 0f, 8f), Quaternion.identity, 1.2f, perimeterRoot.transform);
+            SpawnScaledPrefab(PineCluster02Prefab, "Pine_Forest_West_02", new Vector3(-17f, 0f, -6f), Quaternion.identity, 1.1f, perimeterRoot.transform);
+            SpawnScaledPrefab(LargeTreePrefab, "Tree_Large_West", new Vector3(-14f, 0f, 14f), Quaternion.identity, 1.0f, perimeterRoot.transform);
+
+            // East Mountain Ridge & Dense Pine Forest
+            SpawnScaledPrefab(RockCliff01Prefab, "Cliff_East_Ridge", new Vector3(22f, 0f, 2f), Quaternion.Euler(0f, -90f, 0f), 1.4f, perimeterRoot.transform);
+            SpawnScaledPrefab(PineCluster02Prefab, "Pine_Forest_East_01", new Vector3(18f, 0f, 8f), Quaternion.identity, 1.2f, perimeterRoot.transform);
+            SpawnScaledPrefab(PineCluster01Prefab, "Pine_Forest_East_02", new Vector3(17f, 0f, -6f), Quaternion.identity, 1.1f, perimeterRoot.transform);
+            SpawnScaledPrefab(LargeTreePrefab, "Tree_Large_East", new Vector3(14f, 0f, 14f), Quaternion.identity, 1.0f, perimeterRoot.transform);
+
+            // South Valley Boundary Stone Walls & Pine Gates
+            SpawnPrefab(StoneWallPrefab, "StoneWall_South_West", new Vector3(-6f, 0f, -22f), Quaternion.identity, perimeterRoot.transform);
+            SpawnPrefab(StoneWallPrefab, "StoneWall_South_East", new Vector3(6f, 0f, -22f), Quaternion.identity, perimeterRoot.transform);
+            SpawnPrefab(StoneWallPillarPrefab, "Pillar_South_West", new Vector3(-3f, 0f, -22f), Quaternion.identity, perimeterRoot.transform);
+            SpawnPrefab(StoneWallPillarPrefab, "Pillar_South_East", new Vector3(3f, 0f, -22f), Quaternion.identity, perimeterRoot.transform);
+            SpawnScaledPrefab(PineCluster01Prefab, "Pine_Forest_South_West", new Vector3(-14f, 0f, -20f), Quaternion.identity, 1.1f, perimeterRoot.transform);
+            SpawnScaledPrefab(PineCluster02Prefab, "Pine_Forest_South_East", new Vector3(14f, 0f, -20f), Quaternion.identity, 1.1f, perimeterRoot.transform);
         }
 
         private static void SetupBountyNoticeBoard()
@@ -277,16 +398,9 @@ namespace Studio.Editor
         {
             var interactablesRoot = GetOrCreateRoot("Interactables_Root");
 
-            // Novice Chest outside Inn
             SpawnChest(Chest01Prefab, "Chest_Novice_Courtyard", new Vector3(-5f, 0f, 3.5f), 45f, LockDifficulty.Novice, interactablesRoot.transform);
-
-            // Apprentice Chest near forge
             SpawnChest(Chest02Prefab, "Chest_Apprentice_Forge", new Vector3(6.5f, 0f, -2.5f), -30f, LockDifficulty.Apprentice, interactablesRoot.transform);
-
-            // Adept Chest inside ruined crypt
             SpawnChest(Chest02Prefab, "Chest_Adept_Crypt", new Vector3(-6f, 0f, 16f), 10f, LockDifficulty.Adept, interactablesRoot.transform);
-
-            // Master Chest behind the castle gate
             SpawnChest(Chest03Prefab, "Chest_Master_Vault", new Vector3(0f, 0f, 22f), 180f, LockDifficulty.Master, interactablesRoot.transform);
         }
 
@@ -318,7 +432,7 @@ namespace Studio.Editor
                 col.center = new Vector3(0f, 0.4f, 0f);
             }
 
-            var chestComp = chest.GetComponent<ChestInteractable>() ?? chest.AddComponent<ChestInteractable>();
+            var chestComp = GetOrAddComponent<ChestInteractable>(chest);
             var field = typeof(ChestInteractable).GetField("_lockDifficulty",
                 System.Reflection.BindingFlags.NonPublic | System.Reflection.BindingFlags.Instance);
             field?.SetValue(chestComp, diff);
@@ -326,10 +440,9 @@ namespace Studio.Editor
 
         private static void SetupCastleGateAndLever()
         {
-            var envRoot = GameObject.Find("Environment_Root") ?? new GameObject("Environment_Root");
+            var envRoot = GetOrCreateRoot("Environment_Root");
             var interactablesRoot = GetOrCreateRoot("Interactables_Root");
 
-            // Castle Wall with Archway/Gate at North
             var wallGatePrefab = AssetDatabase.LoadAssetAtPath<GameObject>(CastleWallGatePrefab)
                 ?? AssetDatabase.LoadAssetAtPath<GameObject>(CastleWallPrefab);
 
@@ -342,7 +455,6 @@ namespace Studio.Editor
                 wallGate.transform.rotation = Quaternion.identity;
             }
 
-            // Iron Bar Gate (movable barrier)
             var barGatePrefab = AssetDatabase.LoadAssetAtPath<GameObject>(IronBarGatePrefab);
             GameObject gateGo;
 
@@ -360,7 +472,6 @@ namespace Studio.Editor
             gateGo.name = "Portcullis_IronGate";
             gateGo.transform.parent = interactablesRoot.transform;
 
-            // Lever to toggle gate
             var leverPrefab = AssetDatabase.LoadAssetAtPath<GameObject>(LeverPrefab);
             if (leverPrefab != null)
             {
@@ -411,13 +522,8 @@ namespace Studio.Editor
         {
             var npcsRoot = GetOrCreateRoot("NPCs_Root");
 
-            // Town Guard (Guards faction)
             SpawnCharacter(SoldierPrefab, "Guard_Whiterun_Soldier", new Vector3(-2f, 0f, 13f), 180f, FactionType.Guards, false, npcsRoot.transform);
-
-            // Blacksmith Artisan (Neutral faction)
             SpawnCharacter(BlacksmithNpcPrefab, "Artisan_Blacksmith", new Vector3(8.5f, 0f, 0.5f), -45f, FactionType.Neutral, false, npcsRoot.transform);
-
-            // Bandit / Draugr Lair Boss (Draugr faction - Enemy)
             SpawnCharacter(BanditNpcPrefab, "Draugr_Wight_Boss", new Vector3(0f, 0f, 25f), 180f, FactionType.Draugr, true, npcsRoot.transform);
         }
 
@@ -442,10 +548,7 @@ namespace Studio.Editor
             character.transform.position = pos;
             character.transform.rotation = Quaternion.Euler(0f, rotY, 0f);
 
-            if (isEnemy)
-            {
-                character.tag = "Enemy";
-            }
+            if (isEnemy) character.tag = "Enemy";
 
             if (character.GetComponent<Collider>() == null)
             {
@@ -454,33 +557,22 @@ namespace Studio.Editor
                 col.center = new Vector3(0f, 0.9f, 0f);
             }
 
-            var faction = character.GetComponent<FactionComponent>() ?? character.AddComponent<FactionComponent>();
+            var faction = GetOrAddComponent<FactionComponent>(character);
             faction.SetFaction(factionType);
 
             if (isEnemy)
             {
-                if (character.GetComponent<BaseActor>() == null)
-                {
-                    character.AddComponent<BaseActor>();
-                }
-
-                if (character.GetComponent<AttributeComponent>() == null)
-                {
-                    character.AddComponent<AttributeComponent>();
-                }
-
-                if (character.GetComponent<EnemyCombatAI>() == null)
-                {
-                    character.AddComponent<EnemyCombatAI>();
-                }
+                if (character.GetComponent<BaseActor>() == null) character.AddComponent<BaseActor>();
+                if (character.GetComponent<AttributeComponent>() == null) character.AddComponent<AttributeComponent>();
+                if (character.GetComponent<EnemyCombatAI>() == null) character.AddComponent<EnemyCombatAI>();
             }
         }
 
         private static void SetupCompassPOIMarkers()
         {
             AddMarker("BountyBoard_Hub", "Bounty Notice Board", CompassPOIType.QuestMarker, new Vector3(2.5f, 1f, 2.5f));
-            AddMarker("Building_Blacksmith_Forge", "Blacksmith's Forge", CompassPOIType.Town, new Vector3(10f, 1f, 2f));
-            AddMarker("Building_Village_Inn", "Sleeping Giant Inn", CompassPOIType.Town, new Vector3(-10f, 1f, 2f));
+            AddMarker("Building_Blacksmith_Forge", "Blacksmith's Forge", CompassPOIType.Town, new Vector3(9.5f, 1f, 2f));
+            AddMarker("Building_Village_Inn", "Sleeping Giant Inn", CompassPOIType.Town, new Vector3(-9.5f, 1f, 2f));
             AddMarker("Castle_Wall_North", "Castle Gate", CompassPOIType.Town, new Vector3(0f, 1f, 15f));
             AddMarker("Draugr_Wight_Boss", "Draugr Crypt Sanctum", CompassPOIType.Dungeon, new Vector3(0f, 1f, 25f));
             AddMarker("TrainingDummy_Courtyard", "Training Yard", CompassPOIType.Enemy, new Vector3(7f, 1f, 8f));
@@ -495,7 +587,7 @@ namespace Studio.Editor
                 go.transform.position = fallbackPos;
             }
 
-            var marker = go.GetComponent<CompassMarkerComponent>() ?? go.AddComponent<CompassMarkerComponent>();
+            var marker = GetOrAddComponent<CompassMarkerComponent>(go);
 
             var idField = typeof(CompassMarkerComponent).GetField("_markerId",
                 System.Reflection.BindingFlags.NonPublic | System.Reflection.BindingFlags.Instance);
@@ -509,6 +601,16 @@ namespace Studio.Editor
             typeField?.SetValue(marker, type);
         }
 
+        #endregion
+
+        #region Helpers
+
+        private static T GetOrAddComponent<T>(GameObject go) where T : Component
+        {
+            var comp = go.GetComponent<T>();
+            return comp != null ? comp : go.AddComponent<T>();
+        }
+
         private static GameObject GetOrCreateRoot(string rootName)
         {
             var root = GameObject.Find(rootName);
@@ -517,6 +619,41 @@ namespace Studio.Editor
                 root = new GameObject(rootName);
             }
             return root;
+        }
+
+        private static GameObject SpawnPrefab(string path, string name, Vector3 pos, Quaternion rot, Transform parent)
+        {
+            var prefab = AssetDatabase.LoadAssetAtPath<GameObject>(path);
+            if (prefab == null) return null;
+            var inst = (GameObject)PrefabUtility.InstantiatePrefab(prefab);
+            inst.name = name;
+            inst.transform.parent = parent;
+            inst.transform.position = pos;
+            inst.transform.rotation = rot;
+            return inst;
+        }
+
+        private static GameObject SpawnScaledPrefab(string path, string name, Vector3 pos, Quaternion rot, float scale, Transform parent)
+        {
+            var inst = SpawnPrefab(path, name, pos, rot, parent);
+            if (inst != null) inst.transform.localScale = Vector3.one * scale;
+            return inst;
+        }
+
+        private static void SpawnTorch(string name, Vector3 pos, Transform parent)
+        {
+            var torch = SpawnPrefab(TorchPrefab, name, pos, Quaternion.identity, parent);
+            if (torch != null && torch.GetComponentInChildren<Light>() == null)
+            {
+                var lightGo = new GameObject("Light_Torch_Glow");
+                lightGo.transform.parent = torch.transform;
+                lightGo.transform.localPosition = new Vector3(0f, 1.8f, 0f);
+                var l = lightGo.AddComponent<Light>();
+                l.type = LightType.Point;
+                l.range = 7f;
+                l.intensity = 1.6f;
+                l.color = new Color(1f, 0.75f, 0.45f);
+            }
         }
 
         #endregion

@@ -63,6 +63,9 @@ namespace Gameplay.Interactables
         public bool IsOpened => _isOpened;
         public LockDifficulty Difficulty => _lockDifficulty;
 
+        public void Unlock() => _lockDifficulty = LockDifficulty.Unlocked;
+        public void SetLocked(LockDifficulty difficulty) => _lockDifficulty = difficulty;
+
         public void ConfigureChest(LockDifficulty difficulty, bool isOpened = false, string[] lootItemIds = null)
         {
             _lockDifficulty = difficulty;

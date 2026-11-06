@@ -8,8 +8,10 @@ namespace Systems.Console
     using Domain.Combat;
     using Domain.Entities;
     using Domain.Skyrim;
+    using Gameplay.Combat;
     using Gameplay.Entities;
     using Gameplay.Player;
+    using Gameplay.Skyrim;
     using Systems.Skyrim;
     using UnityEngine;
 
@@ -200,28 +202,43 @@ namespace Systems.Console
     public class KillCommand : IConsoleCommand
     {
         public string Name => "kill";
-        public string Description => "Kills the currently targeted actor in the player's crosshairs.";
+        public string Description => "Kills the selected reference or crosshair targeted actor.";
         public string Usage => "kill";
 
         public bool Execute(string[] args, Action<string> print)
         {
-            var player = SKSE.GetPlayer();
-            if (player == null || !player.TryGetComponent<PlayerInteractionController>(out var interactor))
+            var targetObj = ConsoleUtil.SelectedReference;
+            BaseActor actor = targetObj != null ? targetObj.GetComponent<BaseActor>() : null;
+            AttributeComponent attrs = targetObj != null ? targetObj.GetComponent<AttributeComponent>() : null;
+
+            if (actor == null && attrs == null)
             {
-                print?.Invoke("<color=red>Player or PlayerInteractionController not found.</color>");
+                var player = SKSE.GetPlayer();
+                if (player != null && player.TryGetComponent<PlayerInteractionController>(out var interactor))
+                {
+                    actor = interactor.CurrentTarget as BaseActor;
+                    if (actor != null) attrs = actor.GetComponent<AttributeComponent>();
+                }
+            }
+
+            if (actor == null && attrs == null)
+            {
+                print?.Invoke("<color=yellow>No valid actor selected or targeted in crosshairs.</color>");
                 return false;
             }
 
-            var target = interactor.CurrentTarget as BaseActor;
-            if (target == null)
+            if (actor != null)
             {
-                print?.Invoke("<color=yellow>No valid actor targeted in crosshairs.</color>");
-                return false;
+                var dmg = new DamageInfo(99999, DamageType.Physical, null, actor.transform.position, Vector3.up);
+                actor.TakeDamage(dmg);
+            }
+            if (attrs != null)
+            {
+                attrs.ApplyDamage("Health", 99999);
             }
 
-            var dmg = new DamageInfo(99999, DamageType.Physical, player, target.transform.position, Vector3.up);
-            target.TakeDamage(dmg);
-            print?.Invoke($"<color=red>Killed entity: '{target.name}'.</color>");
+            string targetName = actor != null ? actor.name : attrs.name;
+            print?.Invoke($"<color=red>Killed entity: '{targetName}'.</color>");
             return true;
         }
     }
@@ -261,26 +278,203 @@ namespace Systems.Console
 
         public bool Execute(string[] args, Action<string> print)
         {
-            var player = SKSE.GetPlayer();
-            if (player == null || !player.TryGetComponent<PlayerInteractionController>(out var interactor))
+            var targetObj = ConsoleUtil.SelectedReference;
+            BaseActor actor = targetObj != null ? targetObj.GetComponent<BaseActor>() : null;
+            AttributeComponent attrs = targetObj != null ? targetObj.GetComponent<AttributeComponent>() : null;
+
+            if (actor == null && attrs == null)
             {
-                print?.Invoke("<color=red>Player or PlayerInteractionController not found.</color>");
+                var player = SKSE.GetPlayer();
+                if (player != null && player.TryGetComponent<PlayerInteractionController>(out var interactor))
+                {
+                    actor = interactor.CurrentTarget as BaseActor;
+                    if (actor != null) attrs = actor.GetComponent<AttributeComponent>();
+                }
+            }
+
+            if (actor == null && attrs == null)
+            {
+                print?.Invoke("<color=yellow>No entity selected or targeted in crosshairs.</color>");
                 return false;
             }
 
-            var target = interactor.CurrentTarget as BaseActor;
+            if (attrs != null)
+            {
+                attrs.Heal("Health", (int)attrs.MaxHealth);
+            }
+
+            string targetName = actor != null ? actor.name : attrs.name;
+            print?.Invoke($"<color=green>Resurrected entity: '{targetName}'.</color>");
+            return true;
+        }
+    }
+
+    public class DisableCommand : IConsoleCommand
+    {
+        public string Name => "disable";
+        public string Description => "Hides/disables the currently selected reference in console mode.";
+        public string Usage => "disable";
+
+        public bool Execute(string[] args, Action<string> print)
+        {
+            var target = ConsoleUtil.SelectedReference;
             if (target == null)
             {
-                print?.Invoke("<color=yellow>No entity targeted in crosshairs.</color>");
+                print?.Invoke("<color=yellow>No reference currently selected in console mode.</color>");
                 return false;
             }
 
-            if (target.TryGetComponent<AttributeComponent>(out var attrs))
+            target.SetActive(false);
+            print?.Invoke($"<color=yellow>Disabled reference: '{target.name}'</color>");
+            return true;
+        }
+    }
+
+    public class EnableCommand : IConsoleCommand
+    {
+        public string Name => "enable";
+        public string Description => "Enables/un-hides the currently selected reference in console mode.";
+        public string Usage => "enable";
+
+        public bool Execute(string[] args, Action<string> print)
+        {
+            var target = ConsoleUtil.SelectedReference;
+            if (target == null)
             {
-                attrs.Heal("Health", 100);
+                print?.Invoke("<color=yellow>No reference currently selected in console mode.</color>");
+                return false;
             }
 
-            print?.Invoke($"<color=green>Resurrected entity: '{target.name}'.</color>");
+            target.SetActive(true);
+            print?.Invoke($"<color=green>Enabled reference: '{target.name}'</color>");
+            return true;
+        }
+    }
+
+    public class SetScaleCommand : IConsoleCommand
+    {
+        public string Name => "setscale";
+        public string Description => "Sets the scale factor of the currently selected reference.";
+        public string Usage => "setscale <value>";
+
+        public bool Execute(string[] args, Action<string> print)
+        {
+            if (args.Length == 0 || !float.TryParse(args[0], out float scale))
+            {
+                print?.Invoke("<color=yellow>Usage: setscale <value></color>");
+                return false;
+            }
+
+            var target = ConsoleUtil.SelectedReference;
+            if (target == null)
+            {
+                print?.Invoke("<color=yellow>No reference currently selected in console mode.</color>");
+                return false;
+            }
+
+            scale = Mathf.Clamp(scale, 0.1f, 10f);
+            target.transform.localScale = Vector3.one * scale;
+            print?.Invoke($"<color=green>Set scale of '{target.name}' to {scale:F2}.</color>");
+            return true;
+        }
+    }
+
+    public class UnlockCommand : IConsoleCommand
+    {
+        public string Name => "unlock";
+        public string Description => "Unlocks the currently selected locked chest or door.";
+        public string Usage => "unlock";
+
+        public bool Execute(string[] args, Action<string> print)
+        {
+            var target = ConsoleUtil.SelectedReference;
+            if (target == null)
+            {
+                print?.Invoke("<color=yellow>No reference currently selected in console mode.</color>");
+                return false;
+            }
+
+            if (target.TryGetComponent<Gameplay.Interactables.ChestInteractable>(out var chest))
+            {
+                chest.Unlock();
+                print?.Invoke($"<color=green>Unlocked chest: '{target.name}'.</color>");
+                return true;
+            }
+
+            print?.Invoke($"<color=yellow>Selected reference '{target.name}' has no lock to pick.</color>");
+            return false;
+        }
+    }
+
+    public class ToggleAICommand : IConsoleCommand
+    {
+        public string Name => "tai";
+        public string Description => "Toggles AI processing on the selected actor or universally.";
+        public string Usage => "tai";
+
+        public bool Execute(string[] args, Action<string> print)
+        {
+            var target = ConsoleUtil.SelectedReference;
+            if (target == null)
+            {
+                print?.Invoke("<color=yellow>No object selected.</color>");
+                return false;
+            }
+
+            if (target.TryGetComponent<EnemyCombatAI>(out var combatAI))
+            {
+                combatAI.enabled = !combatAI.enabled;
+                string state = combatAI.enabled ? "Enabled" : "Disabled";
+                print?.Invoke($"<color=cyan>Combat AI for '{target.name}' is now {state}.</color>");
+                return true;
+            }
+
+            if (target.TryGetComponent<RangedCombatAI>(out var rangedAI))
+            {
+                rangedAI.enabled = !rangedAI.enabled;
+                string state = rangedAI.enabled ? "Enabled" : "Disabled";
+                print?.Invoke($"<color=cyan>Ranged AI for '{target.name}' is now {state}.</color>");
+                return true;
+            }
+
+            if (target.TryGetComponent<ImmersiveCitizenAI>(out var citizenAI))
+            {
+                citizenAI.enabled = !citizenAI.enabled;
+                string state = citizenAI.enabled ? "Enabled" : "Disabled";
+                print?.Invoke($"<color=cyan>Citizen AI for '{target.name}' is now {state}.</color>");
+                return true;
+            }
+
+            print?.Invoke("<color=yellow>Selected reference has no active AI component.</color>");
+            return false;
+        }
+    }
+
+    public class MoveToPlayerCommand : IConsoleCommand
+    {
+        public string Name => "moveto";
+        public string Description => "Teleports selected object directly in front of the player.";
+        public string Usage => "moveto player";
+
+        public bool Execute(string[] args, Action<string> print)
+        {
+            var target = ConsoleUtil.SelectedReference;
+            if (target == null)
+            {
+                print?.Invoke("<color=yellow>No reference currently selected in console mode.</color>");
+                return false;
+            }
+
+            var player = SKSE.GetPlayer();
+            if (player == null)
+            {
+                print?.Invoke("<color=red>Player not found.</color>");
+                return false;
+            }
+
+            Vector3 dest = player.transform.position;
+            target.transform.position = dest;
+            print?.Invoke($"<color=green>Teleported '{target.name}' to player position {dest}.</color>");
             return true;
         }
     }

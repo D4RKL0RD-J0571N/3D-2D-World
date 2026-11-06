@@ -61,8 +61,7 @@ namespace Gameplay.Combat
                 if (Systems.Console.GodModeState.IsGodModeActive)
                     return true;
 
-                var creatorService = ServiceLocator.Get<Systems.Creator.CreatorStudioService>();
-                if (creatorService != null && creatorService.IsBuildMode)
+                if (ServiceLocator.TryGet<Systems.Creator.CreatorStudioService>(out var creatorService) && creatorService != null && creatorService.IsBuildMode)
                     return false;
 
                 if (_attributeComponent == null)
@@ -278,8 +277,7 @@ namespace Gameplay.Combat
 
         private void PlayHitFeedback(bool isActor, Vector3 hitPoint, Vector3 hitNormal)
         {
-            var audio = ServiceLocator.Get<Systems.Audio.AudioService>();
-            if (audio != null)
+            if (ServiceLocator.TryGet<Systems.Audio.AudioService>(out var audio) && audio != null)
             {
                 AudioClip clip = isActor ? _hitFleshClip : _hitMetalClip;
                 if (clip != null) audio.Play3D(clip, hitPoint, 0.9f);
